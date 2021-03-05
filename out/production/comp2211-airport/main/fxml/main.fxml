@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="733.0" prefWidth="1201.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.Controller">
+   <top>
+      <MenuBar prefHeight="0.0" prefWidth="1115.0" BorderPane.alignment="CENTER">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Import from XML" />
+                  <MenuItem mnemonicParsing="false" text="Export to XML" />
+                  <MenuItem mnemonicParsing="false" text="Export to PNG" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="View">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Default" />
+                  <MenuItem mnemonicParsing="false" text="Colorblind" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </top>
+   <center>
+      <TabPane prefHeight="613.0" prefWidth="760.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+        <tabs>
+          <Tab text="Top-Down View">
+               <content>
+                  <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: cyan;" />
+               </content>
+            </Tab>
+          <Tab text="Side-On View">
+               <content>
+                  <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: blue;" />
+               </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </center>
+   <left>
+      <VBox prefHeight="595.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Accordion prefHeight="616.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+              <panes>
+                <TitledPane text="Airport">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="535.0" prefWidth="198.0">
+                           <children>
+                              <ChoiceBox layoutX="25.0" layoutY="111.0" prefWidth="150.0" />
+                              <Button layoutX="24.0" layoutY="170.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="New" />
+                              <Button layoutX="114.0" layoutY="170.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="Edit" />
+                              <TextField layoutX="20.0" layoutY="266.0" prefHeight="25.0" prefWidth="160.0" />
+                              <TextField layoutX="20.0" layoutY="336.0" prefHeight="25.0" prefWidth="160.0" />
+                              <Label layoutX="19.0" layoutY="238.0" prefHeight="17.0" prefWidth="38.0" text="Name" />
+                              <Label layoutX="19.0" layoutY="311.0" text="Code" />
+                              <Label layoutX="32.0" layoutY="14.0" prefHeight="40.0" prefWidth="133.0" text="Configure airport">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <Button layoutX="70.0" layoutY="378.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="Save" />
+                              <Label layoutX="27.0" layoutY="94.0" prefHeight="16.0" prefWidth="87.0" text="Airport Name" />
+                              <Line endX="103.0" layoutX="98.0" layoutY="228.0" startX="-102.0" />
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </TitledPane>
+                <TitledPane text="Obstacle">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="535.0" prefWidth="198.0">
+                           <children>
+                              <ChoiceBox layoutX="25.0" layoutY="90.0" prefWidth="150.0" />
+                              <Button layoutX="27.0" layoutY="145.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="New" />
+                              <Button layoutX="113.0" layoutY="145.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="Edit" />
+                              <TextField layoutX="100.0" layoutY="204.0" prefHeight="25.0" prefWidth="85.0" />
+                              <Label layoutX="10.0" layoutY="208.0" prefHeight="17.0" prefWidth="38.0" text="Name" />
+                              <Label layoutX="34.0" layoutY="14.0" prefHeight="40.0" prefWidth="133.0" text="Configure obstacle">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="27.0" layoutY="73.0" prefHeight="16.0" prefWidth="87.0" text="Obstacle name" />
+                              <TextField layoutX="100.0" layoutY="235.0" prefHeight="25.0" prefWidth="85.0" />
+                              <Label layoutX="10.0" layoutY="239.0" prefHeight="17.0" prefWidth="38.0" text="Width" />
+                              <TextField layoutX="100.0" layoutY="266.0" prefHeight="25.0" prefWidth="85.0" />
+                              <Label layoutX="10.0" layoutY="270.0" prefHeight="17.0" prefWidth="38.0" text="Height" />
+                              <TextField layoutX="101.0" layoutY="326.0" prefHeight="25.0" prefWidth="85.0" />
+                              <Label layoutX="10.0" layoutY="330.0" prefHeight="17.0" prefWidth="89.0" text="Distance from L" />
+                              <TextField layoutX="101.0" layoutY="357.0" prefHeight="25.0" prefWidth="85.0" />
+                              <TextField layoutX="100.0" layoutY="396.0" prefHeight="25.0" prefWidth="85.0" />
+                              <Line endX="103.0" layoutX="101.0" layoutY="310.0" startX="-102.0" />
+                              <Label layoutX="10.0" layoutY="361.0" prefHeight="17.0" prefWidth="89.0" text="Distance from R" />
+                              <Label layoutX="10.0" layoutY="388.0" prefHeight="41.0" prefWidth="80.0" text="Distance from&#10;Central Line&#10;" wrapText="true" />
+                              <Label layoutX="10.0" layoutY="436.0" prefHeight="41.0" prefWidth="80.0" text="Direction from&#10;Central Line&#10;" wrapText="true" />
+                              <ChoiceBox layoutX="117.0" layoutY="444.0" prefHeight="20.0" prefWidth="51.0" />
+                              <Button layoutX="69.0" layoutY="493.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="Save" />
+                           </children>
+                        </AnchorPane>
+                     </content>
+                </TitledPane>
+                <TitledPane text="Runway">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="535.0" prefWidth="198.0">
+                           <children>
+                              <Label layoutX="27.0" layoutY="96.0" prefHeight="16.0" prefWidth="87.0" text="Logical runway" />
+                              <Label layoutX="26.0" layoutY="14.0" prefHeight="40.0" prefWidth="133.0" text="Configure runway">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <Button layoutX="70.0" layoutY="459.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="Save" />
+                              <TextField layoutX="9.0" layoutY="293.0" prefHeight="24.0" prefWidth="60.0" />
+                              <TextField layoutX="132.0" layoutY="293.0" prefHeight="24.0" prefWidth="60.0" />
+                              <Label alignment="CENTER" layoutX="77.0" layoutY="297.0" prefHeight="17.0" prefWidth="35.0" text="TORA" />
+                              <TextField layoutX="9.0" layoutY="325.0" prefHeight="24.0" prefWidth="60.0" />
+                              <TextField layoutX="9.0" layoutY="358.0" prefHeight="24.0" prefWidth="60.0" />
+                              <TextField layoutX="9.0" layoutY="390.0" prefHeight="24.0" prefWidth="60.0" />
+                              <TextField layoutX="132.0" layoutY="325.0" prefHeight="24.0" prefWidth="60.0" />
+                              <TextField layoutX="132.0" layoutY="358.0" prefHeight="24.0" prefWidth="60.0" />
+                              <TextField layoutX="132.0" layoutY="390.0" prefHeight="24.0" prefWidth="60.0" />
+                              <Label alignment="CENTER" layoutX="77.0" layoutY="329.0" prefHeight="17.0" prefWidth="35.0" text="TODA" />
+                              <Label alignment="CENTER" layoutX="77.0" layoutY="362.0" prefHeight="17.0" prefWidth="35.0" text="ASDA" />
+                              <Label alignment="CENTER" contentDisplay="CENTER" layoutX="77.0" layoutY="394.0" prefHeight="17.0" prefWidth="35.0" text="LDA" />
+                              <TextField layoutX="9.0" layoutY="262.0" prefHeight="24.0" prefWidth="60.0" />
+                              <TextField layoutX="132.0" layoutY="262.0" prefHeight="24.0" prefWidth="60.0" />
+                              <Label alignment="CENTER" layoutX="70.0" layoutY="266.0" prefHeight="17.0" prefWidth="60.0" text="Designator">
+                                 <font>
+                                    <Font size="11.0" />
+                                 </font>
+                              </Label>
+                              <Label alignment="CENTER" layoutX="22.0" layoutY="238.0" prefHeight="17.0" prefWidth="35.0" text="LEFT" />
+                              <Label alignment="CENTER" layoutX="145.0" layoutY="238.0" prefHeight="17.0" prefWidth="35.0" text="RIGHT" />
+                              <ChoiceBox layoutX="21.0" layoutY="113.0" prefWidth="150.0" />
+                              <Button layoutX="20.0" layoutY="172.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="New" />
+                              <Button layoutX="110.0" layoutY="172.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="Edit" />
+                              <Line endX="103.0" layoutX="92.0" layoutY="227.0" startX="-102.0" />
+                           </children>
+                        </AnchorPane>
+                     </content>
+                </TitledPane>
+              </panes>
+            </Accordion>
+         </children>
+      </VBox>
+   </left>
+   <right>
+      <VBox prefHeight="608.0" prefWidth="280.0" spacing="20.0" BorderPane.alignment="CENTER">
+         <children>
+            <TableView prefHeight="120.0" prefWidth="265.0">
+              <columns>
+                <TableColumn editable="false" prefWidth="50.0" sortable="false" text="Runway" />
+                <TableColumn prefWidth="43.0" text="TORA" />
+                  <TableColumn prefWidth="43.0" text="TODA" />
+                  <TableColumn prefWidth="43.0" text="LDA" />
+                  <TableColumn prefWidth="43.0" text="ASDA" />
+                  <TableColumn prefWidth="43.0" text="THR" />
+              </columns>
+            </TableView>
+            <TableView layoutX="15.0" layoutY="15.0" prefHeight="120.0" prefWidth="265.0">
+               <columns>
+                  <TableColumn editable="false" prefWidth="50.0" sortable="false" text="Runway" />
+                  <TableColumn prefWidth="43.0" text="TORA" />
+                  <TableColumn prefWidth="43.0" text="TODA" />
+                  <TableColumn prefWidth="43.0" text="LDA" />
+                  <TableColumn prefWidth="43.0" text="ASDA" />
+                  <TableColumn prefWidth="43.0" text="THR" />
+               </columns>
+            </TableView>
+            <TabPane prefHeight="305.0" prefWidth="265.0" tabClosingPolicy="UNAVAILABLE">
+              <tabs>
+                <Tab text="TORA">
+                     <content>
+                        <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
+                           <items>
+                              <TextArea prefHeight="200.0" prefWidth="200.0" />
+                              <TextArea prefHeight="200.0" prefWidth="200.0" />
+                           </items>
+                        </SplitPane>
+                     </content>
+                </Tab>
+                <Tab text="TODA">
+                     <content>
+                        <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
+                           <items>
+                              <TextArea prefHeight="200.0" prefWidth="200.0" />
+                              <TextArea prefHeight="200.0" prefWidth="200.0" />
+                           </items>
+                        </SplitPane>
+                     </content>
+                </Tab>
+                  <Tab text="LDA">
+                     <content>
+                        <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
+                           <items>
+                              <TextArea prefHeight="200.0" prefWidth="200.0" />
+                              <TextArea prefHeight="200.0" prefWidth="200.0" />
+                           </items>
+                        </SplitPane>
+                     </content>
+                  </Tab>
+                  <Tab text="ASDA">
+                     <content>
+                        <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
+                           <items>
+                              <TextArea prefHeight="200.0" prefWidth="200.0" />
+                              <TextArea prefHeight="200.0" prefWidth="200.0" />
+                           </items>
+                        </SplitPane>
+                     </content>
+                  </Tab>
+              </tabs>
+            </TabPane>
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="5.0" right="10.0" top="5.0" />
+         </padding>
+      </VBox>
+   </right>
+   <bottom>
+      <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="1204.0" style="-fx-border-color: grey;" BorderPane.alignment="CENTER">
+         <children>
+            <Button defaultButton="true" mnemonicParsing="false" prefHeight="50.0" prefWidth="170.0" text="Calculate" HBox.hgrow="ALWAYS">
+               <HBox.margin>
+                  <Insets left="15.0" />
+               </HBox.margin>
+            </Button>
+            <TextArea prefHeight="90.0" prefWidth="600.0" HBox.hgrow="ALWAYS">
+               <HBox.margin>
+                  <Insets bottom="5.0" left="15.0" right="280.0" top="5.0" />
+               </HBox.margin>
+            </TextArea>
+         </children>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+      </HBox>
+   </bottom>
+</BorderPane>
