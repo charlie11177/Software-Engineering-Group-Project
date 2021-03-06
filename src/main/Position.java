@@ -14,7 +14,15 @@ public class Position {
         return distanceToLeft;
     }
 
+    public int getDistanceToRight() {
+        return distanceToRight;
+    }
+
     public void setDistanceToRight(int distanceToRight) {
         this.distanceToRight = distanceToRight;
+    }
+
+    public void setDistanceToLeft(int distanceToLeft) {
+        this.distanceToLeft = distanceToLeft;
     }
 }

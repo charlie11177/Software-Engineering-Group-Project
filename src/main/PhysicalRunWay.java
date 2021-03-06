@@ -33,4 +33,12 @@ public class PhysicalRunWay {
     public void setObstacle(Obstacle obstacle) {
         this.obstacle = obstacle;
     }
+
+    public void setLeftRunway(LogicalRunWay leftRunway) {
+        this.leftRunway = leftRunway;
+    }
+
+    public void setRightRunway(LogicalRunWay rightRunway) {
+        this.rightRunway = rightRunway;
+    }
 }

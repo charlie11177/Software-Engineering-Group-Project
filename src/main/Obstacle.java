@@ -16,4 +16,37 @@ public class Obstacle {
     public Boolean placeObstacle(PhysicalRunWay runway){
         return runway.getObstacle() != null ;
     }
+
+    public void setPosition(Position position) {
+        this.position = position;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public Position getPosition() {
+        return position;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
 }
