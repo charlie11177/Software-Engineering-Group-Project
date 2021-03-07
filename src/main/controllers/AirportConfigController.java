@@ -1,20 +1,22 @@
-package main;
+package main.controllers;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
-import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import main.Console;
+import main.Model;
 
-public class Controller {
+import java.time.LocalDateTime;
+import java.util.Calendar;
 
+public class AirportConfigController {
     private Boolean editAirport;
     private String valueEdited;
 
-    @FXML
-    private Button calculateButton;
     @FXML
     private Button newAirportButton;
     @FXML
@@ -30,11 +32,13 @@ public class Controller {
     @FXML
     private VBox aiportOptions;
     @FXML
-    private ChoiceBox<String> aiportChoiceBox;
+    public ChoiceBox<String> aiportChoiceBox;
     @FXML
     private VBox aiportMainMenu;
 
-    public Controller(){
+    private LeftScreenController leftScreenController;
+
+    public AirportConfigController(){
         editAirport = false;
     }
 
@@ -48,11 +52,6 @@ public class Controller {
         aiportChoiceBox.getItems().add("London_Heathrow (LHR)");
         aiportChoiceBox.getItems().add("London_Gatwick (LGW)");
         aiportChoiceBox.setValue("London_Heathrow (LHR)");
-    }
-
-    @FXML
-    private void calculateButtonClick() {
-        System.out.println("Pressed");
     }
 
     @FXML
@@ -74,6 +73,10 @@ public class Controller {
         airportCodeTextField.setText(data[1].replaceAll("[\\()]",""));
     }
 
+    public String getItem(){
+        return aiportChoiceBox.getValue();
+    }
+
     /**
      * Method that saves the specified values of the textfields and saves them to the database
      */
@@ -93,10 +96,10 @@ public class Controller {
             aiportChoiceBox.getItems().add(choiceBoxItem);
             aiportChoiceBox.setValue(choiceBoxItem);
             //TODO: put code for saving a new airport name+code use the airportData variable
-        } else if (containsNameOrCode(airportName, aiportCode) == ErrorEnum.NAME){
+        } else if (containsNameOrCode(airportName, aiportCode) == AirportConfigController.ErrorEnum.NAME){
             //TODO: put code for error popup for same airport names here.
             System.out.println("Airport name already used");
-        } else if (containsNameOrCode(airportName, aiportCode) == ErrorEnum.CODE){
+        } else if (containsNameOrCode(airportName, aiportCode) == AirportConfigController.ErrorEnum.CODE){
             //TODO: put code for error popup for same airport names here.
             System.out.println("Airport code already used");
         } else {
@@ -105,30 +108,30 @@ public class Controller {
             aiportChoiceBox.getItems().add(choiceBoxItem);
             aiportChoiceBox.setValue(choiceBoxItem);
             //TODO: check for duplicate names here
-            //TODO: put code for saving an edited airport name+code use the airportData variab
+            //TODO: put code for saving an edited airport name+code use the airportData variable
+            Model.console.addLog("Airport " + aiportChoiceBox.getValue() + " added");
         }
         airportNameTextField.setText("");
         airportCodeTextField.setText("");
     }
-
     enum ErrorEnum {
         NONE,
         NAME,
         CODE
     }
 
-    private ErrorEnum containsNameOrCode(String desiredName, String desiredCode){
+    private AirportConfigController.ErrorEnum containsNameOrCode(String desiredName, String desiredCode){
         String[] data = aiportChoiceBox.getItems().toArray(new String[0]);
         for (String str : data) {
             String[] splitString = str.split(" ");
             if (splitString[0].equals(desiredName)){
-                return ErrorEnum.NAME;
+                return AirportConfigController.ErrorEnum.NAME;
             }
             else if (splitString[1].replaceAll("[\\()]","").equals(desiredCode)) {
-                return ErrorEnum.CODE;
+                return AirportConfigController.ErrorEnum.CODE;
             }
         }
-        return ErrorEnum.NONE;
+        return AirportConfigController.ErrorEnum.NONE;
     }
 
     @FXML
