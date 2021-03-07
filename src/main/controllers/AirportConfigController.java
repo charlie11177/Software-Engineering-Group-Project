@@ -95,6 +95,7 @@ public class AirportConfigController {
             hideOptions(aiportOptions);
             aiportChoiceBox.getItems().add(choiceBoxItem);
             aiportChoiceBox.setValue(choiceBoxItem);
+            Model.console.addLog("Airport " + aiportChoiceBox.getValue() + " edited");
             //TODO: put code for saving a new airport name+code use the airportData variable
         } else if (containsNameOrCode(airportName, aiportCode) == AirportConfigController.ErrorEnum.NAME){
             //TODO: put code for error popup for same airport names here.
