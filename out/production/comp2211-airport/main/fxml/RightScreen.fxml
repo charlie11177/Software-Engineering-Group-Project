@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox fx:id="rightScreen" minWidth="200.0" prefHeight="1055.0" prefWidth="296.0" spacing="30.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.RightScreenController">
+   <children>
+      <TableView prefHeight="120.0" prefWidth="265.0" VBox.vgrow="SOMETIMES">
+         <columns>
+            <TableColumn editable="false" prefWidth="50.0" sortable="false" text="Runway" />
+            <TableColumn editable="false" prefWidth="46.0" sortable="false" text="TORA" />
+            <TableColumn editable="false" prefWidth="46.0" sortable="false" text="TODA" />
+            <TableColumn editable="false" prefWidth="46.0" sortable="false" text="LDA" />
+            <TableColumn editable="false" prefWidth="46.0" sortable="false" text="ASDA" />
+            <TableColumn editable="false" prefWidth="46.0" sortable="false" text="THR" />
+         </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+      </TableView>
+      <TableView prefHeight="120.0" prefWidth="265.0" VBox.vgrow="SOMETIMES">
+         <columns>
+            <TableColumn editable="false" prefWidth="50.0" sortable="false" text="Runway" />
+            <TableColumn editable="false" prefWidth="46.0" sortable="false" text="TORA" />
+            <TableColumn editable="false" prefWidth="46.0" sortable="false" text="TODA" />
+            <TableColumn editable="false" prefWidth="46.0" sortable="false" text="LDA" />
+            <TableColumn editable="false" prefWidth="46.0" sortable="false" text="ASDA" />
+            <TableColumn editable="false" prefWidth="46.0" sortable="false" text="THR" />
+         </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+      </TableView>
+      <TabPane prefHeight="305.0" prefWidth="265.0" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="SOMETIMES">
+         <tabs>
+            <Tab text="ALL">
+               <content>
+                  <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
+                     <items>
+                        <TextArea prefHeight="200.0" prefWidth="200.0" />
+                        <TextArea prefHeight="53.0" prefWidth="265.0" />
+                     </items>
+                  </SplitPane>
+               </content>
+            </Tab>
+            <Tab text="TORA">
+               <content>
+                  <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
+                     <items>
+                        <TextArea prefHeight="200.0" prefWidth="200.0" />
+                        <TextArea prefHeight="53.0" prefWidth="265.0" />
+                     </items>
+                  </SplitPane>
+               </content>
+            </Tab>
+            <Tab text="TODA">
+               <content>
+                  <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
+                     <items>
+                        <TextArea prefHeight="200.0" prefWidth="200.0" />
+                        <TextArea prefHeight="200.0" prefWidth="200.0" />
+                     </items>
+                  </SplitPane>
+               </content>
+            </Tab>
+            <Tab text="LDA">
+               <content>
+                  <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
+                     <items>
+                        <TextArea prefHeight="200.0" prefWidth="200.0" />
+                        <TextArea prefHeight="200.0" prefWidth="200.0" />
+                     </items>
+                  </SplitPane>
+               </content>
+            </Tab>
+            <Tab text="ASDA">
+               <content>
+                  <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
+                     <items>
+                        <TextArea prefHeight="200.0" prefWidth="200.0" />
+                        <TextArea prefHeight="200.0" prefWidth="200.0" />
+                     </items>
+                  </SplitPane>
+               </content>
+            </Tab>
+         </tabs>
+      </TabPane>
+   </children>
+   <padding>
+      <Insets bottom="10.0" left="5.0" right="10.0" top="5.0" />
+   </padding>
+</VBox>
