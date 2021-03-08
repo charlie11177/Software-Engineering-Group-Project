@@ -54,4 +54,11 @@ public class LogicalRunWay {
         return TORA;
     }
 
+    public int getStopway() {
+        return stopway;
+    }
+
+    public int getClearway() {
+        return clearway;
+    }
 }
