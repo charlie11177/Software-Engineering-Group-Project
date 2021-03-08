@@ -1,6 +1,7 @@
 package main;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -15,12 +16,17 @@ public class XMLParser {
         documentBuilderFactory = DocumentBuilderFactory.newInstance();
     }
 
+    /*
+     *  Currently using a string to parse in
+     *  TODO change to File input and use JavaFX explorer window probably
+    */
     public Airport importAirport(String filename) {
         Airport airport = null;
         try {
-            File file = new File(filename);
             DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-            Document document = documentBuilder.newDocument();
+            Document document = documentBuilder.parse(new File(filename));
+            Element root = document.getDocumentElement();
+            System.out.println(root);
         } catch(Exception e) {
             e.printStackTrace();
         }
