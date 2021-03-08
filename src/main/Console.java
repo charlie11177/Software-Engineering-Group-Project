@@ -10,11 +10,11 @@ public class Console {
 
     public Console(){
         consoleText = new ArrayList<>();
-        consoleText.add(formatMessage("Welcome to Runway Re-declaration tool."));
+        consoleText.add(formatMessage("Welcome to the Runway Re-declaration tool."));
     }
 
     public String formatMessage(String message){
-        String log = ("[" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")) + "] " + message);
+        String log = ("[" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")) + "] " + message);
         return log;
     }
 
