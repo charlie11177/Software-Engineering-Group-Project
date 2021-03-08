@@ -1,16 +1,16 @@
 <airport>
 	<name>Airport1</name>
 	<runway>
-		<ID>Runway1</ID>
+		<ID>1</ID>
 		<left>
-			<name>LeftRun1</name>
+			<name>09</name>
 			<TORA>1</TORA>
 			<TODA>2</TODA>
 			<ASDA>3</ASDA>
 			<LDA>4</LDA>
 		</left>
 		<right>
-			<name>RightRun1</name>
+			<name>27</name>
 			<TORA>5</TORA>
 			<TODA>6</TODA>
 			<ASDA>7</ASDA>
@@ -18,16 +18,16 @@
 		</right>
 	</runway>
 	<runway>
-		<ID>Runway2</ID>
+		<ID>2</ID>
 		<left>
-			<name>LeftRun2</name>
+			<name>18</name>
 			<TORA>9</TORA>
 			<TODA>10</TODA>
 			<ASDA>11</ASDA>
 			<LDA>12</LDA>
 		</left>
 		<right>
-			<name>RightRun2</name>
+			<name>00</name>
 			<TORA>13</TORA>
 			<TODA>14</TODA>
 			<ASDA>15</ASDA>

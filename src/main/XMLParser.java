@@ -46,6 +46,42 @@ public class XMLParser {
             Node airportElement = airportList.item(0);
             String name = airportElement.getChildNodes().item(1).getTextContent();
 
+            /*
+            Get runway information
+             */
+            NodeList runwayNodes = document.getElementsByTagName("runway");
+            // Iterate over runways
+            System.out.println(runwayNodes.getLength());
+            for (int i = 0; i < runwayNodes.getLength(); i++) {
+                // Gets current runway from list
+                Element runway = (Element) runwayNodes.item(i);
+
+                // Gets the runway ID
+                int ID = Integer.parseInt(runway.getElementsByTagName("ID").item(0).getTextContent());
+                /*
+                 Gets the runway attributes for each logical runway
+                 Assumes left runway is always first child
+                 */
+                String name_L = runway.getElementsByTagName("name").item(0).getTextContent();
+                String name_R = runway.getElementsByTagName("name").item(1).getTextContent();
+
+                int TORA_L = Integer.parseInt(runway.getElementsByTagName("TORA").item(0).getTextContent());
+                int TORA_R = Integer.parseInt(runway.getElementsByTagName("TORA").item(1).getTextContent());
+
+                int TODA_L = Integer.parseInt(runway.getElementsByTagName("TODA").item(0).getTextContent());
+                int TODA_R = Integer.parseInt(runway.getElementsByTagName("TODA").item(1).getTextContent());
+
+                int ASDA_L = Integer.parseInt(runway.getElementsByTagName("ASDA").item(0).getTextContent());
+                int ASDA_R = Integer.parseInt(runway.getElementsByTagName("ASDA").item(1).getTextContent());
+
+                int LDA_L = Integer.parseInt(runway.getElementsByTagName("LDA").item(0).getTextContent());
+                int LDA_R = Integer.parseInt(runway.getElementsByTagName("LDA").item(1).getTextContent());
+
+                LogicalRunWay leftRunway = new LogicalRunWay(name_L, LogicalRunWay.Direction.Left, TORA_L, TODA_L, ASDA_L, LDA_L);
+                LogicalRunWay rightRunway = new LogicalRunWay(name_R, LogicalRunWay.Direction.Right, TORA_R, TODA_R, ASDA_R, LDA_R);
+                runways.add(new PhysicalRunWay(ID, leftRunway, rightRunway, null));
+            }
+            airport = new Airport(name, runways);
         } catch(Exception e) {
             e.printStackTrace();
         }
