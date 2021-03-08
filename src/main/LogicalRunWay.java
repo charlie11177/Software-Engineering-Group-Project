@@ -1,7 +1,6 @@
 package main;
 
 public class LogicalRunWay {
-    private String name;
     private int degree;
     private Direction direction;
     private int TORA;
@@ -9,23 +8,13 @@ public class LogicalRunWay {
     private int ASDA;
     private int LDA;
 
-    enum Direction {
-        Left,
-        Right
-    }
-
-    public LogicalRunWay(String name, Direction direction, int TORA, int TODA, int ASDA, int LDA){
-        this.name = name;
+    public LogicalRunWay(int degree, Direction direction, int TORA, int TODA, int ASDA, int LDA){
+        this.degree = degree;
         this.direction = direction;
-        setDegree(Integer.parseInt(name) * 10);
         this.TORA = TORA;
         this.TODA = TODA;
         this.ASDA = ASDA;
         this.LDA = LDA;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public int getDegree() {
@@ -38,6 +27,11 @@ public class LogicalRunWay {
 
     public Direction getDirection() {
         return direction;
+    }
+
+    @Override
+    public String toString(){
+        return String.valueOf(degree) + direction.toString();
     }
 
     public int getASDA() {

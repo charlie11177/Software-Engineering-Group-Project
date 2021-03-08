@@ -1,69 +1,69 @@
 package main.controllers;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import main.Console;
+import main.Airport;
 import main.Model;
 
-import java.time.LocalDateTime;
-import java.util.Calendar;
 
-public class AirportConfigController {
-    private Boolean editAirport;
+public class AirportConfigController extends ConfigMenu{
+
+    private Boolean edit;
     private String valueEdited;
 
-    @FXML
-    private Button newAirportButton;
-    @FXML
-    private Button editAirportButton;
-    @FXML
-    private Button saveAirport;
-    @FXML
-    private Button cancelAirport;
-    @FXML
-    private TextField airportNameTextField;
-    @FXML
-    private TextField airportCodeTextField;
-    @FXML
-    private VBox aiportOptions;
-    @FXML
     public ChoiceBox<String> aiportChoiceBox;
-    @FXML
-    private VBox aiportMainMenu;
+    @FXML private TextField airportNameTextField;
+    @FXML private TextField airportCodeTextField;
+    @FXML private VBox aiportOptions;
+    @FXML private VBox aiportMainMenu;
 
-    private LeftScreenController leftScreenController;
 
     public AirportConfigController(){
-        editAirport = false;
+        edit = false;
     }
 
-    @FXML
-    public void initialize(){
+    @FXML public void initialize(){
         aiportOptions.setVisible(false);
+        airportNameTextField.setTextFormatter(new TextFormatter<>(change -> {
+            if (change.getText().equals(" ")) change.setText("_");
+            return change;
+        }));
+        airportCodeTextField.setTextFormatter(new TextFormatter<>(change -> {
+            if (change.getText().equals(" ")) change.setText("_");
+            change.setText(change.getText().toUpperCase());
+            return change;
+        }));
         populateAirportNames();
     }
 
+    public String getSelectedAirport(){
+        return aiportChoiceBox.getValue().split(" ")[0];
+    }
+
     private void populateAirportNames(){
-        aiportChoiceBox.getItems().add("London_Heathrow (LHR)");
-        aiportChoiceBox.getItems().add("London_Gatwick (LGW)");
-        aiportChoiceBox.setValue("London_Heathrow (LHR)");
+        if(!Model.airports.isEmpty()){
+            aiportChoiceBox.setValue(Model.airports.get(0).toString());
+        }
+        for (Airport a : Model.airports) {
+            aiportChoiceBox.getItems().add(a.toString());
+        }
+        //TODO: TEAM2 code for loading airport data from XML here
     }
 
     @FXML
     private void newAirportClick(){
-        editAirport = false;
+        edit = false;
         disableElements(aiportMainMenu);
         showOptions(aiportOptions);
     }
 
     @FXML
     private void editAirportClick(){
-        editAirport = true;
+        edit = true;
         disableElements(aiportMainMenu);
         showOptions(aiportOptions);
         valueEdited = aiportChoiceBox.getValue();
@@ -83,56 +83,61 @@ public class AirportConfigController {
     @FXML
     private void saveAirportClick(){
         String airportName = airportNameTextField.getText();
-        String aiportCode = airportCodeTextField.getText();
-        String choiceBoxItem = airportName + " " + "(" + aiportCode + ")";
-        if(airportName.equals("") || aiportCode.equals("")) {
-            //TODO: put code for error popup for empty textfields here.
+        String airportCode = airportCodeTextField.getText();
+        String choiceBoxItem = airportName + " " + "(" + airportCode + ")";
+        if(airportName.equals("") || airportCode.equals("")) {
+            //TODO: TEAM2 code for error popup for empty textfields here.
             System.out.println("Empty textfields");
-        } else if (editAirport == true){
+        } else if (edit == true){
+            String previousName = valueEdited.split(" ")[0];
             aiportChoiceBox.getItems().remove(valueEdited);
-            editAirport = false;
+            edit = false;
             enableElements(aiportMainMenu);
             hideOptions(aiportOptions);
             aiportChoiceBox.getItems().add(choiceBoxItem);
             aiportChoiceBox.setValue(choiceBoxItem);
-            Model.console.addLog("Airport " + aiportChoiceBox.getValue() + " edited");
-            //TODO: put code for saving a new airport name+code use the airportData variable
-        } else if (containsNameOrCode(airportName, aiportCode) == AirportConfigController.ErrorEnum.NAME){
-            //TODO: put code for error popup for same airport names here.
+            Airport editedAirport = Model.getAirportByName(previousName);
+            editedAirport.setName(airportName);
+            editedAirport.setCode(airportCode);
+            Model.console.addLog("Airport edited: " + valueEdited + "\t=>\t" + aiportChoiceBox.getValue());
+        } else if (nameInUse(airportName)){
+            //TODO: TEAM2 code for error popup for same airport names here.
             System.out.println("Airport name already used");
-        } else if (containsNameOrCode(airportName, aiportCode) == AirportConfigController.ErrorEnum.CODE){
-            //TODO: put code for error popup for same airport names here.
+        } else if (codeInUse(airportCode)){
+            //TODO: TEAM2 code for error popup for same airport names here.
             System.out.println("Airport code already used");
         } else {
             enableElements(aiportMainMenu);
             hideOptions(aiportOptions);
+            Model.airports.add(new Airport(airportName,airportCode,null));
             aiportChoiceBox.getItems().add(choiceBoxItem);
             aiportChoiceBox.setValue(choiceBoxItem);
-            //TODO: check for duplicate names here
-            //TODO: put code for saving an edited airport name+code use the airportData variable
-            Model.console.addLog("Airport " + aiportChoiceBox.getValue() + " added");
+            Model.console.addLog("Airport " + aiportChoiceBox.getValue() + " added " + airportName);
         }
         airportNameTextField.setText("");
         airportCodeTextField.setText("");
     }
-    enum ErrorEnum {
-        NONE,
-        NAME,
-        CODE
-    }
 
-    private AirportConfigController.ErrorEnum containsNameOrCode(String desiredName, String desiredCode){
+    private boolean nameInUse(String desiredName){
         String[] data = aiportChoiceBox.getItems().toArray(new String[0]);
         for (String str : data) {
             String[] splitString = str.split(" ");
             if (splitString[0].equals(desiredName)){
-                return AirportConfigController.ErrorEnum.NAME;
-            }
-            else if (splitString[1].replaceAll("[\\()]","").equals(desiredCode)) {
-                return AirportConfigController.ErrorEnum.CODE;
+                return true;
             }
         }
-        return AirportConfigController.ErrorEnum.NONE;
+        return false;
+    }
+
+    private boolean codeInUse(String desiredCode){
+        String[] data = aiportChoiceBox.getItems().toArray(new String[0]);
+        for (String str : data) {
+            String[] splitString = str.split(" ");
+            if (splitString[1].replaceAll("[\\()]","").equals(desiredCode)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @FXML

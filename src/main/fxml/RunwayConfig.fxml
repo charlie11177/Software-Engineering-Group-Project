@@ -11,9 +11,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<TitledPane fx:id="runwayConfig" text="Runway" wrapText="true" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.RunwayConfigController">
+<TitledPane fx:id="runwayConfig" prefHeight="599.0" prefWidth="326.0" text="Runway" wrapText="true" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.RunwayConfigController">
    <content>
-      <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0">
+      <VBox alignment="TOP_CENTER" prefHeight="567.0" prefWidth="119.0">
          <children>
             <Label alignment="CENTER" prefWidth="150.0" text="Runway Settings">
                <font>
@@ -23,115 +23,112 @@
                   <Insets bottom="30.0" top="10.0" />
                </VBox.margin>
             </Label>
-            <Label alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" prefHeight="17.0" prefWidth="85.0" text="Logical runway">
+            <VBox fx:id="runwayMainMenu" alignment="CENTER">
+               <children>
+                  <Label alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" prefHeight="17.0" prefWidth="85.0" text="Physical runway" />
+                  <ChoiceBox fx:id="runwayChoiceBox" prefHeight="25.0" prefWidth="150.0">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </ChoiceBox>
+                  <HBox alignment="CENTER" prefHeight="30.0" prefWidth="178.0" spacing="30.0">
+                     <children>
+                        <Button fx:id="newRuway" mnemonicParsing="false" onAction="#newRunwayClick" prefHeight="25.0" prefWidth="60.0" text="New" HBox.hgrow="SOMETIMES" />
+                        <Button fx:id="editRunway" mnemonicParsing="false" onAction="#editRunwayClick" prefHeight="25.0" prefWidth="60.0" text="Edit" HBox.hgrow="SOMETIMES" />
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="20.0" top="15.0" />
+                     </VBox.margin>
+                  </HBox>
+               </children>
                <VBox.margin>
                   <Insets top="20.0" />
                </VBox.margin>
-            </Label>
-            <ChoiceBox prefHeight="25.0" prefWidth="150.0">
+            </VBox>
+            <Separator prefWidth="178.0">
                <VBox.margin>
-                  <Insets />
+                  <Insets bottom="10.0" top="40.0" />
+               </VBox.margin>
+            </Separator>
+            <Label fx:id="editLabel" alignment="CENTER" prefHeight="25.0" prefWidth="191.0" text="To change values click edit">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+            </Label>
+            <VBox fx:id="runwayOptions" spacing="7.0">
+               <children>
+                  <HBox alignment="CENTER" prefHeight="25.0" prefWidth="178.0" spacing="5.0">
+                     <children>
+                        <Label alignment="CENTER" prefWidth="75.0" text="LEFT" />
+                        <Label alignment="CENTER" prefHeight="17.0" prefWidth="64.0" />
+                        <Label alignment="CENTER" prefWidth="75.0" text="RIGHT" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="25.0" prefWidth="178.0" spacing="5.0">
+                     <children>
+                        <ChoiceBox fx:id="leftPosition" prefHeight="25.0" prefWidth="75.0" />
+                        <Label alignment="CENTER" prefHeight="17.0" prefWidth="64.0" text="Position" />
+                        <ChoiceBox fx:id="rightPosition" prefHeight="25.0" prefWidth="75.0" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="25.0" prefWidth="178.0" spacing="5.0">
+                     <children>
+                        <TextField fx:id="leftDegree" prefHeight="25.0" prefWidth="75.0" />
+                        <Label alignment="CENTER" prefHeight="17.0" prefWidth="64.0" text="Degree" />
+                        <TextField fx:id="rightDegree" prefHeight="25.0" prefWidth="75.0" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="25.0" prefWidth="178.0" spacing="5.0">
+                     <children>
+                        <TextField fx:id="leftTora" prefHeight="25.0" prefWidth="75.0" />
+                        <Label alignment="CENTER" prefHeight="17.0" prefWidth="64.0" text="TORA" />
+                        <TextField fx:id="rightTora" prefHeight="25.0" prefWidth="75.0" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="25.0" prefWidth="178.0" spacing="5.0">
+                     <children>
+                        <TextField fx:id="leftToda" prefHeight="25.0" prefWidth="75.0" />
+                        <Label alignment="CENTER" prefHeight="17.0" prefWidth="64.0" text="TODA" />
+                        <TextField fx:id="rightToda" prefHeight="25.0" prefWidth="75.0" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="25.0" prefWidth="178.0" spacing="5.0">
+                     <children>
+                        <TextField fx:id="leftAsda" prefHeight="25.0" prefWidth="75.0" />
+                        <Label alignment="CENTER" prefHeight="17.0" prefWidth="64.0" text="ASDA">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </Label>
+                        <TextField fx:id="rightAsda" prefHeight="25.0" prefWidth="75.0" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="25.0" prefWidth="178.0" spacing="5.0">
+                     <children>
+                        <TextField fx:id="leftLda" prefHeight="25.0" prefWidth="75.0" />
+                        <Label alignment="CENTER" prefHeight="17.0" prefWidth="64.0" text="LDA" />
+                        <TextField fx:id="rightLda" prefHeight="25.0" prefWidth="75.0" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <HBox fx:id="editButtons" alignment="CENTER" prefHeight="30.0" prefWidth="178.0" spacing="30.0">
+               <children>
+                  <Button fx:id="saveRunway" defaultButton="true" mnemonicParsing="false" onAction="#saveRunwayClick" prefHeight="25.0" prefWidth="60.0" text="Save" HBox.hgrow="SOMETIMES" />
+                  <Button fx:id="cancelRunway" mnemonicParsing="false" onAction="#cancelRunwayClick" prefHeight="25.0" prefWidth="60.0" text="Cancel" HBox.hgrow="SOMETIMES" />
+               </children>
+               <VBox.margin>
+                  <Insets top="10.0" />
                </VBox.margin>
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
-            </ChoiceBox>
-            <HBox alignment="CENTER" prefHeight="30.0" prefWidth="178.0" spacing="30.0">
-               <children>
-                  <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="New" HBox.hgrow="SOMETIMES" />
-                  <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="Edit" HBox.hgrow="SOMETIMES" />
-               </children>
-               <VBox.margin>
-                  <Insets bottom="20.0" top="15.0" />
-               </VBox.margin>
-            </HBox>
-            <Separator prefWidth="178.0">
-               <VBox.margin>
-                  <Insets bottom="40.0" top="40.0" />
-               </VBox.margin>
-            </Separator>
-            <HBox prefHeight="25.0" prefWidth="178.0" spacing="70.0">
-               <VBox.margin>
-                  <Insets top="20.0" />
-               </VBox.margin>
-               <children>
-                  <Label alignment="CENTER" prefHeight="32.0" prefWidth="60.0" text="LEFT" />
-                  <Label alignment="CENTER" prefHeight="32.0" prefWidth="60.0" text="RIGHT" />
-               </children>
-            </HBox>
-            <HBox alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="178.0" spacing="5.0">
-               <children>
-                  <ChoiceBox prefHeight="25.0" prefWidth="65.0" />
-                  <Label alignment="CENTER" prefHeight="17.0" prefWidth="64.0" text="Position" />
-                  <ChoiceBox prefHeight="25.0" prefWidth="65.0" />
-               </children>
-            </HBox>
-            <HBox alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="178.0" spacing="5.0">
-               <children>
-                  <HBox alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="178.0" spacing="5.0">
-                     <children>
-                        <TextField prefHeight="25.0" prefWidth="70.0" />
-                        <Label alignment="CENTER" prefHeight="17.0" prefWidth="64.0" text="Degree" />
-                        <TextField prefHeight="25.0" prefWidth="70.0" />
-                     </children>
-                     <HBox.margin>
-                        <Insets top="7.0" />
-                     </HBox.margin>
-                  </HBox>
-               </children>
-            </HBox>
-            <HBox alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="178.0" spacing="5.0">
-               <children>
-                  <TextField prefHeight="25.0" prefWidth="70.0" />
-                  <Label alignment="CENTER" prefHeight="17.0" prefWidth="64.0" text="TORA" />
-                  <TextField prefHeight="25.0" prefWidth="70.0" />
-               </children>
-               <VBox.margin>
-                  <Insets top="7.0" />
-               </VBox.margin>
-            </HBox>
-            <HBox alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="178.0" spacing="5.0">
-               <children>
-                  <TextField prefHeight="25.0" prefWidth="70.0" />
-                  <Label alignment="CENTER" prefHeight="17.0" prefWidth="64.0" text="TODA" />
-                  <TextField prefHeight="25.0" prefWidth="70.0" />
-               </children>
-               <VBox.margin>
-                  <Insets top="7.0" />
-               </VBox.margin>
-            </HBox>
-            <HBox alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="178.0" spacing="5.0">
-               <children>
-                  <TextField prefHeight="25.0" prefWidth="70.0" />
-                  <Label alignment="CENTER" prefHeight="17.0" prefWidth="64.0" text="ASDA">
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                  </Label>
-                  <TextField prefHeight="25.0" prefWidth="70.0" />
-               </children>
-               <VBox.margin>
-                  <Insets top="7.0" />
-               </VBox.margin>
-            </HBox>
-            <HBox alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="178.0" spacing="5.0">
-               <children>
-                  <TextField prefHeight="25.0" prefWidth="70.0" />
-                  <Label alignment="CENTER" prefHeight="17.0" prefWidth="64.0" text="LDA" />
-                  <TextField prefHeight="25.0" prefWidth="70.0" />
-               </children>
-               <VBox.margin>
-                  <Insets top="7.0" />
-               </VBox.margin>
-            </HBox>
-            <HBox alignment="CENTER" prefHeight="30.0" prefWidth="178.0" spacing="30.0">
-               <children>
-                  <Button defaultButton="true" mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="Save" HBox.hgrow="SOMETIMES" />
-                  <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="Cancel" HBox.hgrow="SOMETIMES" />
-               </children>
-               <VBox.margin>
-                  <Insets top="20.0" />
-               </VBox.margin>
             </HBox>
          </children>
       </VBox>

@@ -62,8 +62,10 @@ public class XMLParser {
                  Gets the runway attributes for each logical runway
                  Assumes left runway is always first child
                  */
-                String name_L = runway.getElementsByTagName("name").item(0).getTextContent();
-                String name_R = runway.getElementsByTagName("name").item(1).getTextContent();
+                
+                //Name of the runway was changed to a degree
+                int name_L = Integer.parseInt(runway.getElementsByTagName("name").item(0).getTextContent());
+                int name_R = Integer.parseInt(runway.getElementsByTagName("name").item(1).getTextContent());
 
                 int TORA_L = Integer.parseInt(runway.getElementsByTagName("TORA").item(0).getTextContent());
                 int TORA_R = Integer.parseInt(runway.getElementsByTagName("TORA").item(1).getTextContent());
@@ -77,11 +79,13 @@ public class XMLParser {
                 int LDA_L = Integer.parseInt(runway.getElementsByTagName("LDA").item(0).getTextContent());
                 int LDA_R = Integer.parseInt(runway.getElementsByTagName("LDA").item(1).getTextContent());
 
-                LogicalRunWay leftRunway = new LogicalRunWay(name_L, LogicalRunWay.Direction.Left, TORA_L, TODA_L, ASDA_L, LDA_L);
-                LogicalRunWay rightRunway = new LogicalRunWay(name_R, LogicalRunWay.Direction.Right, TORA_R, TODA_R, ASDA_R, LDA_R);
+                //Direction has been changed here from LogicalRunway.Direction.Left to Direction.Left
+                LogicalRunWay leftRunway = new LogicalRunWay(name_L, Direction.Left, TORA_L, TODA_L, ASDA_L, LDA_L);
+                LogicalRunWay rightRunway = new LogicalRunWay(name_R, Direction.Right, TORA_R, TODA_R, ASDA_R, LDA_R);
                 runways.add(new PhysicalRunWay(ID, leftRunway, rightRunway, null));
             }
-            airport = new Airport(name, runways);
+            //Aiport has additional "code" value like LHR for London Heathrow
+           airport = new Airport(name, null ,runways);
         } catch(Exception e) {
             e.printStackTrace();
         }

@@ -14,6 +14,11 @@ public class PhysicalRunWay {
         this.obstacle = obstacle;
     }
 
+    @Override
+    public String toString(){
+        return leftRunway.toString() + "/" + rightRunway.toString();
+    }
+
     public LogicalRunWay getLeftRunway() {
         return leftRunway;
     }
