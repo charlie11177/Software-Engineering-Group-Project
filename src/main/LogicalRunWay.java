@@ -7,6 +7,8 @@ public class LogicalRunWay {
     private int TODA;
     private int ASDA;
     private int LDA;
+    private int clearway;
+    private int stopway;
 
     public LogicalRunWay(int degree, Direction direction, int TORA, int TODA, int ASDA, int LDA){
         this.degree = degree;
@@ -15,6 +17,8 @@ public class LogicalRunWay {
         this.TODA = TODA;
         this.ASDA = ASDA;
         this.LDA = LDA;
+        this.clearway = TODA - TORA;
+        this.stopway = ASDA- TORA;
     }
 
     public int getDegree() {
