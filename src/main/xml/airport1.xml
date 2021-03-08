@@ -1,0 +1,19 @@
+<airport>
+	<name>Airport1</name>
+	<runway>
+		<left>
+			<name>LeftRun</name>
+			<TORA>1</TORA>
+			<TODA>2</TODA>
+			<ASDA>3</ASDA>
+			<LDA>4</LDA>
+		</left>
+		<right>
+			<name>RightRun</name>
+			<TORA>5</TORA>
+			<TODA>6</TODA>
+			<ASDA>7</ASDA>
+			<LDA>8</LDA>
+		</right>
+	</runway>
+</airport>
