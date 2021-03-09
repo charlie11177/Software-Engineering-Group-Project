@@ -20,14 +20,15 @@ public class PhysicalRunWay {
      */
     private boolean checkRunwayDirections(Direction left, Direction right)  {
         switch (left) {
-            case C -> {
+            case C:
                 if (right != Direction.C) return false;
-            }
-            case L -> {
+                break;
+            case L:
                 if (right != Direction.R) return false;
-            }
-            case R -> {
+                break;
+            case R: {
                 if (right != Direction.L) return false;
+                break;
             }
         }
         return true;
