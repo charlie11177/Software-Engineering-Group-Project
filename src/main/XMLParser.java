@@ -22,14 +22,16 @@ public class XMLParser {
     public static void main(String[] args) {
         XMLParser xml = new XMLParser();
         ArrayList<Airport> testAirports = xml.importAirports("src/main/xml/airportsimport.xml");
-        Obstacle testObstacle = xml.importObstacle("src/main/xml/obstacle1.xml");
+        ArrayList<Obstacle> testObstacles = xml.importObstacle("src/main/xml/obstaclesimport.xml");
 
-        Iterator iter = testAirports.iterator();
-        while (iter.hasNext()) {
-            System.out.println(iter.next().toString());
+        Iterator<Airport> iterA = testAirports.iterator();
+        while (iterA.hasNext()) {
+            System.out.println(iterA.next().toString());
         }
-        System.out.println();
-
+        Iterator<Obstacle> iterO = testObstacles.iterator();
+        while (iterO.hasNext()) {
+            System.out.println(iterO.next().getName());
+        }
     }
 
     /*
@@ -107,8 +109,8 @@ public class XMLParser {
         return airports;
     }
 
-    public Obstacle importObstacle(String filename) {
-        Obstacle obstacle = null;
+    public ArrayList<Obstacle> importObstacle(String filename) {
+        ArrayList<Obstacle> obstacles = new ArrayList<>();
         try {
             // Boiler plate code for creating an XML parser
             DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
@@ -116,28 +118,34 @@ public class XMLParser {
             document.getDocumentElement().normalize();
 
             /*
-            Get name of the obstacle
-            first check that there is only one obstacle tag (should be root element) then get child and contents
+            * Get list of obstacles from XML
             */
             NodeList obstacleList = document.getElementsByTagName("obstacle");
-            if (obstacleList.getLength() != 1) throw new Exception("Obstacle tag not found in xml file");
-            Element obstacleElement = (Element) obstacleList.item(0);
+            if (obstacleList.getLength() == 0) throw new Exception("Obstacle tag not found in xml file");
 
-            String name = obstacleElement.getChildNodes().item(1).getTextContent();
+            // Iterate over obstacles
+            for (int i = 0; i < obstacleList.getLength(); i++) {
+                Element obstacleElement = (Element) obstacleList.item(i);
 
-            int height = Integer.parseInt(obstacleElement.getElementsByTagName("height").item(0).getTextContent());
-            int width = Integer.parseInt(obstacleElement.getElementsByTagName("width").item(0).getTextContent());
+                // Get the obstacle attributes from xml tags
+                String name = obstacleElement.getElementsByTagName("name").item(0).getTextContent();
 
-            Element positionNode = (Element) obstacleElement.getElementsByTagName("position").item(0);
-            int distanceToLeft = Integer.parseInt(positionNode.getElementsByTagName("distanceToLeft").item(0).getTextContent());
-            int distanceToRight = Integer.parseInt(positionNode.getElementsByTagName("distanceToRight").item(0).getTextContent());
+                int height = Integer.parseInt(obstacleElement.getElementsByTagName("height").item(0).getTextContent());
+                int width = Integer.parseInt(obstacleElement.getElementsByTagName("width").item(0).getTextContent());
 
-            Position position = new Position(distanceToLeft, distanceToRight);
-            obstacle = new Obstacle(name, height, width, position);
+                Element positionNode = (Element) obstacleElement.getElementsByTagName("position").item(0);
+                int distanceToLeft = Integer.parseInt(positionNode.getElementsByTagName("distanceToLeft").item(0).getTextContent());
+                int distanceToRight = Integer.parseInt(positionNode.getElementsByTagName("distanceToRight").item(0).getTextContent());
+
+                Position position = new Position(distanceToLeft, distanceToRight);
+
+                // Add obstacle to the list
+                obstacles.add(new Obstacle(name, height, width, position));
+            }
         } catch(Exception e) {
             e.printStackTrace();
         }
-        return obstacle;
+        return obstacles;
     }
 
     public void exportAirport(String filename) {}
