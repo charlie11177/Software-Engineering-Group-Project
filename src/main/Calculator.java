@@ -6,21 +6,21 @@ public class Calculator {
 
     public static void recalculate(){
         if (obstacle.getPosition().getDistanceToLeft() > obstacle.getPosition().getDistanceToRight()){
-           recalculateAWAY(physicalRunWay.getRightRunway());
+           recalculateAWAY(physicalRunWay.getRightRunway(), obstacle.getPosition().getDistanceToRight());
            recalculateTOWARDS(physicalRunWay.getLeftRunway());
         }
         else {
-            recalculateAWAY(physicalRunWay.getLeftRunway());
+            recalculateAWAY(physicalRunWay.getLeftRunway(), obstacle.getPosition().getDistanceToLeft());
             recalculateTOWARDS(physicalRunWay.getRightRunway());
         }
     }
 
 
 
-    private static void recalculateAWAY(LogicalRunWay runway) { //(Take off Away, Landing Over)
+    private static void recalculateAWAY(LogicalRunWay runway, int distanceFromThreshold) { //(Take off Away, Landing Over)
         int tora, toda, asda, lda;
         int blastAllowance = 300; //Blast protection is between 300-500 not sure whether this is defined by the user
-        tora = runway.getTORA() - blastAllowance;// TORA = Original TORA - Blast Protection - Distance from Threshold - Displaced Threshold
+        tora = runway.getTORA() - blastAllowance - distanceFromThreshold - runway.getThreshold();// TORA = Original TORA - Blast Protection - Distance from Threshold - Displaced Threshold
         asda = 0;//ASDA = (R) TORA + STOPWAY
         toda = 0;//(R) TORA + CLEARWAY
         lda = 0;//LDA = Original LDA - Distance from Threshold – Strip End - Slope Calculation
