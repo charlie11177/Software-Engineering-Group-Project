@@ -61,7 +61,7 @@ public class XMLParser {
                 */
                 Node airportElement = airportList.item(i);
                 String name = airportElement.getChildNodes().item(1).getTextContent();
-
+                String code = airportElement.getChildNodes().item(3).getTextContent();
                 /*
                 *Get runway information
                 */
@@ -101,7 +101,7 @@ public class XMLParser {
                     runways.add(new PhysicalRunWay(ID, leftRunway, rightRunway, null));
                 }
                 //Airport has additional "code" value like LHR for London Heathrow
-                airports.add(new Airport(name, null ,runways));
+                airports.add(new Airport(name, code ,runways));
             }
         } catch(Exception e) {
             e.printStackTrace();

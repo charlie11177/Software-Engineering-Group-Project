@@ -2,6 +2,7 @@
 <airports>
 	<airport>
 		<name>Airport1</name>
+		<code>AIR1</code>
 		<runway>
 			<ID>1</ID>
 			<left>
@@ -39,6 +40,7 @@
 	</airport>
 	<airport>
 		<name>Airport2</name>
+		<code>AIR2</code>
 		<runway>
 			<ID>1</ID>
 			<left>
