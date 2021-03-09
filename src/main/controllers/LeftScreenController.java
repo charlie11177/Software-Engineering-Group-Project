@@ -2,6 +2,7 @@ package main.controllers;
 
 import javafx.fxml.FXML;
 import main.Airport;
+import main.Calculator;
 import main.Model;
 import main.PhysicalRunWay;
 
@@ -24,5 +25,6 @@ public class LeftScreenController {
         Airport airport = new Airport("Heathrow","HTR",new ArrayList<PhysicalRunWay>());
         Model.airports.add(airport);
         airportConfigController.addAirports(airport);
+        Calculator.recalculate();
     }
 }
