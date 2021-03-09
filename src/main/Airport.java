@@ -46,6 +46,14 @@ public class Airport {
         return this.name + " (" + this.code + ")";
     }
 
+    public PhysicalRunWay findRunwayByID(List<PhysicalRunWay> runways, int ID){
+        for (PhysicalRunWay r : runways){
+            if(r.getRunwayID() == ID)
+                return r;
+        }
+        return null;
+    }
+
     public static void main(String args){
 
         //LogicalRunWay left = new LogicalRunWay("09", LogicalRunWay.Direction.Left,3902,3902,3202,3595);
