@@ -32,17 +32,26 @@ public class Model {
     }
 
     public static void demo(){
-        LogicalRunWay left1 = new LogicalRunWay(9, Direction.Left,3902,3902,3202,3595);
-        LogicalRunWay right1 = new LogicalRunWay(27, Direction.Right,3884,3962,3884,0);
-        PhysicalRunWay r1 = new PhysicalRunWay(1,left1, right1, null);
+        LogicalRunWay left1 = new LogicalRunWay(9, Direction.L,3902,3902,3202,3595);
+        LogicalRunWay right1 = new LogicalRunWay(27, Direction.R,3884,3962,3884,0);
 
-        LogicalRunWay left2 = new LogicalRunWay(10, Direction.Left,3802,3802,3102,3495);
-        LogicalRunWay right2 = new LogicalRunWay(28, Direction.Right,1,1,1,0);
-        PhysicalRunWay r2 = new PhysicalRunWay(2,left2, right2, null);
+        LogicalRunWay left2 = new LogicalRunWay(10, Direction.L,3802,3802,3102,3495);
+        LogicalRunWay right2 = new LogicalRunWay(28, Direction.R,1,1,1,0);
 
-        LogicalRunWay left3 = new LogicalRunWay(1, Direction.Center,3802,3802,3102,3495);
-        LogicalRunWay right3 = new LogicalRunWay(2, Direction.Center,1,1,1,0);
-        PhysicalRunWay r3 = new PhysicalRunWay(2,left3, right3, null);
+        LogicalRunWay left3 = new LogicalRunWay(1, Direction.C,3802,3802,3102,3495);
+        LogicalRunWay right3 = new LogicalRunWay(2, Direction.C,1,1,1,0);
+
+        PhysicalRunWay r1 = null;
+        PhysicalRunWay r2 = null;
+        PhysicalRunWay r3 = null;
+
+        try {
+            r1 = new PhysicalRunWay(1,left1, right1, null);
+            r2 = new PhysicalRunWay(2,left2, right2, null);
+            r3 = new PhysicalRunWay(2,left3, right3, null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
         ArrayList<PhysicalRunWay> runWays = new ArrayList<>();
