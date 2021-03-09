@@ -62,7 +62,7 @@ public class XMLParser {
                  Gets the runway attributes for each logical runway
                  Assumes left runway is always first child
                  */
-                
+
                 //Name of the runway was changed to a degree
                 int name_L = Integer.parseInt(runway.getElementsByTagName("name").item(0).getTextContent());
                 int name_R = Integer.parseInt(runway.getElementsByTagName("name").item(1).getTextContent());
@@ -80,8 +80,8 @@ public class XMLParser {
                 int LDA_R = Integer.parseInt(runway.getElementsByTagName("LDA").item(1).getTextContent());
 
                 //Direction has been changed here from LogicalRunway.Direction.Left to Direction.Left
-                LogicalRunWay leftRunway = new LogicalRunWay(name_L, Direction.Left, TORA_L, TODA_L, ASDA_L, LDA_L);
-                LogicalRunWay rightRunway = new LogicalRunWay(name_R, Direction.Right, TORA_R, TODA_R, ASDA_R, LDA_R);
+                LogicalRunWay leftRunway = new LogicalRunWay(name_L, Direction.L, TORA_L, TODA_L, ASDA_L, LDA_L);
+                LogicalRunWay rightRunway = new LogicalRunWay(name_R, Direction.R, TORA_R, TODA_R, ASDA_R, LDA_R);
                 runways.add(new PhysicalRunWay(ID, leftRunway, rightRunway, null));
             }
             //Aiport has additional "code" value like LHR for London Heathrow

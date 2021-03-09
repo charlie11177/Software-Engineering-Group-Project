@@ -3,6 +3,7 @@ package main;
 public class LogicalRunWay {
     private int degree;
     private Direction direction;
+
     private int TORA;
     private int TODA;
     private int ASDA;
@@ -21,21 +22,41 @@ public class LogicalRunWay {
         this.stopway = ASDA- TORA;
     }
 
-    public int getDegree() {
-        return degree;
+    @Override
+    public String toString(){
+        return String.valueOf(degree) + direction.toString();
     }
 
     public void setDegree(int degree) {
         this.degree = degree;
     }
 
-    public Direction getDirection() {
-        return direction;
+    public void setDirection(Direction direction) {
+        this.direction = direction;
     }
 
-    @Override
-    public String toString(){
-        return String.valueOf(degree) + direction.toString();
+    public void setTORA(int TORA) {
+        this.TORA = TORA;
+    }
+
+    public void setTODA(int TODA) {
+        this.TODA = TODA;
+    }
+
+    public void setASDA(int ASDA) {
+        this.ASDA = ASDA;
+    }
+
+    public void setLDA(int LDA) {
+        this.LDA = LDA;
+    }
+
+    public int getDegree() {
+        return degree;
+    }
+
+    public Direction getDirection() {
+        return direction;
     }
 
     public int getASDA() {

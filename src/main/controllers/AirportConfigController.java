@@ -8,6 +8,10 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import main.Airport;
 import main.Model;
+import main.PhysicalRunWay;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class AirportConfigController extends ConfigMenu{
@@ -27,6 +31,7 @@ public class AirportConfigController extends ConfigMenu{
     }
 
     @FXML public void initialize(){
+        Model.airportConfigController = this;
         aiportOptions.setVisible(false);
         airportNameTextField.setTextFormatter(new TextFormatter<>(change -> {
             if (change.getText().equals(" ")) change.setText("_");
@@ -88,28 +93,31 @@ public class AirportConfigController extends ConfigMenu{
         if(airportName.equals("") || airportCode.equals("")) {
             //TODO: TEAM2 code for error popup for empty textfields here.
             System.out.println("Empty textfields");
+            return;
+        } else if (nameInUse(airportName)){
+            //TODO: TEAM2 code for error popup for same airport names here.
+            System.out.println("Airport name already used");
+            return;
+        } else if (codeInUse(airportCode)){
+            //TODO: TEAM2 code for error popup for same airport names here.
+            System.out.println("Airport code already used");
+            return;
         } else if (edit == true){
             String previousName = valueEdited.split(" ")[0];
             aiportChoiceBox.getItems().remove(valueEdited);
             edit = false;
             enableElements(aiportMainMenu);
             hideOptions(aiportOptions);
-            aiportChoiceBox.getItems().add(choiceBoxItem);
-            aiportChoiceBox.setValue(choiceBoxItem);
             Airport editedAirport = Model.getAirportByName(previousName);
             editedAirport.setName(airportName);
             editedAirport.setCode(airportCode);
+            aiportChoiceBox.getItems().add(choiceBoxItem);
+            aiportChoiceBox.setValue(choiceBoxItem);
             Model.console.addLog("Airport edited: " + valueEdited + "\t=>\t" + aiportChoiceBox.getValue());
-        } else if (nameInUse(airportName)){
-            //TODO: TEAM2 code for error popup for same airport names here.
-            System.out.println("Airport name already used");
-        } else if (codeInUse(airportCode)){
-            //TODO: TEAM2 code for error popup for same airport names here.
-            System.out.println("Airport code already used");
         } else {
             enableElements(aiportMainMenu);
             hideOptions(aiportOptions);
-            Model.airports.add(new Airport(airportName,airportCode,null));
+            Model.airports.add(new Airport(airportName,airportCode,new ArrayList<>()));
             aiportChoiceBox.getItems().add(choiceBoxItem);
             aiportChoiceBox.setValue(choiceBoxItem);
             Model.console.addLog("Airport " + aiportChoiceBox.getValue() + " added " + airportName);

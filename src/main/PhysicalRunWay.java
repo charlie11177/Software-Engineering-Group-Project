@@ -7,11 +7,30 @@ public class PhysicalRunWay {
     private int runwayID;
     private Obstacle obstacle;
 
-    public PhysicalRunWay (int id, LogicalRunWay left, LogicalRunWay right, Obstacle obstacle){
+    public PhysicalRunWay (int id, LogicalRunWay left, LogicalRunWay right, Obstacle obstacle) throws Exception {
+        if(!checkRunwayDirections(left.getDirection(), right.getDirection())) throw new Exception("Wrong directions of logical runways.");
         this.runwayID = id;
         this.leftRunway = left;
         this.rightRunway= right;
         this.obstacle = obstacle;
+    }
+
+    /*
+    Added a check for correct runway directions
+     */
+    private boolean checkRunwayDirections(Direction left, Direction right)  {
+        switch (left) {
+            case C -> {
+                if (right != Direction.C) return false;
+            }
+            case L -> {
+                if (right != Direction.R) return false;
+            }
+            case R -> {
+                if (right != Direction.L) return false;
+            }
+        }
+        return true;
     }
 
     @Override
