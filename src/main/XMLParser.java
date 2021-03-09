@@ -7,6 +7,7 @@ import org.w3c.dom.Node;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.TransformerFactory;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -14,11 +15,14 @@ import java.util.List;
 
 public class XMLParser {
     private final DocumentBuilderFactory documentBuilderFactory;
+    private final TransformerFactory transformerFactory;
 
     public XMLParser() {
         documentBuilderFactory = DocumentBuilderFactory.newInstance();
+        transformerFactory = TransformerFactory.newInstance();
     }
 
+    // Temporary main method for testing, will delete when hooked up to UI or when no longer needed
     public static void main(String[] args) {
         XMLParser xml = new XMLParser();
         ArrayList<Airport> testAirports = xml.importAirports("src/main/xml/airportsimport.xml");
@@ -148,7 +152,35 @@ public class XMLParser {
         return obstacles;
     }
 
-    public void exportAirport(String filename) {}
+    public void exportAirports(String filename) {
+        try {
+            // Boiler plate code for creating an XML parser
+            DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+            Document document = documentBuilder.newDocument();
+            // Root element of XML is airports
+            Element root = document.createElement("airports");
+            document.appendChild(root);
 
-    public void exportObstacle(String filename) {}
+            /*
+                Iterate over the airports and create the required XML tags/data
+             */
+            // Not using the static instance directly because that scares me
+            ArrayList<Airport> airportArrayList = Model.airports;
+            Iterator<Airport> airportIter = airportArrayList.iterator();
+            while(airportIter.hasNext()) {
+                Airport airport = airportIter.next();
+                // Airport tags go (name, code, (runway: ID, (left: degree, TORA, ...), (right: ...))
+                Element airportElement = document.createElement("airport");
+                root.appendChild(airportElement);
+
+                Element name = document.createElement("name");
+                name.setTextContent(airport.getName());
+                airportElement.appendChild(name);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void exportObstacles(String filename) {}
 }
