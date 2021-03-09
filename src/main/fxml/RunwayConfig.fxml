@@ -116,6 +116,13 @@
                         <TextField fx:id="rightLdaTF" prefHeight="25.0" prefWidth="75.0" />
                      </children>
                   </HBox>
+                  <HBox alignment="CENTER" prefHeight="25.0" prefWidth="178.0" spacing="5.0">
+                     <children>
+                        <TextField fx:id="leftThresholdTF" prefHeight="25.0" prefWidth="75.0" />
+                        <Label alignment="CENTER" prefHeight="17.0" prefWidth="64.0" text="Threshold" />
+                        <TextField fx:id="rightThresholdTF" prefHeight="25.0" prefWidth="75.0" />
+                     </children>
+                  </HBox>
                </children>
             </VBox>
             <HBox fx:id="editButtons" alignment="CENTER" prefHeight="30.0" prefWidth="178.0" spacing="30.0">
