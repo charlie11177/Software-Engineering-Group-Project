@@ -11,7 +11,6 @@ import main.Model;
 import main.PhysicalRunWay;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class AirportConfigController extends ConfigMenu{
@@ -20,6 +19,7 @@ public class AirportConfigController extends ConfigMenu{
     private String valueEdited;
 
     public ChoiceBox<String> aiportChoiceBox;
+    public Airport currentAirport;
     @FXML private TextField airportNameTextField;
     @FXML private TextField airportCodeTextField;
     @FXML private VBox aiportOptions;
@@ -47,6 +47,12 @@ public class AirportConfigController extends ConfigMenu{
 
     public String getSelectedAirport(){
         return aiportChoiceBox.getValue().split(" ")[0];
+    }
+
+    public void addAirports(Airport...airports){
+        for(Airport a : airports){
+            aiportChoiceBox.getItems().add(a.toString());
+        }
     }
 
     private void populateAirportNames(){

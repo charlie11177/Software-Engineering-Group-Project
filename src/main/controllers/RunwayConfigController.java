@@ -106,12 +106,15 @@ public class RunwayConfigController {
         Model.airportConfigController.aiportChoiceBox
                 .getSelectionModel()
                 .selectedItemProperty()
-                .addListener( (observable, oldValue, newValue) -> runwayChoiceBoxChanger());
+                .addListener( (observable, oldValue, newValue) -> {
+                    runwayChoiceBoxChanger();
+                });
     }
 
     private void runwayChoiceBoxChanger() {
         String name = Model.airportConfigController.getSelectedAirport();
         Airport airport = Model.getAirportByName(name);
+        Model.airportConfigController.currentAirport = airport;
         if(airport != null && !airport.getRunways().isEmpty()){
             this.populateRunwayNames(airport.getRunways());
             this.showOptions(runwayOptions);
