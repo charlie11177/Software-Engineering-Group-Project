@@ -1,0 +1,9 @@
+<obstacle>
+	<name>Engine</name>
+	<height>15</height>
+	<width>4</width>
+	<position>
+		<distanceToLeft>37</distanceToLeft>
+		<distanceToRight>15</distanceToRight>
+	</position>
+</obstacle>
