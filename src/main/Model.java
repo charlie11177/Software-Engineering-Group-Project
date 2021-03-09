@@ -34,14 +34,14 @@ public class Model {
     }
 
     public static void demo(){
-        LogicalRunWay left1 = new LogicalRunWay(9, Direction.L,3902,3902,3202,3595);
-        LogicalRunWay right1 = new LogicalRunWay(27, Direction.R,3884,3962,3884,0);
+        LogicalRunWay left1 = new LogicalRunWay(9, Direction.L,3902,3902,3202,3595, 0);
+        LogicalRunWay right1 = new LogicalRunWay(27, Direction.R,3884,3962,3884,0, 0);
 
-        LogicalRunWay left2 = new LogicalRunWay(10, Direction.L,3802,3802,3102,3495);
-        LogicalRunWay right2 = new LogicalRunWay(28, Direction.R,1,1,1,0);
+        LogicalRunWay left2 = new LogicalRunWay(10, Direction.L,3802,3802,3102,3495, 0);
+        LogicalRunWay right2 = new LogicalRunWay(28, Direction.R,1,1,1,0, 0);
 
-        LogicalRunWay left3 = new LogicalRunWay(1, Direction.C,3802,3802,3102,3495);
-        LogicalRunWay right3 = new LogicalRunWay(2, Direction.C,1,1,1,0);
+        LogicalRunWay left3 = new LogicalRunWay(1, Direction.C,3802,3802,3102,3495, 0);
+        LogicalRunWay right3 = new LogicalRunWay(2, Direction.C,1,1,1,0, 0);
 
         PhysicalRunWay r1 = null;
         PhysicalRunWay r2 = null;

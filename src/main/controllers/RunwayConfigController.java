@@ -35,6 +35,8 @@ public class RunwayConfigController {
     @FXML private TextField rightAsdaTF;
     @FXML private TextField leftLdaTF;
     @FXML private TextField rightLdaTF;
+    @FXML private TextField leftThresholdTF;
+    @FXML private TextField rightThresholdTF;
     @FXML private Label editLabel;
 
     public RunwayConfigController(){
@@ -57,8 +59,8 @@ public class RunwayConfigController {
     }
 
     public void setupTextFields(){
-        textFields = Arrays.asList(leftDegreeTF, leftTodaTF, leftToraTF, leftAsdaTF, leftLdaTF,
-                rightDegreeTF, rightTodaTF, rightToraTF, rightAsdaTF, rightLdaTF);
+        textFields = Arrays.asList(leftDegreeTF, leftTodaTF, leftToraTF, leftAsdaTF, leftLdaTF, leftThresholdTF,
+                rightDegreeTF, rightTodaTF, rightToraTF, rightAsdaTF, rightLdaTF, rightThresholdTF);
         for(TextField t : textFields)
             t.setTextFormatter(new TextFormatter<>(change -> {
                 if (!change.getText().matches("[0-9]*")) change.setText("");
@@ -155,6 +157,7 @@ public class RunwayConfigController {
         leftToraTF.setText(String.valueOf(left.getTORA()));
         leftAsdaTF.setText(String.valueOf(left.getASDA()));
         leftLdaTF.setText(String.valueOf(left.getLDA()));
+        leftThresholdTF.setText((String.valueOf(left.getThreshold())));
 
         rightPosition.setValue(String.valueOf(right.getDirection()));
         rightDegreeTF.setText(String.valueOf(right.getDegree()));
@@ -162,6 +165,7 @@ public class RunwayConfigController {
         rightToraTF.setText(String.valueOf(right.getTORA()));
         rightAsdaTF.setText(String.valueOf(right.getASDA()));
         rightLdaTF.setText(String.valueOf(right.getLDA()));
+        rightThresholdTF.setText(String.valueOf(left.getThreshold()));
     }
 
     public void clearRunwayDetails(){
@@ -171,6 +175,7 @@ public class RunwayConfigController {
         leftToraTF.setText("");
         leftAsdaTF.setText("");
         leftLdaTF.setText("");
+        leftThresholdTF.setText("");
 
         rightPosition.setValue("R");
         rightDegreeTF.setText("");
@@ -178,6 +183,7 @@ public class RunwayConfigController {
         rightToraTF.setText("");
         rightAsdaTF.setText("");
         rightLdaTF.setText("");
+        rightThresholdTF.setText("");
     }
 
     @FXML
@@ -221,6 +227,8 @@ public class RunwayConfigController {
         int leftLda = Integer.parseInt(leftLdaTF.getText());
         int leftToda = Integer.parseInt(leftTodaTF.getText());
         int leftTora = Integer.parseInt(leftToraTF.getText());
+        int leftThreshold = Integer.parseInt(leftThresholdTF.getText());
+
 
         Direction rightDirection = Direction.valueOf(rightPosition.getValue().toString());
         int rightDegree = Integer.parseInt(rightDegreeTF.getText());
@@ -228,6 +236,7 @@ public class RunwayConfigController {
         int rightLda = Integer.parseInt(rightLdaTF.getText());
         int rightToda = Integer.parseInt(rightTodaTF.getText());
         int rightTora = Integer.parseInt(rightToraTF.getText());
+        int rightThreshold = Integer.parseInt(rightThresholdTF.getText());
 
         if(edit){
             if(airport.getRunways() != null){
@@ -240,10 +249,12 @@ public class RunwayConfigController {
                 left.setLDA(leftLda);
                 left.setTODA(leftToda);
                 left.setTORA(leftTora);
+                left.setThreshold(leftThreshold);
                 right.setDirection(rightDirection);
                 right.setDegree(rightDegree);
                 right.setASDA(rightAsda);
                 right.setLDA(rightLda);
+                right.setThreshold(rightThreshold);
                 right.setTODA(rightToda);
                 right.setTORA(rightTora);
                 runwayChoiceBox.getItems().remove(runwayChoiceBox.getSelectionModel().getSelectedItem());
@@ -253,8 +264,8 @@ public class RunwayConfigController {
             }
             else System.err.println("Error RunwayController:257");
         } else {
-            LogicalRunWay left = new LogicalRunWay(leftDegree,leftDirection,leftTora,leftToda,leftAsda,leftLda);
-            LogicalRunWay right = new LogicalRunWay(rightDegree,rightDirection,rightTora,rightToda,rightAsda,rightLda);
+            LogicalRunWay left = new LogicalRunWay(leftDegree,leftDirection,leftTora,leftToda,leftAsda,leftLda, leftThreshold);
+            LogicalRunWay right = new LogicalRunWay(rightDegree,rightDirection,rightTora,rightToda,rightAsda,rightLda, rightThreshold);
             int id = 1;
             if(airport.getRunways() != null){
                 for (PhysicalRunWay r : airport.getRunways()){

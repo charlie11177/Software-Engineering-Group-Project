@@ -11,13 +11,15 @@
 				<TODA>2</TODA>
 				<ASDA>3</ASDA>
 				<LDA>4</LDA>
+				<threshold>5</threshold>
 			</left>
 			<right>
 				<degree>27</degree>
-				<TORA>5</TORA>
-				<TODA>6</TODA>
-				<ASDA>7</ASDA>
-				<LDA>8</LDA>
+				<TORA>6</TORA>
+				<TODA>7</TODA>
+				<ASDA>8</ASDA>
+				<LDA>9</LDA>
+				<threshold>10</threshold>
 			</right>
 		</runway>
 		<runway>
@@ -28,13 +30,15 @@
 				<TODA>10</TODA>
 				<ASDA>11</ASDA>
 				<LDA>12</LDA>
+				<threshold>13</threshold>
 			</left>
 			<right>
 				<degree>00</degree>
-				<TORA>13</TORA>
-				<TODA>14</TODA>
-				<ASDA>15</ASDA>
-				<LDA>16</LDA>
+				<TORA>14</TORA>
+				<TODA>15</TODA>
+				<ASDA>16</ASDA>
+				<LDA>17</LDA>
+				<threshold>18</threshold>
 			</right>
 		</runway>
 	</airport>
@@ -49,13 +53,15 @@
 				<TODA>21</TODA>
 				<ASDA>22</ASDA>
 				<LDA>23</LDA>
+				<threshold>24</threshold>
 			</left>
 			<right>
-				<degree>24</degree>
-				<TORA>25</TORA>
-				<TODA>26</TODA>
-				<ASDA>27</ASDA>
-				<LDA>28</LDA>
+				<degree>25</degree>
+				<TORA>26</TORA>
+				<TODA>27</TODA>
+				<ASDA>28</ASDA>
+				<LDA>29</LDA>
+				<threshold>30</threshold>
 			</right>
 		</runway>
 		<runway>
@@ -66,13 +72,15 @@
 				<TODA>30</TODA>
 				<ASDA>31</ASDA>
 				<LDA>32</LDA>
+				<threshold>33</threshold>
 			</left>
 			<right>
 				<degree>00</degree>
-				<TORA>33</TORA>
-				<TODA>34</TODA>
-				<ASDA>35</ASDA>
-				<LDA>36</LDA>
+				<TORA>34</TORA>
+				<TODA>35</TODA>
+				<ASDA>36</ASDA>
+				<LDA>37</LDA>
+				<threshold>38</threshold>
 			</right>
 		</runway>
 	</airport>

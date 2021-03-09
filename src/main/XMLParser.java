@@ -109,9 +109,12 @@ public class XMLParser {
                     int LDA_L = Integer.parseInt(runway.getElementsByTagName("LDA").item(0).getTextContent());
                     int LDA_R = Integer.parseInt(runway.getElementsByTagName("LDA").item(1).getTextContent());
 
+                    int THRESHOLD_L = Integer.parseInt(runway.getElementsByTagName("threshold").item(0).getTextContent());
+                    int THRESHOLD_R = Integer.parseInt(runway.getElementsByTagName("threshold").item(0).getTextContent());
+
                     //Direction has been changed here from LogicalRunway.Direction.Left to Direction.Left
-                    LogicalRunWay leftRunway = new LogicalRunWay(degree_L, Direction.L, TORA_L, TODA_L, ASDA_L, LDA_L);
-                    LogicalRunWay rightRunway = new LogicalRunWay(degree_R, Direction.R, TORA_R, TODA_R, ASDA_R, LDA_R);
+                    LogicalRunWay leftRunway = new LogicalRunWay(degree_L, Direction.L, TORA_L, TODA_L, ASDA_L, LDA_L, THRESHOLD_L);
+                    LogicalRunWay rightRunway = new LogicalRunWay(degree_R, Direction.R, TORA_R, TODA_R, ASDA_R, LDA_R, THRESHOLD_R);
                     runways.add(new PhysicalRunWay(ID, leftRunway, rightRunway, null));
                 }
                 //Airport has additional "code" value like LHR for London Heathrow
