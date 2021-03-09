@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<obstacles>
+	<obstacle>
+		<name>Engine</name>
+		<height>15</height>
+		<width>4</width>
+		<position>
+			<distanceToLeft>37</distanceToLeft>
+			<distanceToRight>15</distanceToRight>
+		</position>
+	</obstacle>
+	<obstacle>
+		<name>vehicle</name>
+		<height>8</height>
+		<width>6</width>
+		<position>
+			<distanceToLeft>40</distanceToLeft>
+			<distanceToRight>20</distanceToRight>
+		</position>
+	</obstacle>
+</obstacles>
