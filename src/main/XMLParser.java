@@ -33,6 +33,8 @@ public class XMLParser {
         ArrayList<Airport> testAirports = xml.importAirports("src/main/xml/airportsimport.xml");
         ArrayList<Obstacle> testObstacles = xml.importObstacle("src/main/xml/obstaclesimport.xml");
 
+        Model.demo();
+
         Iterator<Airport> iterA = testAirports.iterator();
         while (iterA.hasNext()) {
             System.out.println(iterA.next().toString());
@@ -43,6 +45,7 @@ public class XMLParser {
         }
 
         xml.exportAirports("src/main/xml/airportexport.xml");
+        xml.exportObstacles("src/main/xml/obstacleexport.xml");
     }
 
     /*
@@ -172,7 +175,6 @@ public class XMLParser {
                 Iterate over the airports and create the required XML tags/data
              */
             // Running demo to get airport data into the model
-            Model.demo();
             ArrayList<Airport> airportArrayList = Model.airports;
 
             Iterator<Airport> airportIter = airportArrayList.iterator();
@@ -210,7 +212,7 @@ public class XMLParser {
                     runwayElement.appendChild(ID);
 
                     /*
-                     Logical runways
+                     Logical runways (probably a nicer way of doing this but it works for now
                      */
                     // Left
                     Element leftRunwayElement = document.createElement("left");
@@ -283,5 +285,68 @@ public class XMLParser {
         }
     }
 
-    public void exportObstacles(String filename) {}
+    public void exportObstacles(String filename) {
+        try {
+            // Boiler plate code for creating an XML parser
+            DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+            Document document = documentBuilder.newDocument();
+            // Root element of XML is airports
+            Element root = document.createElement("obstacles");
+            document.appendChild(root);
+
+            // Temporary model data
+            ArrayList<Obstacle> obstacleList = Model.obstacles;
+            Iterator<Obstacle> obstacleIter = obstacleList.iterator();
+            while(obstacleIter.hasNext()) {
+                Obstacle obstacle = obstacleIter.next();
+                Position position = obstacle.getPosition();
+
+                // Obstacle element attributes
+                Element obstacleElement = document.createElement("obstacle");
+                root.appendChild(obstacleElement);
+
+                Element name = document.createElement("name");
+                name.appendChild(document.createTextNode(obstacle.getName()));
+                obstacleElement.appendChild(name);
+
+                Element height = document.createElement("height");
+                height.appendChild(document.createTextNode(Integer.toString(obstacle.getHeight())));
+                obstacleElement.appendChild(height);
+
+                Element width = document.createElement("width");
+                width.appendChild(document.createTextNode(Integer.toString(obstacle.getWidth())));
+                obstacleElement.appendChild(width);
+
+                // Position element attributes
+                Element positionElement = document.createElement("position");
+                obstacleElement.appendChild(positionElement);
+
+                Element distToLeft = document.createElement("distanceToLeft");
+                distToLeft.appendChild(document.createTextNode(Integer.toString(position.getDistanceToLeft())));
+                positionElement.appendChild(distToLeft);
+
+                Element distToRight = document.createElement("distanceToRight");
+                distToRight.appendChild(document.createTextNode(Integer.toString(position.getDistanceToRight())));
+                positionElement.appendChild(distToRight);
+            }
+
+            /*
+            Write XML file to disk
+             */
+            Transformer transformer = transformerFactory.newTransformer();
+            DOMSource source = new DOMSource(document);
+
+            FileWriter writer = new FileWriter(new File(filename));
+            StreamResult stream = new StreamResult(writer);
+
+            // Options to make the output look nice
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+
+            // This writes the files to disk
+            transformer.transform(source, stream);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
