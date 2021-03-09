@@ -7,8 +7,13 @@ import org.w3c.dom.Node;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import java.io.File;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -36,6 +41,8 @@ public class XMLParser {
         while (iterO.hasNext()) {
             System.out.println(iterO.next().getName());
         }
+
+        xml.exportAirports("src/main/xml/airportexport.xml");
     }
 
     /*
@@ -164,8 +171,10 @@ public class XMLParser {
             /*
                 Iterate over the airports and create the required XML tags/data
              */
-            // Not using the static instance directly because that scares me
+            // Running demo to get airport data into the model
+            Model.demo();
             ArrayList<Airport> airportArrayList = Model.airports;
+
             Iterator<Airport> airportIter = airportArrayList.iterator();
             while(airportIter.hasNext()) {
                 Airport airport = airportIter.next();
@@ -173,10 +182,32 @@ public class XMLParser {
                 Element airportElement = document.createElement("airport");
                 root.appendChild(airportElement);
 
+                // Adds airport name
                 Element name = document.createElement("name");
-                name.setTextContent(airport.getName());
+                name.appendChild(document.createTextNode(airport.getName()));
                 airportElement.appendChild(name);
+
+                // Adds airport code
+                Element code = document.createElement("code");
+                code.appendChild(document.createTextNode(airport.getCode()));
+                airportElement.appendChild(code);
             }
+
+            /*
+            Write XML file to disk
+             */
+            Transformer transformer = transformerFactory.newTransformer();
+            DOMSource source = new DOMSource(document);
+
+            FileWriter writer = new FileWriter(new File(filename));
+            StreamResult stream = new StreamResult(writer);
+
+            // Options to make the output look nice
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+
+            // This writes the files to disk
+            transformer.transform(source, stream);
+
         } catch (Exception e) {
             e.printStackTrace();
         }

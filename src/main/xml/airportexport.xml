@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<airports>
+    <airport>
+        <name>London_Gatwick</name>
+        <code>LGW</code>
+    </airport>
+    <airport>
+        <name>London_Heathrow</name>
+        <code>LHR</code>
+    </airport>
+</airports>
