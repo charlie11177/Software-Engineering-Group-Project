@@ -191,6 +191,76 @@ public class XMLParser {
                 Element code = document.createElement("code");
                 code.appendChild(document.createTextNode(airport.getCode()));
                 airportElement.appendChild(code);
+
+                // PhysicalRunway loop
+                List<PhysicalRunWay> runways = airport.getRunways();
+                Iterator<PhysicalRunWay> runwayIter = runways.iterator();
+                while(runwayIter.hasNext()) {
+                    PhysicalRunWay physicalRunWay = runwayIter.next();
+                    LogicalRunWay leftRunway = physicalRunWay.getLeftRunway();
+                    LogicalRunWay rightRunway = physicalRunWay.getRightRunway();
+
+                    // Runway element that holds left and right
+                    Element runwayElement = document.createElement("runway");
+                    airportElement.appendChild(runwayElement);
+
+                    // ID of runway
+                    Element ID = document.createElement("ID");
+                    ID.appendChild(document.createTextNode(Integer.toString(physicalRunWay.getRunwayID())));
+                    runwayElement.appendChild(ID);
+
+                    /*
+                     Logical runways
+                     */
+                    // Left
+                    Element leftRunwayElement = document.createElement("left");
+                    runwayElement.appendChild(leftRunwayElement);
+                        // degree
+                    Element degree_L = document.createElement("degree");
+                    degree_L.appendChild(document.createTextNode(Integer.toString(leftRunway.getDegree())));
+                    leftRunwayElement.appendChild(degree_L);
+                        // TORA
+                    Element TORA_L = document.createElement("TORA");
+                    TORA_L.appendChild(document.createTextNode(Integer.toString(leftRunway.getTORA())));
+                    leftRunwayElement.appendChild(TORA_L);
+                        // TODA
+                    Element TODA_L = document.createElement("TODA");
+                    TODA_L.appendChild(document.createTextNode(Integer.toString(leftRunway.getTODA())));
+                    leftRunwayElement.appendChild(TODA_L);
+                        // ASDA
+                    Element ASDA_L = document.createElement("ASDA");
+                    ASDA_L.appendChild(document.createTextNode(Integer.toString(leftRunway.getASDA())));
+                    leftRunwayElement.appendChild(ASDA_L);
+                        //LDA
+                    Element LDA_L = document.createElement("LDA");
+                    LDA_L.appendChild(document.createTextNode(Integer.toString(leftRunway.getLDA())));
+                    leftRunwayElement.appendChild(LDA_L);
+
+
+                    // Right
+                    Element rightRunwayElement = document.createElement("right");
+                    runwayElement.appendChild(rightRunwayElement);
+                        // degree
+                    Element degree_R = document.createElement("degree");
+                    degree_R.appendChild(document.createTextNode(Integer.toString(rightRunway.getDegree())));
+                    rightRunwayElement.appendChild(degree_R);
+                        // TORA
+                    Element TORA_R = document.createElement("TORA");
+                    TORA_R.appendChild(document.createTextNode(Integer.toString(rightRunway.getTORA())));
+                    rightRunwayElement.appendChild(TORA_R);
+                        // TODA
+                    Element TODA_R = document.createElement("TODA");
+                    TODA_R.appendChild(document.createTextNode(Integer.toString(rightRunway.getTODA())));
+                    rightRunwayElement.appendChild(TODA_R);
+                        // ASDA
+                    Element ASDA_R = document.createElement("ASDA");
+                    ASDA_R.appendChild(document.createTextNode(Integer.toString(rightRunway.getASDA())));
+                    rightRunwayElement.appendChild(ASDA_R);
+                        //LDA
+                    Element LDA_R = document.createElement("LDA");
+                    LDA_R.appendChild(document.createTextNode(Integer.toString(rightRunway.getLDA())));
+                    rightRunwayElement.appendChild(LDA_R);
+                }
             }
 
             /*

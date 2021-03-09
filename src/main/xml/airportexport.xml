@@ -3,9 +3,60 @@
     <airport>
         <name>London_Gatwick</name>
         <code>LGW</code>
+        <runway>
+            <ID>1</ID>
+            <left>
+                <degree>9</degree>
+                <TORA>3902</TORA>
+                <TODA>3902</TODA>
+                <ASDA>3202</ASDA>
+                <LDA>3595</LDA>
+            </left>
+            <right>
+                <degree>27</degree>
+                <TORA>3884</TORA>
+                <TODA>3962</TODA>
+                <ASDA>3884</ASDA>
+                <LDA>0</LDA>
+            </right>
+        </runway>
+        <runway>
+            <ID>2</ID>
+            <left>
+                <degree>10</degree>
+                <TORA>3802</TORA>
+                <TODA>3802</TODA>
+                <ASDA>3102</ASDA>
+                <LDA>3495</LDA>
+            </left>
+            <right>
+                <degree>28</degree>
+                <TORA>1</TORA>
+                <TODA>1</TODA>
+                <ASDA>1</ASDA>
+                <LDA>0</LDA>
+            </right>
+        </runway>
     </airport>
     <airport>
         <name>London_Heathrow</name>
         <code>LHR</code>
+        <runway>
+            <ID>2</ID>
+            <left>
+                <degree>1</degree>
+                <TORA>3802</TORA>
+                <TODA>3802</TODA>
+                <ASDA>3102</ASDA>
+                <LDA>3495</LDA>
+            </left>
+            <right>
+                <degree>2</degree>
+                <TORA>1</TORA>
+                <TODA>1</TODA>
+                <ASDA>1</ASDA>
+                <LDA>0</LDA>
+            </right>
+        </runway>
     </airport>
 </airports>
