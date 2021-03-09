@@ -79,41 +79,41 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="25.0" prefWidth="178.0" spacing="5.0">
                      <children>
-                        <TextField fx:id="leftDegree" prefHeight="25.0" prefWidth="75.0" />
+                        <TextField fx:id="leftDegreeTF" prefHeight="25.0" prefWidth="75.0" />
                         <Label alignment="CENTER" prefHeight="17.0" prefWidth="64.0" text="Degree" />
-                        <TextField fx:id="rightDegree" prefHeight="25.0" prefWidth="75.0" />
+                        <TextField fx:id="rightDegreeTF" prefHeight="25.0" prefWidth="75.0" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="25.0" prefWidth="178.0" spacing="5.0">
                      <children>
-                        <TextField fx:id="leftTora" prefHeight="25.0" prefWidth="75.0" />
+                        <TextField fx:id="leftToraTF" prefHeight="25.0" prefWidth="75.0" />
                         <Label alignment="CENTER" prefHeight="17.0" prefWidth="64.0" text="TORA" />
-                        <TextField fx:id="rightTora" prefHeight="25.0" prefWidth="75.0" />
+                        <TextField fx:id="rightToraTF" prefHeight="25.0" prefWidth="75.0" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="25.0" prefWidth="178.0" spacing="5.0">
                      <children>
-                        <TextField fx:id="leftToda" prefHeight="25.0" prefWidth="75.0" />
+                        <TextField fx:id="leftTodaTF" prefHeight="25.0" prefWidth="75.0" />
                         <Label alignment="CENTER" prefHeight="17.0" prefWidth="64.0" text="TODA" />
-                        <TextField fx:id="rightToda" prefHeight="25.0" prefWidth="75.0" />
+                        <TextField fx:id="rightTodaTF" prefHeight="25.0" prefWidth="75.0" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="25.0" prefWidth="178.0" spacing="5.0">
                      <children>
-                        <TextField fx:id="leftAsda" prefHeight="25.0" prefWidth="75.0" />
+                        <TextField fx:id="leftAsdaTF" prefHeight="25.0" prefWidth="75.0" />
                         <Label alignment="CENTER" prefHeight="17.0" prefWidth="64.0" text="ASDA">
                            <HBox.margin>
                               <Insets />
                            </HBox.margin>
                         </Label>
-                        <TextField fx:id="rightAsda" prefHeight="25.0" prefWidth="75.0" />
+                        <TextField fx:id="rightAsdaTF" prefHeight="25.0" prefWidth="75.0" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="25.0" prefWidth="178.0" spacing="5.0">
                      <children>
-                        <TextField fx:id="leftLda" prefHeight="25.0" prefWidth="75.0" />
+                        <TextField fx:id="leftLdaTF" prefHeight="25.0" prefWidth="75.0" />
                         <Label alignment="CENTER" prefHeight="17.0" prefWidth="64.0" text="LDA" />
-                        <TextField fx:id="rightLda" prefHeight="25.0" prefWidth="75.0" />
+                        <TextField fx:id="rightLdaTF" prefHeight="25.0" prefWidth="75.0" />
                      </children>
                   </HBox>
                </children>
