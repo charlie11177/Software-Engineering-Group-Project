@@ -22,7 +22,8 @@ public class Model {
 
     public static ArrayList<Airport> airports = new ArrayList<>();
     public static ArrayList<Obstacle> obstacles = new ArrayList<>();
-    public static Airport airport;
+    public static Airport currentAirport;
+    public static Obstacle currentObstacle;
 
     public static Airport getAirportByName(String name){
         for(Airport a : airports){

@@ -7,7 +7,6 @@ import main.PhysicalRunWay;
 
 import java.util.ArrayList;
 
-
 public class LeftScreenController {
 
     @FXML private AirportConfigController airportConfigController;
@@ -16,48 +15,12 @@ public class LeftScreenController {
 
     @FXML
     private void initialize() {
-//        runwayChoiceBoxChanger();
-//        runwayDetailsChanger(runwayConfigController.runwayChoiceBox.getValue());
-//
-//        airportConfigController.aiportChoiceBox
-//                .getSelectionModel()
-//                .selectedItemProperty()
-//                .addListener( (observable, oldValue, newValue) -> runwayChoiceBoxChanger());
-//
-//        runwayConfigController.runwayChoiceBox
-//                .getSelectionModel()
-//                .selectedItemProperty()
-//                .addListener( (observable, oldValue, newValue) -> runwayDetailsChanger(newValue));
-    }
-
-    private void runwayChoiceBoxChanger() {
-        String name = airportConfigController.getSelectedAirport();
-        Airport airport = Model.getAirportByName(name);
-        if(airport != null && airport.getRunways() != null)
-            runwayConfigController.populateRunwayNames(airport.getRunways());
-        else{
-            runwayConfigController.runwayChoiceBox.getItems().clear();
-            runwayConfigController.clearRunwayDetails();
-        }
-    }
-
-    private void runwayDetailsChanger(String value) {
-        String name = airportConfigController.getSelectedAirport();
-        //System.out.println(name);
-        Airport airport = Model.getAirportByName(name);
-        if(airport.getRunways() != null){
-            for(PhysicalRunWay r : airport.getRunways()){
-                if(r.toString().equals(value)){
-                    runwayConfigController.populateRunwayDetails(r);
-                    runwayConfigController.currentRunway = r;
-                }
-            }
-        }
+        Model.airportConfigController = airportConfigController;
+        Model.runwayConfigController = runwayConfigController;
     }
 
     @FXML
     private void calculateButtonClick() {
-        System.out.println(airportConfigController.getItem());
         Airport airport = new Airport("Heathrow","HTR",new ArrayList<PhysicalRunWay>());
         Model.airports.add(airport);
         airportConfigController.addAirports(airport);
