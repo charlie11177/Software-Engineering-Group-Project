@@ -35,8 +35,6 @@ public class RunwayConfigController {
     @FXML private TextField rightAsdaTF;
     @FXML private TextField leftLdaTF;
     @FXML private TextField rightLdaTF;
-    @FXML private Button saveButton;
-    @FXML private Button cancelButton;
     @FXML private Label editLabel;
 
     public RunwayConfigController(){
@@ -86,7 +84,7 @@ public class RunwayConfigController {
                         case "R": {oppositeChoiceBox.setValue("L"); break;}
                         case "C": {oppositeChoiceBox.setValue("C"); break;}
                     }
-                }));
+        }));
     }
 
     public void runwayChoiceBoxChanger() {
@@ -174,7 +172,7 @@ public class RunwayConfigController {
         leftAsdaTF.setText("");
         leftLdaTF.setText("");
 
-        rightPosition.setValue("L");
+        rightPosition.setValue("R");
         rightDegreeTF.setText("");
         rightTodaTF.setText("");
         rightToraTF.setText("");
@@ -192,7 +190,6 @@ public class RunwayConfigController {
         editableMode();
         showOptions(editButtons);
     }
-
 
     @FXML
     public void editRunwayClick() {

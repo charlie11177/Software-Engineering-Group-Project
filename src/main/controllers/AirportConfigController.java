@@ -36,6 +36,7 @@ public class AirportConfigController {
         }));
         airportCodeTextField.setTextFormatter(new TextFormatter<>(change -> {
             if (change.getText().equals(" ")) change.setText("_");
+            else if(!change.getText().matches("[A-Za-z0-9]*")) change.setText("");
             change.setText(change.getText().toUpperCase());
             return change;
         }));
@@ -95,7 +96,7 @@ public class AirportConfigController {
     private void saveAirportClick(){
         String airportName = airportNameTextField.getText();
         String airportCode = airportCodeTextField.getText();
-        String choiceBoxItem = null;
+        String previousAirport = currentAirport.toString();
         if(airportName.equals("") || airportCode.equals("")) {
             //TODO: TEAM2 code for error popup for empty textfields here.
             System.out.println("Empty textfields");
@@ -104,9 +105,11 @@ public class AirportConfigController {
             //TODO: TEAM2 code for error popup for same airport names here.
             System.out.println("Airport name already used");
             return;
-        } else if (codeInUse(airportCode)){
+        } else if (codeInUse(airportCode)) {
             //TODO: TEAM2 code for error popup for same airport names here.
             System.out.println("Airport code already used");
+            return;
+        } else if ((airportName + " (" + airportCode + ")").equals(previousAirport)) {
             return;
         } else if (edit){
             aiportChoiceBox.getItems().remove(currentAirport.toString());
@@ -114,7 +117,7 @@ public class AirportConfigController {
             currentAirport.setCode(airportCode);
             aiportChoiceBox.getItems().add(currentAirport.toString());
             aiportChoiceBox.setValue(currentAirport.toString());
-            Model.console.addLog("Airport edited: " + currentAirport.toString() + "\t=>\t" + aiportChoiceBox.getValue());
+            Model.console.addLog("Airport edited: " + previousAirport + "\t=>\t" + aiportChoiceBox.getValue());
             edit = false;
         } else {
             currentAirport = new Airport(airportName,airportCode,new ArrayList<>());
@@ -133,7 +136,7 @@ public class AirportConfigController {
         String[] data = aiportChoiceBox.getItems().toArray(new String[0]);
         for (String str : data) {
             String[] splitString = str.split(" ");
-            if (splitString[0].equals(desiredName)){
+            if (splitString[0].equals(desiredName) && !splitString[0].equals(currentAirport.getName())){
                 return true;
             }
         }
@@ -144,7 +147,9 @@ public class AirportConfigController {
         String[] data = aiportChoiceBox.getItems().toArray(new String[0]);
         for (String str : data) {
             String[] splitString = str.split(" ");
-            if (splitString[1].replaceAll("[\\()]","").equals(desiredCode)) {
+            String code = splitString[1].replaceAll("[\\()]","");
+            System.out.println(code);
+            if (code.equals(desiredCode) && !code.equals(currentAirport.getCode())) {
                 return true;
             }
         }
