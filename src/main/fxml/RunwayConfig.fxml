@@ -65,7 +65,7 @@
                <children>
                   <HBox alignment="CENTER" prefHeight="25.0" prefWidth="178.0" spacing="5.0">
                      <children>
-                        <Label alignment="CENTER" prefHeight="17.0" prefWidth="75.0" text="Runway 1  " />
+                        <Label alignment="CENTER" prefHeight="17.0" prefWidth="75.0" text="Runway 1" />
                         <Label alignment="CENTER" prefHeight="17.0" prefWidth="64.0" />
                         <Label alignment="CENTER" prefHeight="17.0" prefWidth="75.0" text="Runway 2" />
                      </children>
