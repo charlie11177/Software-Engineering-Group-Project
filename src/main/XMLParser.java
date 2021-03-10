@@ -54,6 +54,7 @@ public class XMLParser {
     public ArrayList<Airport> importAirports(String filename) {
         return importAirports(new File(filename));
     }
+
     public ArrayList<Airport> importAirports(File file) {
         Airport airport = null;
         List<PhysicalRunWay> runways = new ArrayList<PhysicalRunWay>();
@@ -134,6 +135,7 @@ public class XMLParser {
     public ArrayList<Obstacle> importObstacle(String filename) {
         return importObstacle(new File(filename));
     }
+
     public ArrayList<Obstacle> importObstacle(File file) {
         ArrayList<Obstacle> obstacles = new ArrayList<>();
         try {
@@ -173,7 +175,13 @@ public class XMLParser {
         return obstacles;
     }
 
+    /*
+     *  Overloaded method to allow either File or Filename arguments
+     */
     public void exportAirports(String filename) {
+        exportAirports(new File(filename));
+    }
+    public void exportAirports(File file) {
         try {
             // Boiler plate code for creating an XML parser
             DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
@@ -282,7 +290,7 @@ public class XMLParser {
             Transformer transformer = transformerFactory.newTransformer();
             DOMSource source = new DOMSource(document);
 
-            FileWriter writer = new FileWriter(new File(filename));
+            FileWriter writer = new FileWriter(file);
             StreamResult stream = new StreamResult(writer);
 
             // Options to make the output look nice
@@ -296,7 +304,13 @@ public class XMLParser {
         }
     }
 
+    /*
+     *  Overloaded method to allow either File or Filename arguments
+     */
     public void exportObstacles(String filename) {
+        exportObstacles(new File(filename));
+    }
+    public void exportObstacles(File file) {
         try {
             // Boiler plate code for creating an XML parser
             DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
@@ -347,7 +361,7 @@ public class XMLParser {
             Transformer transformer = transformerFactory.newTransformer();
             DOMSource source = new DOMSource(document);
 
-            FileWriter writer = new FileWriter(new File(filename));
+            FileWriter writer = new FileWriter(file);
             StreamResult stream = new StreamResult(writer);
 
             // Options to make the output look nice

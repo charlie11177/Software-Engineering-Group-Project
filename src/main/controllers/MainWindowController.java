@@ -28,9 +28,9 @@ public class MainWindowController {
     @FXML private void initialize() {
     }
 
-    @FXML private void importXML (ActionEvent event)
-    {
+    @FXML private void importXML (ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Import XML");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("xml files" , "*.xml"));
         File xmlFile = fileChooser.showOpenDialog(menuBar.getScene().getWindow());
 
@@ -62,6 +62,22 @@ public class MainWindowController {
             Alert failedImport = new Alert(Alert.AlertType.WARNING, "Import Failed");
             failedImport.setHeaderText(null);
             failedImport.showAndWait();
+        }
+    }
+
+    public void exportAirports(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Export XML");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("xml files" , "*.xml"));
+        File xmlFile = fileChooser.showSaveDialog(menuBar.getScene().getWindow());
+
+        try {
+            xmlParser.exportAirports(xmlFile);
+        }
+        catch (Exception e) {
+            Alert failedExport = new Alert(Alert.AlertType.WARNING, "Failed to export the current airports");
+            failedExport.setHeaderText(null);
+            failedExport.showAndWait();
         }
     }
 }

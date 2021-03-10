@@ -12,7 +12,7 @@
             <menus>
                 <Menu mnemonicParsing="false" text="File">
                     <items>
-                  <MenuItem mnemonicParsing="false" text="Save as XML" />
+                  <MenuItem mnemonicParsing="false" text="Save as XML" onAction="#exportAirports" />
                   <MenuItem mnemonicParsing="false" text="Save as PNG" />
                         <MenuItem mnemonicParsing="false" text="Import from XML" onAction="#importXML" />
                     </items>
