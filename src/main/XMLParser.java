@@ -37,7 +37,7 @@ public class XMLParser {
 
         Iterator<Airport> iterA = testAirports.iterator();
         while (iterA.hasNext()) {
-            System.out.println(iterA.next().toString());
+            System.out.println(iterA.next().getRunways().size());
         }
         Iterator<Obstacle> iterO = testObstacles.iterator();
         while (iterO.hasNext()) {
@@ -71,18 +71,18 @@ public class XMLParser {
             NodeList airportList = document.getElementsByTagName("airport");
             if (airportList.getLength() == 0) throw new Exception("Airport tag not found in XML file");
             for (int i = 0; i < airportList.getLength(); i++) {
-
+                runways = new ArrayList<PhysicalRunWay>();
                 /*
                 Get name of the aiport
                 first check that there is only one airport tag (should be root element) then get child and contents
                 */
-                Node airportElement = airportList.item(i);
+                Element airportElement = (Element) airportList.item(i);
                 String name = airportElement.getChildNodes().item(1).getTextContent();
                 String code = airportElement.getChildNodes().item(3).getTextContent();
                 /*
                 *Get runway information
                 */
-                NodeList runwayNodes = document.getElementsByTagName("runway");
+                NodeList runwayNodes = airportElement.getElementsByTagName("runway");
                 // Iterate over runways
                 for (int j = 0; j < runwayNodes.getLength(); j++) {
                     // Gets current runway from list
