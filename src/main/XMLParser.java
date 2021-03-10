@@ -256,6 +256,10 @@ public class XMLParser {
                     Element LDA_L = document.createElement("LDA");
                     LDA_L.appendChild(document.createTextNode(Integer.toString(leftRunway.getLDA())));
                     leftRunwayElement.appendChild(LDA_L);
+                        //Threshold
+                    Element Threshold_L = document.createElement("threshold");
+                    Threshold_L.appendChild(document.createTextNode(Integer.toString(leftRunway.getThreshold())));
+                    leftRunwayElement.appendChild(Threshold_L);
 
 
                     // Right
@@ -281,6 +285,10 @@ public class XMLParser {
                     Element LDA_R = document.createElement("LDA");
                     LDA_R.appendChild(document.createTextNode(Integer.toString(rightRunway.getLDA())));
                     rightRunwayElement.appendChild(LDA_R);
+                        //Threshold
+                    Element Threshold_R = document.createElement("threshold");
+                    Threshold_R.appendChild(document.createTextNode(Integer.toString(rightRunway.getThreshold())));
+                    rightRunwayElement.appendChild(Threshold_R);
                 }
             }
 
