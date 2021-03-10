@@ -164,10 +164,10 @@ public class XMLParser {
                 int distanceToLeft = Integer.parseInt(positionNode.getElementsByTagName("distanceToLeft").item(0).getTextContent());
                 int distanceToRight = Integer.parseInt(positionNode.getElementsByTagName("distanceToRight").item(0).getTextContent());
 
-                Position position = new Position(distanceToLeft, distanceToRight);
+                //Position position = new Position(distanceToLeft, distanceToRight);    //Position will probably need two more parameters
 
                 // Add obstacle to the list
-                obstacles.add(new Obstacle(name, height, width, position));
+                obstacles.add(new Obstacle(name, height, width, null));
             }
         } catch(Exception e) {
             e.printStackTrace();

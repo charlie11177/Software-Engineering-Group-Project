@@ -10,21 +10,14 @@ import java.util.ArrayList;
 
 public class LeftScreenController {
 
-    @FXML private AirportConfigController airportConfigController;
-    @FXML private RunwayConfigController runwayConfigController;
-    @FXML private ObstacleConfigController obstacleConfigController;
-
     @FXML
-    private void initialize() {
-        Model.airportConfigController = airportConfigController;
-        Model.runwayConfigController = runwayConfigController;
-    }
+    private void initialize() {}
 
     @FXML
     private void calculateButtonClick() {
-        Airport airport = new Airport("Heathrow","HTR",new ArrayList<PhysicalRunWay>());
-        Model.airports.add(airport);
-        airportConfigController.addAirports(airport);
-        Calculator.recalculate();
+        //System.out.println(Model.airportConfigController.currentAirport.toString());
+          //Model.console.addLog("Airport: " + Model.airportConfigController.currentAirport.toString());
+          //Model.console.addLog("Runway: " + Model.runwayConfigController.currentRunway.toString());
+          Model.console.addLog("Obstacle: " + Model.obstacleConfigController.currentObstacle.getName() + " " + Model.currentObstacle.getPosition().getDirectionFromCL());
     }
 }

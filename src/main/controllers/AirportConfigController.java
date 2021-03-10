@@ -2,6 +2,7 @@ package main.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
@@ -23,12 +24,14 @@ public class AirportConfigController {
     @FXML private TextField airportCodeTextField;
     @FXML private VBox aiportOptions;
     @FXML private VBox aiportMainMenu;
+    @FXML private Button editAirportButton;
 
     public AirportConfigController(){
         edit = false;
     }
 
-    @FXML public void initialize(){
+    @FXML
+    private void initialize(){
         Model.airportConfigController = this;
         aiportOptions.setVisible(false);
         airportNameTextField.setTextFormatter(new TextFormatter<>(change -> {
@@ -44,13 +47,31 @@ public class AirportConfigController {
         //populateAriportNames() has to be before called before a listener is assigned
         populateAirportNames();
         addAirportChoiceBoxListener();
+        emptyAirportsUpdate();
     }
 
     private void addAirportChoiceBoxListener(){
         aiportChoiceBox.getSelectionModel().selectedItemProperty().addListener( (observable, oldValue, newValue) -> {
-            currentAirport = Model.getAirportByName(newValue.split(" ")[0]);
-            Model.runwayConfigController.runwayChoiceBoxChanger();
+            if(newValue != null){
+                currentAirport = Model.getAirportByName(newValue.split(" ")[0]);
+                //Model.runwayConfigController.runwayChoiceBoxChanger();
+            } else if(!edit) {
+                aiportChoiceBox.setDisable(true);
+                editAirportButton.setDisable(true);
+                System.err.println("Warning newvalue null");
+            }
+            emptyAirportsUpdate();
         });
+    }
+
+    private void emptyAirportsUpdate(){
+        if(Model.airports.isEmpty()) {
+            editAirportButton.setDisable(true);
+            aiportChoiceBox.setDisable(true);
+        } else {
+            editAirportButton.setDisable(false);
+            aiportChoiceBox.setDisable(false);
+        }
     }
 
 //    public String getSelectedAirport(){
@@ -58,13 +79,13 @@ public class AirportConfigController {
 //    }
 
     private void populateAirportNames(){
-        if(!Model.airports.isEmpty()){
+        if(!Model.airports.isEmpty()) {
             currentAirport = Model.airports.get(0);
             aiportChoiceBox.setValue(Model.airports.get(0).toString());
-        }
-        for (Airport a : Model.airports) {
-            aiportChoiceBox.getItems().add(a.toString());
-        }
+            for (Airport a : Model.airports) {
+                aiportChoiceBox.getItems().add(a.toString());
+            }
+        } else emptyAirportsUpdate();
         //TODO: TEAM2 code for loading airport data from XML here
     }
 
@@ -97,23 +118,26 @@ public class AirportConfigController {
     private void saveAirportClick(){
         String airportName = airportNameTextField.getText();
         String airportCode = airportCodeTextField.getText();
-        String previousAirport = currentAirport.toString();
+        String previousAirport = null;
+        if(currentAirport != null) previousAirport = currentAirport.toString();
         if(airportName.equals("") || airportCode.equals("")) {
             Alert emptyFields = new Alert(Alert.AlertType.WARNING, "Name and Code fields cannot be empty!");
             emptyFields.setHeaderText(null);
             emptyFields.showAndWait();
             return;
-        } else if (nameInUse(airportName)){
+        } else if (nameInUse(airportName, edit)){
+            //TODO: TEAM2 code for error popup for same airport names here.
             Alert duplicateAirport = new Alert(Alert.AlertType.WARNING, "An Airport with that name already exists!");
             duplicateAirport.setHeaderText(null);
             duplicateAirport.showAndWait();
             return;
-        } else if (codeInUse(airportCode)) {
-            Alert duplicateCode = new Alert(Alert.AlertType.WARNING, "An Airport with that code already exists!");
-            duplicateCode.setHeaderText(null);
-            duplicateCode.showAndWait();
+        } else if (codeInUse(airportCode, edit)) {
+            Alert duplicateAirport = new Alert(Alert.AlertType.WARNING, "An Airport with that name already exists!");
+            duplicateAirport.setHeaderText(null);
+            duplicateAirport.showAndWait();
             return;
-        } else if ((airportName + " (" + airportCode + ")").equals(previousAirport)) {
+        } else if (currentAirport != null && (airportName + " (" + airportCode + ")").equals(previousAirport)) {
+            cancelAirportClick();
             return;
         } else if (edit){
             aiportChoiceBox.getItems().remove(currentAirport.toString());
@@ -121,14 +145,16 @@ public class AirportConfigController {
             currentAirport.setCode(airportCode);
             aiportChoiceBox.getItems().add(currentAirport.toString());
             aiportChoiceBox.setValue(currentAirport.toString());
-            Model.console.addLog("Airport edited: " + previousAirport + "\t=>\t" + aiportChoiceBox.getValue());
+            Model.console.addLog("Airport " + previousAirport + " edited to: " + aiportChoiceBox.getValue());
             edit = false;
         } else {
             currentAirport = new Airport(airportName,airportCode,new ArrayList<>());
             Model.airports.add(currentAirport);
             aiportChoiceBox.getItems().add(currentAirport.toString());
             aiportChoiceBox.setValue(currentAirport.toString());
-            Model.console.addLog("Airport " + aiportChoiceBox.getValue() + " added ");
+            Model.console.addLog("Airport " + aiportChoiceBox.getValue() + " added");
+            editAirportButton.setDisable(false);
+            aiportChoiceBox.setDisable(false);
         }
         enableElements(aiportMainMenu);
         hideOptions(aiportOptions);
@@ -136,26 +162,24 @@ public class AirportConfigController {
         airportCodeTextField.setText("");
     }
 
-    private boolean nameInUse(String desiredName){
+    private boolean nameInUse(String desiredName, boolean edit){
         String[] data = aiportChoiceBox.getItems().toArray(new String[0]);
         for (String str : data) {
             String[] splitString = str.split(" ");
-            if (splitString[0].equals(desiredName) && !splitString[0].equals(currentAirport.getName())){
+            if(!edit && splitString[0].equals(desiredName)) return true;
+            if (splitString[0].equals(desiredName) && !splitString[0].equals(currentAirport.getName()))
                 return true;
-            }
         }
         return false;
     }
 
-    private boolean codeInUse(String desiredCode){
+    private boolean codeInUse(String desiredCode, boolean edit){
         String[] data = aiportChoiceBox.getItems().toArray(new String[0]);
         for (String str : data) {
             String[] splitString = str.split(" ");
-            String code = splitString[1].replaceAll("[\\()]","");
-            System.out.println(code);
-            if (code.equals(desiredCode) && !code.equals(currentAirport.getCode())) {
-                return true;
-            }
+            String code = splitString[1].replaceAll("[()]","");
+            if(!edit && code.equals(desiredCode)) return true;
+            if (code.equals(desiredCode) && !code.equals(currentAirport.getCode())) return true;
         }
         return false;
     }
