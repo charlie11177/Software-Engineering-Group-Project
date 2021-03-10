@@ -34,6 +34,11 @@ public class MainWindowController {
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("xml files" , "*.xml"));
         File xmlFile = fileChooser.showOpenDialog(menuBar.getScene().getWindow());
 
+        for (Obstacle o : Model.obstacles)
+        {
+            Model.console.addLog(o.getName());
+        }
+
         /*
          * Try/catch and if statements to check whether an airport or obstacle has been imported
          * and if the import was successful
@@ -45,13 +50,17 @@ public class MainWindowController {
                 Model.airports = importedAirports;
                 for (Airport a : Model.airports)
                 {
-                    System.out.println(a.getName());
+                    Model.console.addLog(a.toString());
                 }
             }
             else {
                 ArrayList<Obstacle> importedObstacles = xmlParser.importObstacle(xmlFile);
                 if (!importedObstacles.isEmpty()) {
                     Model.obstacles = importedObstacles;
+                    for (Obstacle o : Model.obstacles)
+                    {
+                        Model.console.addLog(o.getName());
+                    }
                 }
                 else {
                     throw new Exception();
