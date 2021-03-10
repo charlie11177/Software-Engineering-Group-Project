@@ -51,6 +51,7 @@ public class MainWindowController {
                 for (Airport a : Model.airports)
                 {
                     Model.console.addLog(a.toString());
+                    Model.console.addLog(a.getRunways().toString());
                 }
             }
             else {
