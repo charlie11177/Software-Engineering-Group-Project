@@ -43,10 +43,15 @@ public class MainWindowController {
             ArrayList<Airport> importedAirports = xmlParser.importAirports(xmlFile);
             if (!importedAirports.isEmpty()) {
                 Model.airports = importedAirports;
+                Model.airportConfigController.populateAirportNames();
+                //Model.airportConfigController.emptyAirportsUpdate();
                 Model.console.addLog("--- Imported Airports and Runways ---");
                 for (Airport a : Model.airports)
                 {
                     Model.console.addLog(a.toString());
+                    //TODO: this is really way of doing it, will change it during increment2
+                    if(Model.leftScreenController.accordion.getExpandedPane()!=null)
+                        Model.leftScreenController.accordion.getExpandedPane().setExpanded(false);
                     Model.console.addLog(a.getRunways().toString());
                 }
                 Model.console.addLog("--- Finished Importing ---");
