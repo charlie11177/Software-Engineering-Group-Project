@@ -64,7 +64,7 @@ public class Model {
         try {
             r1 = new PhysicalRunWay(1,left1, right1, null);
             r2 = new PhysicalRunWay(2,left2, right2, null);
-            r3 = new PhysicalRunWay(2,left3, right3, null);
+            r3 = new PhysicalRunWay(1,left3, right3, null);
         } catch (Exception e) {
             e.printStackTrace();
         }
