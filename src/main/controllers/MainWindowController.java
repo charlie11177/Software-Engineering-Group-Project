@@ -34,11 +34,6 @@ public class MainWindowController {
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("xml files" , "*.xml"));
         File xmlFile = fileChooser.showOpenDialog(menuBar.getScene().getWindow());
 
-        for (Obstacle o : Model.obstacles)
-        {
-            Model.console.addLog(o.getName());
-        }
-
         /*
          * Try/catch and if statements to check whether an airport or obstacle has been imported
          * and if the import was successful
@@ -48,20 +43,24 @@ public class MainWindowController {
             ArrayList<Airport> importedAirports = xmlParser.importAirports(xmlFile);
             if (!importedAirports.isEmpty()) {
                 Model.airports = importedAirports;
+                Model.console.addLog("--- Imported Airports and Runways ---");
                 for (Airport a : Model.airports)
                 {
                     Model.console.addLog(a.toString());
                     Model.console.addLog(a.getRunways().toString());
                 }
+                Model.console.addLog("--- Finished Importing ---");
             }
             else {
                 ArrayList<Obstacle> importedObstacles = xmlParser.importObstacle(xmlFile);
                 if (!importedObstacles.isEmpty()) {
                     Model.obstacles = importedObstacles;
+                    Model.console.addLog("--- Imported Objects ---");
                     for (Obstacle o : Model.obstacles)
                     {
                         Model.console.addLog(o.getName());
                     }
+                    Model.console.addLog("--- Finished Importing ---");
                 }
                 else {
                     throw new Exception();
@@ -69,6 +68,7 @@ public class MainWindowController {
             }
         }
         catch (Exception e) {
+            Model.console.addLog("Failed an import");
             Alert failedImport = new Alert(Alert.AlertType.WARNING, "Import Failed");
             failedImport.setHeaderText(null);
             failedImport.showAndWait();
