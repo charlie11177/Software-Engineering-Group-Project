@@ -43,8 +43,8 @@
                <content>
                   <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
                      <items>
-                        <TextArea prefHeight="200.0" prefWidth="200.0" />
-                        <TextArea prefHeight="53.0" prefWidth="265.0" />
+                        <TextArea fx:id="allCalculationsTopTA" prefHeight="200.0" prefWidth="200.0" />
+                        <TextArea fx:id="allCalculationsButtonTA" prefHeight="53.0" prefWidth="265.0" />
                      </items>
                   </SplitPane>
                </content>

@@ -11,7 +11,7 @@ public class Calculator {
         physicalRunway = Model.runwayConfigController.currentRunway;
         if(physicalRunway != null){
             obstacle = Model.currentObstacle;
-            if(obstacle.getPosition() != null){
+            if(obstacle != null && obstacle.getPosition() != null){
                 if (obstacle.getPosition().getDistanceToLeft() > obstacle.getPosition().getDistanceToRight()){
                     recalculateAWAY(physicalRunway.getRightRunway(), obstacle.getPosition().getDistanceToRight());
                     recalculateTOWARDS(physicalRunway.getLeftRunway(), obstacle.getPosition().getDistanceToLeft());
@@ -55,7 +55,8 @@ public class Calculator {
 
         //Model.console.addLog("Runway: " + runway + ", TORA:" + tora + ", TODA:" + toda + ", LDA:" + lda + ", ASDA:" + asda);
         Model.console.addLog("Runway: " + runway);
-        Model.console.addLog(allBD);
+        //Model.console.addLog(allBD);
+        Model.awayCalculationBreakdown = allBD;
     }
     private static void recalculateTOWARDS(LogicalRunWay runway, int distanceFromThreshold) { //(Take off Towards, Landing Towards)
         int tora, toda, asda, lda;
@@ -77,7 +78,8 @@ public class Calculator {
 
         //Model.console.addLog("Runway: " + runway + ", TORA:" + tora + ", TODA:" + toda + ", LDA:" + lda + ", ASDA:" + asda);
         Model.console.addLog("Runway: " + runway);
-        Model.console.addLog(allBD);
+        //Model.console.addLog(allBD);
+        Model.towardsCalculationBreakdown = allBD;
     }
 }
 

@@ -17,5 +17,6 @@ public class CenterScreenController {
 
     public void updateConsole(String text){
         console.setText(text);
+        console.appendText("");
     }
 }
