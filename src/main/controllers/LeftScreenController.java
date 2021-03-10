@@ -27,10 +27,10 @@ public class LeftScreenController {
                 Model.console.addLog("Obstacle: " + Model.obstacleConfigController.currentObstacle.getName() + " Position: " + Model.obstacleConfigController.currentObstacle.getPosition().getDirectionFromCL());
                 Model.console.addLog("Airport: " + Model.airportConfigController.currentAirport.toString());
                 Model.console.addLog("Runway: " + Model.runwayConfigController.currentRunway.toString());
-
+//                System.out.println(Model.currentRunway.getLeftRunway().getTODA() + "  " +  Model.currentRunway.getRightRunway().getTODA());
                 Calculator.recalculate();
-                Model.rightScreenController.allCalculationsButtonTA.setText("AWAY" + "\n" + Model.awayCalculationBreakdown);
-                Model.rightScreenController.allCalculationsTopTA.setText("TOWARDS:" + "\n" + Model.towardsCalculationBreakdown);
+                Model.rightScreenController.allCalculationsButtonTA.setText(Model.awayCalculationBreakdown);
+                Model.rightScreenController.allCalculationsTopTA.setText(Model.towardsCalculationBreakdown);
                 Model.console.addLog("Updated");
             } else if (!placeObstacle){
                 Alert noObject = new Alert(Alert.AlertType.WARNING, "No object has been placed on the runway!");
@@ -45,7 +45,6 @@ public class LeftScreenController {
     private boolean obstaclePlaced() {
         ObstacleConfigController oC = Model.obstacleConfigController;
         if (oC.distanceFromLTF.getText().equals("") || oC.distanceFromRTF.getText().equals("") || (oC.distanceFromCLTF.getText().equals(""))) {
-            //TODO: TEAM2 code for error popup for empty textfields here.
             Alert noObject = new Alert(Alert.AlertType.WARNING, "Obstacle placement is not specified!");
             noObject.setHeaderText(null);
             noObject.showAndWait();
