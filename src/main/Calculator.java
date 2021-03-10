@@ -11,7 +11,7 @@ public class Calculator {
         physicalRunway = Model.runwayConfigController.currentRunway;
         if(physicalRunway != null){
             obstacle = Model.currentObstacle;
-            if(obstacle != null){
+            if(obstacle.getPosition() != null){
                 if (obstacle.getPosition().getDistanceToLeft() > obstacle.getPosition().getDistanceToRight()){
                     recalculateAWAY(physicalRunway.getRightRunway(), obstacle.getPosition().getDistanceToRight());
                     recalculateTOWARDS(physicalRunway.getLeftRunway(), obstacle.getPosition().getDistanceToLeft());

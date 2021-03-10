@@ -1,9 +1,6 @@
 package main;
 
-import main.controllers.AirportConfigController;
-import main.controllers.CenterScreenController;
-import main.controllers.ObstacleConfigController;
-import main.controllers.RunwayConfigController;
+import main.controllers.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,6 +18,7 @@ public class Model {
     public static RunwayConfigController runwayConfigController;
     public static AirportConfigController airportConfigController;
     public static ObstacleConfigController obstacleConfigController;
+    public static LeftScreenController leftScreenController;
 
     public static ArrayList<Airport> airports = new ArrayList<>();
     public static ArrayList<Obstacle> obstacles = new ArrayList<>();
@@ -43,6 +41,7 @@ public class Model {
         }
         return null;
     }
+
 
     public static void demo(){
         LogicalRunWay left1 = new LogicalRunWay(9, Direction.L,3902,3902,3202,3595, 0);
