@@ -8,13 +8,13 @@
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="768.0" minWidth="800.0" prefHeight="768.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.MainWindowController">
     <children>
-        <MenuBar prefHeight="0.0" prefWidth="676.0">
+        <MenuBar fx:id="menuBar" prefHeight="0.0" prefWidth="676.0">
             <menus>
                 <Menu mnemonicParsing="false" text="File">
                     <items>
                   <MenuItem mnemonicParsing="false" text="Save as XML" />
                   <MenuItem mnemonicParsing="false" text="Save as PNG" />
-                        <MenuItem mnemonicParsing="false" text="Import from XML" />
+                        <MenuItem mnemonicParsing="false" text="Import from XML" onAction="#importXML" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="View">

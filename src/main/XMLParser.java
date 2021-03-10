@@ -49,17 +49,19 @@ public class XMLParser {
     }
 
     /*
-     *  Currently using a string to parse in
-     *  TODO change to File input and use JavaFX explorer window probably
+     *  Overloaded method to allow either File or Filename arguments
     */
     public ArrayList<Airport> importAirports(String filename) {
+        return importAirports(new File(filename));
+    }
+    public ArrayList<Airport> importAirports(File file) {
         Airport airport = null;
         List<PhysicalRunWay> runways = new ArrayList<PhysicalRunWay>();
         ArrayList<Airport> airports = new ArrayList<Airport>();
         try {
             // Boiler plate code for creating an XML parser
             DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-            Document document = documentBuilder.parse(new File(filename));
+            Document document = documentBuilder.parse(file);
             document.getDocumentElement().normalize();
 
             /*
@@ -126,12 +128,18 @@ public class XMLParser {
         return airports;
     }
 
+    /*
+     *  Overloaded method to allow either File or Filename arguments
+     */
     public ArrayList<Obstacle> importObstacle(String filename) {
+        return importObstacle(new File(filename));
+    }
+    public ArrayList<Obstacle> importObstacle(File file) {
         ArrayList<Obstacle> obstacles = new ArrayList<>();
         try {
             // Boiler plate code for creating an XML parser
             DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-            Document document = documentBuilder.parse(new File(filename));
+            Document document = documentBuilder.parse(file);
             document.getDocumentElement().normalize();
 
             /*
