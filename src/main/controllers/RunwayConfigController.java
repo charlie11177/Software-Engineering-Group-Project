@@ -116,7 +116,7 @@ public class RunwayConfigController {
                 runwayMenuChanger();
                 enableElements(runwayMainMenu);
             }
-            System.out.println("Number of airports:" + Model.airports.size());
+            //System.out.println("Number of airports:" + Model.airports.size());
         });
     }
 
