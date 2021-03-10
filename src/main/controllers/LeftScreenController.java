@@ -18,6 +18,7 @@ public class LeftScreenController {
         //System.out.println(Model.airportConfigController.currentAirport.toString());
           //Model.console.addLog("Airport: " + Model.airportConfigController.currentAirport.toString());
           //Model.console.addLog("Runway: " + Model.runwayConfigController.currentRunway.toString());
-          Model.console.addLog("Obstacle: " + Model.obstacleConfigController.currentObstacle.getName() + " " + Model.currentObstacle.getPosition().getDirectionFromCL());
+        Calculator.recalculate();
+          //Model.console.addLog("Obstacle: " + Model.obstacleConfigController.currentObstacle.getName() + " " + Model.currentObstacle.getPosition().getDirectionFromCL());
     }
 }
