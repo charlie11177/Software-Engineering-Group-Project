@@ -70,6 +70,10 @@ public class ObstacleConfigController {
             }));
     }
 
+    public boolean isPlaceObstacleSelected(){
+        return placeObstacleCB.isSelected();
+    }
+
 //    @FXML
 //    private void noObstacleClick() {
 //        if (obstacleCheckBox.isSelected()){
@@ -183,7 +187,7 @@ public class ObstacleConfigController {
                 int distanceFromR = Integer.parseInt(distanceFromRTF.getText());
                 int distanceFromCL = Integer.parseInt(distanceFromCLTF.getText());
                 String dirFromCL = dirFromCLChoiceBox.getValue();
-                Position position = new Position(distancefromL,distanceFromR,distanceFromCL,dirFromCL); //TODO: not sure
+                Position position = new Position(distancefromL,distanceFromR,distanceFromCL,dirFromCL);
                 currentObstacle.setPosition(position);
             }
             distanceFromLTF.setEditable(false);
@@ -270,7 +274,6 @@ public class ObstacleConfigController {
     }
 
     private void saveObstacle(){
-        placeObstacleCB.setDisable(false);
         String name = obstacleNameTF.getText();
         if(name.equals("") || obstacleHeightTF.getText().equals("") || (obstacleWidthTF.getText().equals(""))) {
             //TODO: TEAM2 code for error popup for empty textfields here.
@@ -289,16 +292,18 @@ public class ObstacleConfigController {
             currentObstacle.setHeight(height);
             obstacleChoiceBox.getItems().add(name);
             obstacleChoiceBox.setValue(name);
+            obstacleChoiceBox.setDisable(false);
             edit = false;
         } else {
             int width = Integer.parseInt(obstacleWidthTF.getText());
             int height = Integer.parseInt(obstacleHeightTF.getText());
-            Obstacle obstacle = new Obstacle(name, width, height, null);
+            Obstacle obstacle = new Obstacle(name, height, width, null);
             //currentObstacle = obstacle;
             Model.obstacles.add(obstacle);
             //currentObstacle = obstacle;
             obstacleChoiceBox.getItems().add(name);
         }
+        placeObstacleCB.setDisable(false);
         obstacleChoiceBox.setValue(name);
         dynamicButtonViewMode();
     }
