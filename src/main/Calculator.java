@@ -54,7 +54,7 @@ public class Calculator {
                 "ASDA: " + asdaBD;
 
         //Model.console.addLog("Runway: " + runway + ", TORA:" + tora + ", TODA:" + toda + ", LDA:" + lda + ", ASDA:" + asda);
-        Model.console.addLog("Runway: " + runway);
+        //Model.console.addLog("Runway: " + runway);
         //Model.console.addLog(allBD);
         Model.awayCalculationBreakdown = allBD;
     }
@@ -77,7 +77,7 @@ public class Calculator {
                 "ASDA: " + asdaBD;
 
         //Model.console.addLog("Runway: " + runway + ", TORA:" + tora + ", TODA:" + toda + ", LDA:" + lda + ", ASDA:" + asda);
-        Model.console.addLog("Runway: " + runway);
+        //Model.console.addLog("Runway: " + runway);
         //Model.console.addLog(allBD);
         Model.towardsCalculationBreakdown = allBD;
     }

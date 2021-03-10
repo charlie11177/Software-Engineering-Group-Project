@@ -24,14 +24,13 @@ public class LeftScreenController {
             boolean placeObstacle = Model.obstacleConfigController.isPlaceObstacleSelected();
             if(placeObstacle && obstaclePlaced()){
                 Model.currentRunway.setObstacle(Model.currentObstacle);
-                Model.console.addLog("Obstacle: " + Model.obstacleConfigController.currentObstacle.getName() + " Position: " + Model.obstacleConfigController.currentObstacle.getPosition().getDirectionFromCL());
-                Model.console.addLog("Airport: " + Model.airportConfigController.currentAirport.toString());
-                Model.console.addLog("Runway: " + Model.runwayConfigController.currentRunway.toString());
+//                Model.console.addLog("Obstacle: " + Model.obstacleConfigController.currentObstacle.getName() + " Position: " + Model.obstacleConfigController.currentObstacle.getPosition().getDirectionFromCL());
+//                Model.console.addLog("Airport: " + Model.airportConfigController.currentAirport.toString());
+//                Model.console.addLog("Runway: " + Model.runwayConfigController.currentRunway.toString());
 //                System.out.println(Model.currentRunway.getLeftRunway().getTODA() + "  " +  Model.currentRunway.getRightRunway().getTODA());
                 Calculator.recalculate();
                 Model.rightScreenController.allCalculationsButtonTA.setText(Model.awayCalculationBreakdown);
                 Model.rightScreenController.allCalculationsTopTA.setText(Model.towardsCalculationBreakdown);
-                Model.console.addLog("Updated");
             } else if (!placeObstacle){
                 Alert noObject = new Alert(Alert.AlertType.WARNING, "No object has been placed on the runway!");
                 noObject.setHeaderText(null);
