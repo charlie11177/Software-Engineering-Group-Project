@@ -89,7 +89,7 @@ public class Model {
 
         Airport airport = new Airport("London_Gatwick", "LGW",runWays);
         Airport airport2 = new Airport("London_Heathrow", "LHR",runWays2);
-        airports.add(airport);
-        airports.add(airport2);
+        //airports.add(airport);
+        //airports.add(airport2);
     }
 }

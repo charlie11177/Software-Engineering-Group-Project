@@ -1,11 +1,7 @@
 package main.controllers;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TextFormatter;
+import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import main.Airport;
@@ -54,7 +50,6 @@ public class AirportConfigController {
         aiportChoiceBox.getSelectionModel().selectedItemProperty().addListener( (observable, oldValue, newValue) -> {
             if(newValue != null){
                 currentAirport = Model.getAirportByName(newValue.split(" ")[0]);
-                //Model.runwayConfigController.runwayChoiceBoxChanger();
             } else if(!edit) {
                 aiportChoiceBox.setDisable(true);
                 editAirportButton.setDisable(true);
@@ -64,7 +59,7 @@ public class AirportConfigController {
         });
     }
 
-    private void emptyAirportsUpdate(){
+    public void emptyAirportsUpdate(){
         if(Model.airports.isEmpty()) {
             editAirportButton.setDisable(true);
             aiportChoiceBox.setDisable(true);
@@ -74,11 +69,8 @@ public class AirportConfigController {
         }
     }
 
-//    public String getSelectedAirport(){
-//        return aiportChoiceBox.getValue().split(" ")[0];
-//    }
-
-    private void populateAirportNames(){
+    public void populateAirportNames(){
+        aiportChoiceBox.getItems().clear();
         if(!Model.airports.isEmpty()) {
             currentAirport = Model.airports.get(0);
             aiportChoiceBox.setValue(Model.airports.get(0).toString());
