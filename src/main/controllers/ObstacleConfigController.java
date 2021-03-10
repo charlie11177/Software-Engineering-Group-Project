@@ -62,7 +62,7 @@ public class ObstacleConfigController {
         for(TextField t : textFields)
             t.setTextFormatter(new TextFormatter<>(change -> {
                 // "^(\\d*\\.?\\d*)$"
-               if (!change.getText().matches("[0-9]*")) change.setText("");
+               if (!change.getText().matches("-?(([0-9])*)")) change.setText("");
                 return change;
             }));
     }
@@ -171,45 +171,6 @@ public class ObstacleConfigController {
         obstacleHeightTF.setText(String.valueOf(obstacle.getHeight()));
     }
 
-//    @FXML
-//    private void saveButtonClick() {
-//        if(saveButton.getText().equals("Save")){
-//            saveButton.setText("Edit");
-//            obstacleDetailsBox.setDisable(false);
-//            placeObstacleCB.setDisable(false);
-//            if(distanceFromLTF.getText().equals("") || distanceFromRTF.getText().equals("") ||
-//                    (distanceFromCLTF.getText().equals(""))) {
-//                //TODO: TEAM2 code for error popup for empty textfields here.
-//                System.out.println("Empty textfields");
-//                return;
-//            } else {
-//                int distancefromL = Integer.parseInt(distanceFromLTF.getText());
-//                int distanceFromR = Integer.parseInt(distanceFromRTF.getText());
-//                int distanceFromCL = Integer.parseInt(distanceFromCLTF.getText());
-//                String dirFromCL = dirFromCLChoiceBox.getValue();
-//                Position position = new Position(distancefromL,distanceFromR,distanceFromCL,dirFromCL);
-//                currentObstacle.setPosition(position);
-//            }
-//            distanceFromLTF.setEditable(false);
-//            distanceFromRTF.setEditable(false);
-//            distanceFromCLTF.setEditable(false);
-//            dirFromCLChoiceBox.setDisable(true);
-//            dirFromCLChoiceBox.setOpacity(0.75);
-//            distancesEditorVbox.setOpacity(0.75);
-//        } else {
-//            saveButton.setText("Save");
-//            placeObstacleCB.setDisable(true);
-//            obstacleDetailsBox.setDisable(true);
-//            distanceFromLTF.setEditable(true);
-//            distanceFromRTF.setEditable(true);
-//            distanceFromCLTF.setEditable(true);
-//            dirFromCLChoiceBox.setDisable(false);
-//            dirFromCLChoiceBox.setOpacity(1);
-//            distancesEditorVbox.setOpacity(1);
-//        }
-//    }
-
-    // new button originally
     public void dynamicButtonLeftClick() {
         if(dynamicButtonLeft.getText().equals("New")){
             obstacleDetails.setVisible(true);
