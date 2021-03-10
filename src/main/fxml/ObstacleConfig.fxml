@@ -105,9 +105,6 @@
                      </children>
                   </VBox>
                   <HBox alignment="CENTER" prefHeight="30.0" prefWidth="178.0" spacing="30.0">
-                     <children>
-                        <Button fx:id="saveButton" mnemonicParsing="false" onAction="#saveButtonClick" prefHeight="25.0" prefWidth="60.0" text="Save" HBox.hgrow="SOMETIMES" />
-                     </children>
                      <VBox.margin>
                         <Insets bottom="5.0" top="15.0" />
                      </VBox.margin>

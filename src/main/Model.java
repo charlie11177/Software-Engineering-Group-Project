@@ -19,12 +19,16 @@ public class Model {
     public static AirportConfigController airportConfigController;
     public static ObstacleConfigController obstacleConfigController;
     public static LeftScreenController leftScreenController;
+    public static RightScreenController rightScreenController;
 
     public static ArrayList<Airport> airports = new ArrayList<>();
     public static ArrayList<Obstacle> obstacles = new ArrayList<>();
     public static Airport currentAirport;
     public static PhysicalRunWay currentRunway;
     public static Obstacle currentObstacle;
+
+    public static String towardsCalculationBreakdown;
+    public static String awayCalculationBreakdown;
 
     public static Airport getAirportByName(String name){
         for(Airport a : airports){
@@ -74,12 +78,12 @@ public class Model {
         runWays2.add(r3);
 
 
-        //Obstacle airplane = new Obstacle("airplane1", 25 , 25*50, new Position(3655,0));
-        //obstacles.add(airplane);
+        Obstacle airplane = new Obstacle("airplane1", 25 , 25*50, new Position(3655,0, 10, "L"));
+        obstacles.add(airplane);
 
         Airport airport = new Airport("London_Gatwick", "LGW",runWays);
         Airport airport2 = new Airport("London_Heathrow", "LHR",runWays2);
-        //airports.add(airport);
-        //airports.add(airport2);
+        airports.add(airport);
+        airports.add(airport2);
     }
 }
