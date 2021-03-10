@@ -1,6 +1,7 @@
 package main.controllers;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
@@ -98,16 +99,19 @@ public class AirportConfigController {
         String airportCode = airportCodeTextField.getText();
         String previousAirport = currentAirport.toString();
         if(airportName.equals("") || airportCode.equals("")) {
-            //TODO: TEAM2 code for error popup for empty textfields here.
-            System.out.println("Empty textfields");
+            Alert emptyFields = new Alert(Alert.AlertType.WARNING, "Name and Code fields cannot be empty!");
+            emptyFields.setHeaderText(null);
+            emptyFields.showAndWait();
             return;
         } else if (nameInUse(airportName)){
-            //TODO: TEAM2 code for error popup for same airport names here.
-            System.out.println("Airport name already used");
+            Alert duplicateAirport = new Alert(Alert.AlertType.WARNING, "An Airport with that name already exists!");
+            duplicateAirport.setHeaderText(null);
+            duplicateAirport.showAndWait();
             return;
         } else if (codeInUse(airportCode)) {
-            //TODO: TEAM2 code for error popup for same airport names here.
-            System.out.println("Airport code already used");
+            Alert duplicateCode = new Alert(Alert.AlertType.WARNING, "An Airport with that code already exists!");
+            duplicateCode.setHeaderText(null);
+            duplicateCode.showAndWait();
             return;
         } else if ((airportName + " (" + airportCode + ")").equals(previousAirport)) {
             return;
