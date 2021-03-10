@@ -44,41 +44,42 @@ public class Calculator {
         lda = runway.getLDA() - distanceFromThreshold - 60 - (obstacle.getHeight() * 50);//LDA = Original LDA - Distance from Threshold – Strip End - Slope Calculation
         asda = tora + runway.getStopway();//ASDA = (R) TORA + STOPWAY
 
-        toraBD = runway.getTORA() + " - " + blastAllowance + " - " + distanceFromThreshold + " - " + runway.getThreshold();
-        todaBD = tora + " + " + runway.getClearway();
-        ldaBD = runway.getLDA() + " - " + distanceFromThreshold + " - 60 - (" + obstacle.getHeight() + " * 50)";
-        asdaBD = tora + " + " + runway.getStopway();
-        allBD = "TORA: " + toraBD + "\n" +
+        toraBD = runway.getTORA() + " - " + blastAllowance + " - " + distanceFromThreshold + " - " + runway.getThreshold() + " = " + tora;
+        todaBD = tora + " + " + runway.getClearway() + " = " + toda;
+        ldaBD = runway.getLDA() + " - " + distanceFromThreshold + " - 60 - (" + obstacle.getHeight() + " * 50) = " + lda;
+        asdaBD = tora + " + " + runway.getStopway() + " = " + asda;
+        allBD = "--" + runway + "--" + "\n" +
+                "TORA: " + toraBD + "\n" +
                 "TODA: " + todaBD + "\n" +
                 "LDA: " + ldaBD + "\n" +
                 "ASDA: " + asdaBD;
 
-        //Model.console.addLog("Runway: " + runway + ", TORA:" + tora + ", TODA:" + toda + ", LDA:" + lda + ", ASDA:" + asda);
-        //Model.console.addLog("Runway: " + runway);
-        //Model.console.addLog(allBD);
+        Model.console.addLog("Runway: " + runway);
+        Model.console.addLog("TORA:" + tora + ", TODA:" + toda + ", LDA:" + lda + ", ASDA:" + asda);
         Model.awayCalculationBreakdown = allBD;
     }
     private static void recalculateTOWARDS(LogicalRunWay runway, int distanceFromThreshold) { //(Take off Towards, Landing Towards)
         int tora, toda, asda, lda;
         String toraBD, todaBD, ldaBD, asdaBD, allBD;
 
-        tora = distanceFromThreshold - (obstacle.getHeight() * 50) - 60;//TORA = Distance from Threshold - Slope Calculation - Strip End
+        tora = distanceFromThreshold + runway.getThreshold() - (obstacle.getHeight() * 50) - 60;//TORA = Distance from Threshold + runwaythreshold - Slope Calculation - Strip End
         toda = tora;//TODA = (R) TORA
         lda = distanceFromThreshold - 240 - 60;//LDA = Distance from Threshold - RESA - Strip End
         asda = tora;//ASDA = (R) TORA
 
-        toraBD = distanceFromThreshold + " - (" + obstacle.getHeight() + " * 50) - 60";
+        if(runway.getThreshold() == 0) toraBD = distanceFromThreshold + " - (" + obstacle.getHeight() + " * 50) - 60 = " + tora;
+        else toraBD = distanceFromThreshold + " + " + runway.getThreshold()  + "- (" + obstacle.getHeight() + " * 50) - 60 = " + tora;
         todaBD = "" + tora;
-        ldaBD = distanceFromThreshold + " - 240 - 60";
+        ldaBD = distanceFromThreshold + " - 240 - 60 = " + lda;
         asdaBD = "" + tora;
-        allBD = "TORA: " + toraBD + "\n" +
+        allBD = "--" + runway + "--" + "\n" +
+                "TORA: " + toraBD + "\n" +
                 "TODA: " + todaBD + "\n" +
                 "LDA: " + ldaBD + "\n" +
                 "ASDA: " + asdaBD;
 
-        //Model.console.addLog("Runway: " + runway + ", TORA:" + tora + ", TODA:" + toda + ", LDA:" + lda + ", ASDA:" + asda);
-        //Model.console.addLog("Runway: " + runway);
-        //Model.console.addLog(allBD);
+        Model.console.addLog("Runway: " + runway);
+        Model.console.addLog("TORA:" + tora + ", TODA:" + toda + ", LDA:" + lda + ", ASDA:" + asda);
         Model.towardsCalculationBreakdown = allBD;
     }
 }

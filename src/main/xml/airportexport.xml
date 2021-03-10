@@ -42,11 +42,11 @@
         <name>London_Heathrow</name>
         <code>LHR</code>
         <runway>
-            <ID>2</ID>
+            <ID>1</ID>
             <left>
-                <degree>1</degree>
-                <TORA>3802</TORA>
-                <TODA>3802</TODA>
+                <degree>09</degree>
+                <TORA>3660</TORA>
+                <TODA>3660</TODA>
                 <ASDA>3102</ASDA>
                 <LDA>3495</LDA>
             </left>

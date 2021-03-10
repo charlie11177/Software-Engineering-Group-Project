@@ -21,7 +21,7 @@ public class LogicalRunWay {
         this.LDA = LDA;
         this.threshold = threshold;
         this.clearway = TODA - TORA;
-        this.stopway = ASDA- TORA;
+        this.stopway = ASDA - TORA;
     }
 
     @Override
