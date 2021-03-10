@@ -353,6 +353,14 @@ public class XMLParser {
                 Element distToRight = document.createElement("distanceToRight");
                 distToRight.appendChild(document.createTextNode(Integer.toString(position.getDistanceToRight())));
                 positionElement.appendChild(distToRight);
+
+                Element distanceFromCL = document.createElement("distanceFromCL");
+                distanceFromCL.appendChild(document.createTextNode(Integer.toString(position.getDistanceFromCL())));
+                positionElement.appendChild(distanceFromCL);
+
+                Element directionFromCL = document.createElement("directionFromCL");
+                directionFromCL.appendChild(document.createTextNode(position.getDirectionFromCL()));
+                positionElement.appendChild(directionFromCL);
             }
 
             /*
