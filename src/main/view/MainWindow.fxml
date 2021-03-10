@@ -32,7 +32,7 @@
         </MenuBar>
         <HBox prefHeight="700.0" prefWidth="1080.0" VBox.vgrow="ALWAYS">
          <children>
-            <fx:include fx:id="leftScreen" prefHeight="695.0" prefWidth="200.0" source="LeftScreen.fxml" HBox.hgrow="SOMETIMES" />
+            <fx:include fx:id="leftScreen" prefHeight="695.0" prefWidth="200.0" source="LeftScreen.fxml" HBox.hgrow="NEVER" />
             <fx:include fx:id="centerScreen" maxHeight="1000.0" maxWidth="1500.0" prefHeight="695.0" prefWidth="580.0" source="CenterScreen.fxml" HBox.hgrow="ALWAYS" />
             <fx:include fx:id="rightScreen" minWidth="220.0" prefHeight="1055.0" prefWidth="296.0" source="RightScreen.fxml" HBox.hgrow="SOMETIMES" />
          </children>
