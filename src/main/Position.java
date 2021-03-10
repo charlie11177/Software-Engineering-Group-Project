@@ -4,10 +4,15 @@ public class Position {
 
     private int distanceToLeft;
     private int distanceToRight;
+    private int distanceFromCL;
 
-    public Position(int distanceToLeft, int distanceToRight){
+    private String directionFromCL;
+
+    public Position(int distanceToLeft, int distanceToRight, int distanceFromCL, String directionFromCL){
         this.distanceToLeft = distanceToLeft;
         this.distanceToRight = distanceToRight;
+        this.distanceFromCL = distanceFromCL;
+        this.directionFromCL = directionFromCL;
     }
 
     public int getDistanceToLeft() {
@@ -25,4 +30,21 @@ public class Position {
     public void setDistanceToLeft(int distanceToLeft) {
         this.distanceToLeft = distanceToLeft;
     }
+
+    public String getDirectionFromCL() {
+        return directionFromCL;
+    }
+
+    public void setDirectionFromCL(String directionFromCL) {
+        this.directionFromCL = directionFromCL;
+    }
+
+    public int getDistanceFromCL() {
+        return distanceFromCL;
+    }
+
+    public void setDistanceFromCL(int distanceFromCL) {
+        this.distanceFromCL = distanceFromCL;
+    }
+
 }

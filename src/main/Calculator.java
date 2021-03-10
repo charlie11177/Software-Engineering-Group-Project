@@ -8,7 +8,7 @@ public class Calculator {
         //obstacle = Model.currentObstacle;
         physicalRunway = Model.currentRunway;
         //TEST CODE until Model.current pulls current
-        obstacle = new Obstacle("scenario1", 12, 50, new Position(-50, 3646));
+        obstacle = new Obstacle("scenario1", 12, 50, new Position(-50, 3646,0,null));
         try {
             physicalRunway = new PhysicalRunWay(9, new LogicalRunWay(9, Direction.L, 3902, 3902, 3902, 3595, 306), new LogicalRunWay(27, Direction.R, 3884, 3962, 3884, 3884, 0), obstacle);
         } catch (Exception e) {
