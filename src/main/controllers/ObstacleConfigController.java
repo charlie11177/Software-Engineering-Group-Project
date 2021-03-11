@@ -73,6 +73,13 @@ public class ObstacleConfigController {
 
     public void placeObstacleClick() {
         if(placeObstacleCB.isSelected()){
+            if(Model.runwayConfigController.currentRunway == null){
+                Alert emptyFields = new Alert(Alert.AlertType.WARNING, "No runway selected!");
+                emptyFields.setHeaderText(null);
+                emptyFields.showAndWait();
+                placeObstacleCB.setSelected(false);
+                return;
+            }
             obstacleDistancesBox.setVisible(true);
             obstacleDetailsBox.setDisable(true);
             populateObstaclePlacement();
