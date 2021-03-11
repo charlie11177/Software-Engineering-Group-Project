@@ -209,9 +209,12 @@ public class RunwayConfigController {
 
     @FXML
     private void saveRunwayClick(){
-        Airport airport = Model.airportConfigController.currentAirport;
-        String previousRunway = runwayChoiceBox.getValue();
-
+        for(TextField t : textFields){
+            if (t.getText().isEmpty()) {
+                System.out.println("Some fields are empty");
+                return;
+            }
+        }
         Direction leftDirection = Direction.valueOf(leftPosition.getValue());
         int leftDegree = Integer.parseInt(leftDegreeTF.getText());
         int leftAsda = Integer.parseInt(leftAsdaTF.getText());
@@ -228,13 +231,16 @@ public class RunwayConfigController {
         int rightTora = Integer.parseInt(rightToraTF.getText());
         int rightThreshold = Integer.parseInt(rightThresholdTF.getText());
 
-        for(TextField t : textFields){
-            if (t.getText().isEmpty()) {
-                //TODO: Error notficiation for empty text fields
-                System.out.println("Some fields are empty");
-                return;
-            }
+        if(leftDegree > 36 || rightDegree > 36 || leftDegree + rightDegree != 36){
+            Alert emptyFields = new Alert(Alert.AlertType.WARNING, "Wrong value of the runway degrees.");
+            emptyFields.setHeaderText(null);
+            emptyFields.showAndWait();
+            return;
         }
+
+        Airport airport = Model.airportConfigController.currentAirport;
+        String previousRunway = runwayChoiceBox.getValue();
+
         showOnlyMode();
         enableElements(runwayMainMenu);
         hideOptions(editButtons);
