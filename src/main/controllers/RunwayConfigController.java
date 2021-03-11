@@ -195,6 +195,7 @@ public class RunwayConfigController {
         showOptions(runwayOptions);
         editableMode();
         showOptions(editButtons);
+        Model.leftScreenController.calculateButton.setDisable(true);
     }
 
     @FXML
@@ -205,6 +206,8 @@ public class RunwayConfigController {
         editRunway.setVisible(false);
         editableMode();
         showOptions(editButtons);
+        Model.leftScreenController.calculateButton.setDisable(true);
+
     }
 
     @FXML
@@ -231,7 +234,7 @@ public class RunwayConfigController {
         int rightTora = Integer.parseInt(rightToraTF.getText());
         int rightThreshold = Integer.parseInt(rightThresholdTF.getText());
 
-        if(leftDegree > 36 || rightDegree > 36 || leftDegree + rightDegree != 36){
+        if(leftDegree > 36 || rightDegree > 36 || Math.abs(leftDegree-rightDegree) != 18){
             Alert emptyFields = new Alert(Alert.AlertType.WARNING, "Wrong value of the runway degrees.");
             emptyFields.setHeaderText(null);
             emptyFields.showAndWait();
@@ -296,10 +299,13 @@ public class RunwayConfigController {
         enableElements(runwayMainMenu);
         //editLabel.setVisible(true);
         editRunway.setVisible(true);
+        Model.leftScreenController.calculateButton.setDisable(false);
+
     }
 
     @FXML
     public void cancelRunwayClick() {
+        Model.leftScreenController.calculateButton.setDisable(false);
         if(runwayChoiceBox.getItems().isEmpty()){
             hideOptions(editButtons);
             enableElements(runwayMainMenu);

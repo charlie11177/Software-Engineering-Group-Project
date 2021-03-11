@@ -21,15 +21,18 @@ public class LeftScreenController {
     @FXML
     private void calculateButtonClick() {
         try{
-            Model.currentAirport = Model.airportConfigController.currentAirport;
-            Model.currentRunway = Model.runwayConfigController.currentRunway;
+            Model.currentAirport = Model.getAirportByName(Model.airportConfigController.currentAirport.getName());
+            if(Model.currentAirport.getRunways() != null)
+                Model.runwayConfigController.runwayMenuChanger();
+            else{
+                Alert noObject = new Alert(Alert.AlertType.WARNING, "No runway specified !");
+                noObject.setHeaderText(null);
+                noObject.showAndWait();
+            }
+            Model.currentRunway = Model.getRunwayByName(Model.runwayConfigController.runwayChoiceBox.getValue());
             boolean placeObstacle = Model.obstacleConfigController.isPlaceObstacleSelected();
             if(placeObstacle && obstaclePlaced()){
                 Model.currentRunway.setObstacle(Model.currentObstacle);
-//                Model.console.addLog("Obstacle: " + Model.obstacleConfigController.currentObstacle.getName() + " Position: " + Model.obstacleConfigController.currentObstacle.getPosition().getDirectionFromCL());
-//                Model.console.addLog("Airport: " + Model.airportConfigController.currentAirport.toString());
-//                Model.console.addLog("Runway: " + Model.runwayConfigController.currentRunway.toString());
-//                System.out.println(Model.currentRunway.getLeftRunway().getTODA() + "  " +  Model.currentRunway.getRightRunway().getTODA());
                 Calculator.recalculate();
                 Model.rightScreenController.allCalculationsButtonTA.setText(Model.awayCalculationBreakdown);
                 Model.rightScreenController.allCalculationsTopTA.setText(Model.towardsCalculationBreakdown);
@@ -40,6 +43,8 @@ public class LeftScreenController {
             }
         } catch (NullPointerException e){
             System.out.println("Error");
+            e.printStackTrace();
+            System.out.println(Model.runwayConfigController.runwayChoiceBox.getValue());
         }
     }
 

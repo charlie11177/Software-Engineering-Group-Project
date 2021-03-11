@@ -180,6 +180,7 @@ public class ObstacleConfigController {
 
     public void dynamicButtonLeftClick() {
         if(dynamicButtonLeft.getText().equals("New")){
+            Model.leftScreenController.calculateButton.setDisable(true);
             obstacleDetails.setVisible(true);
             placeObstacleCB.setDisable(true);
             setEditable(true,obstacleNameTF,obstacleHeightTF,obstacleWidthTF);
@@ -188,12 +189,15 @@ public class ObstacleConfigController {
             obstacleHeightTF.setText("");
             obstacleWidthTF.setText("");
             dynamicButtonRight.setDisable(false);
-        } else this.saveObstacle();
+        } else {
+            this.saveObstacle();
+        }
     }
 
     @FXML
     private void dynamicButtonRightClick() {
         if(dynamicButtonRight.getText().equals("Edit")){
+        Model.leftScreenController.calculateButton.setDisable(true);
             placeObstacleCB.setDisable(true);
             System.out.println("Name:" + currentObstacle.getName());
             edit = true;
@@ -209,8 +213,10 @@ public class ObstacleConfigController {
                 obstacleNameTF.setText("");
                 obstacleHeightTF.setText("");
                 obstacleWidthTF.setText("");
+
             }
             dynamicButtonViewMode();
+            Model.leftScreenController.calculateButton.setDisable(false);
         }
     }
 
@@ -268,6 +274,7 @@ public class ObstacleConfigController {
         placeObstacleCB.setDisable(false);
         obstacleChoiceBox.setValue(name);
         dynamicButtonViewMode();
+        Model.leftScreenController.calculateButton.setDisable(false);
     }
 
     public void setEditable(boolean value, TextField... textFields){

@@ -50,11 +50,14 @@ public class MainWindowController {
                 {
                     Model.console.addLog(a.toString());
                     //TODO: this is really way of doing it, will change it during increment2
-                    if(Model.leftScreenController.accordion.getExpandedPane()!=null)
-                        Model.leftScreenController.accordion.getExpandedPane().setExpanded(false);
                     Model.console.addLog(a.getRunways().toString());
                 }
+                if(Model.leftScreenController.accordion.getExpandedPane()!=null)
+                    Model.leftScreenController.accordion.getExpandedPane().setExpanded(false);
                 Model.console.addLog("--- Finished Importing ---");
+                Model.currentAirport = Model.getAirportByName(Model.airportConfigController.currentAirport.getName());
+                if(Model.currentAirport.getRunways() != null)
+                    Model.runwayConfigController.runwayMenuChanger();
             }
             else {
                 ArrayList<Obstacle> importedObstacles = xmlParser.importObstacle(xmlFile);
