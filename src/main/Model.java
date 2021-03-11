@@ -46,6 +46,14 @@ public class Model {
         return null;
     }
 
+    public static PhysicalRunWay getRunwayByName(String name){
+        for (PhysicalRunWay r : currentAirport.getRunways()){
+            if (r.toString().equals(name))
+                return r;
+        }
+        return null;
+    }
+
 
     public static void demo(){
         LogicalRunWay left1 = new LogicalRunWay(9, Direction.L,3902,3902,3202,3595, 0);

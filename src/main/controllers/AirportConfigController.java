@@ -92,6 +92,7 @@ public class AirportConfigController {
         edit = false;
         disableElements(aiportMainMenu);
         showOptions(aiportOptions);
+        Model.leftScreenController.calculateButton.setDisable(true);
     }
 
     @FXML
@@ -101,6 +102,8 @@ public class AirportConfigController {
         showOptions(aiportOptions);
         airportNameTextField.setText(currentAirport.getName());
         airportCodeTextField.setText(currentAirport.getCode());
+        Model.leftScreenController.calculateButton.setDisable(true);
+
     }
 
     /**
@@ -152,6 +155,7 @@ public class AirportConfigController {
         hideOptions(aiportOptions);
         airportNameTextField.setText("");
         airportCodeTextField.setText("");
+        Model.leftScreenController.calculateButton.setDisable(false);
     }
 
     private boolean nameInUse(String desiredName, boolean edit){
@@ -182,6 +186,7 @@ public class AirportConfigController {
         hideOptions(aiportOptions);
         airportNameTextField.setText("");
         airportCodeTextField.setText("");
+        Model.leftScreenController.calculateButton.setDisable(false);
     }
 
     private void disableElements(Pane elements){
