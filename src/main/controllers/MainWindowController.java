@@ -43,7 +43,7 @@ public class MainWindowController {
             ArrayList<Airport> importedAirports = xmlParser.importAirports(xmlFile);
             if (!importedAirports.isEmpty()) {
                 Model.airports = importedAirports;
-                Model.airportConfigController.populateAirportNames();
+                Model.airportConfigController.update();
                 //Model.airportConfigController.emptyAirportsUpdate();
                 Model.console.addLog("--- Imported Airports and Runways ---");
                 for (Airport a : Model.airports)

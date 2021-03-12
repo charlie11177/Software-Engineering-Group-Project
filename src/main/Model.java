@@ -3,7 +3,9 @@ package main;
 import main.controllers.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.function.ObjDoubleConsumer;
 
 /**
  * Model class used as the main class that holds all data from classes that represent Airport, Runway, Obstacles, etc.
@@ -29,6 +31,8 @@ public class Model {
 
     public static String towardsCalculationBreakdown;
     public static String awayCalculationBreakdown;
+    private static ArrayList<Observer> airportObservers = new ArrayList<>();
+    private static ArrayList<Observer> airportListObservers = new ArrayList<>();
 
     public static Airport getAirportByName(String name){
         for(Airport a : airports){
@@ -52,6 +56,42 @@ public class Model {
                 return r;
         }
         return null;
+    }
+
+    public static ArrayList<Airport> getAirports () {
+        return airports;
+    }
+
+    public static void addAirports(Airport...as) {
+        airports.addAll(Arrays.asList(as));
+        notifyAirportObservers();
+    }
+
+    public static void attachAirportObserver(Observer observer){
+        airportObservers.add(observer);
+    }
+
+    public static void setCurrentAirport(Airport airport) {
+        currentAirport = airport;
+        notifyAirportObservers();
+    }
+
+//    public static void editAirport(Airport replacement) {
+//        for (Airport a : airports) {
+//            if(replacement.equals(a)) {
+//                airports.set(airports.indexOf(a), replacement);
+//                notifyAirportObservers();
+//                return;
+//            }
+//        }
+//        System.err.println("Model.editAirport()");
+//    }
+
+    public static void notifyAirportObservers() {
+        for (Observer observer : airportObservers) {
+            System.out.println("Notified");
+            observer.update();
+        }
     }
 
 
