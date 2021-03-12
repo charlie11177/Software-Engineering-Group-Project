@@ -27,7 +27,7 @@
             <VBox fx:id="obstacleDetailsBox" alignment="CENTER" prefHeight="138.0" prefWidth="319.0">
                <children>
                   <Label fx:id="nameLabel" alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" prefHeight="17.0" prefWidth="85.0" text="Obstacle name" />
-                  <ChoiceBox fx:id="obstacleChoiceBox" prefHeight="25.0" prefWidth="150.0" />
+                  <ChoiceBox fx:id="obstacleChoiceBox" prefWidth="150.0" />
                   <HBox fx:id="editButtonsName" alignment="CENTER" prefHeight="30.0" prefWidth="178.0" spacing="30.0">
                      <children>
                         <Button fx:id="dynamicButtonLeft" mnemonicParsing="false" onAction="#dynamicButtonLeftClick" prefHeight="25.0" prefWidth="60.0" text="New" HBox.hgrow="SOMETIMES" />

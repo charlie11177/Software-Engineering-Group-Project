@@ -10,7 +10,7 @@ import main.*;
 import java.util.Arrays;
 import java.util.List;
 
-public class RunwayConfigController {
+public class RunwayConfigController implements Observer{
 
     private Boolean edit;
     private List<TextField> textFields;
@@ -45,6 +45,7 @@ public class RunwayConfigController {
     @FXML
     private void initialize(){
         Model.runwayConfigController = this;
+        Model.attachAirportObserver(this);
         setupTextFields();
         runwayMenuChanger();
         runwayDetailsChanger(runwayChoiceBox.getValue());
@@ -353,4 +354,8 @@ public class RunwayConfigController {
         options.setVisible(false);
     }
 
+    @Override
+    public void update() {
+        System.out.println(Model.currentAirport.toString());
+    }
 }

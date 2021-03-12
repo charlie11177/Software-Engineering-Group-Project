@@ -30,14 +30,7 @@
                         <Insets top="20.0" />
                      </VBox.margin>
                   </Label>
-                  <ChoiceBox fx:id="aiportChoiceBox" prefHeight="25.0" prefWidth="200.0">
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
-                  </ChoiceBox>
+                  <ChoiceBox fx:id="airportChoiceBox" prefWidth="150.0" />
                   <HBox alignment="CENTER" prefHeight="30.0" prefWidth="178.0" spacing="30.0">
                      <children>
                         <Button fx:id="newAirportButton" mnemonicParsing="false" onAction="#newAirportClick" prefWidth="60.0" text="New" HBox.hgrow="SOMETIMES" />
