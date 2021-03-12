@@ -72,6 +72,7 @@ public class Model {
     }
 
     public static void setCurrentAirport(Airport airport) {
+        currentRunway = null;
         currentAirport = airport;
         notifyAirportObservers();
     }
