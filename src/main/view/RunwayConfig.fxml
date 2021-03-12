@@ -58,14 +58,14 @@
                      <children>
                         <ChoiceBox fx:id="leftPosition" prefHeight="25.0" prefWidth="70.0" />
                         <Label alignment="CENTER" prefHeight="17.0" prefWidth="64.0" text="Position" />
-                        <ChoiceBox fx:id="rightPosition" prefHeight="25.0" prefWidth="70.0" />
+                        <Label fx:id="rightPosition" alignment="CENTER" prefWidth="70.0" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="25.0" prefWidth="178.0" spacing="5.0">
                      <children>
                         <TextField fx:id="leftDegreeTF" prefHeight="25.0" prefWidth="70.0" />
                         <Label alignment="CENTER" prefHeight="17.0" prefWidth="64.0" text="Degree" />
-                        <TextField fx:id="rightDegreeTF" prefHeight="25.0" prefWidth="70.0" />
+                        <Label fx:id="rightDegreeLabel" alignment="CENTER" prefWidth="70.0" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="25.0" prefWidth="178.0" spacing="5.0">
@@ -107,9 +107,21 @@
                         <TextField fx:id="rightThresholdTF" prefHeight="25.0" prefWidth="70.0" />
                      </children>
                   </HBox>
+                  <HBox fx:id="editButtons" alignment="CENTER" prefHeight="30.0" prefWidth="178.0" spacing="30.0">
+                     <children>
+                        <Button fx:id="saveRunway" defaultButton="true" mnemonicParsing="false" onAction="#saveRunwayClick" prefHeight="25.0" prefWidth="60.0" text="Save" HBox.hgrow="SOMETIMES" />
+                        <Button fx:id="cancelRunway" mnemonicParsing="false" onAction="#cancelRunwayClick" prefHeight="25.0" prefWidth="60.0" text="Cancel" HBox.hgrow="SOMETIMES" />
+                     </children>
+                     <VBox.margin>
+                        <Insets top="5.0" />
+                     </VBox.margin>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </HBox>
                </children>
             </VBox>
-            <Button fx:id="editRunway" mnemonicParsing="false" onAction="#editRunwayClick" prefHeight="25.0" prefWidth="90.0" text="Edit Runways">
+            <Button fx:id="editRunway" mnemonicParsing="false" onAction="#editRunwayClick" prefHeight="25.0" prefWidth="152.0" text="Edit Runways">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -117,18 +129,6 @@
                   <Insets top="10.0" />
                </VBox.margin>
             </Button>
-            <HBox fx:id="editButtons" alignment="CENTER" prefHeight="30.0" prefWidth="178.0" spacing="30.0">
-               <children>
-                  <Button fx:id="saveRunway" defaultButton="true" mnemonicParsing="false" onAction="#saveRunwayClick" prefHeight="25.0" prefWidth="60.0" text="Save" HBox.hgrow="SOMETIMES" />
-                  <Button fx:id="cancelRunway" mnemonicParsing="false" onAction="#cancelRunwayClick" prefHeight="25.0" prefWidth="60.0" text="Cancel" HBox.hgrow="SOMETIMES" />
-               </children>
-               <VBox.margin>
-                  <Insets top="5.0" />
-               </VBox.margin>
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-            </HBox>
          </children>
       </VBox>
    </content>

@@ -56,8 +56,8 @@ public class MainWindowController {
                     Model.leftScreenController.accordion.getExpandedPane().setExpanded(false);
                 Model.console.addLog("--- Finished Importing ---");
                 Model.currentAirport = Model.getAirportByName(Model.airportConfigController.currentAirport.getName());
-                if(Model.currentAirport.getRunways() != null)
-                    Model.runwayConfigController.runwayMenuChanger();
+                if(Model.currentAirport.getRunways() != null){}
+                    //Model.runwayConfigController.runwayMenuChanger();
             }
             else {
                 ArrayList<Obstacle> importedObstacles = xmlParser.importObstacle(xmlFile);

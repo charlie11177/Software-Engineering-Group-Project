@@ -1,10 +1,11 @@
 package main.controllers;
 
+import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.util.Pair;
 import main.*;
 
 import java.util.Arrays;
@@ -24,9 +25,9 @@ public class RunwayConfigController implements Observer{
     @FXML private Button editRunway;
     @FXML private VBox runwayOptions;
     @FXML private ChoiceBox<String> leftPosition;
-    @FXML private ChoiceBox<String> rightPosition;
+    @FXML private Label rightPosition;
     @FXML private TextField leftDegreeTF;
-    @FXML private TextField rightDegreeTF;
+    @FXML private Label rightDegreeLabel;
     @FXML private TextField leftToraTF;
     @FXML private TextField rightToraTF;
     @FXML private TextField leftTodaTF;
@@ -37,6 +38,8 @@ public class RunwayConfigController implements Observer{
     @FXML private TextField rightLdaTF;
     @FXML private TextField leftThresholdTF;
     @FXML private TextField rightThresholdTF;
+    @FXML private ChangeListener<String> choiceBoxListener;
+
 
     public RunwayConfigController(){
         edit = false;
@@ -45,107 +48,120 @@ public class RunwayConfigController implements Observer{
     @FXML
     private void initialize(){
         Model.runwayConfigController = this;
+        runwayOptions.setOpacity(1);
         Model.attachAirportObserver(this);
         setupTextFields();
-        runwayMenuChanger();
-        runwayDetailsChanger(runwayChoiceBox.getValue());
-        addRunwayChoiceBoxListener();
-        addTilePaneListener();
+        noCurrentAirportView();
+        choiceBoxListener = (observable, oldValue, newValue) -> runwayChoiceBoxUpdater(newValue);
+        setChoiceBoxListenerEnabled(true);
         setupDirectionChoiceBox();
-        hideOptions(editButtons);
-        showOnlyMode();
     }
 
     public void setupTextFields(){
         textFields = Arrays.asList(leftDegreeTF, leftTodaTF, leftToraTF, leftAsdaTF, leftLdaTF, leftThresholdTF,
-                rightDegreeTF, rightTodaTF, rightToraTF, rightAsdaTF, rightLdaTF, rightThresholdTF);
-
+                rightTodaTF, rightToraTF, rightAsdaTF, rightLdaTF, rightThresholdTF);
         for(TextField t : textFields)
             t.setTextFormatter(new TextFormatter<>(change -> {
                 if (!change.getText().matches("[0-9]*")) change.setText("");
                 return change;
             }));
-    }
-
-    public void setupDirectionChoiceBox(){
-        directionChoiceBoxHandler(leftPosition, rightPosition);
-        directionChoiceBoxHandler(rightPosition, leftPosition);
-        leftPosition.getItems().add("L");
-        leftPosition.getItems().add("R");
-        leftPosition.getItems().add("C");
-        rightPosition.getItems().add("L");
-        rightPosition.getItems().add("R");
-        rightPosition.getItems().add("C");
-    }
-
-    public void directionChoiceBoxHandler(ChoiceBox<String> choiceBox, ChoiceBox<String> oppositeChoiceBox){
-        choiceBox.getSelectionModel().selectedItemProperty().addListener(((observable, oldValue, newValue) -> {
-                    switch (newValue) {
-                        case "L": {oppositeChoiceBox.setValue("R"); break;}
-                        case "R": {oppositeChoiceBox.setValue("L"); break;}
-                        case "C": {oppositeChoiceBox.setValue("C"); break;}
-                    }
-        }));
-    }
-
-    public void runwayMenuChanger() {
-        Airport airport = Model.airportConfigController.currentAirport;
-        if(airport != null && !airport.getRunways().isEmpty()){
-            this.populateRunwayNames(airport.getRunways());
-            this.showOptions(runwayOptions);
-            //editLabel.setVisible(true);
-            editRunway.setVisible(true);
-            runwayChoiceBox.setDisable(false);
-        }
-        else{
-            this.runwayChoiceBox.getItems().clear();
-            this.clearRunwayDetails();
-            this.hideOptions(runwayOptions);
-            //editLabel.setVisible(false);
-            editRunway.setVisible(false);
-            runwayChoiceBox.setDisable(true);
-        }
-        editButtons.setVisible(false);
-    }
-
-    public void addTilePaneListener(){
-        runwayConfig.expandedProperty().addListener( (observable, oldValue, newValue) -> {
-            if(newValue && Model.airports.isEmpty()) {
-                disableElements(runwayMainMenu);
+        leftDegreeTF.textProperty().addListener((observable, oldValue, newValue) -> {
+            if(!newValue.equals("")){
+                int number = Integer.parseInt(newValue);
+                if(number < 19)
+                    rightDegreeLabel.setText(String.valueOf(number+18));
+                else {
+                    rightDegreeLabel.setText("0");
+                }
+            } else {
+                rightDegreeLabel.setText("0");
             }
-            else if (newValue){
-                runwayMenuChanger();
-                enableElements(runwayMainMenu);
-            }
-            //System.out.println("Number of airports:" + Model.airports.size());
         });
     }
 
-    private void addRunwayChoiceBoxListener(){
-        runwayChoiceBox.getSelectionModel().selectedItemProperty().addListener(
-                (observable, oldValue, newValue) -> runwayDetailsChanger(newValue)
-        );
+    public void setupDirectionChoiceBox(){
+        leftPosition.getSelectionModel().selectedItemProperty().addListener(((observable, oldValue, newValue) -> {
+            switch (newValue) {
+                case "L": {rightPosition.setText("R"); break;}
+                case "R": {rightPosition.setText("L"); break;}
+                case "C": {rightPosition.setText("C"); break;}
+            }
+        }));
+        leftPosition.getItems().add("L");
+        leftPosition.getItems().add("R");
+        leftPosition.getItems().add("C");
     }
 
-    private void runwayDetailsChanger(String value) {
-        Airport airport = Model.airportConfigController.currentAirport;
-        if(airport != null && airport.getRunways() != null){
-            for(PhysicalRunWay r : airport.getRunways()){
+    private void runwayConfigMenu(){
+        editRunway.setVisible(false);
+        editButtons.setVisible(true);
+        runwayOptions.setVisible(true);
+        runwayOptions.setDisable(false);
+        if(!edit) clearRunwayDetails();
+    }
+
+    private void noCurrentAirportView(){
+        runwayMainMenu.setDisable(true);
+        runwayOptions.setVisible(false);
+        editRunway.setVisible(false);
+    }
+
+    private void selectedCurrentAirportView() {
+        if(Model.currentAirport.getRunways().isEmpty()){
+            clearRunwayDetails();
+            runwayChoiceBox.setDisable(true);
+            runwayOptions.setVisible(false);
+            runwayMainMenu.setDisable(false);
+            editRunway.setVisible(false);
+        } else if (Model.currentRunway != null){
+            populateRunwayNames();
+            runwayChoiceBox.setDisable(false);
+            runwayMainMenu.setDisable(false);
+            runwayOptions.setVisible(true);
+            if(Model.currentRunway != null)
+                editRunway.setVisible(true);
+            showOnlyMode();
+        }
+    }
+
+    private void setChoiceBoxListenerEnabled(Boolean enable) {
+        if (enable)
+            runwayChoiceBox.getSelectionModel().selectedItemProperty().addListener(choiceBoxListener);
+        else
+            runwayChoiceBox.getSelectionModel().selectedItemProperty().removeListener(choiceBoxListener);
+    }
+
+    @Override
+    public void update() {
+        edit = false;
+        setChoiceBoxListenerEnabled(false);
+        runwayChoiceBox.getItems().clear();
+        setChoiceBoxListenerEnabled(true);
+        if(Model.currentAirport == null)
+            noCurrentAirportView();
+        else
+            selectedCurrentAirportView();
+    }
+
+    public void populateRunwayNames(){
+        setChoiceBoxListenerEnabled(false);
+        runwayChoiceBox.getItems().clear();
+        for(PhysicalRunWay r : Model.currentAirport.getRunways()){
+            runwayChoiceBox.getItems().add(r.toString());
+        }
+        setChoiceBoxListenerEnabled(true);
+    }
+
+
+    private void runwayChoiceBoxUpdater(String value) {
+        if(Model.currentAirport != null && Model.currentAirport.getRunways() != null){
+            for(PhysicalRunWay r : Model.currentAirport.getRunways()){
                 if(r.toString().equals(value)){
                     populateRunwayDetails(r);
-                    currentRunway = r;
+                    editRunway.setVisible(true);
                 }
             }
         }
-    }
-
-    public void populateRunwayNames(List<PhysicalRunWay> runWays){
-        runwayChoiceBox.getItems().clear();
-        for(PhysicalRunWay r : runWays){
-           runwayChoiceBox.getItems().add(r.toString());
-        }
-        runwayChoiceBox.setValue(runWays.get(0).toString());
-        //TODO: TEAM2 code for loading airport data from XML here
     }
 
     public void populateRunwayDetails(PhysicalRunWay runWay){
@@ -159,8 +175,8 @@ public class RunwayConfigController implements Observer{
         leftLdaTF.setText(String.valueOf(left.getLDA()));
         leftThresholdTF.setText((String.valueOf(left.getThreshold())));
 
-        rightPosition.setValue(String.valueOf(right.getDirection()));
-        rightDegreeTF.setText(String.valueOf(right.getDegree()));
+        rightPosition.setText(String.valueOf(right.getDirection()));
+        rightDegreeLabel.setText(String.valueOf(right.getDegree()));
         rightTodaTF.setText(String.valueOf(right.getTODA()));
         rightToraTF.setText(String.valueOf(right.getTORA()));
         rightAsdaTF.setText(String.valueOf(right.getASDA()));
@@ -177,8 +193,8 @@ public class RunwayConfigController implements Observer{
         leftLdaTF.setText("");
         leftThresholdTF.setText("");
 
-        rightPosition.setValue("R");
-        rightDegreeTF.setText("");
+        rightPosition.setText("R");
+        rightDegreeLabel.setText("");
         rightTodaTF.setText("");
         rightToraTF.setText("");
         rightAsdaTF.setText("");
@@ -188,27 +204,50 @@ public class RunwayConfigController implements Observer{
 
     @FXML
     public void newRunwayClick() {
-        edit = false;
-        clearRunwayDetails();
-        disableElements(runwayMainMenu);
-        //editLabel.setVisible(false);
-        editRunway.setVisible(false);
-        showOptions(runwayOptions);
+        runwayConfigMenu();
         editableMode();
-        showOptions(editButtons);
-        Model.leftScreenController.calculateButton.setDisable(true);
     }
 
     @FXML
     public void editRunwayClick() {
         edit = true;
-        disableElements(runwayMainMenu);
-        //editLabel.setVisible(false);
-        editRunway.setVisible(false);
+        runwayConfigMenu();
         editableMode();
-        showOptions(editButtons);
-        Model.leftScreenController.calculateButton.setDisable(true);
+    }
 
+    public void editableMode(){
+        leftPosition.setMouseTransparent(false);
+        rightPosition.setMouseTransparent(false);
+        editButtons.setVisible(true);
+        runwayChoiceBox.setDisable(true);
+        for(TextField t : textFields)
+            t.setEditable(true);
+    }
+
+    private Pair<LogicalRunWay,LogicalRunWay> parseRunwayDetails() {
+        Direction leftDirection = Direction.valueOf(leftPosition.getValue());
+        int leftDegree = Integer.parseInt(leftDegreeTF.getText());
+        int leftAsda = Integer.parseInt(leftAsdaTF.getText());
+        int leftLda = Integer.parseInt(leftLdaTF.getText());
+        int leftToda = Integer.parseInt(leftTodaTF.getText());
+        int leftTora = Integer.parseInt(leftToraTF.getText());
+        int leftThreshold = Integer.parseInt(leftThresholdTF.getText());
+
+        Direction rightDirection = Direction.valueOf(rightPosition.getText());
+        int rightDegree = Integer.parseInt(rightDegreeLabel.getText());
+        int rightAsda = Integer.parseInt(rightAsdaTF.getText());
+        int rightLda = Integer.parseInt(rightLdaTF.getText());
+        int rightToda = Integer.parseInt(rightTodaTF.getText());
+        int rightTora = Integer.parseInt(rightToraTF.getText());
+        int rightThreshold = Integer.parseInt(rightThresholdTF.getText());
+
+        if(leftDegree > 36 || rightDegree > 36 || Math.abs(leftDegree-rightDegree) != 18){
+            AlertController.showWarningAlert("Wrong value of the runway degrees.");
+            return null;
+        }
+        LogicalRunWay left = new LogicalRunWay(leftDegree, leftDirection,leftTora, leftToda, leftAsda, leftLda, leftThreshold);
+        LogicalRunWay right = new LogicalRunWay(rightDegree, rightDirection,rightTora, rightToda, rightAsda, rightLda, rightThreshold);
+        return new Pair<>(left,right);
     }
 
     @FXML
@@ -219,143 +258,98 @@ public class RunwayConfigController implements Observer{
                 return;
             }
         }
-        Direction leftDirection = Direction.valueOf(leftPosition.getValue());
-        int leftDegree = Integer.parseInt(leftDegreeTF.getText());
-        int leftAsda = Integer.parseInt(leftAsdaTF.getText());
-        int leftLda = Integer.parseInt(leftLdaTF.getText());
-        int leftToda = Integer.parseInt(leftTodaTF.getText());
-        int leftTora = Integer.parseInt(leftToraTF.getText());
-        int leftThreshold = Integer.parseInt(leftThresholdTF.getText());
-
-        Direction rightDirection = Direction.valueOf(rightPosition.getValue());
-        int rightDegree = Integer.parseInt(rightDegreeTF.getText());
-        int rightAsda = Integer.parseInt(rightAsdaTF.getText());
-        int rightLda = Integer.parseInt(rightLdaTF.getText());
-        int rightToda = Integer.parseInt(rightTodaTF.getText());
-        int rightTora = Integer.parseInt(rightToraTF.getText());
-        int rightThreshold = Integer.parseInt(rightThresholdTF.getText());
-
-        if(leftDegree > 36 || rightDegree > 36 || Math.abs(leftDegree-rightDegree) != 18){
-            Alert emptyFields = new Alert(Alert.AlertType.WARNING, "Wrong value of the runway degrees.");
-            emptyFields.setHeaderText(null);
-            emptyFields.showAndWait();
+        if(rightDegreeLabel.getText().isEmpty()){
+            System.err.println("error");
             return;
         }
+        Pair<LogicalRunWay,LogicalRunWay> p = parseRunwayDetails();
+        if(p == null) return;
+        LogicalRunWay left = p.getKey();
+        LogicalRunWay right = p.getValue();
 
-        Airport airport = Model.airportConfigController.currentAirport;
-        String previousRunway = runwayChoiceBox.getValue();
-
-        showOnlyMode();
-        enableElements(runwayMainMenu);
-        hideOptions(editButtons);
-        //editLabel.setVisible(true);
-        editRunway.setVisible(true);
-
-        if(edit){
-            if(airport.getRunways() != null){
-                PhysicalRunWay runWay = airport.findRunwayByID(airport.getRunways(), currentRunway.getRunwayID());
-                LogicalRunWay left = runWay.getLeftRunway();
-                LogicalRunWay right = runWay.getRightRunway();
-                left.setDirection(leftDirection);
-                left.setDegree(leftDegree);
-                left.setASDA(leftAsda);
-                left.setLDA(leftLda);
-                left.setTODA(leftToda);
-                left.setTORA(leftTora);
-                left.setThreshold(leftThreshold);
-                right.setDirection(rightDirection);
-                right.setDegree(rightDegree);
-                right.setASDA(rightAsda);
-                right.setLDA(rightLda);
-                right.setThreshold(rightThreshold);
-                right.setTODA(rightToda);
-                right.setTORA(rightTora);
-                runwayChoiceBox.getItems().remove(runwayChoiceBox.getSelectionModel().getSelectedItem());
-                runwayChoiceBox.getItems().add(currentRunway.toString());
-                runwayChoiceBox.setValue(currentRunway.toString());
-                edit = false;
-                Model.console.addLog("Runway " + previousRunway + " edited to: " + currentRunway.toString());
-            }
-            else System.err.println("Error RunwayController:257");
+        if(left.getDegree() > 36 || right.getDegree() > 36 || Math.abs(left.getDegree()-right.getDegree()) != 18){
+            AlertController.showWarningAlert("Wrong value of the runway degrees.");
+            return;
+        }
+        if (edit){
+            String previousRunway = runwayChoiceBox.getValue();
+            saveEditedRunway(left,right);
+            Model.console.addLog("Runway " + previousRunway + " edited to: " + Model.currentRunway.toString());
         } else {
-            LogicalRunWay left = new LogicalRunWay(leftDegree,leftDirection,leftTora,leftToda,leftAsda,leftLda, leftThreshold);
-            LogicalRunWay right = new LogicalRunWay(rightDegree,rightDirection,rightTora,rightToda,rightAsda,rightLda, rightThreshold);
+            System.out.println(Model.currentAirport);
+            System.out.println(Model.currentRunway);
+            System.out.println(Model.currentAirport.getRunways().size());
+            System.err.println(runwayChoiceBox.getItems());
             int id = 1;
-            if(airport.getRunways() != null){
-                for (PhysicalRunWay r : airport.getRunways()){
+            if(Model.currentAirport.getRunways() != null)
+                for (PhysicalRunWay r : Model.currentAirport.getRunways())
                     if(r.getRunwayID() > id) id = r.getRunwayID();
-                }
-                runwayChoiceBox.setDisable(false);
-                editRunway.setDisable(false);
-            }
+
             PhysicalRunWay runWay = null;
             try { runWay = new PhysicalRunWay(id,left,right,null); }
             catch (Exception e) { e.printStackTrace(); }
-            airport.addNewRunway(runWay);
+            Model.currentAirport.addNewRunway(runWay);
+            Model.currentRunway = runWay;
+            setChoiceBoxListenerEnabled(false);
             runwayChoiceBox.getItems().add(runWay.toString());
             runwayChoiceBox.setValue(runWay.toString());
+            setChoiceBoxListenerEnabled(true);
+            System.out.println(Model.currentAirport);
+            System.out.println(Model.currentRunway);
+            System.out.println(Model.currentAirport.getRunways().size());
+            System.err.println(runwayChoiceBox.getItems());
             Model.console.addLog("Runway " + runwayChoiceBox.getValue() + " added");
         }
-        showOnlyMode();
-        enableElements(runwayMainMenu);
-        //editLabel.setVisible(true);
-        editRunway.setVisible(true);
-        Model.leftScreenController.calculateButton.setDisable(false);
+        runwayChoiceBox.setDisable(false);
+        expandedRunwayMenuView();
+    }
 
+    private void expandedRunwayMenuView(){
+        runwayChoiceBox.setDisable(false);
+        runwayMainMenu.setDisable(false);
+        runwayOptions.setDisable(true);
+        editButtons.setVisible(false);
+        editRunway.setDisable(false);
+        editRunway.setVisible(true);
+        showOnlyMode();
+    }
+
+    private void saveEditedRunway(LogicalRunWay left, LogicalRunWay right) {
+        if(Model.currentAirport.getRunways() != null){
+            Model.currentRunway.setLeftRunway(left);
+            Model.currentRunway.setRightRunway(right);
+            setChoiceBoxListenerEnabled(false);
+            runwayChoiceBox.getItems().remove(runwayChoiceBox.getValue());
+            runwayChoiceBox.getItems().add(Model.currentRunway.toString());
+            setChoiceBoxListenerEnabled(true);
+            runwayChoiceBox.setValue(Model.currentRunway.toString());
+            edit = false;
+        }
+        else System.err.println("Error RunwayController:257");
     }
 
     @FXML
     public void cancelRunwayClick() {
+        edit = false;
         Model.leftScreenController.calculateButton.setDisable(false);
-        if(runwayChoiceBox.getItems().isEmpty()){
-            hideOptions(editButtons);
-            enableElements(runwayMainMenu);
-            hideOptions(runwayOptions);
-            clearRunwayDetails();
-            return;
+        selectedCurrentAirportView();
+        editRunway.setVisible(true);
+        if(Model.currentRunway != null) {
+            populateRunwayDetails(Model.currentRunway);
+            runwayChoiceBox.setValue(Model.currentRunway.toString());
+        } else {
+            selectedCurrentAirportView();
         }
         showOnlyMode();
-        enableElements(runwayMainMenu);
-        hideOptions(editButtons);
-        //editLabel.setVisible(true);
-        editRunway.setVisible(true);
-        populateRunwayDetails(currentRunway);
     }
 
     public void showOnlyMode(){
         leftPosition.setMouseTransparent(true);
-        rightPosition.setMouseTransparent(true);
         for(TextField t : textFields)
             t.setEditable(false);
-        runwayOptions.setOpacity(0.75);
+        editButtons.setVisible(false);
+        runwayOptions.setDisable(true);
     }
 
-    public void editableMode(){
-        leftPosition.setMouseTransparent(false);
-        rightPosition.setMouseTransparent(false);
-        for(TextField t : textFields)
-            t.setEditable(true);
-        runwayOptions.setOpacity(1);
-    }
 
-    public void enableElements(Pane elements){
-        elements.setDisable(false);
-    }
-
-    public void disableElements(Pane elements){
-        elements.setDisable(true);
-    }
-
-    private void showOptions(Pane options){
-        options.setVisible(true);
-    }
-
-    private void hideOptions(Pane options){
-        options.setVisible(false);
-    }
-
-    @Override
-    public void update() {
-        System.out.println(Model.currentAirport.toString());
-    }
 }

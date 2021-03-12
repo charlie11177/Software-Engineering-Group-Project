@@ -61,7 +61,6 @@ public class ObstacleConfigController {
         textFields = Arrays.asList(obstacleHeightTF,obstacleWidthTF,distanceFromLTF,distanceFromRTF,distanceFromCLTF);
         for(TextField t : textFields)
             t.setTextFormatter(new TextFormatter<>(change -> {
-                // "^(\\d*\\.?\\d*)$"
                if (!change.getText().matches("-?(([0-9])*)")) change.setText("");
                 return change;
             }));

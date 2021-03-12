@@ -22,8 +22,8 @@ public class LeftScreenController {
     private void calculateButtonClick() {
         try{
             //Model.currentAirport = Model.getAirportByName(Model.airportConfigController.currentAirport.getName());
-            if(Model.currentAirport.getRunways() != null)
-                Model.runwayConfigController.runwayMenuChanger();
+            if(Model.currentAirport.getRunways() != null){}
+                //Model.runwayConfigController.runwayMenuChanger();
             else{
                 Alert noObject = new Alert(Alert.AlertType.WARNING, "No runway specified !");
                 noObject.setHeaderText(null);
