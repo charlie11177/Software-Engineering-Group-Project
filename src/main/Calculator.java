@@ -7,29 +7,29 @@ public class Calculator {
     private static Obstacle obstacle;
 
     public static void recalculate(){
-        //obstacle = Model.currentObstacle;
-        physicalRunway = Model.runwayConfigController.currentRunway;
-        if(physicalRunway != null){
-            obstacle = Model.currentObstacle;
-            if(obstacle != null && obstacle.getPosition() != null){
-                if (obstacle.getPosition().getDistanceToLeft() > obstacle.getPosition().getDistanceToRight()){
-                    recalculateAWAY(physicalRunway.getRightRunway(), obstacle.getPosition().getDistanceToRight());
-                    recalculateTOWARDS(physicalRunway.getLeftRunway(), obstacle.getPosition().getDistanceToLeft());
-                }
-                else {
-                    recalculateAWAY(physicalRunway.getLeftRunway(), obstacle.getPosition().getDistanceToLeft());
-                    recalculateTOWARDS(physicalRunway.getRightRunway(), obstacle.getPosition().getDistanceToRight());
-                }
-            }else {
-                Alert noObject = new Alert(Alert.AlertType.WARNING, "No object has been placed on the runway!");
-                noObject.setHeaderText(null);
-                noObject.showAndWait();
-            }
-        }else{
-            Alert noRunway = new Alert(Alert.AlertType.WARNING, "No runway has been selected!");
-            noRunway.setHeaderText(null);
-            noRunway.showAndWait();
-        }
+//        //obstacle = Model.currentObstacle;
+//        physicalRunway = Model.runwayConfigController.currentRunway;
+//        if(physicalRunway != null){
+//            obstacle = Model.currentObstacle;
+//            if(obstacle != null && obstacle.getPosition() != null){
+//                if (obstacle.getPosition().getDistanceToLeft() > obstacle.getPosition().getDistanceToRight()){
+//                    recalculateAWAY(physicalRunway.getRightRunway(), obstacle.getPosition().getDistanceToRight());
+//                    recalculateTOWARDS(physicalRunway.getLeftRunway(), obstacle.getPosition().getDistanceToLeft());
+//                }
+//                else {
+//                    recalculateAWAY(physicalRunway.getLeftRunway(), obstacle.getPosition().getDistanceToLeft());
+//                    recalculateTOWARDS(physicalRunway.getRightRunway(), obstacle.getPosition().getDistanceToRight());
+//                }
+//            }else {
+//                Alert noObject = new Alert(Alert.AlertType.WARNING, "No object has been placed on the runway!");
+//                noObject.setHeaderText(null);
+//                noObject.showAndWait();
+//            }
+//        }else{
+//            Alert noRunway = new Alert(Alert.AlertType.WARNING, "No runway has been selected!");
+//            noRunway.setHeaderText(null);
+//            noRunway.showAndWait();
+//        }
     }
 
 
