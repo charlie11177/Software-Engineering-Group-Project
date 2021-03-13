@@ -124,7 +124,8 @@ public class XMLParser {
                 airports.add(new Airport(name, code ,runways));
             }
         } catch(Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
+            System.err.println(e.getMessage());
         }
         return airports;
     }
@@ -170,7 +171,9 @@ public class XMLParser {
                 obstacles.add(new Obstacle(name, height, width, null));
             }
         } catch(Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
+            System.err.println(e.getMessage());
+
         }
         return obstacles;
     }

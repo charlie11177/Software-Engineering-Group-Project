@@ -6,7 +6,7 @@ import main.Model;
 public class RightScreenController {
 
     public TextArea allCalculationsTopTA;
-    public TextArea allCalculationsButtonTA;
+    public TextArea allCalculationsBottomTA;
 
     public void initialize(){
         Model.rightScreenController = this;

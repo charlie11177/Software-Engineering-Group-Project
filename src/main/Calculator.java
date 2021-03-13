@@ -7,29 +7,29 @@ public class Calculator {
     private static Obstacle obstacle;
 
     public static void recalculate(){
-//        //obstacle = Model.currentObstacle;
-//        physicalRunway = Model.runwayConfigController.currentRunway;
-//        if(physicalRunway != null){
-//            obstacle = Model.currentObstacle;
-//            if(obstacle != null && obstacle.getPosition() != null){
-//                if (obstacle.getPosition().getDistanceToLeft() > obstacle.getPosition().getDistanceToRight()){
-//                    recalculateAWAY(physicalRunway.getRightRunway(), obstacle.getPosition().getDistanceToRight());
-//                    recalculateTOWARDS(physicalRunway.getLeftRunway(), obstacle.getPosition().getDistanceToLeft());
-//                }
-//                else {
-//                    recalculateAWAY(physicalRunway.getLeftRunway(), obstacle.getPosition().getDistanceToLeft());
-//                    recalculateTOWARDS(physicalRunway.getRightRunway(), obstacle.getPosition().getDistanceToRight());
-//                }
-//            }else {
-//                Alert noObject = new Alert(Alert.AlertType.WARNING, "No object has been placed on the runway!");
-//                noObject.setHeaderText(null);
-//                noObject.showAndWait();
-//            }
-//        }else{
-//            Alert noRunway = new Alert(Alert.AlertType.WARNING, "No runway has been selected!");
-//            noRunway.setHeaderText(null);
-//            noRunway.showAndWait();
-//        }
+        //obstacle = Model.currentObstacle;
+        physicalRunway = Model.currentRunway;
+        if(physicalRunway != null){
+            obstacle = Model.currentObstacle;
+            if(obstacle != null && obstacle.getPosition() != null){
+                if (obstacle.getPosition().getDistanceToLeft() > obstacle.getPosition().getDistanceToRight()){
+                    recalculateAWAY(physicalRunway.getRightRunway(), obstacle.getPosition().getDistanceToRight());
+                    recalculateTOWARDS(physicalRunway.getLeftRunway(), obstacle.getPosition().getDistanceToLeft());
+                }
+                else {
+                    recalculateAWAY(physicalRunway.getLeftRunway(), obstacle.getPosition().getDistanceToLeft());
+                    recalculateTOWARDS(physicalRunway.getRightRunway(), obstacle.getPosition().getDistanceToRight());
+                }
+            }else {
+                Alert noObject = new Alert(Alert.AlertType.WARNING, "No object has been placed on the runway!");
+                noObject.setHeaderText(null);
+                noObject.showAndWait();
+            }
+        }else{
+            Alert noRunway = new Alert(Alert.AlertType.WARNING, "No runway has been selected!");
+            noRunway.setHeaderText(null);
+            noRunway.showAndWait();
+        }
     }
 
 
@@ -56,7 +56,7 @@ public class Calculator {
 
         Model.console.addLog("Runway: " + runway);
         Model.console.addLog("TORA:" + tora + ", TODA:" + toda + ", LDA:" + lda + ", ASDA:" + asda);
-        Model.awayCalculationBreakdown = allBD;
+        Model.calculationsBreakDownBottom = allBD;
     }
     private static void recalculateTOWARDS(LogicalRunWay runway, int distanceFromThreshold) { //(Take off Towards, Landing Towards)
         int tora, toda, asda, lda;
@@ -80,7 +80,6 @@ public class Calculator {
 
         Model.console.addLog("Runway: " + runway);
         Model.console.addLog("TORA:" + tora + ", TODA:" + toda + ", LDA:" + lda + ", ASDA:" + asda);
-        Model.towardsCalculationBreakdown = allBD;
+        Model.calculationsBreakdownTop = allBD;
     }
 }
-

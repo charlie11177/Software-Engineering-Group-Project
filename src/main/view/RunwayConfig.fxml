@@ -29,7 +29,7 @@
                   <ChoiceBox fx:id="runwayChoiceBox" prefWidth="150.0" />
                   <HBox alignment="CENTER" prefHeight="30.0" prefWidth="178.0" spacing="30.0">
                      <children>
-                        <Button fx:id="newRuway" mnemonicParsing="false" onAction="#newRunwayClick" prefHeight="25.0" prefWidth="60.0" text="New" HBox.hgrow="SOMETIMES" />
+                        <Button fx:id="newRunway" mnemonicParsing="false" onAction="#newRunwayClick" prefHeight="25.0" prefWidth="60.0" text="New" HBox.hgrow="SOMETIMES" />
                      </children>
                      <VBox.margin>
                         <Insets bottom="20.0" top="10.0" />
@@ -45,7 +45,7 @@
                   <Insets bottom="10.0" top="40.0" />
                </VBox.margin>
             </Separator>
-            <VBox fx:id="runwayOptions" opacity="0.7" spacing="7.0">
+            <VBox fx:id="runwayOptions" spacing="7.0">
                <children>
                   <HBox alignment="CENTER" prefHeight="25.0" prefWidth="178.0" spacing="5.0">
                      <children>
@@ -58,7 +58,7 @@
                      <children>
                         <ChoiceBox fx:id="leftPosition" prefHeight="25.0" prefWidth="70.0" />
                         <Label alignment="CENTER" prefHeight="17.0" prefWidth="64.0" text="Position" />
-                        <Label fx:id="rightPosition" alignment="CENTER" prefWidth="70.0" />
+                        <Label fx:id="rightPositionLabel" alignment="CENTER" prefWidth="70.0" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="25.0" prefWidth="178.0" spacing="5.0">

@@ -4,8 +4,6 @@ import main.controllers.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.function.ObjDoubleConsumer;
 
 /**
  * Model class used as the main class that holds all data from classes that represent Airport, Runway, Obstacles, etc.
@@ -13,34 +11,36 @@ import java.util.function.ObjDoubleConsumer;
  */
 public class Model {
 
-    // console that holds all the log texts to display
-    public static Console console = new Console();
     // Center of the UI, main visualisation window and console textArea
-    public static CenterScreenController centerScreenController;
+    // Do not use these in classes other then controllers
+    public static  CenterScreenController centerScreenController;
     public static RunwayConfigController runwayConfigController;
     public static AirportConfigController airportConfigController;
     public static ObstacleConfigController obstacleConfigController;
     public static LeftScreenController leftScreenController;
     public static RightScreenController rightScreenController;
 
+    // console that holds all the log texts to display
+    public static Console console = new Console();
     public static ArrayList<Airport> airports = new ArrayList<>();
     public static ArrayList<Obstacle> obstacles = new ArrayList<>();
     public static Airport currentAirport;
     public static PhysicalRunWay currentRunway;
     public static Obstacle currentObstacle;
+    public static boolean obstaclePlaced = false;
 
-    public static String towardsCalculationBreakdown;
-    public static String awayCalculationBreakdown;
-    private static ArrayList<Observer> airportObservers = new ArrayList<>();
-    private static ArrayList<Observer> airportListObservers = new ArrayList<>();
+    public static String calculationsBreakdownTop;
+    public static String calculationsBreakDownBottom;
+//    private static ArrayList<Observer> airportObservers = new ArrayList<>();
+//    private static ArrayList<Observer> airportListObservers = new ArrayList<>();
 
-    public static Airport getAirportByName(String name){
-        for(Airport a : airports){
-            if (a.getName().equals(name))
-                return a;
-        }
-        return null;
-    }
+//    public static Airport getAirportByName(String name){
+//        for(Airport a : airports){
+//            if (a.getName().equals(name))
+//                return a;
+//        }
+//        return null;
+//    }
 
     public static Obstacle getObstacleByName(String name){
         for(Obstacle o : obstacles){
@@ -50,51 +50,52 @@ public class Model {
         return null;
     }
 
-    public static PhysicalRunWay getRunwayByName(String name){
-        for (PhysicalRunWay r : currentAirport.getRunways()){
-            if (r.toString().equals(name))
-                return r;
-        }
-        return null;
-    }
+//    public static PhysicalRunWay getRunwayByName(String name){
+//        for (PhysicalRunWay r : currentAirport.getRunways()){
+//            if (r.toString().equals(name))
+//                return r;
+//        }
+//        return null;
+//    }
 
-    public static ArrayList<Airport> getAirports () {
+    public static ArrayList<Airport> getAirports() {
         return airports;
     }
 
-    public static void addAirports(Airport...as) {
-        airports.addAll(Arrays.asList(as));
-        notifyAirportObservers();
+    public static ArrayList<Obstacle> getObstacles() {
+        return obstacles;
     }
 
-    public static void attachAirportObserver(Observer observer){
-        airportObservers.add(observer);
+    public static void addAirports(Airport...as) {
+        Model.currentRunway = null;
+        Model.obstaclePlaced = false;
+        airports.addAll(Arrays.asList(as));
+    }
+
+//    public static void attachAirportObserver(Observer observer){
+//        airportObservers.add(observer);
+//    }
+    public static void setCurrentRunway(PhysicalRunWay runway) {
+        System.out.println("A");
+        Model.currentRunway = runway;
+        Model.obstaclePlaced = false;
     }
 
     public static void setCurrentAirport(Airport airport) {
-        currentRunway = null;
         currentAirport = airport;
-        notifyAirportObservers();
-    }
-
-//    public static void editAirport(Airport replacement) {
-//        for (Airport a : airports) {
-//            if(replacement.equals(a)) {
-//                airports.set(airports.indexOf(a), replacement);
-//                notifyAirportObservers();
-//                return;
-//            }
-//        }
-//        System.err.println("Model.editAirport()");
-//    }
-
-    public static void notifyAirportObservers() {
-        for (Observer observer : airportObservers) {
-            System.out.println("Notified");
-            observer.update();
+        Model.obstaclePlaced = false;
+        if(!Model.currentAirport.getRunways().contains(Model.currentRunway)){
+            Model.currentRunway = null;
+            System.err.println("Current runway assigned null");
         }
     }
 
+    public static void resetConfig(){
+        currentAirport = null;
+        currentRunway = null;
+        currentObstacle = null;
+        obstaclePlaced = false;
+    }
 
     public static void demo(){
         LogicalRunWay left1 = new LogicalRunWay(9, Direction.L,3902,3902,3202,3595, 0);
@@ -138,7 +139,7 @@ public class Model {
 
         Airport airport = new Airport("London_Gatwick", "LGW",runWays);
         Airport airport2 = new Airport("London_Heathrow", "LHR",runWays2);
-        //airports.add(airport);
+        airports.add(airport);
         //airports.add(airport2);
     }
 }
