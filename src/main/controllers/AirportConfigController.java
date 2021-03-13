@@ -30,7 +30,7 @@ public class AirportConfigController {
 
     @FXML
     private void initialize() {
-//        Model.airportConfigController = this;
+        Model.airportConfigController = this;
         setupTextFields();
         airportConfig.expandedProperty().addListener((observable, oldValue, newValue) -> update(newValue));
 //        airportChoiceBox.valueProperty().addListener((observable, oldValue, newValue) -> choiceBoxUpdater(newValue));
