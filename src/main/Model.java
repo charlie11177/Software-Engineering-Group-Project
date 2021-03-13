@@ -11,6 +11,9 @@ import java.util.Arrays;
  */
 public class Model {
 
+    static {
+
+    }
     // Center of the UI, main visualisation window and console textArea
     // Do not use these in classes other then controllers
     public static  CenterScreenController centerScreenController;
@@ -31,32 +34,7 @@ public class Model {
 
     public static String calculationsBreakdownTop;
     public static String calculationsBreakDownBottom;
-//    private static ArrayList<Observer> airportObservers = new ArrayList<>();
-//    private static ArrayList<Observer> airportListObservers = new ArrayList<>();
 
-//    public static Airport getAirportByName(String name){
-//        for(Airport a : airports){
-//            if (a.getName().equals(name))
-//                return a;
-//        }
-//        return null;
-//    }
-
-    public static Obstacle getObstacleByName(String name){
-        for(Obstacle o : obstacles){
-            if(o.getName().equals(name))
-                return o;
-        }
-        return null;
-    }
-
-//    public static PhysicalRunWay getRunwayByName(String name){
-//        for (PhysicalRunWay r : currentAirport.getRunways()){
-//            if (r.toString().equals(name))
-//                return r;
-//        }
-//        return null;
-//    }
 
     public static ArrayList<Airport> getAirports() {
         return airports;
@@ -72,9 +50,6 @@ public class Model {
         airports.addAll(Arrays.asList(as));
     }
 
-//    public static void attachAirportObserver(Observer observer){
-//        airportObservers.add(observer);
-//    }
     public static void setCurrentRunway(PhysicalRunWay runway) {
         System.out.println("A");
         Model.currentRunway = runway;
@@ -124,7 +99,6 @@ public class Model {
             e.printStackTrace();
         }
 
-
         ArrayList<PhysicalRunWay> runWays = new ArrayList<>();
         runWays.add(r1);
         runWays.add(r2);
@@ -133,13 +107,12 @@ public class Model {
         runWays2.add(r3);
         runWays2.add(r4);
 
-
         Obstacle airplane = new Obstacle("airplane1", 25 , 25*50, new Position(3655,0, 10, "L"));
         obstacles.add(airplane);
 
         Airport airport = new Airport("London_Gatwick", "LGW",runWays);
         Airport airport2 = new Airport("London_Heathrow", "LHR",runWays2);
         airports.add(airport);
-        //airports.add(airport2);
+        airports.add(airport2);
     }
 }
