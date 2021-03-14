@@ -33,8 +33,9 @@ public class LeftScreenController {
             Model.console.addLog("Obstacle: " + Model.currentObstacle.getName() + " " + Model.currentObstacle.getPosition().getDistanceToLeft());
             Model.console.addLog("---------------------------------------");
             Calculator.recalculate();
-            Model.rightScreenController.allCalculationsTopTA.setText(Model.calculationsBreakdownTop);
-            Model.rightScreenController.allCalculationsBottomTA.setText(Model.calculationsBreakDownBottom);
+            Model.rightScreenController.allCalculationsTowardsTA.setText(Model.calculationsBreakdownTowards);
+            Model.rightScreenController.allCalculationsAwayTA.setText(Model.calculationsBreakDownAway);
+            Model.rightScreenController.populateTables();
         }
     }
 

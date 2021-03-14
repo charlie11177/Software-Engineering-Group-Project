@@ -16,28 +16,28 @@ import java.util.List;
 
 public class ObstacleConfigController {
 
-    public Label nameLabel;
-    public VBox topVbox;
-    public VBox obstacleDetails;
-    public VBox distancesEditorVbox;
-    public CheckBox placeObstacleCB;
-    public Separator separator;
-    public Button newObstacleButton;
-    public Button editObstacleButton;
     private List<TextField> textFields;
-    private Boolean edit;
+    private boolean edit;
 
+//    @FXML private Label nameLabel;
+    @FXML private VBox topVbox;
+    @FXML private VBox obstacleDetails;
+    @FXML private VBox distancesEditorVbox;
+    @FXML private CheckBox placeObstacleCB;
+//    @FXML private Separator separator;
+    @FXML private Button newObstacleButton;
+    @FXML private Button editObstacleButton;
     @FXML private TitledPane obstacleConfig;
-    @FXML private HBox editButtonsTop;
+//    @FXML private HBox editButtonsTop;
     @FXML private HBox editButtonsBottom;
     @FXML private TextField obstacleHeightTF;
     @FXML private TextField obstacleWidthTF;
     @FXML private TextField obstacleNameTF;
     @FXML private ChoiceBox<String> obstacleChoiceBox;
-    public TextField distanceFromLTF;
-    public TextField distanceFromRTF;
-    public TextField distanceFromCLTF;
-    public ChoiceBox<String> dirFromCLChoiceBox;
+    @FXML private TextField distanceFromLTF;
+    @FXML private TextField distanceFromRTF;
+    @FXML private TextField distanceFromCLTF;
+    @FXML private ChoiceBox<String> dirFromCLChoiceBox;
 
     public ObstacleConfigController(){
         edit = false;
@@ -220,7 +220,8 @@ public class ObstacleConfigController {
 
     }
 
-    public void placeObstacleClick() {
+    @FXML
+    private void placeObstacleClick() {
         if (placeObstacleCB.isSelected()){
             if(Model.currentRunway == null){
                 AlertController.showWarningAlert("No runway selected!");
@@ -253,21 +254,25 @@ public class ObstacleConfigController {
         }
     }
 
-    public void newObstacleClick() {
+    @FXML
+    private void newObstacleClick() {
         populateObstacleDetails(null);
         obstacleEditView();
     }
 
-    public void editObstacleClick() {
+    @FXML
+    private void editObstacleClick() {
         obstacleEditView();
     }
 
-    public void cancelButtonClick() {
+    @FXML
+    private void cancelButtonClick() {
         populateObstacleDetails(Model.currentObstacle);
         selectedObstacleView();
     }
 
-    public void saveButtonClick() {
+    @FXML
+    private void saveButtonClick() {
         String name = obstacleNameTF.getText();
         if(name.equals("") || obstacleHeightTF.getText().equals("") || (obstacleWidthTF.getText().equals(""))) {
             AlertController.showWarningAlert("Empty texfields!");

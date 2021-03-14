@@ -11,9 +11,6 @@ import java.util.Arrays;
  */
 public class Model {
 
-    static {
-
-    }
     // Center of the UI, main visualisation window and console textArea
     // Do not use these in classes other then controllers
     public static  CenterScreenController centerScreenController;
@@ -32,8 +29,12 @@ public class Model {
     public static Obstacle currentObstacle;
     public static boolean obstaclePlaced = false;
 
-    public static String calculationsBreakdownTop;
-    public static String calculationsBreakDownBottom;
+    public static String calculationsBreakdownTowards;
+    public static String calculationsBreakDownAway;
+    public static LogicalRunWay recalculatedRunwayTowards;
+    public static LogicalRunWay recalculatedRunwayAway;
+    public static LogicalRunWay originalRunwayTowards;
+    public static LogicalRunWay originalRunwayAway;
 
 
     public static ArrayList<Airport> getAirports() {
@@ -51,7 +52,6 @@ public class Model {
     }
 
     public static void setCurrentRunway(PhysicalRunWay runway) {
-        System.out.println("A");
         Model.currentRunway = runway;
         Model.obstaclePlaced = false;
     }
@@ -61,7 +61,7 @@ public class Model {
         Model.obstaclePlaced = false;
         if(!Model.currentAirport.getRunways().contains(Model.currentRunway)){
             Model.currentRunway = null;
-            System.err.println("Current runway assigned null");
+//            System.out.println("Current runway assigned null");
         }
     }
 
