@@ -11,6 +11,7 @@ public class LogicalRunWay {
     private int threshold;
     private int clearway;
     private int stopway;
+    private String name;
 
     public LogicalRunWay(int degree, Direction direction, int TORA, int TODA, int ASDA, int LDA, int threshold){
         this.degree = degree;
@@ -22,6 +23,7 @@ public class LogicalRunWay {
         this.threshold = threshold;
         this.clearway = TODA - TORA;
         this.stopway = ASDA - TORA;
+        this.name = String.valueOf(degree) + direction.toString();
     }
 
     @Override
@@ -54,6 +56,11 @@ public class LogicalRunWay {
     }
 
     public void setThreshold(int threshold) { this.threshold = threshold;}
+
+
+    public String getName(){
+        return name;
+    }
 
     public int getDegree() {
         return degree;
