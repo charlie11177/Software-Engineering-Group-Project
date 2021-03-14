@@ -23,7 +23,7 @@
             <Insets bottom="3.0" />
          </VBox.margin>
       </Label>
-      <TableView fx:id="topTableView" fixedCellSize="0.0" mouseTransparent="true" prefHeight="74.0" prefWidth="286.0" stylesheets="@../tableStyle.css" VBox.vgrow="NEVER">
+      <TableView fx:id="topTableView" fixedCellSize="0.0" mouseTransparent="true" prefHeight="78.0" prefWidth="286.0" stylesheets="@../tableStyle.css" VBox.vgrow="NEVER">
          <columns>
             <TableColumn fx:id="topNameColumn" editable="false" prefWidth="53.0" sortable="false" text="Runway">
                 <cellValueFactory>
@@ -74,7 +74,7 @@
             <Font name="System Bold" size="15.0" />
          </font>
       </Label>
-      <TableView fx:id="bottomTableView" fixedCellSize="0.0" mouseTransparent="true" prefHeight="74.0" prefWidth="286.0" stylesheets="@../tableStyle.css" VBox.vgrow="NEVER">
+      <TableView fx:id="bottomTableView" fixedCellSize="0.0" mouseTransparent="true" prefHeight="78.0" prefWidth="286.0" stylesheets="@../tableStyle.css" VBox.vgrow="NEVER">
          <columns>
             <TableColumn fx:id="bottomNameColumn" editable="false" prefWidth="50.0" sortable="false" text="Runway">
                 <cellValueFactory>
