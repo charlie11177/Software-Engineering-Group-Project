@@ -6,10 +6,10 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.Pair;
-import main.Direction;
-import main.LogicalRunWay;
-import main.Model;
-import main.PhysicalRunWay;
+import main.model.Direction;
+import main.model.LogicalRunWay;
+import main.model.Model;
+import main.model.PhysicalRunWay;
 
 import java.util.ArrayList;
 import java.util.Arrays;

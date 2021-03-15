@@ -4,8 +4,8 @@ import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
-import main.Airport;
-import main.Model;
+import main.model.Airport;
+import main.model.Model;
 
 import java.util.ArrayList;
 

@@ -1,14 +1,12 @@
 package main.controllers;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import main.Model;
-import main.Obstacle;
-import main.PhysicalRunWay;
-import main.Position;
+import main.model.Model;
+import main.model.Obstacle;
+import main.model.Position;
 
 import java.util.ArrayList;
 import java.util.Arrays;
