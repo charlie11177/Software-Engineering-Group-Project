@@ -3,7 +3,8 @@ package main.controllers;
 import javafx.fxml.FXML;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
-import main.*;
+import main.model.Calculator;
+import main.model.Model;
 
 public class LeftScreenController {
 

@@ -1,10 +1,9 @@
 package main.controllers;
 
-import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
-import main.LogicalRunWay;
-import main.Model;
+import main.model.LogicalRunWay;
+import main.model.Model;
 
 public class RightScreenController {
 

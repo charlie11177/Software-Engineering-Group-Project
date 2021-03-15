@@ -5,10 +5,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.MenuBar;
 import javafx.stage.FileChooser;
-import main.Airport;
-import main.Model;
-import main.Obstacle;
-import main.XMLParser;
+import main.model.Airport;
+import main.model.Model;
+import main.model.Obstacle;
+import main.model.XMLParser;
 
 import java.io.File;
 import java.util.ArrayList;

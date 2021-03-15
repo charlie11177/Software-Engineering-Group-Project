@@ -2,8 +2,7 @@ package main.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
-import main.Console;
-import main.Model;
+import main.model.Model;
 
 public class CenterScreenController {
 
