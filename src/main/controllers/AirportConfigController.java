@@ -60,6 +60,7 @@ public class AirportConfigController {
 
     private void update(Boolean expanded){
         if(expanded){
+            airportConfig.setText("Airport");
             aiportOptions.setVisible(false);
             populateAirports();
             if(Model.getAirports().isEmpty()){
@@ -127,6 +128,9 @@ public class AirportConfigController {
 
     private void windowCloseProcedure(){
         edit = false;
+        if(Model.currentAirport != null)
+            airportConfig.setText(Model.currentAirport.toString());
+        else airportConfig.setText("Airport");
         System.out.println(Model.getAirports().size());
         System.out.println(Model.currentRunway);
     }

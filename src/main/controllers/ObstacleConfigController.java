@@ -73,6 +73,7 @@ public class ObstacleConfigController {
 
     private void update(Boolean expanded) {
         if(expanded){
+            obstacleConfig.setText("Obstacle");
             populateObstacleNames();
             if(Model.obstacles.isEmpty()){
                 placeObstacleCB.setSelected(false);
@@ -99,7 +100,12 @@ public class ObstacleConfigController {
     private void windowCloseProcedure() {
         edit = false;
 //        Model.currentObstacle = Model.getObstacleByName(obstacleChoiceBox.getValue());
-        System.out.println("Current obstacle: " + Model.currentObstacle);
+        if(Model.currentObstacle != null){
+            if(Model.obstaclePlaced)
+                obstacleConfig.setText(Model.currentObstacle.getName() + ": placed");
+            else
+                obstacleConfig.setText(Model.currentObstacle.getName() + ": not placed");
+        }
     }
 
     private void specifyView(boolean obstacleChoiceBoxDisabled, boolean editObstacleButtonDisabled, boolean newButtonDisabled,
@@ -138,6 +144,10 @@ public class ObstacleConfigController {
     }
 
     private void selectedObstacleView() {
+        if(Model.currentRunway == null)
+            placeObstacleCB.setDisable(true);
+        else
+            placeObstacleCB.setDisable(false);
         specifyView(false,
                 false,
                 false,
