@@ -4,6 +4,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.MenuBar;
+import javafx.scene.control.TitledPane;
+import javafx.scene.layout.TilePane;
 import javafx.stage.FileChooser;
 import main.model.Airport;
 import main.model.Model;
@@ -32,13 +34,10 @@ public class MainWindowController {
     }
 
     @FXML private void importXML (ActionEvent event) {
-        if(Model.leftScreenController.accordion.getExpandedPane()!= null)
-            Model.leftScreenController.accordion.getExpandedPane().setExpanded(false);
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Import XML");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("xml files" , "*.xml"));
         File xmlFile = fileChooser.showOpenDialog(menuBar.getScene().getWindow());
-
         /*
          * Try/catch and if statements to check whether an airport or obstacle has been imported
          * and if the import was successful
@@ -58,7 +57,6 @@ public class MainWindowController {
             else {
                 ArrayList<Obstacle> importedObstacles = xmlParser.importObstacle(xmlFile);
                 if (!importedObstacles.isEmpty()) {
-                    Model.resetConfig();
                     Model.obstacles = importedObstacles;
                     Model.console.addLog("--- Imported Objects ---");
                     for (Obstacle o : Model.obstacles)
@@ -71,6 +69,7 @@ public class MainWindowController {
                     throw new Exception();
                 }
             }
+            resetMenus();
         }
         catch (Exception e) {
             Model.console.addLog("Failed an import");
@@ -78,6 +77,20 @@ public class MainWindowController {
             failedImport.setHeaderText(null);
             failedImport.showAndWait();
         }
+    }
+
+    /**
+     * Resets the menu when new values are sucessfuly imported
+     */
+    private void resetMenus(){
+        Model.resetConfig();
+        TitledPane currentPane = Model.leftScreenController.accordion.getExpandedPane();
+        for(TitledPane t : Model.leftScreenController.accordion.getPanes()){
+            t.setExpanded(true);
+        }
+        if (currentPane != null)
+            currentPane.setExpanded(true);
+        else Model.leftScreenController.accordion.getExpandedPane().setExpanded(false);
     }
 
     public void exportAirports(ActionEvent event) {

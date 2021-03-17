@@ -101,6 +101,7 @@ public class RunwayConfigController {
 
     private void update(Boolean expanded) {
         if(expanded){
+            runwayConfig.setText("Runway");
             showOnlyMode();
             System.out.println("RUNWAY UPDATE:" + Model.currentRunway);
             populateRunwayNames();
@@ -200,6 +201,8 @@ public class RunwayConfigController {
 
     private void windowCloseProcedure() {
         edit = false;
+        if(Model.currentRunway != null)
+            runwayConfig.setText(Model.currentRunway.toString());
         System.out.println("RUNWAY CLOSE:"+Model.currentRunway);
     }
 
