@@ -23,7 +23,7 @@
             <Insets bottom="3.0" />
          </VBox.margin>
       </Label>
-      <TableView fx:id="topTableView" fixedCellSize="0.0" mouseTransparent="true" prefHeight="78.0" prefWidth="286.0" stylesheets="@tableStyle.css" VBox.vgrow="NEVER">
+      <TableView fx:id="topTableView" fixedCellSize="0.0" prefHeight="78.0" prefWidth="286.0" stylesheets="@tableStyle.css" VBox.vgrow="NEVER">
          <columns>
             <TableColumn fx:id="topNameColumn" editable="false" prefWidth="53.0" sortable="false" text="Runway">
                 <cellValueFactory>
@@ -74,7 +74,7 @@
             <Font name="System Bold" size="15.0" />
          </font>
       </Label>
-      <TableView fx:id="bottomTableView" fixedCellSize="0.0" mouseTransparent="true" prefHeight="78.0" prefWidth="286.0" stylesheets="@tableStyle.css" VBox.vgrow="NEVER">
+      <TableView fx:id="bottomTableView" fixedCellSize="0.0" prefHeight="78.0" prefWidth="286.0" stylesheets="@tableStyle.css" VBox.vgrow="NEVER">
          <columns>
             <TableColumn fx:id="bottomNameColumn" editable="false" prefWidth="50.0" sortable="false" text="Runway">
                 <cellValueFactory>
@@ -123,8 +123,14 @@
                <content>
                   <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
                      <items>
-                        <TextArea fx:id="allCalculationsTowardsTA" minHeight="0.0" prefHeight="200.0" prefWidth="200.0" />
-                        <TextArea fx:id="allCalculationsAwayTA" minHeight="0.0" prefHeight="62.0" prefWidth="286.0" />
+                        <TextArea fx:id="allCalculationsTowardsTA" editable="false" minHeight="0.0" prefHeight="200.0" prefWidth="200.0">
+                           <font>
+                              <Font name="Consolas" size="13.0" />
+                           </font></TextArea>
+                        <TextArea fx:id="allCalculationsAwayTA" editable="false" minHeight="0.0" prefHeight="62.0" prefWidth="286.0">
+                           <font>
+                              <Font name="Consolas" size="13.0" />
+                           </font></TextArea>
                      </items>
                   </SplitPane>
                </content>
@@ -133,8 +139,14 @@
                <content>
                   <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
                      <items>
-                        <TextArea prefHeight="200.0" prefWidth="200.0" />
-                        <TextArea prefHeight="53.0" prefWidth="265.0" />
+                        <TextArea fx:id="toraTopTA" editable="false" prefHeight="200.0" prefWidth="200.0">
+                           <font>
+                              <Font name="Consolas" size="13.0" />
+                           </font></TextArea>
+                        <TextArea fx:id="toraBottomTA" editable="false" prefHeight="53.0" prefWidth="265.0">
+                           <font>
+                              <Font name="Consolas" size="13.0" />
+                           </font></TextArea>
                      </items>
                   </SplitPane>
                </content>
@@ -143,8 +155,14 @@
                <content>
                   <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
                      <items>
-                        <TextArea prefHeight="200.0" prefWidth="200.0" />
-                        <TextArea prefHeight="200.0" prefWidth="200.0" />
+                        <TextArea fx:id="todaTopTA" editable="false" prefHeight="200.0" prefWidth="200.0">
+                           <font>
+                              <Font name="Consolas" size="13.0" />
+                           </font></TextArea>
+                        <TextArea fx:id="todaBottomTA" editable="false" prefHeight="200.0" prefWidth="200.0">
+                           <font>
+                              <Font name="Consolas" size="13.0" />
+                           </font></TextArea>
                      </items>
                   </SplitPane>
                </content>
@@ -153,8 +171,14 @@
                <content>
                   <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
                      <items>
-                        <TextArea prefHeight="200.0" prefWidth="200.0" />
-                        <TextArea prefHeight="200.0" prefWidth="200.0" />
+                        <TextArea fx:id="ldaTopTA" editable="false" prefHeight="200.0" prefWidth="200.0">
+                           <font>
+                              <Font name="Consolas" size="13.0" />
+                           </font></TextArea>
+                        <TextArea fx:id="ldaBottomTA" editable="false" prefHeight="200.0" prefWidth="200.0">
+                           <font>
+                              <Font name="Consolas" size="13.0" />
+                           </font></TextArea>
                      </items>
                   </SplitPane>
                </content>
@@ -163,8 +187,14 @@
                <content>
                   <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
                      <items>
-                        <TextArea prefHeight="200.0" prefWidth="200.0" />
-                        <TextArea prefHeight="200.0" prefWidth="200.0" />
+                        <TextArea fx:id="asdaTopTA" editable="false" prefHeight="200.0" prefWidth="200.0">
+                           <font>
+                              <Font name="Consolas" size="13.0" />
+                           </font></TextArea>
+                        <TextArea fx:id="asdaBottomTA" editable="false" prefHeight="200.0" prefWidth="200.0">
+                           <font>
+                              <Font name="Consolas" size="13.0" />
+                           </font></TextArea>
                      </items>
                   </SplitPane>
                </content>

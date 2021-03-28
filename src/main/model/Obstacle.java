@@ -49,4 +49,10 @@ public class Obstacle {
         this.width = width;
     }
 
+    public String toString() {
+        return "Name: " + name + "  Height: " + height + "  Width: " + width + "\nDistance from L: " + position.getDistanceToLeft() +
+                "  Distance from R: " + position.getDistanceToRight() + "  Distance from C/L: " + position.getDistanceFromCL() +
+                "  Direction from CL: " + position.getDirectionFromCL();
+    }
+
 }

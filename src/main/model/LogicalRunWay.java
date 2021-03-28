@@ -23,12 +23,17 @@ public class LogicalRunWay {
         this.threshold = threshold;
         this.clearway = TODA - TORA;
         this.stopway = ASDA - TORA;
-        this.name = String.valueOf(degree) + direction.toString();
+        this.name = degree + direction.toString();
     }
 
     @Override
     public String toString(){
-        return String.valueOf(degree) + direction.toString();
+        return degree + direction.toString();
+    }
+
+    public String getData(){
+        return "Degree: " + degree + "  Direction: " + direction + "  TORA: " + TORA + "  TODA: " + TODA + "  ASDA: " + ASDA
+                + "  LDA: " + LDA + "  Threshold: " + threshold;
     }
 
     public void setDegree(int degree) {

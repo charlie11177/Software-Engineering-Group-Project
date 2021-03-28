@@ -42,6 +42,7 @@ public class RunwayConfigController {
     @FXML private TextField rightLdaTF;
     @FXML private TextField leftThresholdTF;
     @FXML private TextField rightThresholdTF;
+    @FXML private Button removeRunway;
 
     public RunwayConfigController(){
         edit = false;
@@ -55,7 +56,7 @@ public class RunwayConfigController {
         setupDirectionChoiceBox();
         runwayConfig.expandedProperty().addListener((observable, oldValue, newValue) -> update(newValue));
         choiceBoxListener = (observable, oldValue, newValue) -> choiceBoxUpdater(newValue);
-//        setChoiceBoxListenerEnabled(true);
+        setChoiceBoxListenerEnabled(true);
 //        runwayChoiceBox.valueProperty().addListener((observable, oldValue, newValue) -> choiceBoxUpdater(newValue));
     }
 
@@ -101,6 +102,7 @@ public class RunwayConfigController {
 
     private void update(Boolean expanded) {
         if(expanded){
+            System.err.println(Model.currentRunway);
             runwayConfig.setText("Runway");
             showOnlyMode();
             System.out.println("RUNWAY UPDATE:" + Model.currentRunway);
@@ -125,12 +127,13 @@ public class RunwayConfigController {
     }
 
     private void specifyView(boolean runwayOptionsVisible, double runwayOptionsOpacity,
-                             boolean runwayChoiceBoxDisable, boolean newRunwayDisable, boolean editRunwayVisible, boolean editButtonsVisible) {
+                             boolean runwayChoiceBoxDisable, boolean newRunwayDisable, boolean deleteRunwayDisable, boolean editRunwayVisible, boolean editButtonsVisible) {
         runwayOptions.setVisible(runwayOptionsVisible);
         if(runwayOptionsOpacity == 1 || runwayOptionsOpacity == 0.75)
             runwayOptions.setOpacity(runwayOptionsOpacity);
         runwayChoiceBox.setDisable(runwayChoiceBoxDisable);
         newRunway.setDisable(newRunwayDisable);
+        removeRunway.setDisable(deleteRunwayDisable);
         editRunway.setVisible(editRunwayVisible);
         editButtons.setVisible(editButtonsVisible);
     }
@@ -138,6 +141,7 @@ public class RunwayConfigController {
     private void noAirportView() {
         specifyView(false,
                 0,
+                true,
                 true,
                 true,
                 false,
@@ -149,6 +153,7 @@ public class RunwayConfigController {
                 0,
                 true,
                 false,
+                true,
                 false,
                 false);
     }
@@ -156,20 +161,24 @@ public class RunwayConfigController {
     private void hasRunwaysView() {
         boolean editRunwayVisible;
         boolean runwayOptionsVisible;
+        boolean removeRunwayDisabled;
 
         if(Model.currentRunway != null) {
             populateRunwayDetails(Model.currentRunway);
             editRunwayVisible = true;
             runwayOptionsVisible = true;
+            removeRunwayDisabled = false;
         } else {
             editRunwayVisible = false;
             runwayOptionsVisible = false;
+            removeRunwayDisabled = true;
             clearRunwayDetails();
         }
         specifyView(runwayOptionsVisible,
                 0,
                 false,
                 false,
+                removeRunwayDisabled,
                 editRunwayVisible,
                 false);
     }
@@ -180,6 +189,7 @@ public class RunwayConfigController {
             t.setEditable(true);
         specifyView(true,
                 1,
+                true,
                 true,
                 true,
                 false,
@@ -194,15 +204,16 @@ public class RunwayConfigController {
                 0.75,
                 false,
                 false,
+                false,
                 true,
                 false);
     }
 
-
-    private void windowCloseProcedure() {
+    public void windowCloseProcedure() {
         edit = false;
         if(Model.currentRunway != null)
             runwayConfig.setText(Model.currentRunway.toString());
+        else runwayConfig.setText("Runway");
         System.out.println("RUNWAY CLOSE:"+Model.currentRunway);
     }
 
@@ -217,7 +228,6 @@ public class RunwayConfigController {
     }
 
     private void choiceBoxUpdater(String newValue) {
-        System.out.println("NEW VALUE" + newValue);
         if(newValue != null) {
             for(PhysicalRunWay p : Model.currentAirport.getRunways()) {
                 if (p.toString().equals(newValue)) {
@@ -226,7 +236,8 @@ public class RunwayConfigController {
                 }
             }
         }
-        System.out.println("CURRENT RUNWAY ASSIGNED:" + Model.currentRunway);
+        Model.console.addLog("Runway selected: " + Model.currentRunway.toString());
+        Model.obstacleConfigController.windowCloseProcedure();
     }
 
     private void populateRunwayDetails(PhysicalRunWay runWay){
@@ -239,14 +250,13 @@ public class RunwayConfigController {
         leftAsdaTF.setText(String.valueOf(left.getASDA()));
         leftLdaTF.setText(String.valueOf(left.getLDA()));
         leftThresholdTF.setText((String.valueOf(left.getThreshold())));
-
         rightPositionLabel.setText(String.valueOf(right.getDirection()));
         rightDegreeLabel.setText(String.valueOf(right.getDegree()));
         rightTodaTF.setText(String.valueOf(right.getTODA()));
         rightToraTF.setText(String.valueOf(right.getTORA()));
         rightAsdaTF.setText(String.valueOf(right.getASDA()));
         rightLdaTF.setText(String.valueOf(right.getLDA()));
-        rightThresholdTF.setText(String.valueOf(left.getThreshold()));
+        rightThresholdTF.setText(String.valueOf(right.getThreshold()));
     }
 
     private void clearRunwayDetails(){
@@ -271,6 +281,21 @@ public class RunwayConfigController {
     private void newRunwayClick() {
         clearRunwayDetails();
         editableMode();
+    }
+
+    @FXML
+    private void removeRunwayClick() {
+        setChoiceBoxListenerEnabled(false);
+        Model.currentAirport.getRunways().remove(Model.currentRunway);
+        Model.console.addLog("Runway removed: " + Model.currentRunway.toString());
+        runwayChoiceBox.getItems().remove(Model.currentRunway.toString());
+        Model.currentRunway = null;
+        Model.obstaclePlaced = false;
+        Model.obstacleConfigController.windowCloseProcedure();
+        runwayChoiceBox.setValue(null);
+        setChoiceBoxListenerEnabled(true);
+        if(Model.currentAirport.getRunways().isEmpty()) noRunwaysView();
+        else hasRunwaysView();
     }
 
     @FXML
@@ -309,7 +334,9 @@ public class RunwayConfigController {
             Model.console.addLog("Runway " + previousRunway + " edited to: " + Model.currentRunway.toString());
         } else {
             saveNewRunway(left,right);
-            Model.console.addLog("Runway " + runwayChoiceBox.getValue() + " added");
+            Model.console.addLog("Runway " + Model.currentRunway.toString() + " added");
+            Model.console.addLog("Runway selected: " + Model.currentRunway.toString());
+
         }
         showOnlyMode();
     }
@@ -350,7 +377,7 @@ public class RunwayConfigController {
             runwayChoiceBox.setValue(Model.currentRunway.toString());
             setChoiceBoxListenerEnabled(true);
         }
-        else System.err.println("Error RunwayController:348");
+        else System.err.println("Error RunwayController:378");
     }
 
     private void saveNewRunway(LogicalRunWay left, LogicalRunWay right){

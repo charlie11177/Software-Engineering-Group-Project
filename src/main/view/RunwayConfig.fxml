@@ -26,10 +26,11 @@
             <VBox fx:id="runwayMainMenu" alignment="CENTER">
                <children>
                   <Label alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" prefHeight="17.0" prefWidth="85.0" text="Physical runway" />
-                  <ChoiceBox fx:id="runwayChoiceBox" prefWidth="150.0" />
-                  <HBox alignment="CENTER" prefHeight="30.0" prefWidth="178.0" spacing="30.0">
+                  <ChoiceBox fx:id="runwayChoiceBox" prefHeight="26.0" prefWidth="120.0" />
+                  <HBox alignment="CENTER" prefHeight="30.0" prefWidth="178.0" spacing="5.0">
                      <children>
-                        <Button fx:id="newRunway" mnemonicParsing="false" onAction="#newRunwayClick" prefHeight="25.0" prefWidth="60.0" text="New" HBox.hgrow="SOMETIMES" />
+                        <Button fx:id="newRunway" mnemonicParsing="false" onAction="#newRunwayClick" prefHeight="23.0" prefWidth="40.0" text="➕" HBox.hgrow="SOMETIMES" />
+                        <Button fx:id="removeRunway" layoutX="79.0" layoutY="13.0" mnemonicParsing="false" onAction="#removeRunwayClick" prefHeight="25.0" prefWidth="40.0" text="➖" />
                      </children>
                      <VBox.margin>
                         <Insets bottom="20.0" top="10.0" />

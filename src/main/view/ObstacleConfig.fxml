@@ -27,11 +27,15 @@
             <VBox fx:id="topVbox" alignment="CENTER">
                <children>
                   <Label fx:id="nameLabel" alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" prefHeight="17.0" prefWidth="85.0" text="Obstacle name" />
-                  <ChoiceBox fx:id="obstacleChoiceBox" prefWidth="150.0" />
-                  <HBox fx:id="editButtonsTop" alignment="CENTER" prefHeight="30.0" prefWidth="178.0" spacing="30.0">
+                  <ChoiceBox fx:id="obstacleChoiceBox" prefHeight="25.0" prefWidth="165.0" />
+                  <HBox fx:id="editButtonsTop" alignment="CENTER" prefHeight="30.0" prefWidth="178.0" spacing="5.0">
                      <children>
-                        <Button fx:id="newObstacleButton" mnemonicParsing="false" onAction="#newObstacleClick" prefHeight="25.0" prefWidth="60.0" text="New" HBox.hgrow="SOMETIMES" />
-                        <Button fx:id="editObstacleButton" mnemonicParsing="false" onAction="#editObstacleClick" prefHeight="25.0" prefWidth="60.0" text="Edit" HBox.hgrow="SOMETIMES" />
+                        <Button fx:id="newObstacleButton" mnemonicParsing="false" onAction="#newObstacleClick" prefHeight="25.0" prefWidth="40.0" text="➕" HBox.hgrow="SOMETIMES" />
+                        <Button fx:id="deleteObstacleButton" layoutX="105.0" layoutY="11.0" mnemonicParsing="false" onAction="#deleteObstacleClick" prefHeight="25.0" prefWidth="40.0" text="➖" />
+                        <Button fx:id="editObstacleButton" mnemonicParsing="false" onAction="#editObstacleClick" prefHeight="25.0" prefWidth="45.0" text="Edit" HBox.hgrow="SOMETIMES">
+                           <HBox.margin>
+                              <Insets left="30.0" />
+                           </HBox.margin></Button>
                      </children>
                      <VBox.margin>
                         <Insets top="7.0" />

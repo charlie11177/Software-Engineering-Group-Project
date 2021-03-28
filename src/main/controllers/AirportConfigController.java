@@ -1,6 +1,7 @@
 package main.controllers;
 
 import javafx.beans.value.ChangeListener;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
@@ -22,7 +23,7 @@ public class AirportConfigController {
     @FXML private VBox aiportOptions;
     @FXML private VBox aiportMainMenu;
     @FXML private Button editAirportButton;
-//    @FXML private ChangeListener<String> choiceBoxListener;
+    @FXML private Button deleteAirportButton;
 
     public AirportConfigController(){
         edit = false;
@@ -33,9 +34,7 @@ public class AirportConfigController {
         Model.airportConfigController = this;
         setupTextFields();
         airportConfig.expandedProperty().addListener((observable, oldValue, newValue) -> update(newValue));
-//        airportChoiceBox.valueProperty().addListener((observable, oldValue, newValue) -> choiceBoxUpdater(newValue));
         choiceBoxListener = (observable, oldValue, newValue) -> choiceBoxUpdater(newValue);
-
     }
 
     private void setupTextFields(){
@@ -83,6 +82,9 @@ public class AirportConfigController {
                 selectedAirportView();
             }
         }
+        Model.console.addLog("Airport selected: " + Model.currentAirport.getName());
+        Model.runwayConfigController.windowCloseProcedure();
+        Model.obstacleConfigController.windowCloseProcedure();
     }
 
     private void refreshChoiceBox(){
@@ -94,6 +96,7 @@ public class AirportConfigController {
 
     private void noAirportsView() {
         editAirportButton.setDisable(true);
+        deleteAirportButton.setDisable(true);
         airportChoiceBox.setDisable(true);
         aiportOptions.setVisible(false);
         aiportMainMenu.setDisable(false);
@@ -101,6 +104,7 @@ public class AirportConfigController {
 
     private void notSelectedAirportView() {
         editAirportButton.setDisable(true);
+        deleteAirportButton.setDisable(true);
         airportChoiceBox.setDisable(false);
         aiportOptions.setVisible(false);
         aiportMainMenu.setDisable(false);
@@ -108,6 +112,7 @@ public class AirportConfigController {
 
     private void selectedAirportView() {
         editAirportButton.setDisable(false);
+        deleteAirportButton.setDisable(false);
         airportChoiceBox.setDisable(false);
         aiportOptions.setVisible(false);
         aiportMainMenu.setDisable(false);
@@ -188,8 +193,11 @@ public class AirportConfigController {
             Airport a = new Airport(airportName,airportCode,new ArrayList<>());
             Model.addAirports(a);
             Model.setCurrentAirport(a);
+            setChoiceBoxListenerEnabled(false);
             refreshChoiceBox();
+            setChoiceBoxListenerEnabled(true);
             Model.console.addLog("Airport " + Model.currentAirport + " added");
+            Model.console.addLog("Airport selected: " + Model.currentAirport.getName());
             aiportOptions.setVisible(false);
             aiportMainMenu.setDisable(false);
             selectedAirportView();
@@ -223,4 +231,20 @@ public class AirportConfigController {
         aiportMainMenu.setDisable(false);
     }
 
+    @FXML
+    private void deleteAirportClick() {
+        Model.airports.remove(Model.currentAirport);
+        Model.console.addLog("Airport " + Model.currentAirport + " removed");
+        Model.currentAirport = null;
+        Model.currentRunway = null;
+        Model.obstaclePlaced = false;
+        Model.runwayConfigController.windowCloseProcedure();
+        Model.obstacleConfigController.windowCloseProcedure();
+        setChoiceBoxListenerEnabled(false);
+        airportChoiceBox.getItems().remove(airportChoiceBox.getValue());
+        airportChoiceBox.setValue(null);
+        setChoiceBoxListenerEnabled(true);
+        if(Model.airports.isEmpty()) noAirportsView();
+        else notSelectedAirportView();
+    }
 }
