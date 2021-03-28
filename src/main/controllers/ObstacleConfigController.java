@@ -19,6 +19,8 @@ public class ObstacleConfigController {
     private boolean edit;
     private ChangeListener<String> choiceBoxListener;
 
+    @FXML private Label leftDistanceLabel;
+    @FXML private Label rightDistanceLabel;
 //    @FXML private Label nameLabel;
     @FXML private VBox topVbox;
     @FXML private VBox obstacleDetails;
@@ -273,6 +275,8 @@ public class ObstacleConfigController {
     }
 
     private void placeObstacle(){
+        leftDistanceLabel.setText("Distance from " + Model.currentRunway.getLeftRunway().toString());
+        rightDistanceLabel.setText("Distance from " + Model.currentRunway.getRightRunway().toString());
         Model.obstaclePlaced = true;
         placedObstacleView();
         populateObstacleDimensions(Model.currentObstacle.getPosition());

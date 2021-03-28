@@ -5,7 +5,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.TitledPane;
+import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
+import main.App;
 import main.model.Airport;
 import main.model.Model;
 import main.model.Obstacle;
@@ -110,5 +112,42 @@ public class MainWindowController {
             failedExport.setHeaderText(null);
             failedExport.showAndWait();
         }
+    }
+
+    @FXML
+    private void defaultFontClick() {
+        App.root.setStyle("-fx-font-size: 12 px");
+        System.out.println(Model.centerScreenController.console.getFont().getSize());
+        Model.centerScreenController.console.setFont(Font.font("Consolas",12.5));
+        Model.rightScreenController.changeFontSize(12.5);
+        Model.rightScreenController.topTableView.setPrefHeight(78);
+        Model.rightScreenController.bottomTableView.setPrefHeight(78);
+        Model.rightScreenController.rightScreen.setPrefWidth(296);
+        if(App.stage.getHeight() < 768) App.stage.setHeight(768);
+        App.stage.setMinHeight(768);
+    }
+
+    @FXML
+    private void mediumFontClick() {
+        App.root.setStyle("-fx-font-size: 13 px");
+        Model.centerScreenController.console.setFont(Font.font("Consolas",13));
+        Model.rightScreenController.changeFontSize(13);
+        Model.rightScreenController.topTableView.setPrefHeight(87);
+        Model.rightScreenController.bottomTableView.setPrefHeight(87);
+        Model.rightScreenController.rightScreen.setPrefWidth(296);
+        if(App.stage.getHeight() < 832)  App.stage.setHeight(832);
+        App.stage.setMinHeight(832);
+    }
+
+    @FXML
+    private void largeFontClick() {
+        App.root.setStyle("-fx-font-size: 14.5 px");
+        Model.centerScreenController.console.setFont(Font.font("Consolas",14.5));
+        Model.rightScreenController.changeFontSize(14);
+        Model.rightScreenController.topTableView.setPrefHeight(95);
+        Model.rightScreenController.bottomTableView.setPrefHeight(95);
+        Model.rightScreenController.rightScreen.setPrefWidth(310);
+        if(App.stage.getHeight() < 882) App.stage.setHeight(882);
+        App.stage.setMinHeight(882);
     }
 }
