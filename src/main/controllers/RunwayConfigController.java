@@ -362,6 +362,7 @@ public class RunwayConfigController {
             AlertController.showWarningAlert("Wrong value of the runway degrees.");
             return null;
         }
+        //TODO: Add error checking (return null)
         LogicalRunWay left = new LogicalRunWay(leftDegree, leftDirection,leftTora, leftToda, leftAsda, leftLda, leftThreshold);
         LogicalRunWay right = new LogicalRunWay(rightDegree, rightDirection,rightTora, rightToda, rightAsda, rightLda, rightThreshold);
         return new Pair<>(left,right);
