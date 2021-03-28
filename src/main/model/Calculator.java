@@ -54,8 +54,8 @@ public class Calculator {
                 "LDA: " + ldaBD + "\n" +
                 "ASDA: " + asdaBD;
 
-        Model.console.addLog("Runway: " + runway);
-        Model.console.addLog("TORA:" + tora + ", TODA:" + toda + ", LDA:" + lda + ", ASDA:" + asda);
+        //Model.console.addLog("Runway: " + runway);
+        //Model.console.addLog("TORA:" + tora + ", TODA:" + toda + ", LDA:" + lda + ", ASDA:" + asda);
         Model.calculationsBreakDownAway = allBD;
         Model.originalRunwayAway = runway;
         Model.recalculatedRunwayAway = new LogicalRunWay(runway.getDegree(), runway.getDirection(), tora, toda, asda, lda, runway.getThreshold());
@@ -81,8 +81,8 @@ public class Calculator {
                 "LDA: " + ldaBD + "\n" +
                 "ASDA: " + asdaBD;
 
-        Model.console.addLog("Runway: " + runway);
-        Model.console.addLog("TORA:" + tora + ", TODA:" + toda + ", LDA:" + lda + ", ASDA:" + asda);
+        //Model.console.addLog("Runway: " + runway);
+        //Model.console.addLog("TORA:" + tora + ", TODA:" + toda + ", LDA:" + lda + ", ASDA:" + asda);
         Model.calculationsBreakdownTowards = allBD;
         Model.originalRunwayTowards = runway;
         Model.recalculatedRunwayTowards = new LogicalRunWay(runway.getDegree(), runway.getDirection(), tora, toda, asda, lda, runway.getThreshold());

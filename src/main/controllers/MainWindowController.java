@@ -5,7 +5,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.TitledPane;
-import javafx.scene.layout.TilePane;
 import javafx.stage.FileChooser;
 import main.model.Airport;
 import main.model.Model;
@@ -80,7 +79,7 @@ public class MainWindowController {
     }
 
     /**
-     * Resets the menu when new values are sucessfuly imported
+     * Resets the menu when new values are succcessfuly imported
      */
     private void resetMenus(){
         Model.resetConfig();

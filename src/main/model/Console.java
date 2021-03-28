@@ -23,8 +23,14 @@ public class Console {
         update();
     }
 
+    public void addLogWithoutTime(String message){
+        consoleText.add(message);
+        update();
+    }
+
     public void update(){
         Model.centerScreenController.updateConsole(this.getText());
+
     }
 
     public String getText(){

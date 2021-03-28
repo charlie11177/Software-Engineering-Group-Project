@@ -1,5 +1,6 @@
 package main.controllers;
 
+import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
@@ -16,6 +17,7 @@ public class ObstacleConfigController {
 
     private List<TextField> textFields;
     private boolean edit;
+    private ChangeListener<String> choiceBoxListener;
 
 //    @FXML private Label nameLabel;
     @FXML private VBox topVbox;
@@ -24,6 +26,7 @@ public class ObstacleConfigController {
     @FXML private CheckBox placeObstacleCB;
 //    @FXML private Separator separator;
     @FXML private Button newObstacleButton;
+    @FXML private Button deleteObstacleButton;
     @FXML private Button editObstacleButton;
     @FXML private TitledPane obstacleConfig;
 //    @FXML private HBox editButtonsTop;
@@ -47,8 +50,17 @@ public class ObstacleConfigController {
         Model.obstacleConfigController = this;
         setupTextFields();
         setupDirBox();
+        choiceBoxListener = (observable, oldValue, newValue) -> choiceBoxUpdater(newValue);
         obstacleConfig.expandedProperty().addListener((observable, oldValue, newValue) -> update(newValue));
-        obstacleChoiceBox.valueProperty().addListener((observable, oldValue, newValue) -> choiceBoxUpdater(newValue));
+//        obstacleChoiceBox.valueProperty().addListener((observable, oldValue, newValue) -> choiceBoxUpdater(newValue));
+        setChoiceBoxListenerEnabled(true);
+    }
+
+    private void setChoiceBoxListenerEnabled(Boolean enable) {
+        if (enable)
+            obstacleChoiceBox.valueProperty().addListener(choiceBoxListener);
+        else
+            obstacleChoiceBox.valueProperty().removeListener(choiceBoxListener);
     }
 
     private void setupTextFields(){
@@ -82,6 +94,7 @@ public class ObstacleConfigController {
                 placeObstacleCB.setSelected(false);
                 noSelectedObstacleView();
             } else {
+                setChoiceBoxListenerEnabled(false);
                 if(Model.obstaclePlaced){
                     obstacleChoiceBox.setValue(Model.currentObstacle.getName());
                     placeObstacleCB.setSelected(true);
@@ -91,13 +104,14 @@ public class ObstacleConfigController {
                     placeObstacleCB.setSelected(false);
                     selectedObstacleView();
                 }
+                setChoiceBoxListenerEnabled(true);
             }
         } else {
             windowCloseProcedure();
         }
     }
 
-    private void windowCloseProcedure() {
+    public void windowCloseProcedure() {
         edit = false;
 //        Model.currentObstacle = Model.getObstacleByName(obstacleChoiceBox.getValue());
         if(Model.currentObstacle != null){
@@ -105,15 +119,16 @@ public class ObstacleConfigController {
                 obstacleConfig.setText(Model.currentObstacle.getName() + ": placed");
             else
                 obstacleConfig.setText(Model.currentObstacle.getName() + ": not placed");
-        }
+        } else obstacleConfig.setText("Obstacle");
     }
 
     private void specifyView(boolean obstacleChoiceBoxDisabled, boolean editObstacleButtonDisabled, boolean newButtonDisabled,
-                             boolean topVboxDisable, boolean obstacleDetailsBoxVisible, boolean checkBoxVisible,
-                             boolean editButtonsBottomVisible, boolean distancesEditorVboxVisible) {
+                             boolean removeButtonDisabled, boolean topVboxDisable, boolean obstacleDetailsBoxVisible,
+                             boolean checkBoxVisible, boolean editButtonsBottomVisible, boolean distancesEditorVboxVisible) {
         obstacleChoiceBox.setDisable(obstacleChoiceBoxDisabled);
         editObstacleButton.setDisable(editObstacleButtonDisabled);
         newObstacleButton.setDisable(newButtonDisabled);
+        deleteObstacleButton.setDisable(removeButtonDisabled);
         topVbox.setDisable(topVboxDisable);
         obstacleDetails.setVisible(obstacleDetailsBoxVisible);
         placeObstacleCB.setVisible(checkBoxVisible);
@@ -125,6 +140,7 @@ public class ObstacleConfigController {
         specifyView(true,
                 true,
                 false,
+                true,
                 false,
                 false,
                 false,
@@ -134,8 +150,9 @@ public class ObstacleConfigController {
 
     private void noSelectedObstacleView(){
         specifyView(false,
+                true,
                 false,
-                false,
+                true,
                 false,
                 false,
                 false,
@@ -148,7 +165,11 @@ public class ObstacleConfigController {
             placeObstacleCB.setDisable(true);
         else
             placeObstacleCB.setDisable(false);
+        obstacleNameTF.setEditable(false);
+        obstacleWidthTF.setEditable(false);
+        obstacleHeightTF.setEditable(false);
         specifyView(false,
+                false,
                 false,
                 false,
                 false,
@@ -161,7 +182,8 @@ public class ObstacleConfigController {
     private void placedObstacleView(){
         specifyView(true,
                 true,
-                false,
+                true,
+                true,
                 true,
                 true,
                 true,
@@ -170,7 +192,11 @@ public class ObstacleConfigController {
     }
 
     private void obstacleEditView() {
+        obstacleNameTF.setEditable(true);
+        obstacleWidthTF.setEditable(true);
+        obstacleHeightTF.setEditable(true);
         specifyView(true,
+                true,
                 true,
                 true,
                 false,
@@ -181,10 +207,12 @@ public class ObstacleConfigController {
     }
 
     private void populateObstacleNames(){
+        setChoiceBoxListenerEnabled(false);
         obstacleChoiceBox.getItems().clear();
         for(Obstacle o : Model.getObstacles()){
             obstacleChoiceBox.getItems().add(o.getName());
         }
+        setChoiceBoxListenerEnabled(true);
     }
 
     private void populateObstacleDetails(Obstacle obstacle) {
@@ -214,18 +242,13 @@ public class ObstacleConfigController {
        }
     }
 
-    private void saveObstacleDimensions(Obstacle obstacle){
-        try{
-            int distancefromL = Integer.parseInt(distanceFromLTF.getText());
-            int distanceFromR = Integer.parseInt(distanceFromRTF.getText());
-            int distanceFromCL = Integer.parseInt(distanceFromCLTF.getText());
-            String dirFromCL = dirFromCLChoiceBox.getValue();
-            obstacle.setPosition(new Position(distancefromL,distanceFromR,distanceFromCL,dirFromCL));
-            Model.console.addLog("Obstacle's: " + Model.currentObstacle.getName() + " position data was saved");
-        } catch (NumberFormatException e){
-            Model.console.addLog("Obstacle's: " + Model.currentObstacle.getName() + " position data was not saved");
-        }
-
+    public void saveObstacleDimensions(Obstacle obstacle) throws NumberFormatException {
+        int distancefromL = Integer.parseInt(distanceFromLTF.getText());
+        int distanceFromR = Integer.parseInt(distanceFromRTF.getText());
+        int distanceFromCL = Integer.parseInt(distanceFromCLTF.getText());
+        String dirFromCL = dirFromCLChoiceBox.getValue();
+        obstacle.setPosition(new Position(distancefromL,distanceFromR,distanceFromCL,dirFromCL));
+        //Model.console.addLog("Obstacle's: " + Model.currentObstacle.getName() + " position data was saved");
     }
 
     @FXML
@@ -236,10 +259,15 @@ public class ObstacleConfigController {
                 placeObstacleCB.setSelected(false);
                 return;
             }
+            Model.console.addLog("Obstacle: " + Model.currentObstacle.getName() + " was placed on runway: " + Model.currentRunway.toString());
             placeObstacle();
         } else {
             Model.obstaclePlaced = false;
-            saveObstacleDimensions(Model.currentObstacle);
+            try { saveObstacleDimensions(Model.currentObstacle); }
+            catch (NumberFormatException e){
+                Model.console.addLog("Obstacle's: " + Model.currentObstacle.getName() + " position data was not saved");
+            }
+            Model.console.addLog("Obstacle: " + Model.currentObstacle.getName() + " was removed from runway: " + Model.currentRunway.toString());
             selectedObstacleView();
         }
     }
@@ -260,6 +288,7 @@ public class ObstacleConfigController {
                 }
             }
         }
+        Model.console.addLog("Obstacle selected: " + Model.currentObstacle.getName());
     }
 
     @FXML
@@ -269,7 +298,22 @@ public class ObstacleConfigController {
     }
 
     @FXML
+    private void deleteObstacleClick() {
+        setChoiceBoxListenerEnabled(false);
+        Model.obstacles.remove(Model.currentObstacle);
+        Model.console.addLog("Obstacle removed: " + Model.currentObstacle.getName());
+        obstacleChoiceBox.getItems().remove(Model.currentObstacle.getName());
+        obstacleChoiceBox.setValue(null);
+        Model.obstaclePlaced = false;
+        Model.currentObstacle = null;
+        setChoiceBoxListenerEnabled(true);
+        if (Model.obstacles.isEmpty()) noObstaclesView();
+        else noSelectedObstacleView();
+    }
+
+    @FXML
     private void editObstacleClick() {
+        edit = true;
         obstacleEditView();
     }
 
@@ -299,15 +343,19 @@ public class ObstacleConfigController {
 
     private void saveEditedObstacle(String name) {
         if(Model.currentObstacle != null) {
+            String previousObstacle = obstacleChoiceBox.getValue();
             int width = Integer.parseInt(obstacleWidthTF.getText());
             int height = Integer.parseInt(obstacleHeightTF.getText());
+            setChoiceBoxListenerEnabled(false);
+            obstacleChoiceBox.getItems().remove(Model.currentObstacle.getName());
             Model.currentObstacle.setName(name);
             Model.currentObstacle.setWidth(width);
             Model.currentObstacle.setHeight(height);
-            obstacleChoiceBox.getItems().remove(Model.currentObstacle.getName());
             obstacleChoiceBox.getItems().add(name);
             obstacleChoiceBox.setValue(name);
+            setChoiceBoxListenerEnabled(true);
             edit = false;
+            Model.console.addLog("Obstacle " + previousObstacle + " edited to: " + Model.currentObstacle.getName());
         }
         else System.err.println("Error ObstacleController:312");
     }
@@ -318,15 +366,21 @@ public class ObstacleConfigController {
         Obstacle obstacle = new Obstacle(name, height, width, null);
         Model.currentObstacle = obstacle;
         Model.obstacles.add(obstacle);
+        setChoiceBoxListenerEnabled(false);
         obstacleChoiceBox.getItems().add(name);
         obstacleChoiceBox.setValue(name);
+        setChoiceBoxListenerEnabled(true);
+        Model.console.addLog("Obstacle: " + Model.currentObstacle.getName() + " added");
+        Model.console.addLog("Obstacle selected: " + Model.currentObstacle.getName());
     }
 
     private boolean nameInUse(String desiredName, boolean edit){
         String[] data = obstacleChoiceBox.getItems().toArray(new String[0]);
         for (String str : data) {
-            if(!edit && str.equals(desiredName)) return true;
-            if (str.equals(desiredName) && !str.equals(Model.currentObstacle.getName())) return true;
+            if(!edit && str.equals(desiredName))
+                return true;
+            else if (str.equals(desiredName) && !str.equals(Model.currentObstacle.getName()))
+                return true;
         }
         return false;
     }
