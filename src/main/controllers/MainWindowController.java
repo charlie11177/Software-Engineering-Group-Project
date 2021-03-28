@@ -29,8 +29,9 @@ public class MainWindowController {
         xmlParser = new XMLParser();
     }
 
-    @FXML private void initialize() {
-    }
+    @FXML private void initialize() { }
+
+
 
     @FXML private void importXML (ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
@@ -79,7 +80,8 @@ public class MainWindowController {
     }
 
     /**
-     * Resets the menu when new values are succcessfuly imported
+     * Resets the menu when new values are succcessfuly imported call this method whenever something gets imported
+     * and data in model is changed
      */
     private void resetMenus(){
         Model.resetConfig();
