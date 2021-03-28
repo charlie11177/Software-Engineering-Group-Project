@@ -34,7 +34,7 @@ public class MainWindowController {
     @FXML private void initialize() { }
 
 
-
+    // TODO: This method should be called when user only wants to import whole configuration
     @FXML private void importXML (ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Import XML");
@@ -81,6 +81,14 @@ public class MainWindowController {
         }
     }
 
+    // TODO: When user clicks to import airports but nothing else
+    public void importAirports(ActionEvent actionEvent) {
+    }
+
+    // TODO: When user clicks to import obstacles but nothing else
+    public void importObstacles(ActionEvent actionEvent) {
+    }
+
     /**
      * Resets the menu when new values are succcessfuly imported call this method whenever something gets imported
      * and data in model is changed
@@ -96,6 +104,11 @@ public class MainWindowController {
         else Model.leftScreenController.accordion.getExpandedPane().setExpanded(false);
     }
 
+    // TODO: When user clicks to export whole configuration
+    public void exportConfig(ActionEvent actionEvent) {
+    }
+
+    // TODO: This method should be called when user only wants to export airports but nothing else
     public void exportAirports(ActionEvent event) {
         if(Model.leftScreenController.accordion.getExpandedPane()!= null)
             Model.leftScreenController.accordion.getExpandedPane().setExpanded(false);
@@ -113,6 +126,11 @@ public class MainWindowController {
             failedExport.showAndWait();
         }
     }
+
+    // TODO: When user clicks to export obstacles but nothing else
+    public void exportObstacles(ActionEvent actionEvent) {
+    }
+
 
     @FXML
     private void defaultFontClick() {
