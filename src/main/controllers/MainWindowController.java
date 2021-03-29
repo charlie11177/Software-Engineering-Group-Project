@@ -27,12 +27,14 @@ public class MainWindowController {
 
     private XMLParser xmlParser;
 
+
     public MainWindowController() {
         xmlParser = new XMLParser();
     }
 
-    @FXML private void initialize() { }
-
+    @FXML private void initialize() {
+        Model.mainWindowController = this;
+    }
 
     // TODO: This method should be called when user only wants to import whole configuration
     @FXML private void importXML (ActionEvent event) {
@@ -132,40 +134,48 @@ public class MainWindowController {
     }
 
 
-    @FXML
-    private void defaultFontClick() {
+    public void defaultFontClick() {
+        Model.setCurrentFontSize(FontSize.DEFAULT);
         App.root.setStyle("-fx-font-size: 12 px");
-        System.out.println(Model.centerScreenController.console.getFont().getSize());
-        Model.centerScreenController.console.setFont(Font.font("Consolas",12.5));
+        Model.centerScreenController.console.setFont(Font.font("Courier New",12.5));
         Model.rightScreenController.changeFontSize(12.5);
         Model.rightScreenController.topTableView.setPrefHeight(78);
         Model.rightScreenController.bottomTableView.setPrefHeight(78);
         Model.rightScreenController.rightScreen.setPrefWidth(296);
+        Model.rightScreenController.originalValuesLabel.setFont(Font.font(20));
+        Model.rightScreenController.recalculatedValuesLabel.setFont(Font.font(20));
+        Model.rightScreenController.breakdownLabel.setFont(Font.font(20));
         if(App.stage.getHeight() < 768) App.stage.setHeight(768);
         App.stage.setMinHeight(768);
     }
 
-    @FXML
-    private void mediumFontClick() {
+    public void mediumFontClick() {
+        Model.setCurrentFontSize(FontSize.MEDIUM);
         App.root.setStyle("-fx-font-size: 13 px");
-        Model.centerScreenController.console.setFont(Font.font("Consolas",13));
+        Model.centerScreenController.console.setFont(Font.font("Courier New",13));
         Model.rightScreenController.changeFontSize(13);
         Model.rightScreenController.topTableView.setPrefHeight(87);
         Model.rightScreenController.bottomTableView.setPrefHeight(87);
         Model.rightScreenController.rightScreen.setPrefWidth(296);
+        Model.rightScreenController.originalValuesLabel.setFont(Font.font(21));
+        Model.rightScreenController.recalculatedValuesLabel.setFont(Font.font(21));
+        Model.rightScreenController.breakdownLabel.setFont(Font.font(21));
         if(App.stage.getHeight() < 832)  App.stage.setHeight(832);
-        App.stage.setMinHeight(832);
+        App.stage.setMinHeight(820);
     }
 
-    @FXML
-    private void largeFontClick() {
+    public void largeFontClick() {
+        Model.setCurrentFontSize(FontSize.LARGE);
         App.root.setStyle("-fx-font-size: 14.5 px");
-        Model.centerScreenController.console.setFont(Font.font("Consolas",14.5));
+        Model.centerScreenController.console.setFont(Font.font("Courier New",14.5));
         Model.rightScreenController.changeFontSize(14);
         Model.rightScreenController.topTableView.setPrefHeight(95);
         Model.rightScreenController.bottomTableView.setPrefHeight(95);
         Model.rightScreenController.rightScreen.setPrefWidth(310);
+        Model.rightScreenController.originalValuesLabel.setFont(Font.font(22.5));
+        Model.rightScreenController.recalculatedValuesLabel.setFont(Font.font(22.5));
+        Model.rightScreenController.breakdownLabel.setFont(Font.font(22.5));
         if(App.stage.getHeight() < 882) App.stage.setHeight(882);
-        App.stage.setMinHeight(882);
+        App.stage.setMinHeight(820);
     }
 }

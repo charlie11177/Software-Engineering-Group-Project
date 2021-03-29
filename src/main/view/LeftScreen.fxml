@@ -20,7 +20,7 @@
             <Insets bottom="10.0" />
          </VBox.margin>
       </Accordion>
-      <Button fx:id="calculateButton" defaultButton="true" maxHeight="30.0" maxWidth="180.0" minHeight="30.0" minWidth="180.0" mnemonicParsing="false" onAction="#calculateButtonClick" prefHeight="30.0" prefWidth="180.0" text="Calculate" textAlignment="CENTER" underline="true" VBox.vgrow="NEVER">
+      <Button fx:id="calculateButton" defaultButton="true" maxHeight="30.0" maxWidth="180.0" minHeight="30.0" minWidth="180.0" mnemonicParsing="false" onAction="#calculateButtonClick" prefHeight="30.0" prefWidth="180.0" text="Calculate" textAlignment="CENTER" VBox.vgrow="NEVER">
          <VBox.margin>
             <Insets left="10.0" right="10.0" />
          </VBox.margin>

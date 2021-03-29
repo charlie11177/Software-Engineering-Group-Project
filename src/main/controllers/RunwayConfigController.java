@@ -102,10 +102,9 @@ public class RunwayConfigController {
 
     private void update(Boolean expanded) {
         if(expanded){
-            System.err.println(Model.currentRunway);
             runwayConfig.setText("Runway");
             showOnlyMode();
-            System.out.println("RUNWAY UPDATE:" + Model.currentRunway);
+//            System.out.println("RUNWAY UPDATE:" + Model.currentRunway);
             populateRunwayNames();
             if (Model.currentAirport == null) {
                 noAirportView();
@@ -214,7 +213,7 @@ public class RunwayConfigController {
         if(Model.currentRunway != null)
             runwayConfig.setText(Model.currentRunway.toString());
         else runwayConfig.setText("Runway");
-        System.out.println("RUNWAY CLOSE:"+Model.currentRunway);
+//        System.out.println("RUNWAY CLOSE:"+Model.currentRunway);
     }
 
     private void populateRunwayNames() {
