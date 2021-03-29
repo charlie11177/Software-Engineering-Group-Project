@@ -92,19 +92,19 @@
                   <HBox fx:id="hbox1" alignment="CENTER" prefHeight="25.0" prefWidth="178.0" spacing="4.0">
                      <children>
                         <Label fx:id="leftDistanceLabel" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" prefWidth="130.0" text="Distance from L" />
-                        <TextField fx:id="distanceFromLTF" prefHeight="25.0" prefWidth="62.0" />
+                        <TextField fx:id="distanceFromLTF" prefHeight="25.0" prefWidth="67.0" />
                      </children>
                   </HBox>
                   <HBox fx:id="hbox2" alignment="CENTER" prefHeight="25.0" prefWidth="178.0" spacing="4.0">
                      <children>
                         <Label fx:id="rightDistanceLabel" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" prefWidth="130.0" text="Distance from R" />
-                        <TextField fx:id="distanceFromRTF" prefHeight="25.0" prefWidth="62.0" />
+                        <TextField fx:id="distanceFromRTF" prefHeight="25.0" prefWidth="67.0" />
                      </children>
                   </HBox>
                   <HBox fx:id="hbox3" alignment="CENTER" prefHeight="45.0" prefWidth="319.0" spacing="4.0">
                      <children>
                         <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="130.0" text="Distance from&#10;Central Line&#10;" wrapText="true" />
-                        <TextField fx:id="distanceFromCLTF" prefHeight="25.0" prefWidth="62.0" />
+                        <TextField fx:id="distanceFromCLTF" prefHeight="25.0" prefWidth="67.0" />
                      </children>
                   </HBox>
                   <HBox fx:id="hbox4" alignment="CENTER" prefHeight="45.0" prefWidth="319.0" spacing="4.0">
