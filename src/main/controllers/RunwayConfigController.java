@@ -43,6 +43,7 @@ public class RunwayConfigController {
     @FXML private TextField leftThresholdTF;
     @FXML private TextField rightThresholdTF;
     @FXML private Button removeRunway;
+    public VBox runwayRoot;
 
     public RunwayConfigController(){
         edit = false;

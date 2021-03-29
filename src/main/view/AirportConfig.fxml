@@ -13,7 +13,7 @@
 
 <TitledPane fx:id="airportConfig" prefHeight="483.0" prefWidth="241.0" text="Airport" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.AirportConfigController">
    <content>
-      <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0">
+      <VBox fx:id="airportRoot" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0">
          <children>
             <Label alignment="CENTER" prefWidth="150.0" text="Airport settings" VBox.vgrow="SOMETIMES">
                <font>

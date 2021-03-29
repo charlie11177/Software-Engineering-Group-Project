@@ -11,14 +11,46 @@ public class LeftScreenController {
 
     public Button calculateButton;
     public Accordion accordion;
+    boolean calculateAllowed;
 
     @FXML
     private void initialize() {
         Model.leftScreenController = this;
+        calculateAllowed = true;
     }
+
+    public void calculateAllowedMode() {
+        calculateButton.setText("Calculate");
+        calculateAllowed = true;
+        disableTilePanes(false, 1);
+        Model.rightScreenController.clear();
+    }
+
+    public void calculateNotAllowedMode() {
+//      if(accordion.getExpandedPane()!=null)
+//          accordion.getExpandedPane().setExpanded(false);
+        calculateAllowed = false;
+        calculateButton.setText("Edit");
+        disableTilePanes(true, 0.75);
+    }
+
+    private void disableTilePanes(boolean val, double opacity){
+        Model.airportConfigController.airportRoot.setDisable(val);
+        Model.runwayConfigController.runwayRoot.setDisable(val);
+        Model.obstacleConfigController.obstacleRoot.setDisable(val);
+        Model.airportConfigController.airportRoot.setOpacity(opacity);
+        Model.runwayConfigController.runwayRoot.setOpacity(opacity);
+        Model.obstacleConfigController.obstacleRoot.setOpacity(opacity);
+    }
+
 
     @FXML
     private void calculateButtonClick() {
+        if (!calculateAllowed){
+            calculateAllowedMode();
+            Model.console.addLog("Editing: Calculated values removed!");
+            return;
+        }
         if(Model.currentAirport == null){
             AlertController.showWarningAlert("No airport specified !");
         } else if (Model.currentRunway == null) {
@@ -46,11 +78,11 @@ public class LeftScreenController {
             Model.console.addLogWithoutTime("Obstacle " + Model.currentObstacle.toString());
             Model.console.addLogWithoutTime("--------------------------------------" +
                     "-------------------------------------");
-
             Calculator.recalculate();
             Model.rightScreenController.allCalculationsTowardsTA.setText(Model.calculationsBreakdownTowards);
             Model.rightScreenController.allCalculationsAwayTA.setText(Model.calculationsBreakDownAway);
             Model.rightScreenController.populateTables();
+            calculateNotAllowedMode();
         }
     }
 

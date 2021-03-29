@@ -10,6 +10,9 @@ import javafx.scene.text.Font;
 import main.model.LogicalRunWay;
 import main.model.Model;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class RightScreenController {
 
 
@@ -31,12 +34,17 @@ public class RightScreenController {
     public Label originalValuesLabel;
     public Label breakdownLabel;
     public TableColumn bottomNameColumn;
+    public ArrayList<TextArea> textAreas;
 
 
-    public RightScreenController() {}
+    public RightScreenController() {
+        textAreas = new ArrayList<>();
+    }
 
     public void initialize(){
         Model.rightScreenController = this;
+        textAreas.addAll(Arrays.asList(allCalculationsTowardsTA, allCalculationsAwayTA, toraTopTA, toraBottomTA,
+                todaTopTA, todaBottomTA, ldaTopTA, ldaBottomTA, asdaTopTA, asdaBottomTA));
     }
 
     public void populateTables() {
@@ -57,5 +65,13 @@ public class RightScreenController {
         ldaBottomTA.setFont(Font.font("Courier New",size));
         asdaTopTA.setFont(Font.font("Courier New",size));
         asdaBottomTA.setFont(Font.font("Courier New",size));
+    }
+
+    public void clear() {
+        for (TextArea ta : textAreas) {
+            ta.clear();
+        }
+        topTableView.getItems().clear();
+        bottomTableView.getItems().clear();
     }
 }

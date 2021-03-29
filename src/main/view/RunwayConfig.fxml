@@ -13,7 +13,7 @@
 
 <TitledPane fx:id="runwayConfig" prefHeight="617.0" prefWidth="220.0" text="Runway" wrapText="true" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.RunwayConfigController">
    <content>
-      <VBox alignment="TOP_CENTER" prefHeight="567.0" prefWidth="119.0">
+      <VBox fx:id="runwayRoot" alignment="TOP_CENTER" prefHeight="567.0" prefWidth="119.0">
          <children>
             <Label alignment="CENTER" prefWidth="150.0" text="Runway Settings">
                <font>
