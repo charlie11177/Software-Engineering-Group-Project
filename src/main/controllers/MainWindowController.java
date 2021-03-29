@@ -97,6 +97,7 @@ public class MainWindowController {
      */
     private void resetMenus(){
         Model.resetConfig();
+        Model.leftScreenController.calculateAllowedMode();
         TitledPane currentPane = Model.leftScreenController.accordion.getExpandedPane();
         for(TitledPane t : Model.leftScreenController.accordion.getPanes()){
             t.setExpanded(true);
