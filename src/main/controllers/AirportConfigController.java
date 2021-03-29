@@ -24,6 +24,7 @@ public class AirportConfigController {
     @FXML private VBox aiportMainMenu;
     @FXML private Button editAirportButton;
     @FXML private Button deleteAirportButton;
+    public VBox airportRoot;
 
     public AirportConfigController(){
         edit = false;

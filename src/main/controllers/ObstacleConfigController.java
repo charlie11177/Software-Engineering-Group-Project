@@ -41,6 +41,7 @@ public class ObstacleConfigController {
     @FXML private TextField distanceFromRTF;
     @FXML private TextField distanceFromCLTF;
     @FXML private ChoiceBox<String> dirFromCLChoiceBox;
+    public VBox obstacleRoot;
 
     public ObstacleConfigController(){
         edit = false;
