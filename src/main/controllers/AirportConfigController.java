@@ -71,7 +71,7 @@ public class AirportConfigController {
             }
         } else {
             windowCloseProcedure();
-            System.out.println("AIRPORT UPDATE:" + Model.currentRunway);
+//            System.out.println("AIRPORT UPDATE:" + Model.currentRunway);
         }
     }
 
@@ -136,8 +136,8 @@ public class AirportConfigController {
         if(Model.currentAirport != null)
             airportConfig.setText(Model.currentAirport.toString());
         else airportConfig.setText("Airport");
-        System.out.println(Model.getAirports().size());
-        System.out.println(Model.currentRunway);
+//        System.out.println(Model.getAirports().size());
+//        System.out.println(Model.currentRunway);
     }
 
     private void inputView() {

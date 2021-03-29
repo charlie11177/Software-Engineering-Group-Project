@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<TitledPane fx:id="obstacleConfig" prefHeight="552.0" prefWidth="341.0" text="Obstacle" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ObstacleConfigController">
+<TitledPane fx:id="obstacleConfig" prefHeight="552.0" prefWidth="241.0" text="Obstacle" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ObstacleConfigController">
    <content>
       <VBox fx:id="root" alignment="TOP_CENTER" prefHeight="570.0" prefWidth="337.0">
          <children>
@@ -27,7 +27,7 @@
             <VBox fx:id="topVbox" alignment="CENTER">
                <children>
                   <Label fx:id="nameLabel" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT" prefHeight="17.0" prefWidth="85.0" text="Obstacle name" />
-                  <ChoiceBox fx:id="obstacleChoiceBox" prefHeight="25.0" prefWidth="165.0" />
+                  <ChoiceBox fx:id="obstacleChoiceBox" prefHeight="25.0" prefWidth="393.0" />
                   <HBox fx:id="editButtonsTop" alignment="CENTER" prefHeight="30.0" prefWidth="178.0" spacing="5.0">
                      <children>
                         <Button fx:id="newObstacleButton" mnemonicParsing="false" onAction="#newObstacleClick" prefHeight="25.0" prefWidth="40.0" text="➕" HBox.hgrow="SOMETIMES" />

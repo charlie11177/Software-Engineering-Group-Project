@@ -13,12 +13,13 @@ public class Model {
 
     // Center of the UI, main visualisation window and console textArea
     // Do not use these in classes other then controllers
-    public static  CenterScreenController centerScreenController;
+    public static CenterScreenController centerScreenController;
     public static RunwayConfigController runwayConfigController;
     public static AirportConfigController airportConfigController;
     public static ObstacleConfigController obstacleConfigController;
     public static LeftScreenController leftScreenController;
     public static RightScreenController rightScreenController;
+    public static MainWindowController mainWindowController;
 
     // console that holds all the log texts to display
     public static Console console = new Console();
@@ -36,6 +37,15 @@ public class Model {
     public static LogicalRunWay originalRunwayTowards;
     public static LogicalRunWay originalRunwayAway;
 
+    private static FontSize currentFontSize;
+
+    public static void setCurrentFontSize(FontSize fontSize) {
+        currentFontSize = fontSize;
+    }
+
+    public static FontSize getCurrentFontSize() {
+        return currentFontSize;
+    }
 
     public static ArrayList<Airport> getAirports() {
         return airports;
