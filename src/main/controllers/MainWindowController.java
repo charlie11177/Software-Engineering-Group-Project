@@ -147,6 +147,7 @@ public class MainWindowController {
         Model.rightScreenController.breakdownLabel.setFont(Font.font(20));
         if(App.stage.getHeight() < 768) App.stage.setHeight(768);
         App.stage.setMinHeight(768);
+        Model.console.addLog("Fontsize set to: Default");
     }
 
     public void mediumFontClick() {
@@ -162,6 +163,7 @@ public class MainWindowController {
         Model.rightScreenController.breakdownLabel.setFont(Font.font(21));
         if(App.stage.getHeight() < 832)  App.stage.setHeight(832);
         App.stage.setMinHeight(820);
+        Model.console.addLog("Fontsize set to: Medium");
     }
 
     public void largeFontClick() {
@@ -177,5 +179,6 @@ public class MainWindowController {
         Model.rightScreenController.breakdownLabel.setFont(Font.font(22.5));
         if(App.stage.getHeight() < 882) App.stage.setHeight(882);
         App.stage.setMinHeight(820);
+        Model.console.addLog("Fontsize set to: Large");
     }
 }

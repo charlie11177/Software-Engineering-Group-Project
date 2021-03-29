@@ -44,13 +44,13 @@ public class App extends Application {
     private void setupFonts() {
         if (Model.getCurrentFontSize() == FontSize.DEFAULT){
             Model.mainWindowController.defaultFontClick();
-            System.out.println("Size from config restored: DEFAULT");
+            System.out.println("Font size restored: DEFAULT");
         } else if (Model.getCurrentFontSize() == FontSize.MEDIUM) {
             Model.mainWindowController.mediumFontClick();
-            System.out.println("Size from config restored: MEDIUM");
+            System.out.println("Font size restored: MEDIUM");
         } else if (Model.getCurrentFontSize() == FontSize.LARGE) {
             Model.mainWindowController.largeFontClick();
-            System.out.println("Size from config restored: LARGE");
+            System.out.println("Font size restored: LARGE");
         } else {
             System.err.println("No valid fontsize type: " + Model.getCurrentFontSize() + ", proceeding with default setup...");
             Model.mainWindowController.defaultFontClick();
