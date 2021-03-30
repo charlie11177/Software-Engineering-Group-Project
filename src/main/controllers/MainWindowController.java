@@ -178,6 +178,21 @@ public class MainWindowController {
 
     // TODO: When user clicks to export obstacles but nothing else
     public void exportObstacles(ActionEvent actionEvent) {
+        if(Model.leftScreenController.accordion.getExpandedPane()!= null)
+            Model.leftScreenController.accordion.getExpandedPane().setExpanded(false);
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Export XML");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("xml files" , "*.xml"));
+        File xmlFile = fileChooser.showSaveDialog(menuBar.getScene().getWindow());
+
+        try {
+            xmlParser.exportObstacles(xmlFile);
+        }
+        catch (Exception e) {
+            Alert failedExport = new Alert(Alert.AlertType.WARNING, "Failed to export the current obstacles");
+            failedExport.setHeaderText(null);
+            failedExport.showAndWait();
+        }
     }
 
 
