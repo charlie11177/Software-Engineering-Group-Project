@@ -85,10 +85,56 @@ public class MainWindowController {
 
     // TODO: When user clicks to import airports but nothing else
     public void importAirports(ActionEvent actionEvent) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Import XML");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("xml files" , "*.xml"));
+        File xmlFile = fileChooser.showOpenDialog(menuBar.getScene().getWindow());
+        try {
+            ArrayList<Airport> importedAirports = xmlParser.importAirports(xmlFile);
+            if (!importedAirports.isEmpty()) {
+                Model.resetConfig();
+                Model.airports = importedAirports;
+                Model.console.addLog("--- Imported Airports and Runways ---");
+                for (Airport a : Model.airports) {
+                    Model.console.addLog(a.toString());
+                    Model.console.addLog(a.getRunways().toString());
+                }
+                Model.console.addLog("--- Finished Importing ---");
+            } else {
+                throw (new Exception("Failed import"));
+            }
+        }  catch (Exception e) {
+            Model.console.addLog("Failed an import - Invalid Airports XML selected");
+            Alert failedImport = new Alert(Alert.AlertType.WARNING, "Import Failed");
+            failedImport.setHeaderText(null);
+            failedImport.showAndWait();
+        }
     }
 
     // TODO: When user clicks to import obstacles but nothing else
     public void importObstacles(ActionEvent actionEvent) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Import XML");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("xml files" , "*.xml"));
+        File xmlFile = fileChooser.showOpenDialog(menuBar.getScene().getWindow());
+        try {
+            ArrayList<Obstacle> importedObstacles = xmlParser.importObstacle(xmlFile);
+            if (!importedObstacles.isEmpty()) {
+                Model.obstacles = importedObstacles;
+                Model.console.addLog("--- Imported Objects ---");
+                for (Obstacle o : Model.obstacles) {
+                    Model.console.addLog(o.getName());
+                }
+                Model.console.addLog("--- Finished Importing ---");
+            } else {
+                throw new Exception();
+            }
+        } catch (Exception e) {
+            Model.console.addLog("Failed an import - Invalid Obstacles XML selected");
+            Alert failedImport = new Alert(Alert.AlertType.WARNING, "Import Failed");
+            failedImport.setHeaderText(null);
+            failedImport.showAndWait();
+        }
     }
 
     /**
