@@ -82,6 +82,14 @@ public class LeftScreenController {
             Model.rightScreenController.allCalculationsTowardsTA.setText(Model.calculationsBreakdownTowards);
             Model.rightScreenController.allCalculationsAwayTA.setText(Model.calculationsBreakDownAway);
             Model.rightScreenController.populateTables();
+            Model.rightScreenController.toraTopTA.setText(Model.calculationsBreakdownTowards.split("\n")[1]);
+            Model.rightScreenController.toraBottomTA.setText(Model.calculationsBreakDownAway.split("\n")[1]);
+            Model.rightScreenController.todaTopTA.setText(Model.calculationsBreakdownTowards.split("\n")[2]);
+            Model.rightScreenController.todaBottomTA.setText(Model.calculationsBreakDownAway.split("\n")[2]);
+            Model.rightScreenController.ldaTopTA.setText(Model.calculationsBreakdownTowards.split("\n")[3]);
+            Model.rightScreenController.ldaBottomTA.setText(Model.calculationsBreakDownAway.split("\n")[3]);
+            Model.rightScreenController.asdaTopTA.setText(Model.calculationsBreakdownTowards.split("\n")[4]);
+            Model.rightScreenController.asdaBottomTA.setText(Model.calculationsBreakDownAway.split("\n")[4]);
             calculateNotAllowedMode();
         }
     }
