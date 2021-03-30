@@ -6,13 +6,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import main.controllers.AlertController;
 import main.controllers.FontSize;
 import main.model.Model;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.*;
 import java.util.Scanner;
 
 public class App extends Application {
@@ -39,6 +37,14 @@ public class App extends Application {
         stage.setTitle("Runway Re-declaration Tool");
         stage.show();
         setupFonts();
+        stage.setOnCloseRequest(event -> {
+            Boolean save = AlertController.saveProgressAlert();
+            if(save == null) {
+                event.consume();
+            } else if (save) {
+                save();
+            }
+        });
     }
 
     private void setupFonts() {
@@ -59,6 +65,18 @@ public class App extends Application {
 
     @Override
     public void init() throws Exception {
+        /*
+        TODO:
+         Load:
+         airports/runways/obstacles +
+         fontsize : default, medium, large
+         colorblind: true/false
+         currentairport:
+         currentrunway:
+         currentobstacle:
+         obstacle placed: true/false
+         showCalculations: true/false
+         */
         super.init();
         Scanner in;
         try {
@@ -99,13 +117,38 @@ public class App extends Application {
         }
     }
 
+    public void save(){
+        /*
+        TODO:
+         Save:
+         airports/runways/obstacles +
+         currentairport:
+         currentrunway:
+         currentobstacle:
+         obstacle placed: true/false
+         showCalculations: true/false
+         */
+        System.out.println("Saving progress...");
+    }
+
     @Override
-    public void stop() throws Exception{
+    public void stop() {
+        /*
+        TODO:
+         Save:
+         fontsize : default, medium, large
+         colorblind: true/false
+         */
         File file = new File("config.log");
-        FileWriter writer = new FileWriter(file, false); // true to append, false to overwrite.
-        String saveData = "Fontsize:"+ Model.getCurrentFontSize()+";";
-        writer.write(saveData);
-        writer.close();
-        System.out.println("Saved data " + saveData);
+        FileWriter writer = null; // true to append, false to overwrite.
+        try {
+            writer = new FileWriter(file, false);
+            String saveData = "Fontsize:"+ Model.getCurrentFontSize()+";";
+            writer.write(saveData);
+            writer.close();
+            System.out.println("Saved data " + saveData);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
