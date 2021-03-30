@@ -172,7 +172,6 @@ public class XMLParser {
         } catch(Exception e) {
 //            e.printStackTrace();
             System.err.println(e.getMessage());
-
         }
         return obstacles;
     }
@@ -309,6 +308,8 @@ public class XMLParser {
             // This writes the files to disk
             transformer.transform(source, stream);
 
+            writer.close();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -387,6 +388,8 @@ public class XMLParser {
 
             // This writes the files to disk
             transformer.transform(source, stream);
+
+            writer.close();
 
         } catch (Exception e) {
             e.printStackTrace();
