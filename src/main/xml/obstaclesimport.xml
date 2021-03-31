@@ -7,7 +7,7 @@
 		<position>
 			<distanceToLeft>37</distanceToLeft>
 			<distanceToRight>15</distanceToRight>
-			<distanceToCL>10</distanceToCL>
+			<distanceFromCL>10</distanceFromCL>
 			<directionFromCL>R</directionFromCL>
 		</position>
 	</obstacle>

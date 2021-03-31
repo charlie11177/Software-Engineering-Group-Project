@@ -163,7 +163,7 @@ public class XMLParser {
                 Element positionNode = (Element) obstacleElement.getElementsByTagName("position").item(0);
                 int distanceToLeft = Integer.parseInt(positionNode.getElementsByTagName("distanceToLeft").item(0).getTextContent());
                 int distanceToRight = Integer.parseInt(positionNode.getElementsByTagName("distanceToRight").item(0).getTextContent());
-                int distanceToCL = Integer.parseInt(positionNode.getElementsByTagName("distanceToCL").item(0).getTextContent());
+                int distanceToCL = Integer.parseInt(positionNode.getElementsByTagName("distanceFromCL").item(0).getTextContent());
                 String directionFromCL = positionNode.getElementsByTagName("directionFromCL").item(0).getTextContent();
 
                 Position position = new Position(distanceToLeft, distanceToRight, distanceToCL, directionFromCL);    //Position will probably need two more parameters
@@ -172,7 +172,7 @@ public class XMLParser {
                 obstacles.add(new Obstacle(name, height, width, position));
             }
         } catch(Exception e) {
-//            e.printStackTrace();
+            e.printStackTrace();
             System.err.println(e.getMessage());
         }
         return obstacles;
@@ -328,7 +328,7 @@ public class XMLParser {
             // Boiler plate code for creating an XML parser
             DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
             Document document = documentBuilder.newDocument();
-            // Root element of XML is airports
+            // Root element of XML is obstacles
             Element root = document.createElement("obstacles");
             document.appendChild(root);
 
@@ -394,6 +394,185 @@ public class XMLParser {
             writer.close();
 
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void exportAll(File file) {
+        try {
+            // Boiler plate code for creating an XML parser
+            DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+            Document document = documentBuilder.newDocument();
+            // Root element of XML is obstacles
+            Element root = document.createElement("data");
+            document.appendChild(root);
+            // Element for obstacles
+            Element obstacles = document.createElement("obstacles");
+            root.appendChild(obstacles);
+            // Element for Airports
+            Element airports = document.createElement("airports");
+            root.appendChild(airports);
+
+            // Adding Obstacles
+            ArrayList<Obstacle> obstacleList = Model.obstacles;
+            Iterator<Obstacle> obstacleIter = obstacleList.iterator();
+            while(obstacleIter.hasNext()) {
+                Obstacle obstacle = obstacleIter.next();
+                Position position = obstacle.getPosition();
+
+                // Obstacle element attributes
+                Element obstacleElement = document.createElement("obstacle");
+                obstacles.appendChild(obstacleElement);
+
+                Element name = document.createElement("name");
+                name.appendChild(document.createTextNode(obstacle.getName()));
+                obstacleElement.appendChild(name);
+
+                Element height = document.createElement("height");
+                height.appendChild(document.createTextNode(Integer.toString(obstacle.getHeight())));
+                obstacleElement.appendChild(height);
+
+                Element width = document.createElement("width");
+                width.appendChild(document.createTextNode(Integer.toString(obstacle.getWidth())));
+                obstacleElement.appendChild(width);
+
+                // Position element attributes
+                Element positionElement = document.createElement("position");
+                obstacleElement.appendChild(positionElement);
+
+                Element distToLeft = document.createElement("distanceToLeft");
+                distToLeft.appendChild(document.createTextNode(Integer.toString(position.getDistanceToLeft())));
+                positionElement.appendChild(distToLeft);
+
+                Element distToRight = document.createElement("distanceToRight");
+                distToRight.appendChild(document.createTextNode(Integer.toString(position.getDistanceToRight())));
+                positionElement.appendChild(distToRight);
+
+                Element distanceFromCL = document.createElement("distanceFromCL");
+                distanceFromCL.appendChild(document.createTextNode(Integer.toString(position.getDistanceFromCL())));
+                positionElement.appendChild(distanceFromCL);
+
+                Element directionFromCL = document.createElement("directionFromCL");
+                directionFromCL.appendChild(document.createTextNode(position.getDirectionFromCL()));
+                positionElement.appendChild(directionFromCL);
+            }
+
+            // Adding Airports
+            ArrayList<Airport> airportArrayList = Model.airports;
+            Iterator<Airport> airportIter = airportArrayList.iterator();
+            while(airportIter.hasNext()) {
+                Airport airport = airportIter.next();
+                // Airport tags go (name, code, (runway: ID, (left: degree, TORA, ...), (right: ...))
+                Element airportElement = document.createElement("airport");
+                airports.appendChild(airportElement);
+
+                // Adds airport name
+                Element name = document.createElement("name");
+                name.appendChild(document.createTextNode(airport.getName()));
+                airportElement.appendChild(name);
+
+                // Adds airport code
+                Element code = document.createElement("code");
+                code.appendChild(document.createTextNode(airport.getCode()));
+                airportElement.appendChild(code);
+
+                // PhysicalRunway loop
+                List<PhysicalRunWay> runways = airport.getRunways();
+                Iterator<PhysicalRunWay> runwayIter = runways.iterator();
+                while(runwayIter.hasNext()) {
+                    PhysicalRunWay physicalRunWay = runwayIter.next();
+                    LogicalRunWay leftRunway = physicalRunWay.getLeftRunway();
+                    LogicalRunWay rightRunway = physicalRunWay.getRightRunway();
+
+                    // Runway element that holds left and right
+                    Element runwayElement = document.createElement("runway");
+                    airportElement.appendChild(runwayElement);
+
+                    // ID of runway
+                    Element ID = document.createElement("ID");
+                    ID.appendChild(document.createTextNode(Integer.toString(physicalRunWay.getRunwayID())));
+                    runwayElement.appendChild(ID);
+
+                    /*
+                     Logical runways (probably a nicer way of doing this but it works for now
+                     */
+                    // Left
+                    Element leftRunwayElement = document.createElement("left");
+                    runwayElement.appendChild(leftRunwayElement);
+                    // degree
+                    Element degree_L = document.createElement("degree");
+                    degree_L.appendChild(document.createTextNode(Integer.toString(leftRunway.getDegree())));
+                    leftRunwayElement.appendChild(degree_L);
+                    // TORA
+                    Element TORA_L = document.createElement("TORA");
+                    TORA_L.appendChild(document.createTextNode(Integer.toString(leftRunway.getTORA())));
+                    leftRunwayElement.appendChild(TORA_L);
+                    // TODA
+                    Element TODA_L = document.createElement("TODA");
+                    TODA_L.appendChild(document.createTextNode(Integer.toString(leftRunway.getTODA())));
+                    leftRunwayElement.appendChild(TODA_L);
+                    // ASDA
+                    Element ASDA_L = document.createElement("ASDA");
+                    ASDA_L.appendChild(document.createTextNode(Integer.toString(leftRunway.getASDA())));
+                    leftRunwayElement.appendChild(ASDA_L);
+                    //LDA
+                    Element LDA_L = document.createElement("LDA");
+                    LDA_L.appendChild(document.createTextNode(Integer.toString(leftRunway.getLDA())));
+                    leftRunwayElement.appendChild(LDA_L);
+                    //Threshold
+                    Element Threshold_L = document.createElement("threshold");
+                    Threshold_L.appendChild(document.createTextNode(Integer.toString(leftRunway.getThreshold())));
+                    leftRunwayElement.appendChild(Threshold_L);
+
+
+                    // Right
+                    Element rightRunwayElement = document.createElement("right");
+                    runwayElement.appendChild(rightRunwayElement);
+                    // degree
+                    Element degree_R = document.createElement("degree");
+                    degree_R.appendChild(document.createTextNode(Integer.toString(rightRunway.getDegree())));
+                    rightRunwayElement.appendChild(degree_R);
+                    // TORA
+                    Element TORA_R = document.createElement("TORA");
+                    TORA_R.appendChild(document.createTextNode(Integer.toString(rightRunway.getTORA())));
+                    rightRunwayElement.appendChild(TORA_R);
+                    // TODA
+                    Element TODA_R = document.createElement("TODA");
+                    TODA_R.appendChild(document.createTextNode(Integer.toString(rightRunway.getTODA())));
+                    rightRunwayElement.appendChild(TODA_R);
+                    // ASDA
+                    Element ASDA_R = document.createElement("ASDA");
+                    ASDA_R.appendChild(document.createTextNode(Integer.toString(rightRunway.getASDA())));
+                    rightRunwayElement.appendChild(ASDA_R);
+                    //LDA
+                    Element LDA_R = document.createElement("LDA");
+                    LDA_R.appendChild(document.createTextNode(Integer.toString(rightRunway.getLDA())));
+                    rightRunwayElement.appendChild(LDA_R);
+                    //Threshold
+                    Element Threshold_R = document.createElement("threshold");
+                    Threshold_R.appendChild(document.createTextNode(Integer.toString(rightRunway.getThreshold())));
+                    rightRunwayElement.appendChild(Threshold_R);
+                }
+            }
+            /*
+            Write XML file to disk
+             */
+            Transformer transformer = transformerFactory.newTransformer();
+            DOMSource source = new DOMSource(document);
+
+            FileWriter writer = new FileWriter(file);
+            StreamResult stream = new StreamResult(writer);
+
+            // Options to make the output look nice
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+
+            // This writes the files to disk
+            transformer.transform(source, stream);
+
+            writer.close();
+
+        } catch (Exception e)
+        {
             e.printStackTrace();
         }
     }
