@@ -16,12 +16,12 @@
                <tabs>
                   <Tab text="Top-Down View">
                      <content>
-                        <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: cyan;" />
+                        <Pane fx:id="topDownPane" prefHeight="200.0" prefWidth="200.0" />
                      </content>
                   </Tab>
                   <Tab text="Side-On View">
                      <content>
-                        <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: blue;" />
+                        <Pane fx:id="sideOnPane" prefHeight="200.0" prefWidth="200.0" />
                      </content>
                   </Tab>
                </tabs>
