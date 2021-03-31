@@ -19,14 +19,13 @@ import java.util.ArrayList;
 
 public class MainWindowController {
 
-    @FXML private LeftScreenController leftScreenController;
-    @FXML private CenterScreenController centerScreenController;
-    @FXML private RightScreenController rightScreenController;
-    @FXML private AirportConfigController airportConfigController;
+//    @FXML private LeftScreenController leftScreenController;
+//    @FXML private CenterScreenController centerScreenController;
+//    @FXML private RightScreenController rightScreenController;
+//    @FXML private AirportConfigController airportConfigController;
     @FXML private MenuBar menuBar;
 
     private XMLParser xmlParser;
-
 
     public MainWindowController() {
         xmlParser = new XMLParser();
@@ -41,14 +40,13 @@ public class MainWindowController {
         fileChooser.setTitle("Import XML");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("xml files" , "*.xml"));
         File xmlFile = fileChooser.showOpenDialog(menuBar.getScene().getWindow());
-
+        if(xmlFile == null) return;
         try {
             ArrayList<Airport> importedAirports = xmlParser.importAirports(xmlFile);
             ArrayList<Obstacle> importedObstacles = xmlParser.importObstacle(xmlFile);
 
             if (!importedAirports.isEmpty())
             {
-                Model.resetConfig();
                 Model.airports = importedAirports;
                 Model.console.addLog("--- Imported Airports and Runways ---");
                 for (Airport a : Model.airports) {
@@ -60,7 +58,6 @@ public class MainWindowController {
 
             if (!importedObstacles.isEmpty())
             {
-                Model.resetConfig();
                 Model.obstacles = importedObstacles;
                 Model.console.addLog("--- Imported Obstacles ---");
                 for (Obstacle o : Model.obstacles) {
@@ -68,17 +65,13 @@ public class MainWindowController {
                 }
                 Model.console.addLog("--- Finished Importing Obstacles ---");
             }
-
             Model.console.addLogWithoutTime("Imported " + importedAirports.size() + " Airports");
             Model.console.addLogWithoutTime("Imported " + importedObstacles.size() + " Obstacles");
-
-            resetMenus();
+            resetMenus();   // whole UI has to be reset and user actions removed, since the data is rewritten
         }
         catch (Exception e) {
             Model.console.addLog("Failed an import");
-            Alert failedImport = new Alert(Alert.AlertType.WARNING, "Import Failed");
-            failedImport.setHeaderText(null);
-            failedImport.showAndWait();
+            AlertController.showErrorAlert("Import Failed");
         }
     }
 
@@ -87,25 +80,32 @@ public class MainWindowController {
         fileChooser.setTitle("Import XML");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("xml files" , "*.xml"));
         File xmlFile = fileChooser.showOpenDialog(menuBar.getScene().getWindow());
+        if(xmlFile == null) return;
         try {
             ArrayList<Airport> importedAirports = xmlParser.importAirports(xmlFile);
             if (!importedAirports.isEmpty()) {
-                Model.resetConfig();
-                Model.airports = importedAirports;
-                Model.console.addLog("--- Imported Airports and Runways ---");
-                for (Airport a : Model.airports) {
-                    Model.console.addLog(a.toString());
-                    Model.console.addLog(a.getRunways().toString());
+                for(Airport a1 : Model.airports) {
+                    importedAirports.removeIf(a2 -> a1.getName().equals(a2.getName()) || a1.getCode().equals(a2.getCode()));
                 }
-                Model.console.addLog("--- Finished Importing ---");
+                Model.airports.addAll(importedAirports);
+                if(importedAirports.isEmpty())
+                    Model.console.addLog("--- No unique airports were found, no data was imported ---");
+                else {
+                    Model.console.addLog("--- Imported Airports and Runways ---");
+                    for (Airport a : importedAirports) {
+                        Model.console.addLog(a.toString());
+                        Model.console.addLog(a.getRunways().toString());
+                    }
+                    Model.console.addLog("--- Finished Importing ---");
+                }
+//                resetMenus(); // doesnt need to call this since it only appends data
+                updateUI();
             } else {
                 throw (new Exception("Failed import"));
             }
         }  catch (Exception e) {
             Model.console.addLog("Failed an import - Invalid Airports XML selected");
-            Alert failedImport = new Alert(Alert.AlertType.WARNING, "Import Failed");
-            failedImport.setHeaderText(null);
-            failedImport.showAndWait();
+            AlertController.showErrorAlert("Import Failed");
         }
     }
 
@@ -114,33 +114,48 @@ public class MainWindowController {
         fileChooser.setTitle("Import XML");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("xml files" , "*.xml"));
         File xmlFile = fileChooser.showOpenDialog(menuBar.getScene().getWindow());
+        if(xmlFile == null) return;
         try {
             ArrayList<Obstacle> importedObstacles = xmlParser.importObstacle(xmlFile);
             if (!importedObstacles.isEmpty()) {
-                Model.obstacles = importedObstacles;
-                Model.console.addLog("--- Imported Objects ---");
-                for (Obstacle o : Model.obstacles) {
-                    Model.console.addLog(o.getName());
+                //Model.resetConfig();
+                for(Obstacle o1 : Model.obstacles) {
+                    importedObstacles.removeIf(o2 -> o1.getName().equals(o2.getName()));
                 }
-                Model.console.addLog("--- Finished Importing ---");
+                Model.obstacles.addAll(importedObstacles);
+                if(importedObstacles.isEmpty())
+                    Model.console.addLog("--- No unique obstacles were found, no data was imported ---");
+                else {
+                    Model.console.addLog("--- Imported Objects ---");
+                    for (Obstacle o : importedObstacles) {
+                        Model.console.addLog(o.getName());
+                    }
+                    Model.console.addLog("--- Finished Importing ---");
+                }
+//                resetMenus(); // doesnt need to call this since it only appends data
+                updateUI();
             } else {
                 throw new Exception();
             }
         } catch (Exception e) {
             Model.console.addLog("Failed an import - Invalid Obstacles XML selected");
-            Alert failedImport = new Alert(Alert.AlertType.WARNING, "Import Failed");
-            failedImport.setHeaderText(null);
-            failedImport.showAndWait();
+            AlertController.showErrorAlert("Import Failed");
         }
     }
 
     /**
-     * Resets the menu when new values are succcessfuly imported call this method whenever something gets imported
-     * and data in model is changed
+     * Removes all data selected by user, only used when importing configuration
      */
     private void resetMenus(){
         Model.resetConfig();
         Model.leftScreenController.calculateAllowedMode();
+        updateUI();
+    }
+
+    /**
+     * Updates the UI, so the imported data are visible
+      */
+    private void updateUI(){
         TitledPane currentPane = Model.leftScreenController.accordion.getExpandedPane();
         for(TitledPane t : Model.leftScreenController.accordion.getPanes()){
             t.setExpanded(true);
@@ -151,56 +166,47 @@ public class MainWindowController {
     }
 
     public void exportConfig(ActionEvent actionEvent) {
-        if(Model.leftScreenController.accordion.getExpandedPane()!= null)
-            Model.leftScreenController.accordion.getExpandedPane().setExpanded(false);
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Export XML");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("xml files" , "*.xml"));
         File xmlFile = fileChooser.showSaveDialog(menuBar.getScene().getWindow());
+        if(xmlFile == null) return;
 
         try {
             xmlParser.exportAll(xmlFile);
         }
         catch (Exception e) {
-            Alert failedExport = new Alert(Alert.AlertType.WARNING, "Failed to export the current airports");
-            failedExport.setHeaderText(null);
-            failedExport.showAndWait();
+            AlertController.showErrorAlert("Failed to export the current airports");
         }
     }
 
     public void exportAirports(ActionEvent event) {
-        if(Model.leftScreenController.accordion.getExpandedPane()!= null)
-            Model.leftScreenController.accordion.getExpandedPane().setExpanded(false);
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Export XML");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("xml files" , "*.xml"));
         File xmlFile = fileChooser.showSaveDialog(menuBar.getScene().getWindow());
+        if(xmlFile == null) return;
 
         try {
             xmlParser.exportAirports(xmlFile);
         }
         catch (Exception e) {
-            Alert failedExport = new Alert(Alert.AlertType.WARNING, "Failed to export the current airports");
-            failedExport.setHeaderText(null);
-            failedExport.showAndWait();
+            AlertController.showErrorAlert("Failed to export the current airports");
         }
     }
 
     public void exportObstacles(ActionEvent actionEvent) {
-        if(Model.leftScreenController.accordion.getExpandedPane()!= null)
-            Model.leftScreenController.accordion.getExpandedPane().setExpanded(false);
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Export XML");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("xml files" , "*.xml"));
         File xmlFile = fileChooser.showSaveDialog(menuBar.getScene().getWindow());
+        if(xmlFile == null) return;
 
         try {
             xmlParser.exportObstacles(xmlFile);
         }
         catch (Exception e) {
-            Alert failedExport = new Alert(Alert.AlertType.WARNING, "Failed to export the current obstacles");
-            failedExport.setHeaderText(null);
-            failedExport.showAndWait();
+            AlertController.showErrorAlert("Failed to export the current obstacles");
         }
     }
 

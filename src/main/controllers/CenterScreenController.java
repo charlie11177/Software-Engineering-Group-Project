@@ -16,7 +16,6 @@ public class CenterScreenController {
     public Canvas topDowncanvas;
     public Canvas sideOnCanvas;
 
-
     @FXML
     private void initialize(){
         Model.centerScreenController = this;
@@ -40,6 +39,7 @@ public class CenterScreenController {
         drawTopDown(topDowncanvas);
     }
 
+    //Dont remove this please
     public void updateConsole(String text){
         console.setText(text);
         console.appendText("");
