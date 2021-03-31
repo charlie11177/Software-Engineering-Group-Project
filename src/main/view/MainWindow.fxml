@@ -13,19 +13,19 @@
                 <Menu mnemonicParsing="false" text="File">
                     <items>
                   <MenuItem mnemonicParsing="false" text="Save as PNG" />
-                  <Menu mnemonicParsing="false" text="Export as XML file...">
-                     <items>
-                        <MenuItem mnemonicParsing="false" onAction="#exportConfig" text="Complete configuration" />
-                        <MenuItem mnemonicParsing="false" onAction="#exportAirports" text="Airports" />
-                        <MenuItem mnemonicParsing="false" onAction="#exportObstacles" text="Obstacles" />
-                     </items>
-                  </Menu>
                   <Menu mnemonicParsing="false" text="Import from XML file...">
                     <items>
                       <MenuItem mnemonicParsing="false" onAction="#importXML" text="Complete configuration" />
                         <MenuItem mnemonicParsing="false" onAction="#importAirports" text="Airports" />
                         <MenuItem mnemonicParsing="false" onAction="#importObstacles" text="Obstacles" />
                     </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Export as XML file...">
+                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#exportConfig" text="Complete configuration" />
+                        <MenuItem mnemonicParsing="false" onAction="#exportAirports" text="Airports" />
+                        <MenuItem mnemonicParsing="false" onAction="#exportObstacles" text="Obstacles" />
+                     </items>
                   </Menu>
                     </items>
                 </Menu>

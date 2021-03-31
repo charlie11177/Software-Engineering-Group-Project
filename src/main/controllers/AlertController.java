@@ -23,6 +23,12 @@ public class AlertController {
         alert.showAndWait();
     }
 
+    public static void showErrorAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR, message);
+        alert.setHeaderText(null);
+        alert.showAndWait();
+    }
+
     public static Boolean saveProgressAlert(){
         AtomicReference<Boolean> save = new AtomicReference<>();
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);

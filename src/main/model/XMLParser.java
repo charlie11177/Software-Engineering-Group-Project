@@ -124,7 +124,7 @@ public class XMLParser {
             }
         } catch(Exception e) {
 //            e.printStackTrace();
-            System.err.println(e.getMessage());
+            System.err.println(e.getMessage() + " " + e.getLocalizedMessage());
         }
         return airports;
     }
@@ -172,7 +172,7 @@ public class XMLParser {
                 obstacles.add(new Obstacle(name, height, width, position));
             }
         } catch(Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
             System.err.println(e.getMessage());
         }
         return obstacles;
@@ -313,7 +313,8 @@ public class XMLParser {
             writer.close();
 
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
+            System.err.println(e.getMessage());
         }
     }
 
@@ -394,7 +395,8 @@ public class XMLParser {
             writer.close();
 
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
+            System.err.println(e.getMessage());
         }
     }
 
@@ -573,7 +575,8 @@ public class XMLParser {
 
         } catch (Exception e)
         {
-            e.printStackTrace();
+//            e.printStackTrace();
+            System.err.println(e.getMessage());
         }
     }
 }
