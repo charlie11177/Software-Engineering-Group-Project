@@ -27,8 +27,6 @@ public class LeftScreenController {
     }
 
     public void calculateNotAllowedMode() {
-//      if(accordion.getExpandedPane()!=null)
-//          accordion.getExpandedPane().setExpanded(false);
         calculateAllowed = false;
         calculateButton.setText("Edit");
         disableTilePanes(true, 0.75);
@@ -42,7 +40,6 @@ public class LeftScreenController {
         Model.runwayConfigController.runwayRoot.setOpacity(opacity);
         Model.obstacleConfigController.obstacleRoot.setOpacity(opacity);
     }
-
 
     @FXML
     private void calculateButtonClick() {
@@ -62,22 +59,19 @@ public class LeftScreenController {
         } else {
             try{ Model.obstacleConfigController.saveObstacleDimensions(Model.currentObstacle); }
             catch (NumberFormatException e) {
-                AlertController.showWarningAlert("No obstacle placement not properly specified !");
+                AlertController.showWarningAlert("Obstacle placement not properly specified !");
                 return;
             }
             Model.console.addLog("Calculate button clicked!");
             Model.currentRunway.setObstacle(Model.currentObstacle);
-            Model.console.addLogWithoutTime("------------------------------" +
-                    "Selected config" +
-                    "------------------------------");
+            Model.console.addLogWithoutTime("--- Selected config ---");
             Model.console.addLogWithoutTime("Airport: " + Model.currentAirport.toString());
             PhysicalRunWay temp = Model.currentRunway;
             Model.console.addLogWithoutTime("Physical Runway: " + temp.toString() + "  ID: " + temp.getRunwayID() + "  Placed Obstacle: " + temp.getObstacle().getName());
             Model.console.addLogWithoutTime("Left Runway: " +  temp.getLeftRunway().getData());
             Model.console.addLogWithoutTime("Right Runway: " + temp.getRightRunway().getData());
             Model.console.addLogWithoutTime("Obstacle " + Model.currentObstacle.toString());
-            Model.console.addLogWithoutTime("--------------------------------------" +
-                    "-------------------------------------");
+            Model.console.addLogWithoutTime("");
             Calculator.recalculate();
             Model.rightScreenController.allCalculationsTowardsTA.setText(Model.calculationsBreakdownTowards);
             Model.rightScreenController.allCalculationsAwayTA.setText(Model.calculationsBreakDownAway);

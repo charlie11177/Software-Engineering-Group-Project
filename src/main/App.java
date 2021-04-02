@@ -140,13 +140,20 @@ public class App extends Application {
          colorblind: true/false
          */
         File file = new File("config.log");
+        File consoleData = new File ("console.log");
         FileWriter writer = null; // true to append, false to overwrite.
         try {
             writer = new FileWriter(file, false);
             String saveData = "Fontsize:"+ Model.getCurrentFontSize()+";";
             writer.write(saveData);
             writer.close();
-            System.out.println("Saved data " + saveData);
+            System.out.println("Saved config data: " + saveData);
+
+            writer = new FileWriter(consoleData, false);
+            String consoleContent = Model.centerScreenController.console.getText();
+            writer.write(consoleContent);
+            writer.close();
+            System.out.println("Saved console data:  " + consoleContent);
         } catch (IOException e) {
             e.printStackTrace();
         }

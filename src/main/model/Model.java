@@ -21,14 +21,15 @@ public class Model {
     public static RightScreenController rightScreenController;
     public static MainWindowController mainWindowController;
 
-    // console that holds all the log texts to display
-    public static Console console = new Console();
+    /**
+     * These variables are the data that is being displayed on the UI
+     */
     public static ArrayList<Airport> airports = new ArrayList<>();
     public static ArrayList<Obstacle> obstacles = new ArrayList<>();
-    public static Airport currentAirport;
-    public static PhysicalRunWay currentRunway;
-    public static Obstacle currentObstacle;
-    public static boolean obstaclePlaced = false;
+    public static Airport currentAirport;   // selected airport, can be null if none is chosen
+    public static PhysicalRunWay currentRunway; // selected runway, can be null if none is chosen
+    public static Obstacle currentObstacle; // selected obstacle, can be null if none is chosen
+    public static boolean obstaclePlaced = false;   // true, if user chose to place an obstacle on the selected runway
 
     public static String calculationsBreakdownTowards;
     public static String calculationsBreakDownAway;
@@ -37,14 +38,12 @@ public class Model {
     public static LogicalRunWay originalRunwayTowards;
     public static LogicalRunWay originalRunwayAway;
 
+    // console that holds all the log texts to display
+    public static Console console = new Console();
     private static FontSize currentFontSize;
 
     public static void setCurrentFontSize(FontSize fontSize) {
         currentFontSize = fontSize;
-    }
-
-    public static FontSize getCurrentFontSize() {
-        return currentFontSize;
     }
 
     public static ArrayList<Airport> getAirports() {
@@ -71,16 +70,21 @@ public class Model {
         Model.obstaclePlaced = false;
         if(!Model.currentAirport.getRunways().contains(Model.currentRunway)){
             Model.currentRunway = null;
-//            System.out.println("Current runway assigned null");
         }
     }
 
+    // removes all user, chosen data, used when a full configuration is imported from an XML
     public static void resetConfig(){
         currentAirport = null;
         currentRunway = null;
         currentObstacle = null;
         obstaclePlaced = false;
     }
+
+    public static FontSize getCurrentFontSize() {
+        return currentFontSize;
+    }
+
 
     public static void demo(){
         LogicalRunWay left1 = new LogicalRunWay(9, Direction.L,3902,3902,3202,3595, 0);
