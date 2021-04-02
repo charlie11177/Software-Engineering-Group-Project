@@ -61,6 +61,11 @@ public class RunwayConfigController {
 //        runwayChoiceBox.valueProperty().addListener((observable, oldValue, newValue) -> choiceBoxUpdater(newValue));
     }
 
+    public void updateVisualisation() {
+        System.out.println("Visualisation for runway " + Model.currentRunway);
+        //TODO: calls for visualisation methods for displaying runways can be placed here
+    }
+
     private void setChoiceBoxListenerEnabled(Boolean enable) {
         if (enable)
             runwayChoiceBox.valueProperty().addListener(choiceBoxListener);
@@ -233,10 +238,11 @@ public class RunwayConfigController {
                 if (p.toString().equals(newValue)) {
                     Model.setCurrentRunway(p);
                     hasRunwaysView();
+                    Model.console.addLog("Runway selected: " + Model.currentRunway.toString());
                 }
             }
         }
-        Model.console.addLog("Runway selected: " + Model.currentRunway.toString());
+        updateVisualisation();
         Model.obstacleConfigController.windowCloseProcedure();
     }
 
@@ -296,6 +302,7 @@ public class RunwayConfigController {
         setChoiceBoxListenerEnabled(true);
         if(Model.currentAirport.getRunways().isEmpty()) noRunwaysView();
         else hasRunwaysView();
+        updateVisualisation();
     }
 
     @FXML
@@ -333,11 +340,12 @@ public class RunwayConfigController {
             edit = false;
             Model.console.addLog("Runway " + previousRunway + " edited to: " + Model.currentRunway.toString());
         } else {
-            saveNewRunway(left,right);
             Model.console.addLog("Runway " + Model.currentRunway.toString() + " added");
-            Model.console.addLog("Runway selected: " + Model.currentRunway.toString());
+            saveNewRunway(left,right);
+//            Model.console.addLog("Runway selected: " + Model.currentRunway.toString());
 
         }
+        updateVisualisation();
         showOnlyMode();
     }
 
@@ -379,8 +387,8 @@ public class RunwayConfigController {
             setChoiceBoxListenerEnabled(false);
             runwayChoiceBox.getItems().remove(runwayChoiceBox.getValue());
             runwayChoiceBox.getItems().add(Model.currentRunway.toString());
-            runwayChoiceBox.setValue(Model.currentRunway.toString());
             setChoiceBoxListenerEnabled(true);
+//            runwayChoiceBox.setValue(Model.currentRunway.toString());
         }
         else System.err.println("Error RunwayController:378");
     }
