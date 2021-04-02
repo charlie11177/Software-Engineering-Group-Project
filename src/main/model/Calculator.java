@@ -1,6 +1,7 @@
 package main.model;
 
 import javafx.scene.control.Alert;
+import main.controllers.AlertController;
 
 public class Calculator {
     private static PhysicalRunWay physicalRunway;
@@ -21,18 +22,12 @@ public class Calculator {
                     recalculateTOWARDS(physicalRunway.getRightRunway(), obstacle.getPosition().getDistanceToRight());
                 }
             }else {
-                Alert noObject = new Alert(Alert.AlertType.WARNING, "No object has been placed on the runway!");
-                noObject.setHeaderText(null);
-                noObject.showAndWait();
+                AlertController.showWarningAlert("No object has been placed on the runway!");
             }
         }else{
-            Alert noRunway = new Alert(Alert.AlertType.WARNING, "No runway has been selected!");
-            noRunway.setHeaderText(null);
-            noRunway.showAndWait();
+            AlertController.showWarningAlert("No runway has been selected!");
         }
     }
-
-
 
     private static void recalculateAWAY(LogicalRunWay runway, int distanceFromThreshold) { //(Take off Away, Landing Over)
         int tora, toda, lda, asda;
