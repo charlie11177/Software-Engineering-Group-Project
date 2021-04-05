@@ -64,6 +64,7 @@ public class RunwayConfigController {
     public void updateVisualisation() {
         System.out.println("Visualisation for runway " + Model.currentRunway);
         //TODO: calls for visualisation methods for displaying runways can be placed here
+        // something like this: Model.CenterScreenController.draw();
     }
 
     private void setChoiceBoxListenerEnabled(Boolean enable) {
@@ -134,7 +135,7 @@ public class RunwayConfigController {
     private void specifyView(boolean runwayOptionsVisible, double runwayOptionsOpacity,
                              boolean runwayChoiceBoxDisable, boolean newRunwayDisable, boolean deleteRunwayDisable, boolean editRunwayVisible, boolean editButtonsVisible) {
         runwayOptions.setVisible(runwayOptionsVisible);
-        if(runwayOptionsOpacity == 1 || runwayOptionsOpacity == 0.75)
+        if(runwayOptionsOpacity == 1 || runwayOptionsOpacity == 0.5)
             runwayOptions.setOpacity(runwayOptionsOpacity);
         runwayChoiceBox.setDisable(runwayChoiceBoxDisable);
         newRunway.setDisable(newRunwayDisable);
@@ -206,7 +207,7 @@ public class RunwayConfigController {
         for(TextField t : textFields)
             t.setEditable(false);
         specifyView(true,
-                0.75,
+                0.5,
                 false,
                 false,
                 false,
