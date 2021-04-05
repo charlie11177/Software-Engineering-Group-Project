@@ -43,8 +43,9 @@ public class CenterScreenController {
 
     //Dont remove this please
     public void updateConsole(String text){
-        console.setText(text);
-        console.appendText("");
+//        console.setText(text);
+//        console.positionCaret(text.length());
+        console.appendText(text + "\n");
     }
 
     //just examples how the resizing can be done, can be removed

@@ -15,23 +15,21 @@ import java.util.List;
 
 public class ObstacleConfigController {
 
-    private List<TextField> textFields;
     private boolean edit;
     private ChangeListener<String> choiceBoxListener;
+    private List<TextField> textFields;
 
+    public VBox obstacleRoot;
     @FXML private Label leftDistanceLabel;
     @FXML private Label rightDistanceLabel;
-//    @FXML private Label nameLabel;
     @FXML private VBox topVbox;
     @FXML private VBox obstacleDetails;
     @FXML private VBox distancesEditorVbox;
     @FXML private CheckBox placeObstacleCB;
-//    @FXML private Separator separator;
     @FXML private Button newObstacleButton;
     @FXML private Button deleteObstacleButton;
     @FXML private Button editObstacleButton;
     @FXML private TitledPane obstacleConfig;
-//    @FXML private HBox editButtonsTop;
     @FXML private HBox editButtonsBottom;
     @FXML private TextField obstacleHeightTF;
     @FXML private TextField obstacleWidthTF;
@@ -41,7 +39,6 @@ public class ObstacleConfigController {
     @FXML private TextField distanceFromRTF;
     @FXML private TextField distanceFromCLTF;
     @FXML private ChoiceBox<String> dirFromCLChoiceBox;
-    public VBox obstacleRoot;
 
     public ObstacleConfigController(){
         edit = false;
@@ -53,10 +50,16 @@ public class ObstacleConfigController {
         Model.obstacleConfigController = this;
         setupTextFields();
         setupDirBox();
-        choiceBoxListener = (observable, oldValue, newValue) -> choiceBoxUpdater(newValue);
+        choiceBoxListener = (observable, oldValue, newValue) -> choiceBoxUpdater(newValue, oldValue);
         obstacleConfig.expandedProperty().addListener((observable, oldValue, newValue) -> update(newValue));
 //        obstacleChoiceBox.valueProperty().addListener((observable, oldValue, newValue) -> choiceBoxUpdater(newValue));
         setChoiceBoxListenerEnabled(true);
+    }
+
+    public void updateVisualisation() {
+        System.out.println("Visualisation for obstacle " + Model.currentObstacle + " that is placed " + Model.obstaclePlaced);
+        //TODO: calls for visualisation methods for displaying runways can be placed here
+        // something like this: Model.CenterScreenController.draw();
     }
 
     private void setChoiceBoxListenerEnabled(Boolean enable) {
@@ -71,12 +74,22 @@ public class ObstacleConfigController {
             if (change.getText().equals(" ")) change.setText("_");
             return change;
         }));
-        textFields.addAll(Arrays.asList(obstacleHeightTF,obstacleWidthTF,distanceFromLTF,distanceFromRTF,distanceFromCLTF));
+        textFields.addAll(Arrays.asList(distanceFromLTF,distanceFromRTF,distanceFromCLTF));
         for(TextField t : textFields)
+            t.textProperty().addListener((observable, oldValue, newValue) -> {
+                // "|[-\\+]?|[-\\+]?\\d+\\.?|[-\\+]?\\d+\\.?\\d+"
+                if (!newValue.matches("|[-]?|[-]?\\d+")){
+                    t.setText(oldValue);
+                }
+            });
+        List<TextField> temp = Arrays.asList(obstacleHeightTF,obstacleWidthTF);
+        for(TextField t : temp) {
             t.setTextFormatter(new TextFormatter<>(change -> {
-                if (!change.getText().matches("-?(([0-9])*)")) change.setText("");
+                if (!change.getText().matches("(([0-9])*)")) change.setText("");
                 return change;
             }));
+        }
+        textFields.addAll(temp);
         textFields.add(obstacleNameTF);
     }
 
@@ -127,16 +140,19 @@ public class ObstacleConfigController {
 
     private void specifyView(boolean obstacleChoiceBoxDisabled, boolean editObstacleButtonDisabled, boolean newButtonDisabled,
                              boolean removeButtonDisabled, boolean topVboxDisable, boolean obstacleDetailsBoxVisible,
-                             boolean checkBoxVisible, boolean editButtonsBottomVisible, boolean distancesEditorVboxVisible) {
+                             double obstacleDetailsBoxOpacity, boolean checkBoxVisible, boolean editButtonsBottomVisible,
+                             boolean distancesEditorVboxVisible, boolean distanceEditorVboxDisabled) {
         obstacleChoiceBox.setDisable(obstacleChoiceBoxDisabled);
         editObstacleButton.setDisable(editObstacleButtonDisabled);
         newObstacleButton.setDisable(newButtonDisabled);
         deleteObstacleButton.setDisable(removeButtonDisabled);
         topVbox.setDisable(topVboxDisable);
         obstacleDetails.setVisible(obstacleDetailsBoxVisible);
+        obstacleDetails.setOpacity(obstacleDetailsBoxOpacity);
         placeObstacleCB.setVisible(checkBoxVisible);
         editButtonsBottom.setVisible(editButtonsBottomVisible);
         distancesEditorVbox.setVisible(distancesEditorVboxVisible);
+        distancesEditorVbox.setDisable(distanceEditorVboxDisabled);
     }
 
     private void noObstaclesView(){
@@ -146,9 +162,11 @@ public class ObstacleConfigController {
                 true,
                 false,
                 false,
+                0.5,
                 false,
                 false,
-                false);
+                false,
+                true);
     }
 
     private void noSelectedObstacleView(){
@@ -158,16 +176,30 @@ public class ObstacleConfigController {
                 true,
                 false,
                 false,
+                0.5,
                 false,
                 false,
-                false);
+                false,
+                true);
     }
 
     private void selectedObstacleView() {
-        if(Model.currentRunway == null)
+        boolean showPlacementMenu;
+        boolean checkBoxVisible;
+        if(Model.currentRunway == null) {
+            showPlacementMenu = false;
+            leftDistanceLabel.setText("Distance from L");
+            rightDistanceLabel.setText("Distance from R");
             placeObstacleCB.setDisable(true);
-        else
+//            checkBoxVisible = false;
+        }
+        else {
+            showPlacementMenu = true;
+            leftDistanceLabel.setText("Distance from " + Model.currentRunway.getLeftRunway().toString());
+            rightDistanceLabel.setText("Distance from " + Model.currentRunway.getRightRunway().toString());
             placeObstacleCB.setDisable(false);
+//            checkBoxVisible = true;
+        }
         obstacleNameTF.setEditable(false);
         obstacleWidthTF.setEditable(false);
         obstacleHeightTF.setEditable(false);
@@ -177,8 +209,10 @@ public class ObstacleConfigController {
                 false,
                 false,
                 true,
+                0.5,
                 true,
                 false,
+                showPlacementMenu,
                 false);
     }
 
@@ -189,9 +223,12 @@ public class ObstacleConfigController {
                 true,
                 true,
                 true,
+                0.5,
                 true,
                 false,
+                true,
                 true);
+
     }
 
     private void obstacleEditView() {
@@ -204,9 +241,11 @@ public class ObstacleConfigController {
                 true,
                 false,
                 true,
+                1,
                 false,
                 true,
-                false);
+                false,
+                true);
     }
 
     private void populateObstacleNames(){
@@ -237,59 +276,93 @@ public class ObstacleConfigController {
            distanceFromCLTF.setText("");
            dirFromCLChoiceBox.setValue("L");
        } else {
-           Position p = Model.currentObstacle.getPosition();
-           distanceFromLTF.setText(String.valueOf(p.getDistanceToLeft()));
-           distanceFromRTF.setText(String.valueOf(p.getDistanceToRight()));
-           distanceFromCLTF.setText(String.valueOf(p.getDistanceFromCL()));
-           dirFromCLChoiceBox.setValue(p.getDirectionFromCL());
+           distanceFromLTF.setText(String.valueOf(position.getDistanceToLeft()));
+           distanceFromRTF.setText(String.valueOf(position.getDistanceToRight()));
+           distanceFromCLTF.setText(String.valueOf(position.getDistanceFromCL()));
+           dirFromCLChoiceBox.setValue(position.getDirectionFromCL());
        }
     }
 
-    public void saveObstacleDimensions(Obstacle obstacle) throws NumberFormatException {
-        int distancefromL = Integer.parseInt(distanceFromLTF.getText());
-        int distanceFromR = Integer.parseInt(distanceFromRTF.getText());
-        int distanceFromCL = Integer.parseInt(distanceFromCLTF.getText());
+    public void saveObstacleDimensions(Obstacle obstacle)  {
+        Integer distancefromL = null;
+        Integer distanceFromR = null;
+        Integer distanceFromCL = null;
+
+        if(distanceFromLTF.getText() != "")
+            try { distancefromL = Integer.parseInt(distanceFromLTF.getText()); } catch (NumberFormatException e) {}
+        else if (obstacle.getPosition() != null)
+            distancefromL = obstacle.getPosition().getDistanceToLeft();
+
+        if(distanceFromRTF.getText() != "")
+            try { distanceFromR = Integer.parseInt(distanceFromRTF.getText()); } catch (NumberFormatException e) {}
+        else if (obstacle.getPosition() != null)
+            distanceFromR = obstacle.getPosition().getDistanceToRight();
+
+        if(distanceFromCLTF.getText() != "")
+            try { distanceFromCL = Integer.parseInt(distanceFromCLTF.getText()); } catch (NumberFormatException e) {}
+        else if (obstacle.getPosition() != null)
+            distanceFromCL = obstacle.getPosition().getDistanceFromCL();
+
         String dirFromCL = dirFromCLChoiceBox.getValue();
+
         obstacle.setPosition(new Position(distancefromL,distanceFromR,distanceFromCL,dirFromCL));
-        //Model.console.addLog("Obstacle's: " + Model.currentObstacle.getName() + " position data was saved");
+    }
+
+    private boolean isObstacleCorrectlyPlaced(Obstacle obstacle){
+        if(obstacle.getPosition() == null) return false;
+        else if (obstacle.getPosition().getDistanceToLeft() == null) return false;
+        else if (obstacle.getPosition().getDistanceToRight() == null) return false;
+        else if (obstacle.getPosition().getDistanceFromCL() == null) return false;
+        else if (obstacle.getPosition().getDirectionFromCL() == null) return false;
+        return true;
     }
 
     @FXML
     private void placeObstacleClick() {
+        saveObstacleDimensions(Model.currentObstacle);
         if (placeObstacleCB.isSelected()){
             if(Model.currentRunway == null){
                 AlertController.showWarningAlert("No runway selected!");
                 placeObstacleCB.setSelected(false);
                 return;
+            } else if (!isObstacleCorrectlyPlaced(Model.currentObstacle)) {
+                AlertController.showWarningAlert("Obstacle placement not properly specified !");
+                placeObstacleCB.setSelected(false);
+                return;
             }
             Model.console.addLog("Obstacle: " + Model.currentObstacle.getName() + " was placed on runway: " + Model.currentRunway.toString());
             placeObstacle();
+            updateVisualisation();
         } else {
             Model.obstaclePlaced = false;
-            try { saveObstacleDimensions(Model.currentObstacle); }
-            catch (NumberFormatException e){
-                Model.console.addLog("Obstacle's: " + Model.currentObstacle.getName() + " position data was not saved");
-            }
             Model.console.addLog("Obstacle: " + Model.currentObstacle.getName() + " was removed from runway: " + Model.currentRunway.toString());
             selectedObstacleView();
+            updateVisualisation();
         }
     }
 
     private void placeObstacle(){
-        leftDistanceLabel.setText("Distance from " + Model.currentRunway.getLeftRunway().toString());
-        rightDistanceLabel.setText("Distance from " + Model.currentRunway.getRightRunway().toString());
         Model.obstaclePlaced = true;
         placedObstacleView();
-        populateObstacleDimensions(Model.currentObstacle.getPosition());
     }
 
-    private void choiceBoxUpdater(String newValue){
-        if(newValue != null) {
+    private void choiceBoxUpdater(String newValue, String oldValue){
+        if (oldValue != null) {
+            for(Obstacle o : Model.getObstacles()) {
+                if (o.getName().equals(oldValue)) {
+                    saveObstacleDimensions(o);
+                    break;
+                }
+            }
+        }
+        if (newValue != null) {
             for(Obstacle o : Model.getObstacles()) {
                 if (o.getName().equals(newValue)) {
-                    selectedObstacleView();
-                    populateObstacleDetails(o);
                     Model.currentObstacle = o;
+                    populateObstacleDetails(o);
+                    populateObstacleDimensions(o.getPosition());
+                    selectedObstacleView();
+                    break;
                 }
             }
         }
@@ -324,26 +397,29 @@ public class ObstacleConfigController {
 
     @FXML
     private void cancelButtonClick() {
+        edit = false;
         populateObstacleDetails(Model.currentObstacle);
-        selectedObstacleView();
+        if (Model.obstacles.isEmpty()) noObstaclesView();
+        else if (Model.currentObstacle == null) noSelectedObstacleView();
+        else selectedObstacleView();
     }
 
     @FXML
     private void saveButtonClick() {
         String name = obstacleNameTF.getText();
         if(name.equals("") || obstacleHeightTF.getText().equals("") || (obstacleWidthTF.getText().equals(""))) {
-            AlertController.showWarningAlert("Empty texfields!");
+            AlertController.showWarningAlert("Some textfields are empty!");
             return;
         } else if (nameInUse(name, edit)){
             AlertController.showWarningAlert("Obstacle name already used");
             return;
         } else if (edit){
             saveEditedObstacle(name);
-            edit = false;
         } else {
             saveNewObstacle(name);
         }
         selectedObstacleView();
+
     }
 
     private void saveEditedObstacle(String name) {
@@ -373,10 +449,9 @@ public class ObstacleConfigController {
         Model.obstacles.add(obstacle);
         setChoiceBoxListenerEnabled(false);
         obstacleChoiceBox.getItems().add(name);
-        obstacleChoiceBox.setValue(name);
-        setChoiceBoxListenerEnabled(true);
         Model.console.addLog("Obstacle: " + Model.currentObstacle.getName() + " added");
-        Model.console.addLog("Obstacle selected: " + Model.currentObstacle.getName());
+        setChoiceBoxListenerEnabled(true);
+        obstacleChoiceBox.setValue(name);
     }
 
     private boolean nameInUse(String desiredName, boolean edit){

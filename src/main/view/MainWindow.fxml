@@ -16,8 +16,8 @@
                   <Menu mnemonicParsing="false" text="Import from XML file...">
                     <items>
                       <MenuItem mnemonicParsing="false" onAction="#importXML" text="Complete configuration" />
-                        <MenuItem mnemonicParsing="false" onAction="#importAirports" text="Airports" />
-                        <MenuItem mnemonicParsing="false" onAction="#importObstacles" text="Obstacles" />
+                        <MenuItem mnemonicParsing="false" onAction="#importAirports" text="Add Airports" />
+                        <MenuItem mnemonicParsing="false" onAction="#importObstacles" text="Add Obstacles" />
                     </items>
                   </Menu>
                   <Menu mnemonicParsing="false" text="Export as XML file...">
