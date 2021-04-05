@@ -1,7 +1,6 @@
 package main.controllers;
 
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
@@ -16,23 +15,21 @@ import java.util.List;
 
 public class ObstacleConfigController {
 
-    private List<TextField> textFields;
     private boolean edit;
     private ChangeListener<String> choiceBoxListener;
+    private List<TextField> textFields;
 
+    public VBox obstacleRoot;
     @FXML private Label leftDistanceLabel;
     @FXML private Label rightDistanceLabel;
-//    @FXML private Label nameLabel;
     @FXML private VBox topVbox;
     @FXML private VBox obstacleDetails;
     @FXML private VBox distancesEditorVbox;
     @FXML private CheckBox placeObstacleCB;
-//    @FXML private Separator separator;
     @FXML private Button newObstacleButton;
     @FXML private Button deleteObstacleButton;
     @FXML private Button editObstacleButton;
     @FXML private TitledPane obstacleConfig;
-//    @FXML private HBox editButtonsTop;
     @FXML private HBox editButtonsBottom;
     @FXML private TextField obstacleHeightTF;
     @FXML private TextField obstacleWidthTF;
@@ -42,7 +39,6 @@ public class ObstacleConfigController {
     @FXML private TextField distanceFromRTF;
     @FXML private TextField distanceFromCLTF;
     @FXML private ChoiceBox<String> dirFromCLChoiceBox;
-    public VBox obstacleRoot;
 
     public ObstacleConfigController(){
         edit = false;
@@ -63,6 +59,7 @@ public class ObstacleConfigController {
     public void updateVisualisation() {
         System.out.println("Visualisation for obstacle " + Model.currentObstacle + " that is placed " + Model.obstaclePlaced);
         //TODO: calls for visualisation methods for displaying runways can be placed here
+        // something like this: Model.CenterScreenController.draw();
     }
 
     private void setChoiceBoxListenerEnabled(Boolean enable) {
@@ -77,7 +74,7 @@ public class ObstacleConfigController {
             if (change.getText().equals(" ")) change.setText("_");
             return change;
         }));
-        textFields.addAll(Arrays.asList(obstacleHeightTF,obstacleWidthTF,distanceFromLTF,distanceFromRTF,distanceFromCLTF));
+        textFields.addAll(Arrays.asList(distanceFromLTF,distanceFromRTF,distanceFromCLTF));
         for(TextField t : textFields)
             t.textProperty().addListener((observable, oldValue, newValue) -> {
                 // "|[-\\+]?|[-\\+]?\\d+\\.?|[-\\+]?\\d+\\.?\\d+"
@@ -85,11 +82,14 @@ public class ObstacleConfigController {
                     t.setText(oldValue);
                 }
             });
-//            t.setTextFormatter(new TextFormatter<>(change -> {
-//                if (change.getText().matches("-")) change.setText("-");
-//                else if (!change.getText().matches("(([0-9])*)")) change.setText("");
-//                return change;
-//            }));
+        List<TextField> temp = Arrays.asList(obstacleHeightTF,obstacleWidthTF);
+        for(TextField t : temp) {
+            t.setTextFormatter(new TextFormatter<>(change -> {
+                if (!change.getText().matches("(([0-9])*)")) change.setText("");
+                return change;
+            }));
+        }
+        textFields.addAll(temp);
         textFields.add(obstacleNameTF);
     }
 
@@ -140,14 +140,15 @@ public class ObstacleConfigController {
 
     private void specifyView(boolean obstacleChoiceBoxDisabled, boolean editObstacleButtonDisabled, boolean newButtonDisabled,
                              boolean removeButtonDisabled, boolean topVboxDisable, boolean obstacleDetailsBoxVisible,
-                             boolean checkBoxVisible, boolean editButtonsBottomVisible, boolean distancesEditorVboxVisible,
-                             boolean distanceEditorVboxDisabled) {
+                             double obstacleDetailsBoxOpacity, boolean checkBoxVisible, boolean editButtonsBottomVisible,
+                             boolean distancesEditorVboxVisible, boolean distanceEditorVboxDisabled) {
         obstacleChoiceBox.setDisable(obstacleChoiceBoxDisabled);
         editObstacleButton.setDisable(editObstacleButtonDisabled);
         newObstacleButton.setDisable(newButtonDisabled);
         deleteObstacleButton.setDisable(removeButtonDisabled);
         topVbox.setDisable(topVboxDisable);
         obstacleDetails.setVisible(obstacleDetailsBoxVisible);
+        obstacleDetails.setOpacity(obstacleDetailsBoxOpacity);
         placeObstacleCB.setVisible(checkBoxVisible);
         editButtonsBottom.setVisible(editButtonsBottomVisible);
         distancesEditorVbox.setVisible(distancesEditorVboxVisible);
@@ -161,6 +162,7 @@ public class ObstacleConfigController {
                 true,
                 false,
                 false,
+                0.5,
                 false,
                 false,
                 false,
@@ -174,6 +176,7 @@ public class ObstacleConfigController {
                 true,
                 false,
                 false,
+                0.5,
                 false,
                 false,
                 false,
@@ -182,17 +185,20 @@ public class ObstacleConfigController {
 
     private void selectedObstacleView() {
         boolean showPlacementMenu;
+        boolean checkBoxVisible;
         if(Model.currentRunway == null) {
             showPlacementMenu = false;
             leftDistanceLabel.setText("Distance from L");
             rightDistanceLabel.setText("Distance from R");
             placeObstacleCB.setDisable(true);
+//            checkBoxVisible = false;
         }
         else {
             showPlacementMenu = true;
             leftDistanceLabel.setText("Distance from " + Model.currentRunway.getLeftRunway().toString());
             rightDistanceLabel.setText("Distance from " + Model.currentRunway.getRightRunway().toString());
             placeObstacleCB.setDisable(false);
+//            checkBoxVisible = true;
         }
         obstacleNameTF.setEditable(false);
         obstacleWidthTF.setEditable(false);
@@ -203,6 +209,7 @@ public class ObstacleConfigController {
                 false,
                 false,
                 true,
+                0.5,
                 true,
                 false,
                 showPlacementMenu,
@@ -216,6 +223,7 @@ public class ObstacleConfigController {
                 true,
                 true,
                 true,
+                0.5,
                 true,
                 false,
                 true,
@@ -233,6 +241,7 @@ public class ObstacleConfigController {
                 true,
                 false,
                 true,
+                1,
                 false,
                 true,
                 false,
@@ -297,7 +306,6 @@ public class ObstacleConfigController {
         String dirFromCL = dirFromCLChoiceBox.getValue();
 
         obstacle.setPosition(new Position(distancefromL,distanceFromR,distanceFromCL,dirFromCL));
-//        Model.console.addLog("Obstacle's: " + obstacle.getName() + " position data was saved " + obstacle.getPosition().getDistanceToLeft());
     }
 
     private boolean isObstacleCorrectlyPlaced(Obstacle obstacle){
@@ -389,6 +397,7 @@ public class ObstacleConfigController {
 
     @FXML
     private void cancelButtonClick() {
+        edit = false;
         populateObstacleDetails(Model.currentObstacle);
         if (Model.obstacles.isEmpty()) noObstaclesView();
         else if (Model.currentObstacle == null) noSelectedObstacleView();
@@ -406,7 +415,6 @@ public class ObstacleConfigController {
             return;
         } else if (edit){
             saveEditedObstacle(name);
-            edit = false;
         } else {
             saveNewObstacle(name);
         }
@@ -444,7 +452,6 @@ public class ObstacleConfigController {
         Model.console.addLog("Obstacle: " + Model.currentObstacle.getName() + " added");
         setChoiceBoxListenerEnabled(true);
         obstacleChoiceBox.setValue(name);
-//        Model.console.addLog("Obstacle selected: " + Model.currentObstacle.getName());
     }
 
     private boolean nameInUse(String desiredName, boolean edit){
