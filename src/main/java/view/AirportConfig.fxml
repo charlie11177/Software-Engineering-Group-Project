@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<TitledPane fx:id="airportConfig" prefHeight="483.0" prefWidth="241.0" text="Airport" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.controllers.AirportConfigController">
+   <content>
+      <VBox fx:id="airportRoot" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0">
+         <children>
+            <Label alignment="CENTER" prefWidth="150.0" text="Airport settings" VBox.vgrow="SOMETIMES">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <VBox.margin>
+                  <Insets bottom="30.0" top="10.0" />
+               </VBox.margin>
+            </Label>
+            <VBox fx:id="aiportMainMenu" alignment="CENTER">
+               <children>
+                  <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT" prefHeight="17.0" prefWidth="73.0" text="Airport Name">
+                     <VBox.margin>
+                        <Insets top="20.0" />
+                     </VBox.margin>
+                  </Label>
+                  <ChoiceBox fx:id="airportChoiceBox" prefHeight="25.0" prefWidth="247.0" />
+                  <HBox alignment="CENTER" prefHeight="30.0" prefWidth="178.0" spacing="5.0">
+                     <children>
+                        <Button fx:id="newAirportButton" mnemonicParsing="false" onAction="#newAirportClick" prefHeight="25.0" prefWidth="40.0" text="➕" />
+                        <Button fx:id="deleteAirportButton" layoutX="57.0" layoutY="12.0" mnemonicParsing="false" onAction="#deleteAirportClick" prefHeight="25.0" prefWidth="40.0" text="➖" />
+                        <Button fx:id="editAirportButton" mnemonicParsing="false" onAction="#editAirportClick" prefHeight="25.0" prefWidth="45.0" text="Edit">
+                           <HBox.margin>
+                              <Insets left="30.0" />
+                           </HBox.margin></Button>
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="20.0" top="7.0" />
+                     </VBox.margin>
+                  </HBox>
+               </children>
+            </VBox>
+            <Separator prefWidth="178.0">
+               <VBox.margin>
+                  <Insets bottom="40.0" top="40.0" />
+               </VBox.margin>
+            </Separator>
+            <VBox fx:id="aiportOptions" alignment="CENTER">
+               <children>
+                  <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="17.0" prefWidth="80.0" text="Airport Name" />
+                  <TextField fx:id="airportNameTextField" minWidth="120.0" prefHeight="25.0" prefWidth="160.0">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </TextField>
+                  <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="IATA airport code">
+                     <VBox.margin>
+                        <Insets top="20.0" />
+                     </VBox.margin>
+                  </Label>
+                  <TextField fx:id="airportCodeTextField" prefHeight="25.0" prefWidth="160.0" />
+                  <HBox alignment="CENTER" prefHeight="30.0" prefWidth="178.0" spacing="30.0">
+                     <children>
+                        <Button fx:id="saveAirport" defaultButton="true" mnemonicParsing="false" onAction="#saveAirportClick" prefHeight="25.0" prefWidth="65.0" text="Save" HBox.hgrow="SOMETIMES" />
+                        <Button fx:id="cancelAirport" mnemonicParsing="false" onAction="#cancelAirportClick" prefHeight="25.0" prefWidth="65.0" text="Cancel" HBox.hgrow="SOMETIMES" />
+                     </children>
+                     <VBox.margin>
+                        <Insets top="20.0" />
+                     </VBox.margin>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+   </content>
+</TitledPane>
