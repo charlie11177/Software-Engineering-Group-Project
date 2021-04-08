@@ -19,6 +19,7 @@
                                                     <xs:element type="xs:int" name="TODA"/>
                                                     <xs:element type="xs:int" name="ASDA"/>
                                                     <xs:element type="xs:int" name="LDA"/>
+                                                    <xs:element type="xs:int" name="threshold"/>
                                                 </xs:sequence>
                                             </xs:complexType>
                                         </xs:element>
@@ -30,6 +31,7 @@
                                                     <xs:element type="xs:int" name="TODA"/>
                                                     <xs:element type="xs:int" name="ASDA"/>
                                                     <xs:element type="xs:int" name="LDA"/>
+                                                    <xs:element type="xs:int" name="threshold"/>
                                                 </xs:sequence>
                                             </xs:complexType>
                                         </xs:element>
