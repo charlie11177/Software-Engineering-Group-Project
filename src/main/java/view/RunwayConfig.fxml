@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<TitledPane fx:id="runwayConfig" prefHeight="617.0" prefWidth="220.0" text="Runway" wrapText="true" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.controllers.RunwayConfigController">
+   <content>
+      <VBox fx:id="runwayRoot" alignment="TOP_CENTER" prefHeight="567.0" prefWidth="119.0">
+         <children>
+            <Label alignment="CENTER" prefWidth="150.0" text="Runway Settings">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <VBox.margin>
+                  <Insets bottom="30.0" top="10.0" />
+               </VBox.margin>
+            </Label>
+            <VBox fx:id="runwayMainMenu" alignment="CENTER">
+               <children>
+                  <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT" prefHeight="17.0" prefWidth="85.0" text="Physical runway" />
+                  <ChoiceBox fx:id="runwayChoiceBox" prefHeight="26.0" prefWidth="90.0" />
+                  <HBox alignment="CENTER" prefHeight="30.0" prefWidth="178.0" spacing="5.0">
+                     <children>
+                        <Button fx:id="newRunway" mnemonicParsing="false" onAction="#newRunwayClick" prefHeight="23.0" prefWidth="40.0" text="➕" HBox.hgrow="SOMETIMES" />
+                        <Button fx:id="removeRunway" layoutX="79.0" layoutY="13.0" mnemonicParsing="false" onAction="#removeRunwayClick" prefHeight="25.0" prefWidth="40.0" text="➖" />
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="20.0" top="7.0" />
+                     </VBox.margin>
+                  </HBox>
+               </children>
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
+            </VBox>
+            <Separator prefWidth="178.0">
+               <VBox.margin>
+                  <Insets bottom="10.0" top="40.0" />
+               </VBox.margin>
+            </Separator>
+            <VBox fx:id="runwayOptions" spacing="7.0">
+               <children>
+                  <HBox alignment="CENTER" prefHeight="25.0" prefWidth="178.0" spacing="50.0">
+                     <children>
+                        <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="17.0" prefWidth="75.0" text="Runway 1" underline="true" wrapText="true" />
+                        <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="17.0" prefWidth="75.0" text="Runway 2" underline="true" wrapText="true" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="25.0" prefWidth="178.0" spacing="5.0">
+                     <children>
+                        <ChoiceBox fx:id="leftPosition" prefHeight="25.0" prefWidth="70.0" />
+                        <Label alignment="CENTER" prefHeight="17.0" prefWidth="70.0" text="Position" />
+                        <Label fx:id="rightPositionLabel" alignment="CENTER" prefWidth="70.0" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="25.0" prefWidth="178.0" spacing="5.0">
+                     <children>
+                        <TextField fx:id="leftDegreeTF" prefHeight="25.0" prefWidth="70.0" />
+                        <Label alignment="CENTER" prefHeight="17.0" prefWidth="64.0" text="Degree" />
+                        <Label fx:id="rightDegreeLabel" alignment="CENTER" prefWidth="70.0" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="25.0" prefWidth="178.0" spacing="5.0">
+                     <children>
+                        <TextField fx:id="leftToraTF" prefHeight="25.0" prefWidth="70.0" />
+                        <Label alignment="CENTER" prefHeight="17.0" prefWidth="64.0" text="TORA" />
+                        <TextField fx:id="rightToraTF" prefHeight="25.0" prefWidth="70.0" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="25.0" prefWidth="178.0" spacing="5.0">
+                     <children>
+                        <TextField fx:id="leftTodaTF" prefHeight="25.0" prefWidth="70.0" />
+                        <Label alignment="CENTER" prefHeight="17.0" prefWidth="64.0" text="TODA" />
+                        <TextField fx:id="rightTodaTF" prefHeight="25.0" prefWidth="70.0" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="25.0" prefWidth="178.0" spacing="5.0">
+                     <children>
+                        <TextField fx:id="leftAsdaTF" prefHeight="25.0" prefWidth="70.0" />
+                        <Label alignment="CENTER" prefHeight="17.0" prefWidth="64.0" text="ASDA">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </Label>
+                        <TextField fx:id="rightAsdaTF" prefHeight="25.0" prefWidth="70.0" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="25.0" prefWidth="178.0" spacing="5.0">
+                     <children>
+                        <TextField fx:id="leftLdaTF" prefHeight="25.0" prefWidth="70.0" />
+                        <Label alignment="CENTER" prefHeight="17.0" prefWidth="64.0" text="LDA" />
+                        <TextField fx:id="rightLdaTF" prefHeight="25.0" prefWidth="70.0" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="25.0" prefWidth="178.0" spacing="5.0">
+                     <children>
+                        <TextField fx:id="leftThresholdTF" prefHeight="25.0" prefWidth="70.0" />
+                        <Label alignment="CENTER" prefHeight="17.0" prefWidth="60.0" text="THR" />
+                        <TextField fx:id="rightThresholdTF" prefHeight="25.0" prefWidth="70.0" />
+                     </children>
+                  </HBox>
+                  <HBox fx:id="editButtons" alignment="CENTER" prefHeight="30.0" prefWidth="178.0" spacing="30.0">
+                     <children>
+                        <Button fx:id="saveRunway" defaultButton="true" mnemonicParsing="false" onAction="#saveRunwayClick" prefHeight="25.0" prefWidth="65.0" text="Save" HBox.hgrow="SOMETIMES" />
+                        <Button fx:id="cancelRunway" mnemonicParsing="false" onAction="#cancelRunwayClick" prefHeight="25.0" prefWidth="65.0" text="Cancel" HBox.hgrow="SOMETIMES" />
+                     </children>
+                     <VBox.margin>
+                        <Insets top="5.0" />
+                     </VBox.margin>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </HBox>
+               </children>
+            </VBox>
+            <Button fx:id="editRunway" mnemonicParsing="false" onAction="#editRunwayClick" prefHeight="25.0" prefWidth="152.0" text="Edit Runways">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </Button>
+         </children>
+      </VBox>
+   </content>
+</TitledPane>

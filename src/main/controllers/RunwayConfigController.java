@@ -171,13 +171,13 @@ public class RunwayConfigController {
 
         if(Model.currentRunway != null) {
             populateRunwayDetails(Model.currentRunway);
-            editRunwayVisible = true;
             runwayOptionsVisible = true;
             removeRunwayDisabled = false;
+            editRunwayVisible = true;
         } else {
-            editRunwayVisible = false;
             runwayOptionsVisible = false;
             removeRunwayDisabled = true;
+            editRunwayVisible = false;
             clearRunwayDetails();
         }
         specifyView(runwayOptionsVisible,
@@ -190,6 +190,7 @@ public class RunwayConfigController {
     }
 
     private void editableMode(){
+        Model.leftScreenController.calculateButton.setDisable(true);
         leftPosition.setMouseTransparent(false);
         for(TextField t : textFields)
             t.setEditable(true);
@@ -202,10 +203,9 @@ public class RunwayConfigController {
                 true);
     }
 
-    private void showOnlyMode(){
-        leftPosition.setMouseTransparent(true);
-        for(TextField t : textFields)
-            t.setEditable(false);
+    private void runwaySettingsGrayedOut() {
+        if(Model.currentRunway ==  null) System.err.println("CurrentRunway cannot be null");
+        populateRunwayDetails(Model.currentRunway);
         specifyView(true,
                 0.5,
                 false,
@@ -213,6 +213,17 @@ public class RunwayConfigController {
                 false,
                 true,
                 false);
+    }
+
+    private void showOnlyMode(){
+        leftPosition.setMouseTransparent(true);
+        for(TextField t : textFields)
+            t.setEditable(false);
+        if(Model.currentRunway == null)
+            hasRunwaysView();
+        else {
+            runwaySettingsGrayedOut();
+        }
     }
 
     public void windowCloseProcedure() {
@@ -238,7 +249,7 @@ public class RunwayConfigController {
             for(PhysicalRunWay p : Model.currentAirport.getRunways()) {
                 if (p.toString().equals(newValue)) {
                     Model.setCurrentRunway(p);
-                    hasRunwaysView();
+                    runwaySettingsGrayedOut();
                     Model.console.addLog("Runway selected: " + Model.currentRunway.toString());
                 }
             }
@@ -315,7 +326,10 @@ public class RunwayConfigController {
     @FXML
     private void cancelRunwayClick() {
         edit = false;
-        hasRunwaysView();
+        Model.leftScreenController.calculateButton.setDisable(false);
+        if(Model.currentAirport.getRunways().isEmpty())
+            noRunwaysView();
+        else
         showOnlyMode();
     }
 
@@ -341,13 +355,14 @@ public class RunwayConfigController {
             edit = false;
             Model.console.addLog("Runway " + previousRunway + " edited to: " + Model.currentRunway.toString());
         } else {
-            Model.console.addLog("Runway " + Model.currentRunway.toString() + " added");
             saveNewRunway(left,right);
+            Model.console.addLog("Runway " + Model.currentRunway.toString() + " added");
 //            Model.console.addLog("Runway selected: " + Model.currentRunway.toString());
 
         }
         updateVisualisation();
         showOnlyMode();
+        Model.leftScreenController.calculateButton.setDisable(false);
     }
 
     private Pair<LogicalRunWay,LogicalRunWay> parseRunwayDetails() {
@@ -388,8 +403,8 @@ public class RunwayConfigController {
             setChoiceBoxListenerEnabled(false);
             runwayChoiceBox.getItems().remove(runwayChoiceBox.getValue());
             runwayChoiceBox.getItems().add(Model.currentRunway.toString());
+            runwayChoiceBox.setValue(Model.currentRunway.toString());
             setChoiceBoxListenerEnabled(true);
-//            runwayChoiceBox.setValue(Model.currentRunway.toString());
         }
         else System.err.println("Error RunwayController:378");
     }
