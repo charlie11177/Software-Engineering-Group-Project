@@ -130,6 +130,7 @@ public class ObstacleConfigController {
     public void windowCloseProcedure() {
         edit = false;
 //        Model.currentObstacle = Model.getObstacleByName(obstacleChoiceBox.getValue());
+        Model.leftScreenController.calculateButton.setDisable(false);
         if(Model.currentObstacle != null){
             if(Model.obstaclePlaced)
                 obstacleConfig.setText(Model.currentObstacle.getName() + ": placed");
@@ -398,8 +399,8 @@ public class ObstacleConfigController {
 
     @FXML
     private void cancelButtonClick() {
-        Model.leftScreenController.calculateButton.setDisable(false);
         edit = false;
+        Model.leftScreenController.calculateButton.setDisable(false);
         populateObstacleDetails(Model.currentObstacle);
         if (Model.obstacles.isEmpty()) noObstaclesView();
         else if (Model.currentObstacle == null) noSelectedObstacleView();

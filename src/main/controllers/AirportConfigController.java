@@ -133,6 +133,7 @@ public class AirportConfigController {
 
     private void windowCloseProcedure(){
         edit = false;
+        Model.leftScreenController.calculateButton.setDisable(false);
         if(Model.currentAirport != null)
             airportConfig.setText(Model.currentAirport.toString());
         else airportConfig.setText("Airport");
