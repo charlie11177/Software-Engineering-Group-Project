@@ -126,8 +126,8 @@ public class Model {
         Obstacle airplane = new Obstacle("airplane1", 25 , 25*50, new Position(3655,0, 10, "L"));
         //obstacles.add(airplane);
 
-        Airport airport = new Airport("London_Gatwick", "LGW",runWays);
-        Airport airport2 = new Airport("London_Heathrow", "LHR",runWays2);
+        Airport airport = new Airport("London_Gatwick", "LGW",runWays2);
+        Airport airport2 = new Airport("London_Heathrow", "LHR",runWays);
         airports.add(airport);
         airports.add(airport2);
     }
