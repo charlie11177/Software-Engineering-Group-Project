@@ -232,6 +232,7 @@ public class ObstacleConfigController {
     }
 
     private void obstacleEditView() {
+        Model.leftScreenController.calculateButton.setDisable(true);
         obstacleNameTF.setEditable(true);
         obstacleWidthTF.setEditable(true);
         obstacleHeightTF.setEditable(true);
@@ -397,6 +398,7 @@ public class ObstacleConfigController {
 
     @FXML
     private void cancelButtonClick() {
+        Model.leftScreenController.calculateButton.setDisable(false);
         edit = false;
         populateObstacleDetails(Model.currentObstacle);
         if (Model.obstacles.isEmpty()) noObstaclesView();
@@ -418,15 +420,20 @@ public class ObstacleConfigController {
         } else {
             saveNewObstacle(name);
         }
+        Model.leftScreenController.calculateButton.setDisable(false);
         selectedObstacleView();
-
     }
 
     private void saveEditedObstacle(String name) {
         if(Model.currentObstacle != null) {
-            String previousObstacle = obstacleChoiceBox.getValue();
+            Obstacle o = Model.currentObstacle;
+            String previousName = obstacleChoiceBox.getValue();
             int width = Integer.parseInt(obstacleWidthTF.getText());
             int height = Integer.parseInt(obstacleHeightTF.getText());
+            if(previousName.equals(name) && width == o.getWidth() && height == o.getHeight()) {
+                AlertController.showInfoAlert("No changes were made.");
+                return;
+            }
             setChoiceBoxListenerEnabled(false);
             obstacleChoiceBox.getItems().remove(Model.currentObstacle.getName());
             Model.currentObstacle.setName(name);
@@ -436,7 +443,7 @@ public class ObstacleConfigController {
             obstacleChoiceBox.setValue(name);
             setChoiceBoxListenerEnabled(true);
             edit = false;
-            Model.console.addLog("Obstacle " + previousObstacle + " edited to: " + Model.currentObstacle.getName());
+            Model.console.addLog("Obstacle " + previousName + " edited to: " + Model.currentObstacle.getName());
         }
         else System.err.println("Error ObstacleController:312");
     }

@@ -2,7 +2,6 @@ package main.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.TitledPane;
 import javafx.scene.text.Font;
@@ -66,6 +65,9 @@ public class MainWindowController {
             } else {
                 Model.console.addLogWithoutTime("--- No Obstacles were found to import ---");
                 Model.obstacles.clear();
+            }
+            if(importedObstacles.isEmpty() && importedAirports.isEmpty()) {
+                throw (new Exception("Failed import"));
             }
             Model.console.addLogWithoutTime("--- Finished Importing Obstacles ---");
 //            Model.console.addLogWithoutTime("Imported " + importedAirports.size() + " Airports");
