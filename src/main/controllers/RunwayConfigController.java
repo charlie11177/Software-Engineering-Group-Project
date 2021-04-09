@@ -228,6 +228,7 @@ public class RunwayConfigController {
 
     public void windowCloseProcedure() {
         edit = false;
+        Model.leftScreenController.calculateButton.setDisable(false);
         if(Model.currentRunway != null)
             runwayConfig.setText(Model.currentRunway.toString());
         else runwayConfig.setText("Runway");
