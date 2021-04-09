@@ -3,7 +3,9 @@ package main.model;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.OutputKeys;
@@ -11,8 +13,13 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+import javax.xml.validation.Validator;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -24,27 +31,6 @@ public class XMLParser {
     public XMLParser() {
         documentBuilderFactory = DocumentBuilderFactory.newInstance();
         transformerFactory = TransformerFactory.newInstance();
-    }
-
-    // Temporary main method for testing, will delete when hooked up to UI or when no longer needed
-    public static void main(String[] args) {
-        XMLParser xml = new XMLParser();
-        ArrayList<Airport> testAirports = xml.importAirports("src/main/xml/airportsimport.xml");
-        ArrayList<Obstacle> testObstacles = xml.importObstacle("src/main/xml/obstaclesimport.xml");
-
-        Model.demo();
-
-        Iterator<Airport> iterA = testAirports.iterator();
-        while (iterA.hasNext()) {
-            System.out.println(iterA.next().getRunways().size());
-        }
-        Iterator<Obstacle> iterO = testObstacles.iterator();
-        while (iterO.hasNext()) {
-            System.out.println(iterO.next().getName());
-        }
-
-        xml.exportAirports("src/main/xml/airportexport.xml");
-        xml.exportObstacles("src/main/xml/obstacleexport.xml");
     }
 
     /*
@@ -59,6 +45,9 @@ public class XMLParser {
         List<PhysicalRunWay> runways = new ArrayList<PhysicalRunWay>();
         ArrayList<Airport> airports = new ArrayList<Airport>();
         try {
+            // Validate the XML file
+            if (!validateXML(XMLTypes.Airport, file)) throw new Exception("Invalid");
+
             // Boiler plate code for creating an XML parser
             DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
             Document document = documentBuilder.parse(file);
@@ -68,7 +57,6 @@ public class XMLParser {
              * Get the list of airports
              */
             NodeList airportList = document.getElementsByTagName("airport");
-            if (airportList.getLength() == 0) throw new Exception("Airport tag not found in XML file");
             for (int i = 0; i < airportList.getLength(); i++) {
                 runways = new ArrayList<PhysicalRunWay>();
                 /*
@@ -139,6 +127,9 @@ public class XMLParser {
     public ArrayList<Obstacle> importObstacle(File file) {
         ArrayList<Obstacle> obstacles = new ArrayList<>();
         try {
+            // Validate XML
+            if (!validateXML(XMLTypes.Obstacle, file)) throw new Exception("Invalid");
+
             // Boiler plate code for creating an XML parser
             DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
             Document document = documentBuilder.parse(file);
@@ -148,8 +139,6 @@ public class XMLParser {
             * Get list of obstacles from XML
             */
             NodeList obstacleList = document.getElementsByTagName("obstacle");
-            if (obstacleList.getLength() == 0) throw new Exception("Obstacle tag not found in xml file");
-
             // Iterate over obstacles
             for (int i = 0; i < obstacleList.getLength(); i++) {
                 Element obstacleElement = (Element) obstacleList.item(i);
@@ -579,4 +568,42 @@ public class XMLParser {
             System.err.println(e.getMessage());
         }
     }
+
+    private enum XMLTypes {
+        Airport, Obstacle, FullConfig
+    }
+
+    /**
+     * Method to validate an XML file against the corresponding schema
+     * @param XMLtype - Uses a private enum for readability
+     * @param XMLFile - XML file to be validated
+     * @return True if valid, false if an error occured
+     */
+    private boolean validateXML(XMLTypes XMLtype, File XMLFile) {
+        try {
+            SchemaFactory schemafactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+            Schema schema;
+            switch (XMLtype) {
+                case Airport:
+                    schema = schemafactory.newSchema(new File("src/main/xml/AirportSchema.xsd"));
+                    break;
+                case Obstacle:
+                    schema = schemafactory.newSchema(new File("src/main/xml/ObstacleSchema.xsd"));
+                    break;
+                case FullConfig:
+                    schema = schemafactory.newSchema(new File("src/main/xml/FullConfigSchema.xsd"));
+                    break;
+                default:
+                    throw new IOException("Invalid XML type selected somehow");
+            }
+            Validator schemaValidator = schema.newValidator();
+            schemaValidator.validate(new StreamSource(XMLFile));
+        } catch (IOException | SAXException e) {
+            Model.console.addLog("---- Error validating XML ---- ");
+            Model.console.addLogWithoutTime(e.getMessage());
+            return false;
+        }
+        return true;
+    }
+
 }
