@@ -153,7 +153,7 @@ public class App extends Application {
             String consoleContent = Model.centerScreenController.console.getText();
             writer.write(consoleContent);
             writer.close();
-            System.out.println("Saved console data:  " + consoleContent);
+//            System.out.println("Saved console data:  " + consoleContent);
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -1,7 +1,6 @@
 package main.controllers;
 
 import javafx.beans.value.ChangeListener;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
@@ -134,6 +133,7 @@ public class AirportConfigController {
 
     private void windowCloseProcedure(){
         edit = false;
+        Model.leftScreenController.calculateButton.setDisable(false);
         if(Model.currentAirport != null)
             airportConfig.setText(Model.currentAirport.toString());
         else airportConfig.setText("Airport");
@@ -157,12 +157,14 @@ public class AirportConfigController {
 
     @FXML
     private void newAirportClick() {
+        Model.leftScreenController.calculateButton.setDisable(true);
         inputView();
     }
 
     @FXML
     private void editAirportClick() {
         edit = true;
+        Model.leftScreenController.calculateButton.setDisable(true);
         editView();
     }
 
@@ -203,6 +205,7 @@ public class AirportConfigController {
             aiportMainMenu.setDisable(false);
             selectedAirportView();
         }
+        Model.leftScreenController.calculateButton.setDisable(false);
     }
 
     private boolean codeInUse(String desiredCode){
@@ -228,6 +231,7 @@ public class AirportConfigController {
     @FXML
     private void cancelAirportClick() {
         edit = false;
+        Model.leftScreenController.calculateButton.setDisable(false);
         aiportOptions.setVisible(false);
         aiportMainMenu.setDisable(false);
     }
