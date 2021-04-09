@@ -60,7 +60,7 @@ public class XMLParser {
             for (int i = 0; i < airportList.getLength(); i++) {
                 runways = new ArrayList<PhysicalRunWay>();
                 /*
-                Get name of the aiport
+                Get name of the airport
                 first check that there is only one airport tag (should be root element) then get child and contents
                 */
                 Element airportElement = (Element) airportList.item(i);
