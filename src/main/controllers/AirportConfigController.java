@@ -38,10 +38,10 @@ public class AirportConfigController {
     }
 
     private void setupTextFields(){
-        airportNameTextField.setTextFormatter(new TextFormatter<>(change -> {
-            if (change.getText().equals(" ")) change.setText("_");
-            return change;
-        }));
+//        airportNameTextField.setTextFormatter(new TextFormatter<>(change -> {
+//            if (change.getText().equals(" ")) change.setText("_");
+//            return change;
+//        }));
         airportCodeTextField.setTextFormatter(new TextFormatter<>(change -> {
             if (change.getText().equals(" ")) change.setText("_");
             else if(!change.getText().matches("[A-Za-z0-9]*")) change.setText("");
