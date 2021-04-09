@@ -89,7 +89,7 @@ public class AirportConfigController {
 
     private void refreshChoiceBox(){
         airportChoiceBox.getItems().clear();
-        for(Airport a : Model.getAirports())
+        for (Airport a : Model.getAirports())
             airportChoiceBox.getItems().add(a.toString());
         airportChoiceBox.setValue(Model.currentAirport.toString());
     }
