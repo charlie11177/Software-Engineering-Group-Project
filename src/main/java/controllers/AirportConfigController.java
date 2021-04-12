@@ -19,8 +19,8 @@ public class AirportConfigController {
     @FXML private ChoiceBox<String> airportChoiceBox;
     @FXML private TextField airportNameTextField;
     @FXML private TextField airportCodeTextField;
-    @FXML private VBox aiportOptions;
-    @FXML private VBox aiportMainMenu;
+    @FXML private VBox airportOptions;
+    @FXML private VBox airportMainMenu;
     @FXML private Button editAirportButton;
     @FXML private Button deleteAirportButton;
     public VBox airportRoot;
@@ -38,10 +38,10 @@ public class AirportConfigController {
     }
 
     private void setupTextFields(){
-        airportNameTextField.setTextFormatter(new TextFormatter<>(change -> {
-            if (change.getText().equals(" ")) change.setText("_");
-            return change;
-        }));
+//        airportNameTextField.setTextFormatter(new TextFormatter<>(change -> {
+//            if (change.getText().equals(" ")) change.setText("_");
+//            return change;
+//        }));
         airportCodeTextField.setTextFormatter(new TextFormatter<>(change -> {
             if (change.getText().equals(" ")) change.setText("_");
             else if(!change.getText().matches("[A-Za-z0-9]*")) change.setText("");
@@ -60,7 +60,7 @@ public class AirportConfigController {
     private void update(Boolean expanded){
         if(expanded){
             airportConfig.setText("Airport");
-            aiportOptions.setVisible(false);
+            airportOptions.setVisible(false);
             populateAirports();
             if(Model.getAirports().isEmpty()){
                 noAirportsView();
@@ -89,7 +89,7 @@ public class AirportConfigController {
 
     private void refreshChoiceBox(){
         airportChoiceBox.getItems().clear();
-        for(Airport a : Model.getAirports())
+        for (Airport a : Model.getAirports())
             airportChoiceBox.getItems().add(a.toString());
         airportChoiceBox.setValue(Model.currentAirport.toString());
     }
@@ -98,24 +98,24 @@ public class AirportConfigController {
         editAirportButton.setDisable(true);
         deleteAirportButton.setDisable(true);
         airportChoiceBox.setDisable(true);
-        aiportOptions.setVisible(false);
-        aiportMainMenu.setDisable(false);
+        airportOptions.setVisible(false);
+        airportMainMenu.setDisable(false);
     }
 
     private void notSelectedAirportView() {
         editAirportButton.setDisable(true);
         deleteAirportButton.setDisable(true);
         airportChoiceBox.setDisable(false);
-        aiportOptions.setVisible(false);
-        aiportMainMenu.setDisable(false);
+        airportOptions.setVisible(false);
+        airportMainMenu.setDisable(false);
     }
 
     private void selectedAirportView() {
         editAirportButton.setDisable(false);
         deleteAirportButton.setDisable(false);
         airportChoiceBox.setDisable(false);
-        aiportOptions.setVisible(false);
-        aiportMainMenu.setDisable(false);
+        airportOptions.setVisible(false);
+        airportMainMenu.setDisable(false);
     }
 
     private void populateAirports(){
@@ -133,6 +133,7 @@ public class AirportConfigController {
 
     private void windowCloseProcedure(){
         edit = false;
+        Model.leftScreenController.calculateButton.setDisable(false);
         if(Model.currentAirport != null)
             airportConfig.setText(Model.currentAirport.toString());
         else airportConfig.setText("Airport");
@@ -143,25 +144,27 @@ public class AirportConfigController {
     private void inputView() {
         airportNameTextField.setText("");
         airportCodeTextField.setText("");
-        aiportOptions.setVisible(true);
-        aiportMainMenu.setDisable(true);
+        airportOptions.setVisible(true);
+        airportMainMenu.setDisable(true);
     }
 
     private void editView() {
         airportNameTextField.setText(Model.currentAirport.getName());
         airportCodeTextField.setText(Model.currentAirport.getCode());
-        aiportOptions.setVisible(true);
-        aiportMainMenu.setDisable(true);
+        airportOptions.setVisible(true);
+        airportMainMenu.setDisable(true);
     }
 
     @FXML
     private void newAirportClick() {
+        Model.leftScreenController.calculateButton.setDisable(true);
         inputView();
     }
 
     @FXML
     private void editAirportClick() {
         edit = true;
+        Model.leftScreenController.calculateButton.setDisable(true);
         editView();
     }
 
@@ -170,20 +173,20 @@ public class AirportConfigController {
         String airportName = airportNameTextField.getText();
         String airportCode = airportCodeTextField.getText();
         if(airportName.equals("") || airportCode.equals("")) {
-            AlertController.showWarningAlert("Name and Code fields cannot be empty!");
+            controllers.AlertController.showWarningAlert("Name and Code fields cannot be empty!");
         } else if (nameInUse(airportName)){
-            AlertController.showWarningAlert("An Airport with that name already exists!");
+            controllers.AlertController.showWarningAlert("An Airport with that name already exists!");
         } else if (codeInUse(airportCode)) {
-            AlertController.showWarningAlert("An Airport with that code already exists!");
+            controllers.AlertController.showWarningAlert("An Airport with that code already exists!");
         } else if (edit && Model.currentAirport != null && (airportName + " (" + airportCode + ")").equals(Model.currentAirport.toString())) {
-            AlertController.showInfoAlert("No changes were made.");
+            controllers.AlertController.showInfoAlert("No changes were made.");
             selectedAirportView();
         } else if (edit){
             String previousAirportString = Model.currentAirport.toString();
             Model.currentAirport.setName(airportName);
             Model.currentAirport.setCode(airportCode);
-            aiportOptions.setVisible(false);
-            aiportMainMenu.setDisable(false);
+            airportOptions.setVisible(false);
+            airportMainMenu.setDisable(false);
             setChoiceBoxListenerEnabled(false);
             refreshChoiceBox();
             setChoiceBoxListenerEnabled(true);
@@ -198,10 +201,11 @@ public class AirportConfigController {
             setChoiceBoxListenerEnabled(true);
             Model.console.addLog("Airport " + Model.currentAirport + " added");
             Model.console.addLog("Airport selected: " + Model.currentAirport.getName());
-            aiportOptions.setVisible(false);
-            aiportMainMenu.setDisable(false);
+            airportOptions.setVisible(false);
+            airportMainMenu.setDisable(false);
             selectedAirportView();
         }
+        Model.leftScreenController.calculateButton.setDisable(false);
     }
 
     private boolean codeInUse(String desiredCode){
@@ -227,8 +231,9 @@ public class AirportConfigController {
     @FXML
     private void cancelAirportClick() {
         edit = false;
-        aiportOptions.setVisible(false);
-        aiportMainMenu.setDisable(false);
+        Model.leftScreenController.calculateButton.setDisable(false);
+        airportOptions.setVisible(false);
+        airportMainMenu.setDisable(false);
     }
 
     @FXML

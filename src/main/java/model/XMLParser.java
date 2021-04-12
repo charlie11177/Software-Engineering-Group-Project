@@ -3,7 +3,9 @@ package model;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.OutputKeys;
@@ -11,8 +13,15 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+import javax.xml.validation.Validator;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -29,15 +38,18 @@ public class XMLParser {
     /*
      *  Overloaded method to allow either File or Filename arguments
     */
-    public ArrayList<Airport> importAirports(String filename) {
+    public ArrayList<model.Airport> importAirports(String filename) {
         return importAirports(new File(filename));
     }
 
-    public ArrayList<Airport> importAirports(File file) {
-        Airport airport = null;
-        List<PhysicalRunWay> runways = new ArrayList<PhysicalRunWay>();
-        ArrayList<Airport> airports = new ArrayList<Airport>();
+    public ArrayList<model.Airport> importAirports(File file) {
+        model.Airport airport = null;
+        List<model.PhysicalRunWay> runways = new ArrayList<model.PhysicalRunWay>();
+        ArrayList<model.Airport> airports = new ArrayList<model.Airport>();
         try {
+            // Validate the XML file
+            if (!validateXML(XMLTypes.Airport, file)) throw new Exception("Invalid");
+
             // Boiler plate code for creating an XML parser
             DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
             Document document = documentBuilder.parse(file);
@@ -47,11 +59,10 @@ public class XMLParser {
              * Get the list of airports
              */
             NodeList airportList = document.getElementsByTagName("airport");
-            if (airportList.getLength() == 0) throw new Exception("Airport tag not found in XML file");
             for (int i = 0; i < airportList.getLength(); i++) {
-                runways = new ArrayList<PhysicalRunWay>();
+                runways = new ArrayList<model.PhysicalRunWay>();
                 /*
-                Get name of the aiport
+                Get name of the airport
                 first check that there is only one airport tag (should be root element) then get child and contents
                 */
                 Element airportElement = (Element) airportList.item(i);
@@ -94,12 +105,12 @@ public class XMLParser {
                     int THRESHOLD_R = Integer.parseInt(runway.getElementsByTagName("threshold").item(0).getTextContent());
 
                     //Direction has been changed here from LogicalRunway.Direction.Left to Direction.Left
-                    LogicalRunWay leftRunway = new LogicalRunWay(degree_L, Direction.L, TORA_L, TODA_L, ASDA_L, LDA_L, THRESHOLD_L);
-                    LogicalRunWay rightRunway = new LogicalRunWay(degree_R, Direction.R, TORA_R, TODA_R, ASDA_R, LDA_R, THRESHOLD_R);
-                    runways.add(new PhysicalRunWay(ID, leftRunway, rightRunway, null));
+                    model.LogicalRunWay leftRunway = new model.LogicalRunWay(degree_L, model.Direction.L, TORA_L, TODA_L, ASDA_L, LDA_L, THRESHOLD_L);
+                    model.LogicalRunWay rightRunway = new model.LogicalRunWay(degree_R, model.Direction.R, TORA_R, TODA_R, ASDA_R, LDA_R, THRESHOLD_R);
+                    runways.add(new model.PhysicalRunWay(ID, leftRunway, rightRunway, null));
                 }
                 //Airport has additional "code" value like LHR for London Heathrow
-                airports.add(new Airport(name, code ,runways));
+                airports.add(new model.Airport(name, code ,runways));
             }
         } catch(Exception e) {
 //            e.printStackTrace();
@@ -111,13 +122,16 @@ public class XMLParser {
     /*
      *  Overloaded method to allow either File or Filename arguments
      */
-    public ArrayList<Obstacle> importObstacle(String filename) {
+    public ArrayList<model.Obstacle> importObstacle(String filename) {
         return importObstacle(new File(filename));
     }
 
-    public ArrayList<Obstacle> importObstacle(File file) {
-        ArrayList<Obstacle> obstacles = new ArrayList<>();
+    public ArrayList<model.Obstacle> importObstacle(File file) {
+        ArrayList<model.Obstacle> obstacles = new ArrayList<>();
         try {
+            // Validate XML
+            if (!validateXML(XMLTypes.Obstacle, file)) throw new Exception("Invalid");
+
             // Boiler plate code for creating an XML parser
             DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
             Document document = documentBuilder.parse(file);
@@ -127,8 +141,6 @@ public class XMLParser {
             * Get list of obstacles from XML
             */
             NodeList obstacleList = document.getElementsByTagName("obstacle");
-            if (obstacleList.getLength() == 0) throw new Exception("Obstacle tag not found in xml file");
-
             // Iterate over obstacles
             for (int i = 0; i < obstacleList.getLength(); i++) {
                 Element obstacleElement = (Element) obstacleList.item(i);
@@ -145,10 +157,10 @@ public class XMLParser {
                 int distanceToCL = Integer.parseInt(positionNode.getElementsByTagName("distanceFromCL").item(0).getTextContent());
                 String directionFromCL = positionNode.getElementsByTagName("directionFromCL").item(0).getTextContent();
 
-                Position position = new Position(distanceToLeft, distanceToRight, distanceToCL, directionFromCL);    //Position will probably need two more parameters
+                model.Position position = new model.Position(distanceToLeft, distanceToRight, distanceToCL, directionFromCL);    //Position will probably need two more parameters
 
                 // Add obstacle to the list
-                obstacles.add(new Obstacle(name, height, width, position));
+                obstacles.add(new model.Obstacle(name, height, width, position));
             }
         } catch(Exception e) {
 //            e.printStackTrace();
@@ -176,11 +188,11 @@ public class XMLParser {
                 Iterate over the airports and create the required XML tags/data
              */
             // Running demo to get airport data into the model
-            ArrayList<Airport> airportArrayList = Model.airports;
+            ArrayList<model.Airport> airportArrayList = model.Model.airports;
 
-            Iterator<Airport> airportIter = airportArrayList.iterator();
+            Iterator<model.Airport> airportIter = airportArrayList.iterator();
             while(airportIter.hasNext()) {
-                Airport airport = airportIter.next();
+                model.Airport airport = airportIter.next();
                 // Airport tags go (name, code, (runway: ID, (left: degree, TORA, ...), (right: ...))
                 Element airportElement = document.createElement("airport");
                 root.appendChild(airportElement);
@@ -196,12 +208,12 @@ public class XMLParser {
                 airportElement.appendChild(code);
 
                 // PhysicalRunway loop
-                List<PhysicalRunWay> runways = airport.getRunways();
-                Iterator<PhysicalRunWay> runwayIter = runways.iterator();
+                List<model.PhysicalRunWay> runways = airport.getRunways();
+                Iterator<model.PhysicalRunWay> runwayIter = runways.iterator();
                 while(runwayIter.hasNext()) {
-                    PhysicalRunWay physicalRunWay = runwayIter.next();
-                    LogicalRunWay leftRunway = physicalRunWay.getLeftRunway();
-                    LogicalRunWay rightRunway = physicalRunWay.getRightRunway();
+                    model.PhysicalRunWay physicalRunWay = runwayIter.next();
+                    model.LogicalRunWay leftRunway = physicalRunWay.getLeftRunway();
+                    model.LogicalRunWay rightRunway = physicalRunWay.getRightRunway();
 
                     // Runway element that holds left and right
                     Element runwayElement = document.createElement("runway");
@@ -313,11 +325,11 @@ public class XMLParser {
             document.appendChild(root);
 
             // Temporary model data
-            ArrayList<Obstacle> obstacleList = Model.obstacles;
-            Iterator<Obstacle> obstacleIter = obstacleList.iterator();
+            ArrayList<model.Obstacle> obstacleList = model.Model.obstacles;
+            Iterator<model.Obstacle> obstacleIter = obstacleList.iterator();
             while(obstacleIter.hasNext()) {
-                Obstacle obstacle = obstacleIter.next();
-                Position position = obstacle.getPosition();
+                model.Obstacle obstacle = obstacleIter.next();
+                model.Position position = obstacle.getPosition();
 
                 // Obstacle element attributes
                 Element obstacleElement = document.createElement("obstacle");
@@ -395,11 +407,11 @@ public class XMLParser {
             root.appendChild(airports);
 
             // Adding Obstacles
-            ArrayList<Obstacle> obstacleList = Model.obstacles;
-            Iterator<Obstacle> obstacleIter = obstacleList.iterator();
+            ArrayList<model.Obstacle> obstacleList = model.Model.obstacles;
+            Iterator<model.Obstacle> obstacleIter = obstacleList.iterator();
             while(obstacleIter.hasNext()) {
-                Obstacle obstacle = obstacleIter.next();
-                Position position = obstacle.getPosition();
+                model.Obstacle obstacle = obstacleIter.next();
+                model.Position position = obstacle.getPosition();
 
                 // Obstacle element attributes
                 Element obstacleElement = document.createElement("obstacle");
@@ -439,10 +451,10 @@ public class XMLParser {
             }
 
             // Adding Airports
-            ArrayList<Airport> airportArrayList = Model.airports;
-            Iterator<Airport> airportIter = airportArrayList.iterator();
+            ArrayList<model.Airport> airportArrayList = model.Model.airports;
+            Iterator<model.Airport> airportIter = airportArrayList.iterator();
             while(airportIter.hasNext()) {
-                Airport airport = airportIter.next();
+                model.Airport airport = airportIter.next();
                 // Airport tags go (name, code, (runway: ID, (left: degree, TORA, ...), (right: ...))
                 Element airportElement = document.createElement("airport");
                 airports.appendChild(airportElement);
@@ -458,12 +470,12 @@ public class XMLParser {
                 airportElement.appendChild(code);
 
                 // PhysicalRunway loop
-                List<PhysicalRunWay> runways = airport.getRunways();
-                Iterator<PhysicalRunWay> runwayIter = runways.iterator();
+                List<model.PhysicalRunWay> runways = airport.getRunways();
+                Iterator<model.PhysicalRunWay> runwayIter = runways.iterator();
                 while(runwayIter.hasNext()) {
-                    PhysicalRunWay physicalRunWay = runwayIter.next();
-                    LogicalRunWay leftRunway = physicalRunWay.getLeftRunway();
-                    LogicalRunWay rightRunway = physicalRunWay.getRightRunway();
+                    model.PhysicalRunWay physicalRunWay = runwayIter.next();
+                    model.LogicalRunWay leftRunway = physicalRunWay.getLeftRunway();
+                    model.LogicalRunWay rightRunway = physicalRunWay.getRightRunway();
 
                     // Runway element that holds left and right
                     Element runwayElement = document.createElement("runway");
@@ -558,4 +570,49 @@ public class XMLParser {
             System.err.println(e.getMessage());
         }
     }
+
+    private enum XMLTypes {
+        Airport, Obstacle, FullConfig
+    }
+
+    /**
+     * Method to validate an XML file against the corresponding schema
+     * @param XMLtype - Uses a private enum for readability
+     * @param XMLFile - XML file to be validated
+     * @return True if valid, false if an error occured
+     */
+    private boolean validateXML(XMLTypes XMLtype, File XMLFile) {
+        try {
+            SchemaFactory schemafactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+            Schema schema;
+
+            // Code to access resource folder in maven
+            ClassLoader classLoader = getClass().getClassLoader();
+            URL resource;
+            switch (XMLtype) {
+                case Airport:
+                    resource = classLoader.getResource("xml/AirportSchema.xsd");
+                    schema = schemafactory.newSchema(new File(resource.toURI()));
+                    break;
+                case Obstacle:
+                    resource = classLoader.getResource("xml/ObstacleSchema.xsd");
+                    schema = schemafactory.newSchema(new File(resource.toURI()));
+                    break;
+                case FullConfig:
+                    resource = classLoader.getResource("xml/FullConfigSchema.xsd");
+                    schema = schemafactory.newSchema(new File(resource.toURI()));
+                    break;
+                default:
+                    throw new IOException("Invalid XML type selected somehow");
+            }
+            Validator schemaValidator = schema.newValidator();
+            schemaValidator.validate(new StreamSource(XMLFile));
+        } catch (IOException | SAXException | URISyntaxException e) {
+            model.Model.console.addLog("---- Error validating XML ---- ");
+            model.Model.console.addLogWithoutTime(e.getMessage());
+            return false;
+        }
+        return true;
+    }
+
 }

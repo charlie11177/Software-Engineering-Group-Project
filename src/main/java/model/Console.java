@@ -2,38 +2,37 @@ package model;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 
 public class Console {
 
-    private ArrayList<String> consoleText;
+    private String consoleText;
 
     public Console(){
-        consoleText = new ArrayList<>();
-        consoleText.add(formatMessage("Welcome to the Runway Re-declaration tool."));
+//        consoleText = new ArrayList<>();
+        consoleText = "Welcome to the Runway Re-declaration tool.";
     }
 
     public String formatMessage(String message){
-        String log = ("[" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")) + "] " + message);
-        return log;
+        return ("[" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yy HH:mm:ss")) + "] " + message);
     }
 
     public void addLog(String message){
-        consoleText.add(formatMessage(message));
+        consoleText = formatMessage(message);
         update();
     }
 
     public void addLogWithoutTime(String message){
-        consoleText.add(message);
+//        consoleText.add("                      " + message);
+        consoleText = message;
         update();
     }
 
     public void update(){
-        Model.centerScreenController.updateConsole(this.getText());
+        Model.centerScreenController.updateConsole(consoleText);
 
     }
 
-    public String getText(){
-        return String.join("\n",consoleText);
-    }
+//    public String getText(){
+//        return String.join("\n",consoleText);
+//    }
 }

@@ -1,16 +1,16 @@
 package model;
 
-import javafx.scene.control.Alert;
+import controllers.AlertController;
 
 public class Calculator {
     private static PhysicalRunWay physicalRunway;
-    private static Obstacle obstacle;
+    private static model.Obstacle obstacle;
 
     public static void recalculate(){
         //obstacle = Model.currentObstacle;
-        physicalRunway = Model.currentRunway;
+        physicalRunway = model.Model.currentRunway;
         if(physicalRunway != null){
-            obstacle = Model.currentObstacle;
+            obstacle = model.Model.currentObstacle;
             if(obstacle != null && obstacle.getPosition() != null){
                 if (obstacle.getPosition().getDistanceToLeft() > obstacle.getPosition().getDistanceToRight()){
                     recalculateAWAY(physicalRunway.getRightRunway(), obstacle.getPosition().getDistanceToRight());
@@ -21,20 +21,14 @@ public class Calculator {
                     recalculateTOWARDS(physicalRunway.getRightRunway(), obstacle.getPosition().getDistanceToRight());
                 }
             }else {
-                Alert noObject = new Alert(Alert.AlertType.WARNING, "No object has been placed on the runway!");
-                noObject.setHeaderText(null);
-                noObject.showAndWait();
+                AlertController.showWarningAlert("No object has been placed on the runway!");
             }
         }else{
-            Alert noRunway = new Alert(Alert.AlertType.WARNING, "No runway has been selected!");
-            noRunway.setHeaderText(null);
-            noRunway.showAndWait();
+            AlertController.showWarningAlert("No runway has been selected!");
         }
     }
 
-
-
-    private static void recalculateAWAY(LogicalRunWay runway, int distanceFromThreshold) { //(Take off Away, Landing Over)
+    private static void recalculateAWAY(model.LogicalRunWay runway, int distanceFromThreshold) { //(Take off Away, Landing Over)
         int tora, toda, lda, asda;
         String toraBD, todaBD, ldaBD, asdaBD, allBD;
         int blastAllowance = 300; //Blast protection is between 300-500 not sure whether this is defined by the user
@@ -56,12 +50,12 @@ public class Calculator {
 
         //Model.console.addLog("Runway: " + runway);
         //Model.console.addLog("TORA:" + tora + ", TODA:" + toda + ", LDA:" + lda + ", ASDA:" + asda);
-        Model.calculationsBreakDownAway = allBD;
-        Model.originalRunwayAway = runway;
-        Model.recalculatedRunwayAway = new LogicalRunWay(runway.getDegree(), runway.getDirection(), tora, toda, asda, lda, runway.getThreshold());
+        model.Model.calculationsBreakDownAway = allBD;
+        model.Model.originalRunwayAway = runway;
+        model.Model.recalculatedRunwayAway = new model.LogicalRunWay(runway.getDegree(), runway.getDirection(), tora, toda, asda, lda, runway.getThreshold());
     }
 
-    private static void recalculateTOWARDS(LogicalRunWay runway, int distanceFromThreshold) { //(Take off Towards, Landing Towards)
+    private static void recalculateTOWARDS(model.LogicalRunWay runway, int distanceFromThreshold) { //(Take off Towards, Landing Towards)
         int tora, toda, asda, lda;
         String toraBD, todaBD, ldaBD, asdaBD, allBD;
 
@@ -83,8 +77,8 @@ public class Calculator {
 
         //Model.console.addLog("Runway: " + runway);
         //Model.console.addLog("TORA:" + tora + ", TODA:" + toda + ", LDA:" + lda + ", ASDA:" + asda);
-        Model.calculationsBreakdownTowards = allBD;
-        Model.originalRunwayTowards = runway;
-        Model.recalculatedRunwayTowards = new LogicalRunWay(runway.getDegree(), runway.getDirection(), tora, toda, asda, lda, runway.getThreshold());
+        model.Model.calculationsBreakdownTowards = allBD;
+        model.Model.originalRunwayTowards = runway;
+        model.Model.recalculatedRunwayTowards = new model.LogicalRunWay(runway.getDegree(), runway.getDirection(), tora, toda, asda, lda, runway.getThreshold());
     }
 }

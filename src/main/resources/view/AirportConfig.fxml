@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<TitledPane fx:id="airportConfig" prefHeight="483.0" prefWidth="241.0" text="Airport" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AirportConfigController">
+<TitledPane fx:id="airportConfig" prefHeight="483.0" prefWidth="241.0" text="Airport" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AirportConfigController" accessibleText="airport configuration">
    <content>
       <VBox fx:id="airportRoot" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0">
          <children>
@@ -23,19 +23,19 @@
                   <Insets bottom="30.0" top="10.0" />
                </VBox.margin>
             </Label>
-            <VBox fx:id="aiportMainMenu" alignment="CENTER">
+            <VBox fx:id="airportMainMenu" alignment="CENTER">
                <children>
                   <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT" prefHeight="17.0" prefWidth="73.0" text="Airport Name">
                      <VBox.margin>
                         <Insets top="20.0" />
                      </VBox.margin>
                   </Label>
-                  <ChoiceBox fx:id="airportChoiceBox" prefHeight="25.0" prefWidth="247.0" />
+                  <ChoiceBox fx:id="airportChoiceBox" prefHeight="25.0" prefWidth="247.0" accessibleText="Choose an airport"/>
                   <HBox alignment="CENTER" prefHeight="30.0" prefWidth="178.0" spacing="5.0">
                      <children>
-                        <Button fx:id="newAirportButton" mnemonicParsing="false" onAction="#newAirportClick" prefHeight="25.0" prefWidth="40.0" text="➕" />
-                        <Button fx:id="deleteAirportButton" layoutX="57.0" layoutY="12.0" mnemonicParsing="false" onAction="#deleteAirportClick" prefHeight="25.0" prefWidth="40.0" text="➖" />
-                        <Button fx:id="editAirportButton" mnemonicParsing="false" onAction="#editAirportClick" prefHeight="25.0" prefWidth="45.0" text="Edit">
+                        <Button fx:id="newAirportButton" mnemonicParsing="false" onAction="#newAirportClick" prefHeight="25.0" prefWidth="40.0" text="➕" accessibleText="add new airport"/>
+                        <Button fx:id="deleteAirportButton" layoutX="57.0" layoutY="12.0" mnemonicParsing="false" onAction="#deleteAirportClick" prefHeight="25.0" prefWidth="40.0" text="➖" accessibleText="delete the chosen airport"/>
+                        <Button fx:id="editAirportButton" mnemonicParsing="false" onAction="#editAirportClick" prefHeight="25.0" prefWidth="45.0" text="Edit" accessibleText="edit">
                            <HBox.margin>
                               <Insets left="30.0" />
                            </HBox.margin></Button>
@@ -51,10 +51,10 @@
                   <Insets bottom="40.0" top="40.0" />
                </VBox.margin>
             </Separator>
-            <VBox fx:id="aiportOptions" alignment="CENTER">
+            <VBox fx:id="airportOptions" alignment="CENTER">
                <children>
                   <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="17.0" prefWidth="80.0" text="Airport Name" />
-                  <TextField fx:id="airportNameTextField" minWidth="120.0" prefHeight="25.0" prefWidth="160.0">
+                  <TextField fx:id="airportNameTextField" minWidth="120.0" prefHeight="25.0" prefWidth="160.0" accessibleText="name field">
                      <VBox.margin>
                         <Insets />
                      </VBox.margin>
@@ -64,11 +64,11 @@
                         <Insets top="20.0" />
                      </VBox.margin>
                   </Label>
-                  <TextField fx:id="airportCodeTextField" prefHeight="25.0" prefWidth="160.0" />
+                  <TextField fx:id="airportCodeTextField" prefHeight="25.0" prefWidth="160.0" accessibleText="code field"/>
                   <HBox alignment="CENTER" prefHeight="30.0" prefWidth="178.0" spacing="30.0">
                      <children>
-                        <Button fx:id="saveAirport" defaultButton="true" mnemonicParsing="false" onAction="#saveAirportClick" prefHeight="25.0" prefWidth="65.0" text="Save" HBox.hgrow="SOMETIMES" />
-                        <Button fx:id="cancelAirport" mnemonicParsing="false" onAction="#cancelAirportClick" prefHeight="25.0" prefWidth="65.0" text="Cancel" HBox.hgrow="SOMETIMES" />
+                        <Button fx:id="saveAirport" defaultButton="true" mnemonicParsing="false" onAction="#saveAirportClick" prefHeight="25.0" prefWidth="65.0" text="Save" HBox.hgrow="SOMETIMES" accessibleText="save airport" />
+                        <Button fx:id="cancelAirport" mnemonicParsing="false" onAction="#cancelAirportClick" prefHeight="25.0" prefWidth="65.0" text="Cancel" HBox.hgrow="SOMETIMES" accessibleText="cancel airport" />
                      </children>
                      <VBox.margin>
                         <Insets top="20.0" />

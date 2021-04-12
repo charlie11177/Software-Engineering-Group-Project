@@ -23,7 +23,7 @@
             <Insets bottom="3.0" />
          </VBox.margin>
       </Label>
-      <TableView fx:id="topTableView" fixedCellSize="0.0" prefHeight="78.0" prefWidth="286.0" stylesheets="@tableStyle.css" VBox.vgrow="NEVER">
+      <TableView fx:id="topTableView" fixedCellSize="0.0" prefHeight="78.0" prefWidth="286.0" stylesheets="@tableStyle.css" VBox.vgrow="NEVER" >
          <columns>
             <TableColumn fx:id="topNameColumn" editable="false" prefWidth="53.0" sortable="false">
                 <cellValueFactory>

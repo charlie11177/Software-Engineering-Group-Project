@@ -27,8 +27,7 @@ public class App extends Application {
     public void start(Stage s) throws Exception {
         stage = s;
         //Icons made by Freepik "https://www.freepik.com" from Flaticon "https://www.flaticon.com/"
-        Image icon = new Image("icon.png");
-        stage.getIcons().add(icon);
+        stage.getIcons().add(new Image("icon.png"));
         URL url = new File("src/main/resources/view/MainWindow.fxml").toURI().toURL();
         root = FXMLLoader.load(url);
         Scene scene = new Scene(root);
@@ -143,13 +142,20 @@ public class App extends Application {
          colorblind: true/false
          */
         File file = new File("config.log");
+        File consoleData = new File ("console.log");
         FileWriter writer = null; // true to append, false to overwrite.
         try {
             writer = new FileWriter(file, false);
             String saveData = "Fontsize:"+ Model.getCurrentFontSize()+";";
             writer.write(saveData);
             writer.close();
-            System.out.println("Saved data " + saveData);
+            System.out.println("Saved config data: " + saveData);
+
+            writer = new FileWriter(consoleData, false);
+            String consoleContent = Model.centerScreenController.console.getText();
+            writer.write(consoleContent);
+            writer.close();
+//            System.out.println("Saved console data:  " + consoleContent);
         } catch (IOException e) {
             e.printStackTrace();
         }

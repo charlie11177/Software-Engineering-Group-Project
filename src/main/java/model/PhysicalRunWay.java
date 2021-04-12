@@ -2,12 +2,12 @@ package model;
 
 public class PhysicalRunWay {
 
-    private LogicalRunWay leftRunway;
-    private LogicalRunWay rightRunway;
+    private model.LogicalRunWay leftRunway;
+    private model.LogicalRunWay rightRunway;
     private int runwayID;
-    private Obstacle obstacle;
+    private model.Obstacle obstacle;
 
-    public PhysicalRunWay (int id, LogicalRunWay left, LogicalRunWay right, Obstacle obstacle) throws Exception {
+    public PhysicalRunWay (int id, model.LogicalRunWay left, model.LogicalRunWay right, model.Obstacle obstacle) throws Exception {
         if(!checkRunwayDirections(left.getDirection(), right.getDirection())) throw new Exception("Wrong directions of logical runways.");
         this.runwayID = id;
         this.leftRunway = left;
@@ -18,16 +18,16 @@ public class PhysicalRunWay {
     /*
     Added a check for correct runway directions
      */
-    private boolean checkRunwayDirections(Direction left, Direction right)  {
+    private boolean checkRunwayDirections(model.Direction left, model.Direction right)  {
         switch (left) {
             case C:
-                if (right != Direction.C) return false;
+                if (right != model.Direction.C) return false;
                 break;
             case L:
-                if (right != Direction.R) return false;
+                if (right != model.Direction.R) return false;
                 break;
             case R: {
-                if (right != Direction.L) return false;
+                if (right != model.Direction.L) return false;
                 break;
             }
         }
@@ -39,11 +39,11 @@ public class PhysicalRunWay {
         return leftRunway.toString() + "/" + rightRunway.toString();
     }
 
-    public LogicalRunWay getLeftRunway() {
+    public model.LogicalRunWay getLeftRunway() {
         return leftRunway;
     }
 
-    public LogicalRunWay getRightRunway() {
+    public model.LogicalRunWay getRightRunway() {
         return rightRunway;
     }
 
@@ -51,19 +51,19 @@ public class PhysicalRunWay {
         return runwayID;
     }
 
-    public Obstacle getObstacle() {
+    public model.Obstacle getObstacle() {
         return obstacle;
     }
 
-    public void setObstacle(Obstacle obstacle) {
+    public void setObstacle(model.Obstacle obstacle) {
         this.obstacle = obstacle;
     }
 
-    public void setLeftRunway(LogicalRunWay leftRunway) {
+    public void setLeftRunway(model.LogicalRunWay leftRunway) {
         this.leftRunway = leftRunway;
     }
 
-    public void setRightRunway(LogicalRunWay rightRunway) {
+    public void setRightRunway(model.LogicalRunWay rightRunway) {
         this.rightRunway = rightRunway;
     }
 }

@@ -61,6 +61,12 @@ public class RunwayConfigController {
 //        runwayChoiceBox.valueProperty().addListener((observable, oldValue, newValue) -> choiceBoxUpdater(newValue));
     }
 
+    public void updateVisualisation() {
+        System.out.println("Visualisation for runway " + Model.currentRunway);
+        //TODO: calls for visualisation methods for displaying runways can be placed here
+        // something like this: Model.CenterScreenController.draw();
+    }
+
     private void setChoiceBoxListenerEnabled(Boolean enable) {
         if (enable)
             runwayChoiceBox.valueProperty().addListener(choiceBoxListener);
@@ -129,7 +135,7 @@ public class RunwayConfigController {
     private void specifyView(boolean runwayOptionsVisible, double runwayOptionsOpacity,
                              boolean runwayChoiceBoxDisable, boolean newRunwayDisable, boolean deleteRunwayDisable, boolean editRunwayVisible, boolean editButtonsVisible) {
         runwayOptions.setVisible(runwayOptionsVisible);
-        if(runwayOptionsOpacity == 1 || runwayOptionsOpacity == 0.75)
+        if(runwayOptionsOpacity == 1 || runwayOptionsOpacity == 0.5)
             runwayOptions.setOpacity(runwayOptionsOpacity);
         runwayChoiceBox.setDisable(runwayChoiceBoxDisable);
         newRunway.setDisable(newRunwayDisable);
@@ -165,13 +171,13 @@ public class RunwayConfigController {
 
         if(Model.currentRunway != null) {
             populateRunwayDetails(Model.currentRunway);
-            editRunwayVisible = true;
             runwayOptionsVisible = true;
             removeRunwayDisabled = false;
+            editRunwayVisible = true;
         } else {
-            editRunwayVisible = false;
             runwayOptionsVisible = false;
             removeRunwayDisabled = true;
+            editRunwayVisible = false;
             clearRunwayDetails();
         }
         specifyView(runwayOptionsVisible,
@@ -184,6 +190,7 @@ public class RunwayConfigController {
     }
 
     private void editableMode(){
+        Model.leftScreenController.calculateButton.setDisable(true);
         leftPosition.setMouseTransparent(false);
         for(TextField t : textFields)
             t.setEditable(true);
@@ -196,12 +203,11 @@ public class RunwayConfigController {
                 true);
     }
 
-    private void showOnlyMode(){
-        leftPosition.setMouseTransparent(true);
-        for(TextField t : textFields)
-            t.setEditable(false);
+    private void runwaySettingsGrayedOut() {
+        if(Model.currentRunway ==  null) System.err.println("CurrentRunway cannot be null");
+        populateRunwayDetails(Model.currentRunway);
         specifyView(true,
-                0.75,
+                0.5,
                 false,
                 false,
                 false,
@@ -209,8 +215,20 @@ public class RunwayConfigController {
                 false);
     }
 
+    private void showOnlyMode(){
+        leftPosition.setMouseTransparent(true);
+        for(TextField t : textFields)
+            t.setEditable(false);
+        if(Model.currentRunway == null)
+            hasRunwaysView();
+        else {
+            runwaySettingsGrayedOut();
+        }
+    }
+
     public void windowCloseProcedure() {
         edit = false;
+        Model.leftScreenController.calculateButton.setDisable(false);
         if(Model.currentRunway != null)
             runwayConfig.setText(Model.currentRunway.toString());
         else runwayConfig.setText("Runway");
@@ -232,11 +250,12 @@ public class RunwayConfigController {
             for(PhysicalRunWay p : Model.currentAirport.getRunways()) {
                 if (p.toString().equals(newValue)) {
                     Model.setCurrentRunway(p);
-                    hasRunwaysView();
+                    runwaySettingsGrayedOut();
+                    Model.console.addLog("Runway selected: " + Model.currentRunway.toString());
                 }
             }
         }
-        Model.console.addLog("Runway selected: " + Model.currentRunway.toString());
+        updateVisualisation();
         Model.obstacleConfigController.windowCloseProcedure();
     }
 
@@ -296,6 +315,7 @@ public class RunwayConfigController {
         setChoiceBoxListenerEnabled(true);
         if(Model.currentAirport.getRunways().isEmpty()) noRunwaysView();
         else hasRunwaysView();
+        updateVisualisation();
     }
 
     @FXML
@@ -307,7 +327,10 @@ public class RunwayConfigController {
     @FXML
     private void cancelRunwayClick() {
         edit = false;
-        hasRunwaysView();
+        Model.leftScreenController.calculateButton.setDisable(false);
+        if(Model.currentAirport.getRunways().isEmpty())
+            noRunwaysView();
+        else
         showOnlyMode();
     }
 
@@ -315,12 +338,12 @@ public class RunwayConfigController {
     private void saveRunwayClick(){
         for(TextField t : textFields){
             if (t.getText().isEmpty()) {
-                AlertController.showWarningAlert("Some textfields are empty.");
+                controllers.AlertController.showWarningAlert("Some textfields are empty.");
                 return;
             }
         }
         if(rightDegreeLabel.getText().isEmpty()){
-            AlertController.showWarningAlert("Wrong value of the runway degrees.");
+            controllers.AlertController.showWarningAlert("Wrong value of the runway degrees.");
             return;
         }
         Pair<LogicalRunWay,LogicalRunWay> p = parseRunwayDetails();
@@ -335,10 +358,12 @@ public class RunwayConfigController {
         } else {
             saveNewRunway(left,right);
             Model.console.addLog("Runway " + Model.currentRunway.toString() + " added");
-            Model.console.addLog("Runway selected: " + Model.currentRunway.toString());
+//            Model.console.addLog("Runway selected: " + Model.currentRunway.toString());
 
         }
+        updateVisualisation();
         showOnlyMode();
+        Model.leftScreenController.calculateButton.setDisable(false);
     }
 
     private Pair<LogicalRunWay,LogicalRunWay> parseRunwayDetails() {
@@ -359,12 +384,12 @@ public class RunwayConfigController {
         int rightThreshold = Integer.parseInt(rightThresholdTF.getText());
 
         if(leftDegree > 36 || rightDegree > 36 || Math.abs(leftDegree-rightDegree) != 18){
-            AlertController.showWarningAlert("Wrong value of the runway degrees.");
+            controllers.AlertController.showWarningAlert("Wrong value of the runway degrees.");
             return null;
         }
         //TODO: Add error checking (return null)
         if(leftToda < leftTora || rightToda < rightTora){
-            AlertController.showWarningAlert("TODA Cannot be smaller than TORA");
+            controllers.AlertController.showWarningAlert("TODA Cannot be smaller than TORA");
             return null;
         }
         LogicalRunWay left = new LogicalRunWay(leftDegree, leftDirection,leftTora, leftToda, leftAsda, leftLda, leftThreshold);
