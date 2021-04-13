@@ -70,7 +70,7 @@ public class LeftScreenController {
             Model.console.addLogWithoutTime("Obstacle " + Model.currentObstacle.toString());
             Model.console.addLogWithoutTime("---------------------------------------------------------------------");
 
-            calculatorOutput = Calculator.recalculate();
+            calculatorOutput = Calculator.recalculate(Model.currentRunway);
             Model.originalRunwayLeft = Model.currentRunway.getLeftRunway();
             Model.recalculatedRunwayLeft = calculatorOutput.getRunwayLeft().getRecalculatedRunway();
             Model.originalRunwayRight = Model.currentRunway.getRightRunway();
