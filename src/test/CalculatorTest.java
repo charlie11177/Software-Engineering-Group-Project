@@ -61,20 +61,6 @@ public class CalculatorTest {
         }
 
         airplaneObstacle = new Obstacle("airplane1", 25 , 25*50, new Position(3655,0, 10, "L"));
-
-        ArrayList<PhysicalRunWay> runWays = new ArrayList<>();
-        runWays.add(r1);
-        runWays.add(r2);
-
-        ArrayList<PhysicalRunWay> runWays2 = new ArrayList<>();
-        runWays2.add(r3);
-        runWays2.add(r4);
-
-
-        Airport airport = new Airport("London_Gatwick", "LGW",runWays2);
-        Airport airport2 = new Airport("London_Heathrow", "LHR",runWays);
-        airports.add(airport);
-        airports.add(airport2);
     }
 
 
@@ -85,6 +71,11 @@ public class CalculatorTest {
 
 
         Assert.assertEquals(6, 5, 0.0);
+    }
+
+    @Test
+    public void scenario1(){
+
     }
 
     @Test
