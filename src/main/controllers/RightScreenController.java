@@ -6,6 +6,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import main.model.CalculatorOutput;
 import main.model.LogicalRunWay;
 import main.model.Model;
 
@@ -51,6 +52,20 @@ public class RightScreenController {
         topTableView.getItems().addAll(Model.originalRunwayLeft, Model.originalRunwayRight);
         bottomTableView.getItems().clear();
         bottomTableView.getItems().addAll(Model.recalculatedRunwayLeft, Model.recalculatedRunwayRight);
+    }
+
+    public void populateBreakDowns(CalculatorOutput calculatorOutput) {
+        allCalculationsLeftTA.setText(calculatorOutput.getRunwayLeft().getTotalBD());
+        allCalculationsRightTA.setText(calculatorOutput.getRunwayRight().getTotalBD());
+
+        toraTopTA.setText(calculatorOutput.getRunwayLeft().getBD("tora"));
+        toraBottomTA.setText(calculatorOutput.getRunwayRight().getBD("tora"));
+        todaTopTA.setText(calculatorOutput.getRunwayLeft().getBD("toda"));
+        todaBottomTA.setText(calculatorOutput.getRunwayRight().getBD("toda"));
+        ldaTopTA.setText(calculatorOutput.getRunwayLeft().getBD("lda"));
+        ldaBottomTA.setText(calculatorOutput.getRunwayRight().getBD("lda"));
+        asdaTopTA.setText(calculatorOutput.getRunwayLeft().getBD("asda"));
+        asdaBottomTA.setText(calculatorOutput.getRunwayRight().getBD("asda"));
     }
 
     public void changeFontSize(double size){

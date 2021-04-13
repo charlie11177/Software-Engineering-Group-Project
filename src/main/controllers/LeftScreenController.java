@@ -71,24 +71,14 @@ public class LeftScreenController {
             Model.console.addLogWithoutTime("---------------------------------------------------------------------");
 
             calculatorOutput = Calculator.recalculate();
-            Model.calculationsBreakdownLeft = calculatorOutput.getRunwayLeft().getTotalBD();
             Model.originalRunwayLeft = Model.currentRunway.getLeftRunway();
             Model.recalculatedRunwayLeft = calculatorOutput.getRunwayLeft().getRecalculatedRunway();
-            Model.calculationsBreakDownRight = calculatorOutput.getRunwayRight().getTotalBD();
             Model.originalRunwayRight = Model.currentRunway.getRightRunway();
             Model.recalculatedRunwayRight = calculatorOutput.getRunwayRight().getRecalculatedRunway();
-            
-            Model.rightScreenController.allCalculationsLeftTA.setText(Model.calculationsBreakdownLeft);
-            Model.rightScreenController.allCalculationsRightTA.setText(Model.calculationsBreakDownRight);
+
             Model.rightScreenController.populateTables();
-            Model.rightScreenController.toraTopTA.setText(calculatorOutput.getRunwayLeft().getBD("tora"));
-            Model.rightScreenController.toraBottomTA.setText(calculatorOutput.getRunwayRight().getBD("tora"));
-            Model.rightScreenController.todaTopTA.setText(calculatorOutput.getRunwayLeft().getBD("toda"));
-            Model.rightScreenController.todaBottomTA.setText(calculatorOutput.getRunwayRight().getBD("toda"));
-            Model.rightScreenController.ldaTopTA.setText(calculatorOutput.getRunwayLeft().getBD("lda"));
-            Model.rightScreenController.ldaBottomTA.setText(calculatorOutput.getRunwayRight().getBD("lda"));
-            Model.rightScreenController.asdaTopTA.setText(calculatorOutput.getRunwayLeft().getBD("asda"));
-            Model.rightScreenController.asdaBottomTA.setText(calculatorOutput.getRunwayRight().getBD("asda"));
+            Model.rightScreenController.populateBreakDowns(calculatorOutput);
+
             calculateNotAllowedMode();
         }
     }
