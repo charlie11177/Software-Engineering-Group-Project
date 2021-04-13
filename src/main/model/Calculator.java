@@ -6,8 +6,8 @@ public class Calculator {
     private static PhysicalRunWay physicalRunway;
     private static Obstacle obstacle;
 
-    public static CalculatorOutput recalculate(){
-        physicalRunway = Model.currentRunway;
+    public static CalculatorOutput recalculate(PhysicalRunWay currentRunway){
+        physicalRunway = currentRunway;
         CalculatorOutput output = new CalculatorOutput();
         if(physicalRunway != null){
             obstacle = Model.currentObstacle;
@@ -47,11 +47,6 @@ public class Calculator {
         asdaBD = tora + " + " + runway.getStopway() + " = " + asda;
 
         return new CalculatorOutput.RecalculatedRunwayOutput(recalculatedRunway, toraBD, todaBD, ldaBD, asdaBD);
-
-
-        //Model.calculationsBreakDownAway = allBD;
-        //Model.originalRunwayAway = runway;
-        //Model.recalculatedRunwayAway = new LogicalRunWay(runway.getDegree(), runway.getDirection(), tora, toda, asda, lda, runway.getThreshold());
     }
 
     private static CalculatorOutput.RecalculatedRunwayOutput recalculateTOWARDS(LogicalRunWay runway, int distanceFromThreshold) {          //(Take off Towards, Landing Towards)
@@ -72,9 +67,6 @@ public class Calculator {
         asdaBD = "" + tora;
 
         return new CalculatorOutput.RecalculatedRunwayOutput(recalculatedRunway, toraBD, todaBD, ldaBD, asdaBD);
-
-        //Model.calculationsBreakdownTowards = allBD;
-        //Model.originalRunwayTowards = runway;
-        //Model.recalculatedRunwayTowards = new LogicalRunWay(runway.getDegree(), runway.getDirection(), tora, toda, asda, lda, runway.getThreshold());
     }
 }
+
