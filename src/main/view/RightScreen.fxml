@@ -131,8 +131,8 @@
                <content>
                   <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
                      <items>
-                        <TextArea fx:id="allCalculationsTowardsTA" editable="false" minHeight="0.0" prefHeight="200.0" prefWidth="200.0" />
-                        <TextArea fx:id="allCalculationsAwayTA" editable="false" minHeight="0.0" prefHeight="62.0" prefWidth="286.0" />
+                        <TextArea fx:id="allCalculationsLeftTA" editable="false" minHeight="0.0" prefHeight="200.0" prefWidth="200.0" />
+                        <TextArea fx:id="allCalculationsRightTA" editable="false" minHeight="0.0" prefHeight="62.0" prefWidth="286.0" />
                      </items>
                   </SplitPane>
                </content>

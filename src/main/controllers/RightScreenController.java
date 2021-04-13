@@ -1,6 +1,5 @@
 package main.controllers;
 
-import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -19,8 +18,8 @@ public class RightScreenController {
 
     public TableView<LogicalRunWay> topTableView;
     public TableView<LogicalRunWay> bottomTableView;
-    public TextArea allCalculationsTowardsTA;
-    public TextArea allCalculationsAwayTA;
+    public TextArea allCalculationsLeftTA;
+    public TextArea allCalculationsRightTA;
     public TextArea toraTopTA;
     public TextArea toraBottomTA;
     public TextArea todaTopTA;
@@ -43,20 +42,20 @@ public class RightScreenController {
 
     public void initialize(){
         Model.rightScreenController = this;
-        textAreas.addAll(Arrays.asList(allCalculationsTowardsTA, allCalculationsAwayTA, toraTopTA, toraBottomTA,
+        textAreas.addAll(Arrays.asList(allCalculationsLeftTA, allCalculationsRightTA, toraTopTA, toraBottomTA,
                 todaTopTA, todaBottomTA, ldaTopTA, ldaBottomTA, asdaTopTA, asdaBottomTA));
     }
 
     public void populateTables() {
         topTableView.getItems().clear();
-        topTableView.getItems().addAll(Model.originalRunwayTowards, Model.originalRunwayAway);
+        topTableView.getItems().addAll(Model.originalRunwayLeft, Model.originalRunwayRight);
         bottomTableView.getItems().clear();
-        bottomTableView.getItems().addAll(Model.recalculatedRunwayTowards, Model.recalculatedRunwayAway);
+        bottomTableView.getItems().addAll(Model.recalculatedRunwayLeft, Model.recalculatedRunwayRight);
     }
 
     public void changeFontSize(double size){
-        allCalculationsTowardsTA.setFont(Font.font("Courier New", size));
-        allCalculationsAwayTA.setFont(Font.font("Courier New",size));
+        allCalculationsLeftTA.setFont(Font.font("Courier New", size));
+        allCalculationsRightTA.setFont(Font.font("Courier New",size));
         toraTopTA.setFont(Font.font("Courier New", size));
         toraBottomTA.setFont(Font.font("Courier New",size));
         todaTopTA.setFont(Font.font("Courier New",size));
