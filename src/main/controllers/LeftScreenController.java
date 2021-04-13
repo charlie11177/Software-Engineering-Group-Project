@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
 import main.model.Calculator;
+import main.model.CalculatorOutput;
 import main.model.Model;
 import main.model.PhysicalRunWay;
 
@@ -43,6 +44,7 @@ public class LeftScreenController {
 
     @FXML
     private void calculateButtonClick() {
+        CalculatorOutput calculatorOutput = null;
         if (!calculateAllowed){
             calculateAllowedMode();
             Model.console.addLog("Editing: Calculated values removed!");
@@ -68,18 +70,25 @@ public class LeftScreenController {
             Model.console.addLogWithoutTime("Obstacle " + Model.currentObstacle.toString());
             Model.console.addLogWithoutTime("---------------------------------------------------------------------");
 
-            Calculator.recalculate();
-            Model.rightScreenController.allCalculationsTowardsTA.setText(Model.calculationsBreakdownTowards);
-            Model.rightScreenController.allCalculationsAwayTA.setText(Model.calculationsBreakDownAway);
+            calculatorOutput = Calculator.recalculate();
+            Model.calculationsBreakdownLeft = calculatorOutput.getRunwayLeft().getTotalBD();
+            Model.originalRunwayLeft = Model.currentRunway.getLeftRunway();
+            Model.recalculatedRunwayLeft = calculatorOutput.getRunwayLeft().getRecalculatedRunway();
+            Model.calculationsBreakDownRight = calculatorOutput.getRunwayRight().getTotalBD();
+            Model.originalRunwayRight = Model.currentRunway.getRightRunway();
+            Model.recalculatedRunwayRight = calculatorOutput.getRunwayRight().getRecalculatedRunway();
+            
+            Model.rightScreenController.allCalculationsLeftTA.setText(Model.calculationsBreakdownLeft);
+            Model.rightScreenController.allCalculationsRightTA.setText(Model.calculationsBreakDownRight);
             Model.rightScreenController.populateTables();
-            Model.rightScreenController.toraTopTA.setText(Model.calculationsBreakdownTowards.split("\n")[1]);
-            Model.rightScreenController.toraBottomTA.setText(Model.calculationsBreakDownAway.split("\n")[1]);
-            Model.rightScreenController.todaTopTA.setText(Model.calculationsBreakdownTowards.split("\n")[2]);
-            Model.rightScreenController.todaBottomTA.setText(Model.calculationsBreakDownAway.split("\n")[2]);
-            Model.rightScreenController.ldaTopTA.setText(Model.calculationsBreakdownTowards.split("\n")[3]);
-            Model.rightScreenController.ldaBottomTA.setText(Model.calculationsBreakDownAway.split("\n")[3]);
-            Model.rightScreenController.asdaTopTA.setText(Model.calculationsBreakdownTowards.split("\n")[4]);
-            Model.rightScreenController.asdaBottomTA.setText(Model.calculationsBreakDownAway.split("\n")[4]);
+            Model.rightScreenController.toraTopTA.setText(calculatorOutput.getRunwayLeft().getBD("tora"));
+            Model.rightScreenController.toraBottomTA.setText(calculatorOutput.getRunwayRight().getBD("tora"));
+            Model.rightScreenController.todaTopTA.setText(calculatorOutput.getRunwayLeft().getBD("toda"));
+            Model.rightScreenController.todaBottomTA.setText(calculatorOutput.getRunwayRight().getBD("toda"));
+            Model.rightScreenController.ldaTopTA.setText(calculatorOutput.getRunwayLeft().getBD("lda"));
+            Model.rightScreenController.ldaBottomTA.setText(calculatorOutput.getRunwayRight().getBD("lda"));
+            Model.rightScreenController.asdaTopTA.setText(calculatorOutput.getRunwayLeft().getBD("asda"));
+            Model.rightScreenController.asdaBottomTA.setText(calculatorOutput.getRunwayRight().getBD("asda"));
             calculateNotAllowedMode();
         }
     }

@@ -31,14 +31,14 @@ public class Model {
     public static Obstacle currentObstacle; // selected obstacle, can be null if none is chosen
     public static boolean obstaclePlaced = false;   // true, if user chose to place an obstacle on the selected runway
 
-    public static String calculationsBreakdownTowards;
-    public static String calculationsBreakDownAway;
+    public static String calculationsBreakdownLeft;
+    public static String calculationsBreakDownRight;
 
-    public static LogicalRunWay recalculatedRunwayTowards;
-    public static LogicalRunWay recalculatedRunwayAway;
+    public static LogicalRunWay recalculatedRunwayLeft;
+    public static LogicalRunWay recalculatedRunwayRight;
 
-    public static LogicalRunWay originalRunwayTowards;
-    public static LogicalRunWay originalRunwayAway;
+    public static LogicalRunWay originalRunwayLeft;
+    public static LogicalRunWay originalRunwayRight;
 
     // console that holds all the log texts to display
     public static Console console = new Console();
