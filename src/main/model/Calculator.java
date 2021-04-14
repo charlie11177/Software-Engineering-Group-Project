@@ -2,15 +2,21 @@ package main.model;
 
 import main.controllers.AlertController;
 
+import java.util.ArrayList;
+
 public class Calculator {
     private static PhysicalRunWay physicalRunway;
     private static Obstacle obstacle;
+
+    private static int[] ahead;
+    private static int[] towards;
+
 
     public static CalculatorOutput recalculate(PhysicalRunWay currentRunway){
         physicalRunway = currentRunway;
         CalculatorOutput output = new CalculatorOutput();
         if(physicalRunway != null){
-            obstacle = Model.currentObstacle;
+            obstacle = physicalRunway.getObstacle();
             if(obstacle != null && obstacle.getPosition() != null){
                 if (obstacle.getPosition().getDistanceToLeft() > obstacle.getPosition().getDistanceToRight()){
                     output.setRunwayRight(recalculateAWAY(physicalRunway.getRightRunway(), obstacle.getPosition().getDistanceToRight()));
@@ -46,6 +52,7 @@ public class Calculator {
         ldaBD = runway.getLDA() + " - " + distanceFromThreshold + " - 60 - (" + obstacle.getHeight() + " * 50) = " + lda;
         asdaBD = tora + " + " + runway.getStopway() + " = " + asda;
 
+        setRecalculatedAWAY(tora, toda, lda, asda);
         return new CalculatorOutput.RecalculatedRunwayOutput(recalculatedRunway, toraBD, todaBD, ldaBD, asdaBD);
     }
 
@@ -66,7 +73,23 @@ public class Calculator {
         ldaBD = distanceFromThreshold + " - 240 - 60 = " + lda;
         asdaBD = "" + tora;
 
+        setRecalculatedTOWARDS(tora, toda, lda, asda);
         return new CalculatorOutput.RecalculatedRunwayOutput(recalculatedRunway, toraBD, todaBD, ldaBD, asdaBD);
+    }
+
+    private static void setRecalculatedAWAY(int tora, int toda, int lda, int asda){
+        ahead = new int[]{tora, toda, lda, asda};
+    }
+
+    private static void setRecalculatedTOWARDS(int tora, int toda, int lda, int asda){
+        towards = new int[]{tora, toda, lda, asda};
+    }
+
+    public static int[] getAhead() {
+        return ahead;
+    }
+    public static int[] getTowards() {
+        return towards;
     }
 }
 
