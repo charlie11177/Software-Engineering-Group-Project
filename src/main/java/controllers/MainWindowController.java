@@ -1,12 +1,12 @@
 package controllers;
 
+import app.App;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.TitledPane;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
-import app.App;
 import model.Airport;
 import model.Model;
 import model.Obstacle;

@@ -1,13 +1,13 @@
 package app;
 
+import controllers.AlertController;
+import controllers.FontSize;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import controllers.AlertController;
-import controllers.FontSize;
 import model.Model;
 
 import java.io.*;
