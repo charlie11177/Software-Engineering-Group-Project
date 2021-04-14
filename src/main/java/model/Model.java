@@ -111,6 +111,7 @@ public class Model {
             r2 = new PhysicalRunWay(2,left2, right2, null);
             r3 = new PhysicalRunWay(1,left3, right3, null);
             r4 = new PhysicalRunWay(3,left4, right4, null);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -124,7 +125,7 @@ public class Model {
         runWays2.add(r4);
 
         model.Obstacle airplane = new model.Obstacle("airplane1", 25 , 25*50, new model.Position(3655,0, 10, "L"));
-        //obstacles.add(airplane);
+        obstacles.add(airplane);
 
         model.Airport airport = new model.Airport("London_Gatwick", "LGW",runWays2);
         model.Airport airport2 = new model.Airport("London_Heathrow", "LHR",runWays);
