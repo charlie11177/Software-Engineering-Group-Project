@@ -77,4 +77,5 @@ public class JavaFXTest {
         FxAssert.verifyThat(robot.lookup("#topTableView").queryAs(TableView.class), TableViewMatchers.containsRow("10R", 3660, 3660, 3353, 3660, 307));
     }
 
+
 }

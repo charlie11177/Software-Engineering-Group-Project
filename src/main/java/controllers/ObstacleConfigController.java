@@ -110,6 +110,8 @@ public class ObstacleConfigController {
                 placeObstacleCB.setSelected(false);
                 noSelectedObstacleView();
             } else {
+                populateObstacleDetails(Model.currentObstacle);
+                populateObstacleDimensions(Model.currentObstacle.getPosition());
                 setChoiceBoxListenerEnabled(false);
                 if(Model.obstaclePlaced){
                     obstacleChoiceBox.setValue(Model.currentObstacle.getName());
@@ -272,17 +274,17 @@ public class ObstacleConfigController {
     }
 
     private void populateObstacleDimensions(Position position) {
-       if(position == null) {
-           distanceFromLTF.setText("");
-           distanceFromRTF.setText("");
-           distanceFromCLTF.setText("");
-           dirFromCLChoiceBox.setValue("L");
-       } else {
-           distanceFromLTF.setText(String.valueOf(position.getDistanceToLeft()));
-           distanceFromRTF.setText(String.valueOf(position.getDistanceToRight()));
-           distanceFromCLTF.setText(String.valueOf(position.getDistanceFromCL()));
-           dirFromCLChoiceBox.setValue(position.getDirectionFromCL());
-       }
+        if(position == null) {
+            distanceFromLTF.setText("");
+            distanceFromRTF.setText("");
+            distanceFromCLTF.setText("");
+            dirFromCLChoiceBox.setValue("L");
+        } else {
+            distanceFromLTF.setText(String.valueOf(position.getDistanceToLeft()));
+            distanceFromRTF.setText(String.valueOf(position.getDistanceToRight()));
+            distanceFromCLTF.setText(String.valueOf(position.getDistanceFromCL()));
+            dirFromCLChoiceBox.setValue(position.getDirectionFromCL());
+        }
     }
 
     public void saveObstacleDimensions(Obstacle obstacle)  {
@@ -311,11 +313,10 @@ public class ObstacleConfigController {
     }
 
     private boolean isObstacleCorrectlyPlaced(Obstacle obstacle){
-        if(obstacle.getPosition() == null) return false;
-        else if (obstacle.getPosition().getDistanceToLeft() == null) return false;
-        else if (obstacle.getPosition().getDistanceToRight() == null) return false;
-        else if (obstacle.getPosition().getDistanceFromCL() == null) return false;
-        else if (obstacle.getPosition().getDirectionFromCL() == null) return false;
+        if(distanceFromLTF.getText().equals("") || distanceFromRTF.getText().equals("") || distanceFromCLTF.getText().equals(""))
+            return false;
+        else if(distanceFromLTF.getText().equals("-") || distanceFromRTF.getText().equals("-") || distanceFromCLTF.getText().equals("-"))
+            return false;
         return true;
     }
 
@@ -345,6 +346,7 @@ public class ObstacleConfigController {
 
     private void placeObstacle(){
         Model.obstaclePlaced = true;
+        saveObstacleDimensions(Model.currentObstacle);
         placedObstacleView();
     }
 
