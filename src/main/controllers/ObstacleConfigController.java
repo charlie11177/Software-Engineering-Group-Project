@@ -311,11 +311,13 @@ public class ObstacleConfigController {
     }
 
     private boolean isObstacleCorrectlyPlaced(Obstacle obstacle){
-        if(obstacle.getPosition() == null) return false;
-        else if (obstacle.getPosition().getDistanceToLeft() == null) return false;
-        else if (obstacle.getPosition().getDistanceToRight() == null) return false;
-        else if (obstacle.getPosition().getDistanceFromCL() == null) return false;
-        else if (obstacle.getPosition().getDirectionFromCL() == null) return false;
+//        if(obstacle.getPosition() == null) return false;
+//        else if (obstacle.getPosition().getDistanceToLeft() == null) return false;
+//        else if (obstacle.getPosition().getDistanceToRight() == null) return false;
+//        else if (obstacle.getPosition().getDistanceFromCL() == null) return false;
+//        else if (obstacle.getPosition().getDirectionFromCL() == null) return false;
+        if(distanceFromLTF.getText().equals("") || distanceFromRTF.getText().equals("") || distanceFromCLTF.getText().equals(""))
+            return false;
         return true;
     }
 
@@ -345,6 +347,7 @@ public class ObstacleConfigController {
 
     private void placeObstacle(){
         Model.obstaclePlaced = true;
+        saveObstacleDimensions(Model.currentObstacle);
         placedObstacleView();
     }
 
