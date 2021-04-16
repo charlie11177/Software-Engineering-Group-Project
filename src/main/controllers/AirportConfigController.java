@@ -173,13 +173,13 @@ public class AirportConfigController {
         String airportName = airportNameTextField.getText();
         String airportCode = airportCodeTextField.getText();
         if(airportName.equals("") || airportCode.equals("")) {
-            AlertController.showWarningAlert("Name and Code fields cannot be empty!");
+            AlertController.showWarningAlert("Name and Code fields cannot be empty!","Make sure that you've set a name and code for the airport");
         } else if (nameInUse(airportName)){
-            AlertController.showWarningAlert("An Airport with that name already exists!");
+            AlertController.showWarningAlert("An Airport with that name already exists!","Please select a different airport name");
         } else if (codeInUse(airportCode)) {
-            AlertController.showWarningAlert("An Airport with that code already exists!");
+            AlertController.showWarningAlert("An Airport with that code already exists!","Please select a different airport code");
         } else if (edit && Model.currentAirport != null && (airportName + " (" + airportCode + ")").equals(Model.currentAirport.toString())) {
-            AlertController.showInfoAlert("No changes were made.");
+            AlertController.showInfoAlert("No changes were made.","The edited values are the same as the original ones.");
             selectedAirportView();
         } else if (edit){
             String previousAirportString = Model.currentAirport.toString();

@@ -77,7 +77,7 @@ public class MainWindowController {
         }
         catch (Exception e) {
             Model.console.addLog("Failed an import - Invalid Configuration XML selected");
-            AlertController.showErrorAlert("Import Failed");
+            AlertController.showErrorAlert("Import Failed - Invalid Configuration XML selected","Make sure that you have chosen the correct XML file");
         }
     }
 
@@ -112,7 +112,7 @@ public class MainWindowController {
             }
         }  catch (Exception e) {
             Model.console.addLog("Failed an import - Invalid Airports XML selected");
-            AlertController.showErrorAlert("Import Failed");
+            AlertController.showErrorAlert("Import Failed - Invalid Airports XML selected","Make sure that you have chosen the correct XML file");
         }
     }
 
@@ -147,7 +147,7 @@ public class MainWindowController {
             }
         } catch (Exception e) {
             Model.console.addLog("Failed an import - Invalid Obstacles XML selected");
-            AlertController.showErrorAlert("Import Failed");
+            AlertController.showErrorAlert("Import Failed - Invalid Obstacles XML selected","Make sure that you have chosen the correct XML file");
         }
     }
 
@@ -188,7 +188,7 @@ public class MainWindowController {
             Model.console.addLog("--- Finished exporting to: " + xmlFile.getName() + " ---" );
         }
         catch (Exception e) {
-            AlertController.showErrorAlert("Failed to export the current Configuration");
+            AlertController.showErrorAlert("Failed to export the current Configuration","");
             Model.console.addLog("--- Failed to export the Configuration ---");
         }
     }
@@ -206,7 +206,7 @@ public class MainWindowController {
             Model.console.addLog("--- Finished exporting to: " + xmlFile.getName() + " ---" );
         }
         catch (Exception e) {
-            AlertController.showErrorAlert("Failed to export the current Airports");
+            AlertController.showErrorAlert("Failed to export the current Airports","");
             Model.console.addLog("--- Failed to export the current Airports ---");
         }
     }
@@ -224,7 +224,7 @@ public class MainWindowController {
             Model.console.addLog("--- Finished exporting to: " + xmlFile.getName() + " ---" );
         }
         catch (Exception e) {
-            AlertController.showErrorAlert("Failed to export the current Obstacles");
+            AlertController.showErrorAlert("Failed to export the current Obstacles","");
             Model.console.addLog("--- Failed to export the current Obstacles ---");
         }
     }

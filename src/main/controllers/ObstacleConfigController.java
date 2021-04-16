@@ -327,11 +327,11 @@ public class ObstacleConfigController {
         saveObstacleDimensions(Model.currentObstacle);
         if (placeObstacleCB.isSelected()){
             if(Model.currentRunway == null){
-                AlertController.showWarningAlert("No runway selected!");
+                AlertController.showWarningAlert("No runway selected!","Make sure that you've selected a runway from the left menu");
                 placeObstacleCB.setSelected(false);
                 return;
             } else if (!isObstacleCorrectlyPlaced(Model.currentObstacle)) {
-                AlertController.showWarningAlert("Obstacle placement not properly specified !");
+                AlertController.showWarningAlert("Obstacle placement not properly specified !","Make sure that you've specified all the distances in the current menu");
                 placeObstacleCB.setSelected(false);
                 return;
             }
@@ -415,10 +415,10 @@ public class ObstacleConfigController {
     private void saveButtonClick() {
         String name = obstacleNameTF.getText();
         if(name.equals("") || obstacleHeightTF.getText().equals("") || (obstacleWidthTF.getText().equals(""))) {
-            AlertController.showWarningAlert("Some textfields are empty!");
+            AlertController.showWarningAlert("Some textfields are empty!","Make sure that you've specified name, width and height of the obstacle");
             return;
         } else if (nameInUse(name, edit)){
-            AlertController.showWarningAlert("Obstacle name already used");
+            AlertController.showWarningAlert("Obstacle name already used","Please select a different obstacle name");
             return;
         } else if (edit){
             saveEditedObstacle(name);
@@ -436,7 +436,7 @@ public class ObstacleConfigController {
             int width = Integer.parseInt(obstacleWidthTF.getText());
             int height = Integer.parseInt(obstacleHeightTF.getText());
             if(previousName.equals(name) && width == o.getWidth() && height == o.getHeight()) {
-                AlertController.showInfoAlert("No changes were made.");
+                AlertController.showInfoAlert("No changes were made.","The edited values are the same as the original ones.");
                 return;
             }
             setChoiceBoxListenerEnabled(false);

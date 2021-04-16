@@ -339,12 +339,12 @@ public class RunwayConfigController {
     private void saveRunwayClick(){
         for(TextField t : textFields){
             if (t.getText().isEmpty()) {
-                AlertController.showWarningAlert("Some textfields are empty.");
+                AlertController.showWarningAlert("Some textfields are empty.","Make sure that you've specified all parameters of the runway");
                 return;
             }
         }
         if(rightDegreeLabel.getText().isEmpty()){
-            AlertController.showWarningAlert("Wrong value of the runway degrees.");
+            AlertController.showWarningAlert("Wrong value of the runway degrees.","The runway with smaller degree has to be specified as Runway 1, degree range is 01-18");
             return;
         }
         Pair<LogicalRunWay,LogicalRunWay> p = parseRunwayDetails();
@@ -384,13 +384,13 @@ public class RunwayConfigController {
         int rightTora = Integer.parseInt(rightToraTF.getText());
         int rightThreshold = Integer.parseInt(rightThresholdTF.getText());
 
-        if(leftDegree > 36 || rightDegree > 36 || Math.abs(leftDegree-rightDegree) != 18){
-            AlertController.showWarningAlert("Wrong value of the runway degrees.");
+        if(leftDegree > 18 || rightDegree > 36 || Math.abs(leftDegree-rightDegree) != 18){
+            AlertController.showWarningAlert("Wrong value of the runway degrees.","The runway with smaller degree has to be specified as Runway 1, degree range is 01-18");
             return null;
         }
         //TODO: Add error checking (return null)
         if(leftToda < leftTora || rightToda < rightTora){
-            AlertController.showWarningAlert("TODA Cannot be smaller than TORA");
+            AlertController.showWarningAlert("TODA Cannot be smaller than TORA","Make sure that you've specified TODA and TORA for both runways correctly");
             return null;
         }
         LogicalRunWay left = new LogicalRunWay(leftDegree, leftDirection,leftTora, leftToda, leftAsda, leftLda, leftThreshold);
