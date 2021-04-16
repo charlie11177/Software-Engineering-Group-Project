@@ -61,14 +61,6 @@ public class RunwayConfigController {
 //        runwayChoiceBox.valueProperty().addListener((observable, oldValue, newValue) -> choiceBoxUpdater(newValue));
     }
 
-    public void updateVisualisation() {
-        System.out.println("Visualisation for runway " + Model.currentRunway);
-        //TODO: calls for visualisation methods for displaying runways can be placed here
-        // something like this: Model.CenterScreenController.draw();
-//       Model.centerScreenController.drawRunway(Model.centerScreenController.topDowncanvas);
-        Model.centerScreenController.updateVisualisation(TopDownView.RUNWAY);
-    }
-
     private void setChoiceBoxListenerEnabled(Boolean enable) {
         if (enable)
             runwayChoiceBox.valueProperty().addListener(choiceBoxListener);
@@ -257,7 +249,7 @@ public class RunwayConfigController {
                 }
             }
         }
-        updateVisualisation();
+        Model.updateVisualisation();
         Model.obstacleConfigController.windowCloseProcedure();
     }
 
@@ -317,7 +309,7 @@ public class RunwayConfigController {
         setChoiceBoxListenerEnabled(true);
         if(Model.currentAirport.getRunways().isEmpty()) noRunwaysView();
         else hasRunwaysView();
-        updateVisualisation();
+        Model.updateVisualisation();
     }
 
     @FXML
@@ -363,7 +355,7 @@ public class RunwayConfigController {
 //            Model.console.addLog("Runway selected: " + Model.currentRunway.toString());
 
         }
-        updateVisualisation();
+        Model.updateVisualisation();
         showOnlyMode();
         Model.leftScreenController.calculateButton.setDisable(false);
     }

@@ -1,6 +1,5 @@
 package main.controllers;
 
-import javafx.beans.InvalidationListener;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -23,11 +22,7 @@ public class CenterScreenController {
     public Canvas sideOnCanvas;
     public PhysicalRunWay runway;
     private final int ARR_SIZE = 5;
-    private TopDownView previousMode;
-
-    private final InvalidationListener defaultListener = (obs) -> drawTopDown(topDowncanvas);
-    private final InvalidationListener runwayListener = (obs) -> drawRunway(topDowncanvas);
-    private final InvalidationListener redeclaredRunwayListener = (obs) -> drawRedeclaredRunway(topDowncanvas);
+    private TopDownView topDownViewMode;
 
     @FXML
     private void initialize(){
@@ -35,8 +30,7 @@ public class CenterScreenController {
         Model.console.update();
         setupTopDownCanvas();
         setupSideOnCanvas();
-        previousMode = TopDownView.DEFAULT;
-        updateVisualisation(TopDownView.DEFAULT);
+        topDownViewMode = TopDownView.DEFAULT;
     }
 
     private void setupTopDownCanvas(){
@@ -44,6 +38,8 @@ public class CenterScreenController {
         topDownPane.getChildren().add(topDowncanvas);
         topDowncanvas.widthProperty().bind(topDownPane.widthProperty());
         topDowncanvas.heightProperty().bind(topDownPane.heightProperty());
+        topDowncanvas.widthProperty().addListener(event -> draw());
+        topDowncanvas.heightProperty().addListener(event -> draw());
     }
 
     private void setupSideOnCanvas(){
@@ -60,42 +56,19 @@ public class CenterScreenController {
         console.appendText(text + "\n");
     }
 
-    public void updateVisualisation(TopDownView newMode) {
+    public void updateVisualisation(TopDownView mode) {
+        topDownViewMode = mode;
         topDownPane.getChildren().remove(topDowncanvas);
         setupTopDownCanvas();
-        switch (previousMode) {
-            case DEFAULT -> {
-                topDowncanvas.widthProperty().removeListener(defaultListener);
-                topDowncanvas.heightProperty().removeListener(defaultListener);
-            }
-            case RUNWAY -> {
-                topDowncanvas.widthProperty().removeListener(runwayListener);
-                topDowncanvas.heightProperty().removeListener(runwayListener);
-            }
-            case REDECLAREDRUNWAY -> {
-                topDowncanvas.widthProperty().removeListener(redeclaredRunwayListener);
-                topDowncanvas.heightProperty().removeListener(redeclaredRunwayListener);
-            }
-        }
+        draw();
+    }
 
-        switch (newMode) {
-            case DEFAULT -> {
-                topDowncanvas.widthProperty().addListener(defaultListener);
-                topDowncanvas.heightProperty().addListener(defaultListener);
-                drawTopDown(topDowncanvas);
-            }
-            case RUNWAY -> {
-                topDowncanvas.widthProperty().addListener(runwayListener);
-                topDowncanvas.heightProperty().addListener(runwayListener);
-                drawRunway(topDowncanvas);
-            }
-            case REDECLAREDRUNWAY -> {
-                topDowncanvas.widthProperty().addListener(redeclaredRunwayListener);
-                topDowncanvas.heightProperty().addListener(redeclaredRunwayListener);
-                drawRedeclaredRunway(topDowncanvas);
-            }
+    private void draw() {
+        switch (topDownViewMode) {
+            case DEFAULT -> drawTopDown(topDowncanvas);
+            case RUNWAY -> drawRunway(topDowncanvas);
+            case REDECLAREDRUNWAY -> drawRedeclaredRunway(topDowncanvas);
         }
-        previousMode = newMode;
     }
 
     //just examples how the resizing can be done, can be removed
