@@ -4,7 +4,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
 import main.model.Calculator;
-import main.model.CalculatorOutput;
 import main.model.Model;
 import main.model.PhysicalRunWay;
 
@@ -44,20 +43,19 @@ public class LeftScreenController {
 
     @FXML
     private void calculateButtonClick() {
-        CalculatorOutput calculatorOutput = null;
         if (!calculateAllowed){
             calculateAllowedMode();
             Model.console.addLog("Editing: Calculated values removed!");
             return;
         }
         if(Model.currentAirport == null){
-            AlertController.showWarningAlert("No airport specified !","Make sure that you've selected airport, runway and obstacle from the left menu to perform calculations");
+            AlertController.showWarningAlert("No airport specified !");
         } else if (Model.currentRunway == null) {
-            AlertController.showWarningAlert("No runway specified !","Make sure that you've selected airport, runway and obstacle from the left menu to perform calculations");
+            AlertController.showWarningAlert("No runway specified !");
         } else if (Model.currentObstacle == null) {
-            AlertController.showWarningAlert("No obstacle specified !","Make sure that you've selected airport, runway and obstacle from the left menu to perform calculations");
-        } else if (!Model.obstaclePlaced) {
-            AlertController.showWarningAlert("No obstacle has been placed on the runway!","Make sure that you've placed an obstacle on the runway");
+            AlertController.showWarningAlert("No obstacle specified !");
+        } else if (!Model.getObstaclePlaced()) {
+            AlertController.showWarningAlert("No obstacle has been placed on the runway!");
         } else {
             Model.console.addLog("Calculate button clicked!");
             Model.currentRunway.setObstacle(Model.currentObstacle);
@@ -70,15 +68,18 @@ public class LeftScreenController {
             Model.console.addLogWithoutTime("Obstacle " + Model.currentObstacle.toString());
             Model.console.addLogWithoutTime("---------------------------------------------------------------------");
 
-            calculatorOutput = Calculator.recalculate(Model.currentRunway);
-            Model.originalRunwayLeft = Model.currentRunway.getLeftRunway();
-            Model.recalculatedRunwayLeft = calculatorOutput.getRunwayLeft().getRecalculatedRunway();
-            Model.originalRunwayRight = Model.currentRunway.getRightRunway();
-            Model.recalculatedRunwayRight = calculatorOutput.getRunwayRight().getRecalculatedRunway();
-
+            Calculator.recalculate();
+            Model.rightScreenController.allCalculationsTowardsTA.setText(Model.calculationsBreakdownTowards);
+            Model.rightScreenController.allCalculationsAwayTA.setText(Model.calculationsBreakDownAway);
             Model.rightScreenController.populateTables();
-            Model.rightScreenController.populateBreakDowns(calculatorOutput);
-
+            Model.rightScreenController.toraTopTA.setText(Model.calculationsBreakdownTowards.split("\n")[1]);
+            Model.rightScreenController.toraBottomTA.setText(Model.calculationsBreakDownAway.split("\n")[1]);
+            Model.rightScreenController.todaTopTA.setText(Model.calculationsBreakdownTowards.split("\n")[2]);
+            Model.rightScreenController.todaBottomTA.setText(Model.calculationsBreakDownAway.split("\n")[2]);
+            Model.rightScreenController.ldaTopTA.setText(Model.calculationsBreakdownTowards.split("\n")[3]);
+            Model.rightScreenController.ldaBottomTA.setText(Model.calculationsBreakDownAway.split("\n")[3]);
+            Model.rightScreenController.asdaTopTA.setText(Model.calculationsBreakdownTowards.split("\n")[4]);
+            Model.rightScreenController.asdaBottomTA.setText(Model.calculationsBreakDownAway.split("\n")[4]);
             calculateNotAllowedMode();
         }
     }
