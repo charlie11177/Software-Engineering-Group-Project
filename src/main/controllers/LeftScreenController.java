@@ -54,7 +54,7 @@ public class LeftScreenController {
             AlertController.showWarningAlert("No runway specified !");
         } else if (Model.currentObstacle == null) {
             AlertController.showWarningAlert("No obstacle specified !");
-        } else if (!Model.obstaclePlaced) {
+        } else if (!Model.getObstaclePlaced()) {
             AlertController.showWarningAlert("No obstacle has been placed on the runway!");
         } else {
             Model.console.addLog("Calculate button clicked!");

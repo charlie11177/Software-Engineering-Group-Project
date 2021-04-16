@@ -249,7 +249,7 @@ public class RunwayConfigController {
                 }
             }
         }
-        Model.updateVisualisation();
+//        Model.updateVisualisation();
         Model.obstacleConfigController.windowCloseProcedure();
     }
 
@@ -303,13 +303,13 @@ public class RunwayConfigController {
         Model.console.addLog("Runway removed: " + Model.currentRunway.toString());
         runwayChoiceBox.getItems().remove(Model.currentRunway.toString());
         Model.currentRunway = null;
-        Model.obstaclePlaced = false;
+        Model.setObstaclePlaced(false);
         Model.obstacleConfigController.windowCloseProcedure();
         runwayChoiceBox.setValue(null);
         setChoiceBoxListenerEnabled(true);
         if(Model.currentAirport.getRunways().isEmpty()) noRunwaysView();
         else hasRunwaysView();
-        Model.updateVisualisation();
+//        Model.updateVisualisation();
     }
 
     @FXML
@@ -355,7 +355,7 @@ public class RunwayConfigController {
 //            Model.console.addLog("Runway selected: " + Model.currentRunway.toString());
 
         }
-        Model.updateVisualisation();
+//        Model.updateVisualisation();
         showOnlyMode();
         Model.leftScreenController.calculateButton.setDisable(false);
     }
@@ -402,6 +402,7 @@ public class RunwayConfigController {
             setChoiceBoxListenerEnabled(true);
         }
         else System.err.println("Error RunwayController:378");
+        Model.updateVisualisation();
     }
 
     private void saveNewRunway(LogicalRunWay left, LogicalRunWay right){

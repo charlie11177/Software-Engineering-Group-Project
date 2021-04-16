@@ -242,7 +242,7 @@ public class AirportConfigController {
         Model.console.addLog("Airport " + Model.currentAirport + " removed");
         Model.currentAirport = null;
         Model.currentRunway = null;
-        Model.obstaclePlaced = false;
+        Model.setObstaclePlaced(false);
         Model.runwayConfigController.windowCloseProcedure();
         Model.obstacleConfigController.windowCloseProcedure();
         setChoiceBoxListenerEnabled(false);

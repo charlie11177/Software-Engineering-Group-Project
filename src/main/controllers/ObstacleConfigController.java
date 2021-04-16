@@ -56,16 +56,6 @@ public class ObstacleConfigController {
         setChoiceBoxListenerEnabled(true);
     }
 
-    public void updateVisualisation() {
-//        System.out.println("Visualisation for obstacle " + Model.currentObstacle + " that is placed " + Model.obstaclePlaced);
-        //TODO: calls for visualisation methods for displaying runways can be placed here
-        // something like this: Model.CenterScreenController.draw();
-//        Model.centerScreenController.drawRedeclaredRunway(Model.centerScreenController.topDowncanvas);
-        if (Model.obstaclePlaced) Model.centerScreenController.updateVisualisation(TopDownView.REDECLAREDRUNWAY);
-        else if (Model.currentRunway != null) Model.centerScreenController.updateVisualisation(TopDownView.RUNWAY);
-        else Model.centerScreenController.updateVisualisation(TopDownView.DEFAULT);
-    }
-
     private void setChoiceBoxListenerEnabled(Boolean enable) {
         if (enable)
             obstacleChoiceBox.valueProperty().addListener(choiceBoxListener);
@@ -115,7 +105,7 @@ public class ObstacleConfigController {
                 noSelectedObstacleView();
             } else {
                 setChoiceBoxListenerEnabled(false);
-                if(Model.obstaclePlaced){
+                if(Model.getObstaclePlaced()){
                     obstacleChoiceBox.setValue(Model.currentObstacle.getName());
                     placeObstacleCB.setSelected(true);
                     placeObstacle();
@@ -136,7 +126,7 @@ public class ObstacleConfigController {
 //        Model.currentObstacle = Model.getObstacleByName(obstacleChoiceBox.getValue());
         Model.leftScreenController.calculateButton.setDisable(false);
         if(Model.currentObstacle != null){
-            if(Model.obstaclePlaced)
+            if(Model.getObstaclePlaced())
                 obstacleConfig.setText(Model.currentObstacle.getName() + ": placed");
             else
                 obstacleConfig.setText(Model.currentObstacle.getName() + ": not placed");
@@ -339,15 +329,15 @@ public class ObstacleConfigController {
             Model.console.addLog("Obstacle: " + Model.currentObstacle.getName() + " was placed on runway: " + Model.currentRunway.toString());
             placeObstacle();
         } else {
-            Model.obstaclePlaced = false;
+            Model.setObstaclePlaced(false);
             Model.console.addLog("Obstacle: " + Model.currentObstacle.getName() + " was removed from runway: " + Model.currentRunway.toString());
             selectedObstacleView();
         }
-        Model.updateVisualisation();
+//        Model.updateVisualisation();
     }
 
     private void placeObstacle(){
-        Model.obstaclePlaced = true;
+        Model.setObstaclePlaced(true);
         placedObstacleView();
     }
 
@@ -387,7 +377,7 @@ public class ObstacleConfigController {
         Model.console.addLog("Obstacle removed: " + Model.currentObstacle.getName());
         obstacleChoiceBox.getItems().remove(Model.currentObstacle.getName());
         obstacleChoiceBox.setValue(null);
-        Model.obstaclePlaced = false;
+        Model.setObstaclePlaced(false);
         Model.currentObstacle = null;
         setChoiceBoxListenerEnabled(true);
         if (Model.obstacles.isEmpty()) noObstaclesView();
