@@ -65,6 +65,7 @@ public class RunwayConfigController {
         System.out.println("Visualisation for runway " + Model.currentRunway);
         //TODO: calls for visualisation methods for displaying runways can be placed here
         // something like this: Model.CenterScreenController.draw();
+       // Model.centerScreenController.
     }
 
     private void setChoiceBoxListenerEnabled(Boolean enable) {

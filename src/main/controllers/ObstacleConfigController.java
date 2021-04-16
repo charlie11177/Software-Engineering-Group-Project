@@ -60,6 +60,7 @@ public class ObstacleConfigController {
         System.out.println("Visualisation for obstacle " + Model.currentObstacle + " that is placed " + Model.obstaclePlaced);
         //TODO: calls for visualisation methods for displaying runways can be placed here
         // something like this: Model.CenterScreenController.draw();
+        Model.centerScreenController.drawRedeclaredRunway(Model.centerScreenController.topDowncanvas);
     }
 
     private void setChoiceBoxListenerEnabled(Boolean enable) {
