@@ -1,5 +1,6 @@
 package main.controllers;
 
+import javafx.beans.InvalidationListener;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -22,28 +23,34 @@ public class CenterScreenController {
     public Canvas sideOnCanvas;
     public PhysicalRunWay runway;
     private final int ARR_SIZE = 5;
+    private TopDownView previousMode;
+    private final InvalidationListener defaultListener = (obs) -> drawTopDown(topDowncanvas);;
+    private final InvalidationListener runwayListener = (obs) -> drawRunway(topDowncanvas);;
+    private final InvalidationListener redeclaredRunwayListener = (obs) -> drawRedeclaredRunway(topDowncanvas);;
 
     @FXML
     private void initialize(){
         Model.centerScreenController = this;
         Model.console.update();
-        topDowncanvas = new Canvas();
-        sideOnCanvas = new Canvas();
+        setupTopDownCanvas();
+        setupSideOnCanvas();
+        previousMode = TopDownView.DEFAULT;
+        updateVisualisation(TopDownView.DEFAULT);
+       // drawTopDown(topDowncanvas);
+    }
 
-        //makes resizing work
+    private void setupTopDownCanvas(){
+        topDowncanvas = new Canvas();
         topDownPane.getChildren().add(topDowncanvas);
         topDowncanvas.widthProperty().bind(topDownPane.widthProperty());
         topDowncanvas.heightProperty().bind(topDownPane.heightProperty());
-        topDowncanvas.widthProperty().addListener(event -> drawTopDown(topDowncanvas));
-        topDowncanvas.heightProperty().addListener(event -> drawTopDown(topDowncanvas));
+    }
 
-        //makes resizing work
+    private void setupSideOnCanvas(){
+        sideOnCanvas = new Canvas();
         sideOnPane.getChildren().add(sideOnCanvas);
         sideOnCanvas.widthProperty().bind(sideOnPane.widthProperty());
         sideOnCanvas.heightProperty().bind(sideOnPane.heightProperty());
-        sideOnCanvas.widthProperty().addListener(event -> drawSideOn(sideOnCanvas));
-        sideOnCanvas.heightProperty().addListener(event -> drawSideOn(sideOnCanvas));
-       // drawTopDown(topDowncanvas);
     }
 
     //Dont remove this please
@@ -51,6 +58,44 @@ public class CenterScreenController {
 //        console.setText(text);
 //        console.positionCaret(text.length());
         console.appendText(text + "\n");
+    }
+
+    public void updateVisualisation(TopDownView newMode) {
+        //topDownPane.getChildren().remove(topDowncanvas);
+        //setupTopDownCanvas();
+        switch (previousMode) {
+            case DEFAULT -> {
+                sideOnCanvas.widthProperty().removeListener(defaultListener);
+                sideOnCanvas.heightProperty().removeListener(defaultListener);
+            }
+            case RUNWAY -> {
+                sideOnCanvas.widthProperty().removeListener(runwayListener);
+                sideOnCanvas.heightProperty().removeListener(runwayListener);
+            }
+            case REDECLAREDRUNWAY -> {
+                sideOnCanvas.widthProperty().removeListener(redeclaredRunwayListener);
+                sideOnCanvas.heightProperty().removeListener(redeclaredRunwayListener);
+            }
+        }
+
+        switch (newMode) {
+            case DEFAULT -> {
+                sideOnCanvas.widthProperty().addListener(defaultListener);
+                sideOnCanvas.heightProperty().addListener(defaultListener);
+                drawTopDown(topDowncanvas);
+            }
+            case RUNWAY -> {
+                sideOnCanvas.widthProperty().addListener(runwayListener);
+                sideOnCanvas.heightProperty().addListener(runwayListener);
+                drawRunway(topDowncanvas);
+            }
+            case REDECLAREDRUNWAY -> {
+                sideOnCanvas.widthProperty().addListener(redeclaredRunwayListener);
+                sideOnCanvas.heightProperty().addListener(redeclaredRunwayListener);
+                drawRedeclaredRunway(topDowncanvas);
+            }
+        }
+        previousMode = newMode;
     }
 
     //just examples how the resizing can be done, can be removed
@@ -64,6 +109,7 @@ public class CenterScreenController {
             rDegree = runway.getRightRunway().getDegree();
         }
         GraphicsContext gc = canvas.getGraphicsContext2D();
+
         // i think i need to add height scale too
        // Double scale = (canvas.getWidth() *3.26/100 );
         // background
@@ -124,14 +170,16 @@ public class CenterScreenController {
     }
 
     public void drawRunway(Canvas canvas){
-
         int width = (int) canvas.getWidth();
         int height = (int) canvas.getHeight();
+        System.out.println(width);
+        System.out.println(height);
         this.runway= Model.currentRunway;
         int lDegree = runway.getLeftRunway().getDegree();
         int rDegree = runway.getRightRunway().getDegree();
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
+
         // i think i need to add height scale too
         Double scale = (canvas.getWidth() *3.26/100 );
         // background
@@ -185,6 +233,7 @@ public class CenterScreenController {
         int width = (int) canvas.getWidth();
         int height = (int) canvas.getHeight();
         GraphicsContext gc = canvas.getGraphicsContext2D();
+
 
         LogicalRunWay leftRunway = runway.getLeftRunway();
         LogicalRunWay RightRunway = runway.getRightRunway();
