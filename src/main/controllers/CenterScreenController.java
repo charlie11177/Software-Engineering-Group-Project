@@ -1,5 +1,7 @@
 package main.controllers;
 
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -15,6 +17,16 @@ public class CenterScreenController {
     public Pane sideOnPane;
     public Canvas topDowncanvas;
     public Canvas sideOnCanvas;
+    private InvalidationListener widthListener1 = new InvalidationListener() {
+        public void invalidated(Observable observable) {
+            drawTopDown(topDowncanvas);
+        }
+    };
+    private InvalidationListener heightListener1 = new InvalidationListener() {
+        public void invalidated(Observable observable) {
+            drawTopDown(topDowncanvas);
+        }
+    };
 
     @FXML
     private void initialize(){
@@ -27,8 +39,8 @@ public class CenterScreenController {
         topDownPane.getChildren().add(topDowncanvas);
         topDowncanvas.widthProperty().bind(topDownPane.widthProperty());
         topDowncanvas.heightProperty().bind(topDownPane.heightProperty());
-        topDowncanvas.widthProperty().addListener(event -> drawTopDown(topDowncanvas));
-        topDowncanvas.heightProperty().addListener(event -> drawTopDown(topDowncanvas));
+        topDowncanvas.widthProperty().addListener(widthListener1);
+        topDowncanvas.heightProperty().addListener(heightListener1);
 
         //makes resizing work
         sideOnPane.getChildren().add(sideOnCanvas);

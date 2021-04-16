@@ -1,9 +1,5 @@
 package main.model;
 
-import main.controllers.AlertController;
-
-import java.util.ArrayList;
-
 public class Calculator {
     private static PhysicalRunWay physicalRunway;
     private static Obstacle obstacle;
@@ -27,10 +23,13 @@ public class Calculator {
                     output.setRunwayRight(recalculateTOWARDS(physicalRunway.getRightRunway(), obstacle.getPosition().getDistanceToRight()));
                 }
             }else {
-                AlertController.showWarningAlert("No object has been placed on the runway!");
+                System.err.println("No object has been placed on the runway");
+                //AlertController.showWarningAlert("No object has been placed on the runway!","Please choose an obstacle in the left menu and place it on the runway");
             }
         }else{
-            AlertController.showWarningAlert("No runway has been selected!");
+            System.err.println("No runway has been selected");
+
+            //AlertController.showWarningAlert("No runway has been selected!","");
         }
         return output;
     }

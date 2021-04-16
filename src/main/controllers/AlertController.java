@@ -1,31 +1,31 @@
 package main.controllers;
 
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Window;
 
-import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class AlertController {
 
-    public static void showWarningAlert(String message){
+    public static void showWarningAlert(String headerText, String contextText){
         Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setHeaderText(message);
+        alert.setHeaderText(headerText);
+        alert.setContentText(contextText);
         alert.showAndWait();
     }
 
-    public static void showInfoAlert(String message){
+    public static void showInfoAlert(String headerText, String contextText) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setHeaderText(message);
+        alert.setHeaderText(headerText);
+        alert.setContentText(contextText);
         alert.showAndWait();
     }
 
-    public static void showErrorAlert(String message) {
+    public static void showErrorAlert(String headerText, String contextText) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setHeaderText(message);
+        alert.setHeaderText(headerText);
+        alert.setContentText(contextText);
         alert.showAndWait();
     }
 

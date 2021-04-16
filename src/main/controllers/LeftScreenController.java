@@ -51,13 +51,13 @@ public class LeftScreenController {
             return;
         }
         if(Model.currentAirport == null){
-            AlertController.showWarningAlert("No airport specified !");
+            AlertController.showWarningAlert("No airport specified !","Make sure that you've selected airport, runway and obstacle from the left menu to perform calculations");
         } else if (Model.currentRunway == null) {
-            AlertController.showWarningAlert("No runway specified !");
+            AlertController.showWarningAlert("No runway specified !","Make sure that you've selected airport, runway and obstacle from the left menu to perform calculations");
         } else if (Model.currentObstacle == null) {
-            AlertController.showWarningAlert("No obstacle specified !");
+            AlertController.showWarningAlert("No obstacle specified !","Make sure that you've selected airport, runway and obstacle from the left menu to perform calculations");
         } else if (!Model.obstaclePlaced) {
-            AlertController.showWarningAlert("No obstacle has been placed on the runway!");
+            AlertController.showWarningAlert("No obstacle has been placed on the runway!","Make sure that you've placed an obstacle on the runway");
         } else {
             Model.console.addLog("Calculate button clicked!");
             Model.currentRunway.setObstacle(Model.currentObstacle);
