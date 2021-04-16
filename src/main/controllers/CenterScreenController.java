@@ -24,9 +24,10 @@ public class CenterScreenController {
     public PhysicalRunWay runway;
     private final int ARR_SIZE = 5;
     private TopDownView previousMode;
-    private final InvalidationListener defaultListener = (obs) -> drawTopDown(topDowncanvas);;
-    private final InvalidationListener runwayListener = (obs) -> drawRunway(topDowncanvas);;
-    private final InvalidationListener redeclaredRunwayListener = (obs) -> drawRedeclaredRunway(topDowncanvas);;
+
+    private final InvalidationListener defaultListener = (obs) -> drawTopDown(topDowncanvas);
+    private final InvalidationListener runwayListener = (obs) -> drawRunway(topDowncanvas);
+    private final InvalidationListener redeclaredRunwayListener = (obs) -> drawRedeclaredRunway(topDowncanvas);
 
     @FXML
     private void initialize(){
@@ -36,7 +37,6 @@ public class CenterScreenController {
         setupSideOnCanvas();
         previousMode = TopDownView.DEFAULT;
         updateVisualisation(TopDownView.DEFAULT);
-       // drawTopDown(topDowncanvas);
     }
 
     private void setupTopDownCanvas(){
@@ -61,37 +61,37 @@ public class CenterScreenController {
     }
 
     public void updateVisualisation(TopDownView newMode) {
-        //topDownPane.getChildren().remove(topDowncanvas);
-        //setupTopDownCanvas();
+        topDownPane.getChildren().remove(topDowncanvas);
+        setupTopDownCanvas();
         switch (previousMode) {
             case DEFAULT -> {
-                sideOnCanvas.widthProperty().removeListener(defaultListener);
-                sideOnCanvas.heightProperty().removeListener(defaultListener);
+                topDowncanvas.widthProperty().removeListener(defaultListener);
+                topDowncanvas.heightProperty().removeListener(defaultListener);
             }
             case RUNWAY -> {
-                sideOnCanvas.widthProperty().removeListener(runwayListener);
-                sideOnCanvas.heightProperty().removeListener(runwayListener);
+                topDowncanvas.widthProperty().removeListener(runwayListener);
+                topDowncanvas.heightProperty().removeListener(runwayListener);
             }
             case REDECLAREDRUNWAY -> {
-                sideOnCanvas.widthProperty().removeListener(redeclaredRunwayListener);
-                sideOnCanvas.heightProperty().removeListener(redeclaredRunwayListener);
+                topDowncanvas.widthProperty().removeListener(redeclaredRunwayListener);
+                topDowncanvas.heightProperty().removeListener(redeclaredRunwayListener);
             }
         }
 
         switch (newMode) {
             case DEFAULT -> {
-                sideOnCanvas.widthProperty().addListener(defaultListener);
-                sideOnCanvas.heightProperty().addListener(defaultListener);
+                topDowncanvas.widthProperty().addListener(defaultListener);
+                topDowncanvas.heightProperty().addListener(defaultListener);
                 drawTopDown(topDowncanvas);
             }
             case RUNWAY -> {
-                sideOnCanvas.widthProperty().addListener(runwayListener);
-                sideOnCanvas.heightProperty().addListener(runwayListener);
+                topDowncanvas.widthProperty().addListener(runwayListener);
+                topDowncanvas.heightProperty().addListener(runwayListener);
                 drawRunway(topDowncanvas);
             }
             case REDECLAREDRUNWAY -> {
-                sideOnCanvas.widthProperty().addListener(redeclaredRunwayListener);
-                sideOnCanvas.heightProperty().addListener(redeclaredRunwayListener);
+                topDowncanvas.widthProperty().addListener(redeclaredRunwayListener);
+                topDowncanvas.heightProperty().addListener(redeclaredRunwayListener);
                 drawRedeclaredRunway(topDowncanvas);
             }
         }
