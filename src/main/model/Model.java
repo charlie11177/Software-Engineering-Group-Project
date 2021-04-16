@@ -83,6 +83,12 @@ public class Model {
         obstaclePlaced = false;
     }
 
+    public static void updateVisualisation(){
+        if (obstaclePlaced) centerScreenController.updateVisualisation(TopDownView.REDECLAREDRUNWAY);
+        else if (currentRunway != null) centerScreenController.updateVisualisation(TopDownView.RUNWAY);
+        else centerScreenController.updateVisualisation(TopDownView.DEFAULT);
+    }
+
     public static FontSize getCurrentFontSize() {
         return currentFontSize;
     }
