@@ -66,7 +66,12 @@ public class ObstacleTests extends ApplicationTest {
         Model.obstacles.clear();
     }
 
+    /**------------------------------------Integration tests------------------------------------
+     *
+     * Integration tests between ObstacleConfigController and Model
+     */
     @Test
+    @Tag("Integration_test")
     @DisplayName("Obstacle Creation test")
     public void creationTest() {
         clickOn("#obstacleConfig");
@@ -94,6 +99,7 @@ public class ObstacleTests extends ApplicationTest {
     }
 
     @Test
+    @Tag("Integration_test")
     @DisplayName("Obstacle edit test")
     public void editTest() {
         clickOn("#obstacleConfig");
@@ -111,6 +117,7 @@ public class ObstacleTests extends ApplicationTest {
     }
 
     @Test
+    @Tag("Integration_test")
     @DisplayName("Obstacle remove test")
     public void removeTest() {
         clickOn("#obstacleConfig");
@@ -123,6 +130,30 @@ public class ObstacleTests extends ApplicationTest {
         assertThat(Model.obstaclePlaced).isEqualTo(false);
     }
 
+    /**
+     * Integration test between UI controller classes and calculator
+     */
+    @Test
+    @Tag("Integration_test")
+    @DisplayName("Validation testing for placing an obstacle with correct input")
+    public void testPlacingObstacleCorrectValues() {
+        Model.currentAirport = Model.airports.get(0);
+        Model.currentRunway = Model.currentAirport.getRunways().get(0);
+        clickOn("#obstacleConfig");
+        sleep(250);
+        clickOn("#obstacleChoiceBox");
+        press(KeyCode.ENTER);
+        clickOn("#placeObstacleCB");
+        clickOn("#calculateButton");
+        Button b = lookup("#calculateButton").query();
+        assertThat(b).hasText("Edit");
+        verifyThat(lookup("#topTableView").queryAs(TableView.class), TableViewMatchers.hasNumRows(2));
+    }
+
+    /**
+     * Integration tests between ObstacleConfigController and Model
+     */
+    @Tag("Integration_test")
     @DisplayName("Validation testing for correct distances entered")
     @ParameterizedTest (name = "test {index} => value {0} textField {1} ")
     @MethodSource("correctValues")
@@ -137,20 +168,13 @@ public class ObstacleTests extends ApplicationTest {
         verifyThat(query, TextInputControlMatchers.hasText(posVal));
     }
 
-    @DisplayName("Verification testing for wrong width/height entered")
-    @ParameterizedTest (name = "test {index} => value {0} textField {1} ")
-    @MethodSource("wrongValues")
-    public void testWrongValuesEntered(String val, String query) {
-        clickOn("#obstacleConfig");
-        sleep(250);
-        clickOn("#obstacleChoiceBox");
-        press(KeyCode.ENTER);
-        clickOn("#editObstacleButton");
-        doubleClickOn(query).write(val);
-        verifyThat(query, TextInputControlMatchers.hasText(""));
-    }
 
-    @DisplayName("Validation testing for wrong width/height entered")
+    /**------------------------------------Validation test------------------------------------
+     *
+     * Validation test for correct width/height values
+     */
+    @Tag("Validation_test")
+    @DisplayName("Validation testing for correct distances entered")
     @ParameterizedTest (name = "test {index} => value {0} textField {1} ")
     @MethodSource("correctDistances")
     public void testCorrectDistancesEntered(String val, String query) {
@@ -164,6 +188,47 @@ public class ObstacleTests extends ApplicationTest {
         verifyThat(query, TextInputControlMatchers.hasText(val));
     }
 
+    /**
+     * Validation test for correct distance values
+     */
+    @Tag("Validation_test")
+    @DisplayName("Validation testing for correct width/height entered")
+    @ParameterizedTest (name = "test {index} => value {0} textField {1} ")
+    @MethodSource("correctValues")
+    public void testCorrect(String val, String query) {
+        Model.currentAirport = Model.airports.get(0);
+        Model.currentRunway = Model.currentAirport.getRunways().get(0);
+        clickOn("#obstacleConfig");
+        sleep(250);
+        clickOn("#newObstacleButton");
+        clickOn(query);
+        write(val);
+        verifyThat(query, TextInputControlMatchers.hasText(val));
+    }
+
+
+    /**------------------------------------Verification tests------------------------------------
+     *
+     * Verifications test for wrong width/height values
+     */
+    @Tag("Verification_test")
+    @DisplayName("Verification testing for wrong width/height entered")
+    @ParameterizedTest (name = "test {index} => value {0} textField {1} ")
+    @MethodSource("wrongValues")
+    public void testWrongValuesEntered(String val, String query) {
+        clickOn("#obstacleConfig");
+        sleep(250);
+        clickOn("#obstacleChoiceBox");
+        press(KeyCode.ENTER);
+        clickOn("#editObstacleButton");
+        doubleClickOn(query).write(val);
+        verifyThat(query, TextInputControlMatchers.hasText(""));
+    }
+
+    /**
+     * Verification tests for wrong distance values
+     */
+    @Tag("Verification_test")
     @DisplayName("Verification testing for wrong distances entered")
     @ParameterizedTest (name = "test {index} => value {0} textField {1} ")
     @MethodSource("wrongDistances")
@@ -180,22 +245,7 @@ public class ObstacleTests extends ApplicationTest {
     }
 
     @Test
-    @DisplayName("Validation testing for placing an obstacle with correct input")
-    public void testPlacingObstacleCorrectValues() {
-        Model.currentAirport = Model.airports.get(0);
-        Model.currentRunway = Model.currentAirport.getRunways().get(0);
-        clickOn("#obstacleConfig");
-        sleep(250);
-        clickOn("#obstacleChoiceBox");
-        press(KeyCode.ENTER);
-        clickOn("#placeObstacleCB");
-        clickOn("#calculateButton");
-        Button b = lookup("#calculateButton").query();
-        assertThat(b).hasText("Edit");
-        verifyThat(lookup("#topTableView").queryAs(TableView.class), TableViewMatchers.hasNumRows(2));
-    }
-
-    @Test
+    @Tag("Verification_test")
     @DisplayName("Verification for placing an obstacle with incorrect input")
     public void testPlacingObstaclesWrongValues() {
         Model.currentAirport = Model.airports.get(0);
@@ -211,6 +261,8 @@ public class ObstacleTests extends ApplicationTest {
         verifyThat(lookup("#topTableView").queryAs(TableView.class), TableViewMatchers.hasNumRows(0));
     }
 
+
+    //------------------------------------Helper methods------------------------------------
     @SuppressWarnings("wrongDistances")
     private static Stream wrongDistances() {
         return  Stream.of(
@@ -297,7 +349,7 @@ public class ObstacleTests extends ApplicationTest {
     }
 
     private static String randomNumber() {
-        int randomNumber = ThreadLocalRandom.current().nextInt(-10000, 10000 + 1);
+        int randomNumber = ThreadLocalRandom.current().nextInt(0, 10000 + 1);
         return String.valueOf(randomNumber);
     }
 

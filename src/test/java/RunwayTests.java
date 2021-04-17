@@ -5,10 +5,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import model.Model;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.testfx.framework.junit5.ApplicationTest;
 import org.testfx.framework.junit5.Start;
 import org.testfx.matcher.control.LabeledMatchers;
@@ -69,7 +66,13 @@ public class RunwayTests extends ApplicationTest {
         Model.obstacles.clear();
     }
 
+
+    /**------------------------------------Integration tests------------------------------------
+     *
+     * Integration tests between RunwayConfigController and Model
+     */
     @Test
+    @Tag("Integration_test")
     @DisplayName("Runway Creation test")
     public void creationTest() {
         clickOn("#runwayConfig");
@@ -96,6 +99,7 @@ public class RunwayTests extends ApplicationTest {
     }
 
     @Test
+    @Tag("Integration_test")
     @DisplayName("Runway edit test")
     public void editTest() {
         clickOn("#editRunway");
@@ -106,6 +110,12 @@ public class RunwayTests extends ApplicationTest {
         assertThat(Model.currentRunway.getRightRunway().getDegree()).isEqualTo(33);
     }
 
+
+    /**------------------------------------Boundary testing------------------------------------
+     *
+     * Boundary testing for UI degree textfield functionality
+     */
+    @Tag("Boundary_test")
     @DisplayName("Boundary checking for degree values")
     @ParameterizedTest (name = "test {index} => {0} degrees")
     @MethodSource("boundaryValues")
@@ -120,6 +130,9 @@ public class RunwayTests extends ApplicationTest {
             verifyThat("#rightDegreeLabel", LabeledMatchers.hasText(""));
     }
 
+
+    /**------------------------------------Verification testing------------------------------------*/
+    @Tag("Verification_test")
     @DisplayName("Verification testing for wrong values entered")
     @ParameterizedTest (name = "test {index} => value {0} textField {1} ")
     @MethodSource("wrongValues")
@@ -130,6 +143,8 @@ public class RunwayTests extends ApplicationTest {
         verifyThat(query, TextInputControlMatchers.hasText(""));
     }
 
+    /**------------------------------------Validation testing------------------------------------*/
+    @Tag("Validation_test")
     @DisplayName("Validation testing for correct values entered")
     @ParameterizedTest (name = "test {index} => value {0} textField {1} ")
     @MethodSource("correctValues")
@@ -140,6 +155,7 @@ public class RunwayTests extends ApplicationTest {
         verifyThat(query, TextInputControlMatchers.hasText(val));
     }
 
+    //------------------------------------Helper methods------------------------------------
     @SuppressWarnings("boundaryValues")
     private static Stream boundaryValues() {
         return  Stream.of(

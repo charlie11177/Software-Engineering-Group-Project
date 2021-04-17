@@ -6,9 +6,7 @@ import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 
 import model.Model;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.testfx.framework.junit5.ApplicationTest;
 import org.testfx.framework.junit5.Start;
 import org.testfx.util.WaitForAsyncUtils;
@@ -49,11 +47,14 @@ public class AirportTests extends ApplicationTest {
         Model.obstacles.clear();
     }
 
-    /**
-     * Tests that model gets updated when a new airport is added
+    /**------------------------------------Integration tests------------------------------------
+     *
+     * Integration testing between AirportController and Model classes
      */
+
     @Test
-    @DisplayName("Testing for model updates on airport menu")
+    @Tag("Integration_test")
+    @DisplayName("Testing: model gets updated when a new airport is added")
     public void airportCreationTest() {
         String name = "Southampton Airport";
         String code = "SOU";
@@ -93,7 +94,8 @@ public class AirportTests extends ApplicationTest {
         cleanUp();
     }
 
-    public void editAirport(String name, String code) {
+    //Helper method
+    private void editAirport(String name, String code) {
         clickOn("#editAirportButton");
 
         clickOn("#airportNameTextField");
@@ -106,6 +108,7 @@ public class AirportTests extends ApplicationTest {
         clickOn("#saveAirport");
     }
 
+    //Helper method
     private void createAirport(String name, String code) {
         clickOn("#airportConfig");
         sleep(250);
@@ -115,6 +118,7 @@ public class AirportTests extends ApplicationTest {
         clickOn("#saveAirport");
     }
 
+    //Helper method
     private void cancelAirport(String name, String code) {
         clickOn("#airportConfig");
         sleep(250);
@@ -125,6 +129,7 @@ public class AirportTests extends ApplicationTest {
     }
 
     @Test
+    @Tag("Integration_test")
     @DisplayName("Checking for airport errors when creating new airport")
     public void newAirportErrorsTest(){
         Demo.setup();
@@ -138,6 +143,7 @@ public class AirportTests extends ApplicationTest {
     }
 
     @Test
+    @Tag("Integration_test")
     @DisplayName("Testing that airport deletion works properly")
     public void deleteAirportTest(){
         Demo.setup();
@@ -151,6 +157,7 @@ public class AirportTests extends ApplicationTest {
 
 
     @Test
+    @Tag("Integration_test")
     @DisplayName("Testing model updates on checkbox changes")
     public void checkCheckBoxUpdates() {
         Demo.setup();
