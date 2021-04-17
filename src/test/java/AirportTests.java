@@ -7,6 +7,7 @@ import javafx.stage.Stage;
 
 import model.Model;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
@@ -41,6 +42,7 @@ public class AirportTests extends ApplicationTest {
         }
     }
 
+    @BeforeEach
     public void cleanUp(){
         Model.currentAirport = null;
         Model.airports.clear();
