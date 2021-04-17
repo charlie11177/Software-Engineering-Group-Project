@@ -7,9 +7,11 @@ import javafx.stage.Stage;
 
 import model.Model;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
 import org.testfx.framework.junit5.Start;
-import org.testfx.util.WaitForAsyncUtils;
 
 import static org.testfx.assertions.api.Assertions.assertThat;
 
@@ -39,6 +41,7 @@ public class AirportTests extends ApplicationTest {
         }
     }
 
+    @BeforeEach
     public void cleanUp(){
         Model.currentAirport = null;
         Model.airports.clear();
