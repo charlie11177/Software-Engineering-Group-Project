@@ -308,7 +308,7 @@ public class ObstacleConfigController {
         obstacle.setPosition(new Position(distancefromL,distanceFromR,distanceFromCL,dirFromCL));
     }
 
-    private boolean isObstacleCorrectlyPlaced(Obstacle obstacle){
+    private boolean areObstacleTexfieldsFilled(Obstacle obstacle){
 //        if(obstacle.getPosition() == null) return false;
 //        else if (obstacle.getPosition().getDistanceToLeft() == null) return false;
 //        else if (obstacle.getPosition().getDistanceToRight() == null) return false;
@@ -321,6 +321,16 @@ public class ObstacleConfigController {
         return true;
     }
 
+    private boolean isObstaclePlacementCorrectlyPlaced(){
+        int biggerTora;
+        if(Model.currentRunway.getRightRunway().getTORA() > Model.currentRunway.getLeftRunway().getTORA()) biggerTora = Model.currentRunway.getRightRunway().getTORA();
+        else biggerTora = Model.currentRunway.getLeftRunway().getTORA();
+
+        if(Model.currentObstacle.getPosition().getDistanceToLeft() + Model.currentObstacle.getPosition().getDistanceToRight() > biggerTora)
+            return false;
+        return true;
+    }
+
     @FXML
     private void placeObstacleClick() {
         saveObstacleDimensions(Model.currentObstacle);
@@ -329,8 +339,13 @@ public class ObstacleConfigController {
                 AlertController.showWarningAlert("No runway selected!","Make sure that you've selected a runway from the left menu");
                 placeObstacleCB.setSelected(false);
                 return;
-            } else if (!isObstacleCorrectlyPlaced(Model.currentObstacle)) {
+            } else if (!areObstacleTexfieldsFilled(Model.currentObstacle)) {
                 AlertController.showWarningAlert("Obstacle placement not properly specified !","Make sure that you've specified all the distances in the current menu");
+                placeObstacleCB.setSelected(false);
+                return;
+            }
+            else if (!isObstaclePlacementCorrectlyPlaced())  {
+                AlertController.showWarningAlert("Obstacle length too big !","Make sure that the length of the obstacle does not exceed TORA.");
                 placeObstacleCB.setSelected(false);
                 return;
             }
@@ -344,6 +359,7 @@ public class ObstacleConfigController {
             updateVisualisation();
         }
     }
+
 
     private void placeObstacle(){
         Model.obstaclePlaced = true;
