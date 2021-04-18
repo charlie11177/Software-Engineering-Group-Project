@@ -386,6 +386,10 @@ public class RunwayConfigController {
             AlertController.showWarningAlert("TODA Cannot be smaller than TORA","Make sure that you've specified TODA and TORA for both runways correctly");
             return null;
         }
+        if(leftAsda < leftTora || rightAsda < rightTora){
+            AlertController.showWarningAlert("ASDA Cannot be smaller than TORA","Make sure that you've specified ASDA and TORA for both runways correctly");
+            return null;
+        }
         LogicalRunWay left = new LogicalRunWay(leftDegree, leftDirection,leftTora, leftToda, leftAsda, leftLda, leftThreshold);
         LogicalRunWay right = new LogicalRunWay(rightDegree, rightDirection,rightTora, rightToda, rightAsda, rightLda, rightThreshold);
         return new Pair<>(left,right);
