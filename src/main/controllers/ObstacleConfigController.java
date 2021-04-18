@@ -56,6 +56,12 @@ public class ObstacleConfigController {
         setChoiceBoxListenerEnabled(true);
     }
 
+    public void updateVisualisation() {
+        System.out.println("Visualisation for obstacle " + Model.currentObstacle + " that is placed " + Model.obstaclePlaced);
+        //TODO: calls for visualisation methods for displaying runways can be placed here
+        // something like this: Model.CenterScreenController.draw();
+    }
+
     private void setChoiceBoxListenerEnabled(Boolean enable) {
         if (enable)
             obstacleChoiceBox.valueProperty().addListener(choiceBoxListener);
@@ -64,10 +70,6 @@ public class ObstacleConfigController {
     }
 
     private void setupTextFields(){
-        obstacleNameTF.setTextFormatter(new TextFormatter<>(change -> {
-            if (change.getText().equals(" ")) change.setText("_");
-            return change;
-        }));
         textFields.addAll(Arrays.asList(distanceFromLTF,distanceFromRTF,distanceFromCLTF));
         for(TextField t : textFields)
             t.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -104,8 +106,10 @@ public class ObstacleConfigController {
                 placeObstacleCB.setSelected(false);
                 noSelectedObstacleView();
             } else {
+                populateObstacleDetails(Model.currentObstacle);
+                populateObstacleDimensions(Model.currentObstacle.getPosition());
                 setChoiceBoxListenerEnabled(false);
-                if(Model.getObstaclePlaced()){
+                if(Model.obstaclePlaced){
                     obstacleChoiceBox.setValue(Model.currentObstacle.getName());
                     placeObstacleCB.setSelected(true);
                     placeObstacle();
@@ -126,7 +130,7 @@ public class ObstacleConfigController {
 //        Model.currentObstacle = Model.getObstacleByName(obstacleChoiceBox.getValue());
         Model.leftScreenController.calculateButton.setDisable(false);
         if(Model.currentObstacle != null){
-            if(Model.getObstaclePlaced())
+            if(Model.obstaclePlaced)
                 obstacleConfig.setText(Model.currentObstacle.getName() + ": placed");
             else
                 obstacleConfig.setText(Model.currentObstacle.getName() + ": not placed");
@@ -266,17 +270,17 @@ public class ObstacleConfigController {
     }
 
     private void populateObstacleDimensions(Position position) {
-       if(position == null) {
-           distanceFromLTF.setText("");
-           distanceFromRTF.setText("");
-           distanceFromCLTF.setText("");
-           dirFromCLChoiceBox.setValue("L");
-       } else {
-           distanceFromLTF.setText(String.valueOf(position.getDistanceToLeft()));
-           distanceFromRTF.setText(String.valueOf(position.getDistanceToRight()));
-           distanceFromCLTF.setText(String.valueOf(position.getDistanceFromCL()));
-           dirFromCLChoiceBox.setValue(position.getDirectionFromCL());
-       }
+        if(position == null) {
+            distanceFromLTF.setText("");
+            distanceFromRTF.setText("");
+            distanceFromCLTF.setText("");
+            dirFromCLChoiceBox.setValue("L");
+        } else {
+            distanceFromLTF.setText(String.valueOf(position.getDistanceToLeft()));
+            distanceFromRTF.setText(String.valueOf(position.getDistanceToRight()));
+            distanceFromCLTF.setText(String.valueOf(position.getDistanceFromCL()));
+            dirFromCLChoiceBox.setValue(position.getDirectionFromCL());
+        }
     }
 
     public void saveObstacleDimensions(Obstacle obstacle)  {
@@ -304,12 +308,26 @@ public class ObstacleConfigController {
         obstacle.setPosition(new Position(distancefromL,distanceFromR,distanceFromCL,dirFromCL));
     }
 
-    private boolean isObstacleCorrectlyPlaced(Obstacle obstacle){
-        if(obstacle.getPosition() == null) return false;
-        else if (obstacle.getPosition().getDistanceToLeft() == null) return false;
-        else if (obstacle.getPosition().getDistanceToRight() == null) return false;
-        else if (obstacle.getPosition().getDistanceFromCL() == null) return false;
-        else if (obstacle.getPosition().getDirectionFromCL() == null) return false;
+    private boolean areObstacleTexfieldsFilled(Obstacle obstacle){
+//        if(obstacle.getPosition() == null) return false;
+//        else if (obstacle.getPosition().getDistanceToLeft() == null) return false;
+//        else if (obstacle.getPosition().getDistanceToRight() == null) return false;
+//        else if (obstacle.getPosition().getDistanceFromCL() == null) return false;
+//        else if (obstacle.getPosition().getDirectionFromCL() == null) return false;
+        if(distanceFromLTF.getText().equals("") || distanceFromRTF.getText().equals("") || distanceFromCLTF.getText().equals(""))
+            return false;
+        else if(distanceFromLTF.getText().equals("-") || distanceFromRTF.getText().equals("-") || distanceFromCLTF.getText().equals("-"))
+            return false;
+        return true;
+    }
+
+    private boolean isObstaclePlacementCorrectlyPlaced(){
+        int biggerTora;
+        if(Model.currentRunway.getRightRunway().getTORA() > Model.currentRunway.getLeftRunway().getTORA()) biggerTora = Model.currentRunway.getRightRunway().getTORA();
+        else biggerTora = Model.currentRunway.getLeftRunway().getTORA();
+
+        if(Model.currentObstacle.getPosition().getDistanceToLeft() + Model.currentObstacle.getPosition().getDistanceToRight() > biggerTora)
+            return false;
         return true;
     }
 
@@ -318,26 +336,34 @@ public class ObstacleConfigController {
         saveObstacleDimensions(Model.currentObstacle);
         if (placeObstacleCB.isSelected()){
             if(Model.currentRunway == null){
-                AlertController.showWarningAlert("No runway selected!");
+                AlertController.showWarningAlert("No runway selected!","Make sure that you've selected a runway from the left menu");
                 placeObstacleCB.setSelected(false);
                 return;
-            } else if (!isObstacleCorrectlyPlaced(Model.currentObstacle)) {
-                AlertController.showWarningAlert("Obstacle placement not properly specified !");
+            } else if (!areObstacleTexfieldsFilled(Model.currentObstacle)) {
+                AlertController.showWarningAlert("Obstacle placement not properly specified !","Make sure that you've specified all the distances in the current menu");
+                placeObstacleCB.setSelected(false);
+                return;
+            }
+            else if (!isObstaclePlacementCorrectlyPlaced())  {
+                AlertController.showWarningAlert("Obstacle length too big !","Make sure that the length of the obstacle does not exceed TORA.");
                 placeObstacleCB.setSelected(false);
                 return;
             }
             Model.console.addLog("Obstacle: " + Model.currentObstacle.getName() + " was placed on runway: " + Model.currentRunway.toString());
             placeObstacle();
+            updateVisualisation();
         } else {
-            Model.setObstaclePlaced(false);
+            Model.obstaclePlaced = false;
             Model.console.addLog("Obstacle: " + Model.currentObstacle.getName() + " was removed from runway: " + Model.currentRunway.toString());
             selectedObstacleView();
+            updateVisualisation();
         }
-//        Model.updateVisualisation();
     }
 
+
     private void placeObstacle(){
-        Model.setObstaclePlaced(true);
+        Model.obstaclePlaced = true;
+        saveObstacleDimensions(Model.currentObstacle);
         placedObstacleView();
     }
 
@@ -377,7 +403,7 @@ public class ObstacleConfigController {
         Model.console.addLog("Obstacle removed: " + Model.currentObstacle.getName());
         obstacleChoiceBox.getItems().remove(Model.currentObstacle.getName());
         obstacleChoiceBox.setValue(null);
-        Model.setObstaclePlaced(false);
+        Model.obstaclePlaced = false;
         Model.currentObstacle = null;
         setChoiceBoxListenerEnabled(true);
         if (Model.obstacles.isEmpty()) noObstaclesView();
@@ -404,10 +430,10 @@ public class ObstacleConfigController {
     private void saveButtonClick() {
         String name = obstacleNameTF.getText();
         if(name.equals("") || obstacleHeightTF.getText().equals("") || (obstacleWidthTF.getText().equals(""))) {
-            AlertController.showWarningAlert("Some textfields are empty!");
+            AlertController.showWarningAlert("Some textfields are empty!","Make sure that you've specified name, width and height of the obstacle");
             return;
         } else if (nameInUse(name, edit)){
-            AlertController.showWarningAlert("Obstacle name already used");
+            AlertController.showWarningAlert("Obstacle name already used","Please select a different obstacle name");
             return;
         } else if (edit){
             saveEditedObstacle(name);
@@ -425,7 +451,7 @@ public class ObstacleConfigController {
             int width = Integer.parseInt(obstacleWidthTF.getText());
             int height = Integer.parseInt(obstacleHeightTF.getText());
             if(previousName.equals(name) && width == o.getWidth() && height == o.getHeight()) {
-                AlertController.showInfoAlert("No changes were made.");
+                AlertController.showInfoAlert("No changes were made.","The edited values are the same as the original ones.");
                 return;
             }
             setChoiceBoxListenerEnabled(false);
