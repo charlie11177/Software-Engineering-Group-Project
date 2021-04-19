@@ -134,6 +134,22 @@ public class CalculatorTest {
 //        Assert.assertEquals(0);
 //    }
 
+//    @Test
+//    test method for almost covered runway of obstacle
+//    public void noChange(){
+//
+//        Assert.assertEquals(0);
+//    }
+
+
+//    @Test
+//    test method for overlapping distance arrows for lengths (from both ends)
+//    public void noChange(){
+//
+//        Assert.assertEquals(0);
+//    }
+
+
 //    @Before
 //    public void setUp(){
 //        output = null;
