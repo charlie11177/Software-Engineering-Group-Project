@@ -1,3 +1,21 @@
-# This file is a template, and might need editing before it works on your project.
-include:
-  template: Jobs/Code-Quality.gitlab-ci.yml
+stages:
+  - build
+  - deploy
+
+build:
+  stage: build
+  scripts:
+    - mvn install -B
+    - cat target/site/jacoco/index.html
+  image: kaiwinter/docker-java8-maven
+
+test:
+  stage: deploy
+  scripts:
+    - mvn install -B
+    - cat target/site/jacoco/index.html
+    # - maven test (whatever)
+    - gitlab-api-code-coverage-thing
+  dependencies:
+    - build
+  image: "kaiwinter/docker-java8-maven"
