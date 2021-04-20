@@ -67,7 +67,10 @@ public class CenterScreenController {
         switch (topDownViewMode) {
             case DEFAULT -> drawTopDown(topDowncanvas);
             case RUNWAY -> drawRunway(topDowncanvas);
-            case REDECLAREDRUNWAY -> drawRedeclaredRunway(topDowncanvas);
+            //TODO: when an obstacle is placed, the calculations are not shown, only the placed obstacle in the correct position
+            case REDECLAREDRUNWAY -> drawRedeclaredRunway(topDowncanvas); 
+            //TODO: there should be a mode when a calculate button is clicked, showing the arrows and the calculated values
+            case CALCULATIONS_RUNWAY -> drawRedeclaredRunway(topDowncanvas);
         }
     }
 

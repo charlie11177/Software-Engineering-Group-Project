@@ -96,7 +96,8 @@ public class Model {
     }
 
     public static void updateVisualisation(){
-        if (obstaclePlaced) centerScreenController.updateVisualisation(TopDownView.REDECLAREDRUNWAY);
+        if (!leftScreenController.calculateAllowed) centerScreenController.updateVisualisation(TopDownView.CALCULATIONS_RUNWAY);
+        else if (obstaclePlaced) centerScreenController.updateVisualisation(TopDownView.REDECLAREDRUNWAY);
         else if (currentRunway != null) centerScreenController.updateVisualisation(TopDownView.RUNWAY);
         else centerScreenController.updateVisualisation(TopDownView.DEFAULT);
     }
