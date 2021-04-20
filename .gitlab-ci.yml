@@ -6,7 +6,7 @@ build:
   stage: build
   script:
     - mvn install -B
-    - cat target/site/jacoco/index.html
+    - mvn build --tag my_local_maven:3.5.2-jdk-8
   image: kaiwinter/docker-java8-maven
 
 test:
