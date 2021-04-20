@@ -150,6 +150,15 @@ public class CalculatorTest {
 //    }
 
 
+
+//    @Test
+//    test method for outside tall obstacle
+//    public void noChange(){
+//
+//        Assert.assertEquals(0);
+//    }
+
+
 //    @Before
 //    public void setUp(){
 //        output = null;
