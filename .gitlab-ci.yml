@@ -4,14 +4,14 @@ stages:
 
 build:
   stage: build
-  scripts:
+  script:
     - mvn install -B
     - cat target/site/jacoco/index.html
   image: kaiwinter/docker-java8-maven
 
 test:
   stage: deploy
-  scripts:
+  script:
     - mvn install -B
     - cat target/site/jacoco/index.html
     # - maven test (whatever)
