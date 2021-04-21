@@ -21,6 +21,7 @@ import org.testfx.util.WaitForAsyncUtils;
 import static org.testfx.assertions.api.Assertions.assertThat;
 
 import java.io.File;
+import java.net.Socket;
 import java.net.URL;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
@@ -32,7 +33,6 @@ import org.testfx.util.WaitForAsyncUtils;
 
 @ExtendWith(ApplicationExtension.class)
 public class ScenarioTests {
-
     private Scene scene;
 
     @Start
@@ -101,6 +101,7 @@ public class ScenarioTests {
         robot.clickOn("#airportConfig");
         // Wait for pane to be expanded
         WaitForAsyncUtils.waitForFxEvents();
+        robot.sleep(250);
         robot.clickOn("#airportChoiceBox");
         robot.press(KeyCode.ENTER).release(KeyCode.ENTER);
         robot.clickOn("#runwayConfig");
