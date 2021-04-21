@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="rightScreen" alignment="CENTER" minWidth="200.0" prefHeight="1055.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.RightScreenController">
+<VBox fx:id="rightScreen" alignment="CENTER" minWidth="200.0" prefHeight="1055.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.RightScreenController">
    <children>
       <Label fx:id="originalValuesLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" text="Original values">
          <font>
