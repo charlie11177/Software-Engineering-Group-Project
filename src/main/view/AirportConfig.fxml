@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<TitledPane fx:id="airportConfig" prefHeight="483.0" prefWidth="241.0" text="Airport" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.AirportConfigController" accessibleText="airport configuration">
+<TitledPane fx:id="airportConfig" prefHeight="483.0" prefWidth="241.0" text="Airport" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.AirportConfigController" accessibleText="airport configuration">
    <content>
       <VBox fx:id="airportRoot" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0">
          <children>
