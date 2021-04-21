@@ -6,7 +6,7 @@ build:
   stage: build
   script:
     - mvn install -B
-    - docker build --tag my_local_maven:3.5.2-jdk-8
+    - mvn build --tag my_local_maven:3.5.2-jdk-8
   image: kaiwinter/docker-java8-maven
 
 test:
