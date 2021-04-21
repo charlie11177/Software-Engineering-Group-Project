@@ -12,6 +12,7 @@ public class LogicalRunWay {
     private int clearway;
     private int stopway;
     private String name;
+    private int TOCS_ALS;
 
     public LogicalRunWay(int degree, Direction direction, int TORA, int TODA, int ASDA, int LDA, int threshold){
         this.degree = degree;
@@ -24,6 +25,11 @@ public class LogicalRunWay {
         this.clearway = TODA - TORA;
         this.stopway = ASDA - TORA;
         this.name = degree + direction.toString();
+    }
+
+    public LogicalRunWay(int degree, Direction direction, int TORA, int TODA, int ASDA, int LDA, int threshold, int TOCS_ALS) {
+        this(degree, direction, TORA, TODA, ASDA, LDA, threshold);
+        this.TOCS_ALS = TOCS_ALS;
     }
 
     @Override
