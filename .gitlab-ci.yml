@@ -1,21 +1,26 @@
-stages:
-  - build
-  - deploy
+# stages:
+#   - build
+#   - deploy
 
-build:
-  stage: build
-  script:
-    - mvn install -B
-    - mvn build --tag my_local_maven:3.5.2-jdk-8
-  image: kaiwinter/docker-java8-maven
+# build:
+#   stage: build
+#   script:
+#     - mvn install -B
+#     - mvn build --tag my_local_maven:3.5.2-jdk-8
+#   image: kaiwinter/docker-java8-maven
 
-test:
-  stage: deploy
-  script:
-    - mvn install -B
-    - cat target/site/jacoco/index.html
-    # - maven test (whatever)
-    - gitlab-api-code-coverage-thing
-  dependencies:
-    - build
-  image: "kaiwinter/docker-java8-maven"
+# test:
+#   stage: deploy
+#   script:
+#     - mvn install -B
+#     - cat target/site/jacoco/index.html
+#     # - maven test (whatever)
+#     - gitlab-api-code-coverage-thing
+#   dependencies:
+#     - build
+#   image: "kaiwinter/docker-java8-maven"
+
+
+# This file is a template, and might need editing before it works on your project.
+include:
+  template: Jobs/Code-Quality.gitlab-ci.yml
