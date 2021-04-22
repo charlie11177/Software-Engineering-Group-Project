@@ -7,6 +7,7 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import model.Model;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,9 +16,11 @@ import org.testfx.api.FxRobot;
 import org.testfx.assertions.api.Assertions;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
+import org.testfx.matcher.base.NodeMatchers;
 import org.testfx.matcher.control.TableViewMatchers;
 import org.testfx.util.WaitForAsyncUtils;
 
+import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.assertions.api.Assertions.assertThat;
 
 import java.io.File;
@@ -50,7 +53,7 @@ public class ScenarioTests {
     }
 
     @BeforeEach
-    public void cleanUp(){
+    public void cleanUp() {
         Model.currentAirport = null;
         Model.airports.clear();
         Model.currentRunway = null;
@@ -140,6 +143,11 @@ public class ScenarioTests {
         robot.clickOn("#obstacleWidthTF").write("20");
         robot.clickOn("#obstacleHeightTF").write("40");
         robot.clickOn("#saveButton");
+        robot.clickOn("#distanceFromLTF").write("20");
+        robot.clickOn("#distanceFromRTF").write("1000");
+        robot.clickOn("#distanceFromCLTF").write("0");
+        robot.clickOn("#dirFromCLChoiceBox");
+        robot.press(KeyCode.ENTER).release(KeyCode.ENTER);
         robot.clickOn("#placeObstacleCB");
         robot.clickOn("#calculateButton");
 
@@ -173,7 +181,8 @@ public class ScenarioTests {
         robot.clickOn("#rightThresholdTF").write("306");
         robot.clickOn("#saveRunway");
 
-        assertThat(Model.currentRunway).isEqualTo(null);
+        verifyThat("OK", NodeMatchers.isVisible());
+        robot.press(KeyCode.ENTER).release(KeyCode.ENTER);
     }
 
 }
