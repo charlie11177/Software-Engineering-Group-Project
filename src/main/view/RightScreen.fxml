@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.collections.FXCollections?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox fx:id="rightScreen" alignment="CENTER" minWidth="200.0" prefHeight="1055.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.RightScreenController">
+   <children>
+      <Label fx:id="originalValuesLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" text="Original values">
+         <font>
+            <Font size="20.0" />
+         </font>
+         <VBox.margin>
+            <Insets bottom="3.0" />
+         </VBox.margin>
+      </Label>
+      <TableView fx:id="topTableView" fixedCellSize="0.0" prefHeight="78.0" prefWidth="286.0" stylesheets="@tableStyle.css" VBox.vgrow="NEVER" >
+         <columns>
+            <TableColumn fx:id="topNameColumn" editable="false" prefWidth="53.0" sortable="false">
+                <cellValueFactory>
+                    <PropertyValueFactory property="name" />
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn fx:id="topToraColumn" editable="false" prefWidth="41.0" sortable="false" text="TORA">
+                <cellValueFactory>
+                    <PropertyValueFactory property="TORA" />
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn fx:id="topTodaColumn" editable="false" prefWidth="46.0" sortable="false" text="TODA">
+                <cellValueFactory>
+                    <PropertyValueFactory property="TODA" />
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn fx:id="topLdaColumn" editable="false" prefWidth="46.0" sortable="false" text="LDA">
+                <cellValueFactory>
+                    <PropertyValueFactory property="LDA" />
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn fx:id="topAsdaColumn" editable="false" prefWidth="46.0" sortable="false" text="ASDA">
+                <cellValueFactory>
+                    <PropertyValueFactory property="ASDA" />
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn fx:id="topThrColumn" editable="false" prefWidth="46.0" sortable="false" text="THR">
+                <cellValueFactory>
+                    <PropertyValueFactory property="threshold" />
+                </cellValueFactory>
+            </TableColumn>
+         </columns>
+          <items>
+              <FXCollections fx:factory="observableArrayList" />
+          </items>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+      </TableView>
+      <Label fx:id="recalculatedValuesLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="21.0" prefWidth="139.0" text="Recalculated values">
+         <VBox.margin>
+            <Insets bottom="3.0" top="35.0" />
+         </VBox.margin>
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <TableView fx:id="bottomTableView" fixedCellSize="0.0" prefHeight="78.0" prefWidth="286.0" stylesheets="@tableStyle.css" VBox.vgrow="NEVER">
+         <columns>
+            <TableColumn fx:id="bottomNameColumn" editable="false" prefWidth="44.0" sortable="false">
+                <cellValueFactory>
+                    <PropertyValueFactory property="name" />
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn fx:id="bottomToraColumn" editable="false" prefWidth="50.0" sortable="false" text="TORA">
+                <cellValueFactory>
+                    <PropertyValueFactory property="TORA" />
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn fx:id="bottomTodaColumn" editable="false" prefWidth="46.0" sortable="false" text="TODA">
+                <cellValueFactory>
+                    <PropertyValueFactory property="TODA" />
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn fx:id="bottomLdaColumn" editable="false" prefWidth="46.0" sortable="false" text="LDA">
+                <cellValueFactory>
+                    <PropertyValueFactory property="LDA" />
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn fx:id="bottomAsdaColumn" editable="false" prefWidth="46.0" sortable="false" text="ASDA">
+                <cellValueFactory>
+                    <PropertyValueFactory property="ASDA" />
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn fx:id="bottomThrColumn" editable="false" prefWidth="46.0" sortable="false" text="THR">
+                <cellValueFactory>
+                    <PropertyValueFactory property="threshold" />
+                </cellValueFactory>
+            </TableColumn>
+         </columns>
+          <items>
+              <FXCollections fx:factory="observableArrayList" />
+          </items>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+      </TableView>
+      <Label fx:id="breakdownLabel" alignment="CENTER" layoutX="15.0" layoutY="161.0" maxWidth="1.7976931348623157E308" prefHeight="21.0" prefWidth="139.0" text="Calculations breakdown">
+         <font>
+            <Font size="20.0" />
+         </font>
+         <VBox.margin>
+            <Insets bottom="3.0" top="60.0" />
+         </VBox.margin>
+      </Label>
+      <TabPane prefHeight="305.0" prefWidth="265.0" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="SOMETIMES">
+         <tabs>
+            <Tab text="ALL">
+               <content>
+                  <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
+                     <items>
+                        <TextArea fx:id="allCalculationsLeftTA" editable="false" minHeight="0.0" prefHeight="200.0" prefWidth="200.0" />
+                        <TextArea fx:id="allCalculationsRightTA" editable="false" minHeight="0.0" prefHeight="62.0" prefWidth="286.0" />
+                     </items>
+                  </SplitPane>
+               </content>
+            </Tab>
+            <Tab text="TORA">
+               <content>
+                  <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
+                     <items>
+                        <TextArea fx:id="toraTopTA" editable="false" prefHeight="200.0" prefWidth="200.0" />
+                        <TextArea fx:id="toraBottomTA" editable="false" prefHeight="53.0" prefWidth="265.0" />
+                     </items>
+                  </SplitPane>
+               </content>
+            </Tab>
+            <Tab text="TODA">
+               <content>
+                  <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
+                     <items>
+                        <TextArea fx:id="todaTopTA" editable="false" prefHeight="200.0" prefWidth="200.0" />
+                        <TextArea fx:id="todaBottomTA" editable="false" prefHeight="200.0" prefWidth="200.0" />
+                     </items>
+                  </SplitPane>
+               </content>
+            </Tab>
+            <Tab text="LDA">
+               <content>
+                  <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
+                     <items>
+                        <TextArea fx:id="ldaTopTA" editable="false" prefHeight="200.0" prefWidth="200.0" />
+                        <TextArea fx:id="ldaBottomTA" editable="false" prefHeight="200.0" prefWidth="200.0" />
+                     </items>
+                  </SplitPane>
+               </content>
+            </Tab>
+            <Tab text="ASDA">
+               <content>
+                  <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
+                     <items>
+                        <TextArea fx:id="asdaTopTA" editable="false" prefHeight="200.0" prefWidth="200.0" />
+                        <TextArea fx:id="asdaBottomTA" editable="false" prefHeight="200.0" prefWidth="200.0" />
+                     </items>
+                  </SplitPane>
+               </content>
+            </Tab>
+         </tabs>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+      </TabPane>
+   </children>
+   <padding>
+      <Insets bottom="10.0" left="5.0" right="5.0" top="5.0" />
+   </padding>
+</VBox>
