@@ -85,7 +85,6 @@ public class ScenarioTests {
         robot.clickOn("#saveButton");
         robot.clickOn("#placeObstacleCB");
         robot.clickOn("#calculateButton");
-        // Not sure what the assertion should be, but it it gets here successfully it should pass anyway
         assertThat(Model.currentObstacle.getName()).isEqualTo("Engine");
     }
 
@@ -101,7 +100,6 @@ public class ScenarioTests {
         robot.clickOn("#airportConfig");
         // Wait for pane to be expanded
         WaitForAsyncUtils.waitForFxEvents();
-        robot.sleep(250);
         robot.clickOn("#airportChoiceBox");
         robot.press(KeyCode.ENTER).release(KeyCode.ENTER);
         robot.clickOn("#runwayConfig");

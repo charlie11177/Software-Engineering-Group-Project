@@ -131,9 +131,9 @@ public class RunwayTests extends ApplicationTest {
     }
 
 
-    /**------------------------------------Verification testing------------------------------------*/
-    @Tag("Verification_test")
-    @DisplayName("Verification testing for wrong values entered")
+    /**------------------------------------Unit testing------------------------------------*/
+    @Tag("Unit_test")
+    @DisplayName("Unit testing for wrong values entered")
     @ParameterizedTest (name = "test {index} => value {0} textField {1} ")
     @MethodSource("wrongValues")
     public void testWrongValuesEntered(String val, String query) {
@@ -143,9 +143,9 @@ public class RunwayTests extends ApplicationTest {
         verifyThat(query, TextInputControlMatchers.hasText(""));
     }
 
-    /**------------------------------------Validation testing------------------------------------*/
-    @Tag("Validation_test")
-    @DisplayName("Validation testing for correct values entered")
+
+    @Tag("Unit_test")
+    @DisplayName("Unit testing for correct values entered")
     @ParameterizedTest (name = "test {index} => value {0} textField {1} ")
     @MethodSource("correctValues")
     public void testCorrectValuesEntered(String val, String query) {
@@ -159,15 +159,15 @@ public class RunwayTests extends ApplicationTest {
     @SuppressWarnings("boundaryValues")
     private static Stream boundaryValues() {
         return  Stream.of(
-                Arguments.of("-36"),
-                Arguments.of("-19"),
-                Arguments.of("-18"),
-                Arguments.of("-1"),
+                Arguments.of("-36"),    // since texfields ignore "-" testing for a value 36 (too high)
+                Arguments.of("-19"),    // since texfields ignore "-" testing for a value 19 (one higher than allowed)
+                Arguments.of("-18"),    // since texfields ignore "-" testing for a value 18 (maximum allowed value)
+                Arguments.of("-1"),     // since texfields ignore "-" testing for a value 1
                 Arguments.of("0"),
                 Arguments.of("1"),
-                Arguments.of("18"),
-                Arguments.of("19"),
-                Arguments.of("36"));
+                Arguments.of("18"),     // testing for a value 18 (maximum allowed value)
+                Arguments.of("19"),     // testing for a value 19 (one higher than allowed)
+                Arguments.of("36"));    // testing for a value 36 (too high)
     }
 
     @SuppressWarnings("wrongValues")

@@ -150,31 +150,15 @@ public class ObstacleTests extends ApplicationTest {
         verifyThat(lookup("#topTableView").queryAs(TableView.class), TableViewMatchers.hasNumRows(2));
     }
 
-    /**
-     * Integration tests between ObstacleConfigController and Model
-     */
-    @Tag("Integration_test")
-    @DisplayName("Validation testing for correct distances entered")
-    @ParameterizedTest (name = "test {index} => value {0} textField {1} ")
-    @MethodSource("correctValues")
-    public void testCorrectValuesEntered(String val, String query) {
-        clickOn("#obstacleConfig");
-        sleep(250);
-        clickOn("#obstacleChoiceBox");
-        press(KeyCode.ENTER);
-        clickOn("#editObstacleButton");
-        doubleClickOn(query).write(val);
-        String posVal = String.valueOf(Math.abs(Integer.parseInt(val)));
-        verifyThat(query, TextInputControlMatchers.hasText(posVal));
-    }
 
 
-    /**------------------------------------Validation test------------------------------------
+
+    /**------------------------------------Unit tests------------------------------------
      *
-     * Validation test for correct width/height values
+     * Unit test for correct width/height values
      */
-    @Tag("Validation_test")
-    @DisplayName("Validation testing for correct distances entered")
+    @Tag("Unit_test")
+    @DisplayName("Unit testing for correct distances entered")
     @ParameterizedTest (name = "test {index} => value {0} textField {1} ")
     @MethodSource("correctDistances")
     public void testCorrectDistancesEntered(String val, String query) {
@@ -189,10 +173,10 @@ public class ObstacleTests extends ApplicationTest {
     }
 
     /**
-     * Validation test for correct distance values
+     * Unit test for correct distance values
      */
-    @Tag("Validation_test")
-    @DisplayName("Validation testing for correct width/height entered")
+    @Tag("Unit_test")
+    @DisplayName("Unit testing for correct width/height entered")
     @ParameterizedTest (name = "test {index} => value {0} textField {1} ")
     @MethodSource("correctValues")
     public void testCorrect(String val, String query) {
@@ -207,12 +191,11 @@ public class ObstacleTests extends ApplicationTest {
     }
 
 
-    /**------------------------------------Verification tests------------------------------------
-     *
-     * Verifications test for wrong width/height values
+     /**
+     * Unit test for wrong width/height values
      */
-    @Tag("Verification_test")
-    @DisplayName("Verification testing for wrong width/height entered")
+    @Tag("Unit_test")
+    @DisplayName("Unit testing for wrong width/height entered")
     @ParameterizedTest (name = "test {index} => value {0} textField {1} ")
     @MethodSource("wrongValues")
     public void testWrongValuesEntered(String val, String query) {
@@ -226,10 +209,10 @@ public class ObstacleTests extends ApplicationTest {
     }
 
     /**
-     * Verification tests for wrong distance values
+     * Unit tests for wrong distance values
      */
-    @Tag("Verification_test")
-    @DisplayName("Verification testing for wrong distances entered")
+    @Tag("Unit_test")
+    @DisplayName("Unit testing for wrong distances entered")
     @ParameterizedTest (name = "test {index} => value {0} textField {1} ")
     @MethodSource("wrongDistances")
     public void testWrongDistancesEntered(String val, String query) {
@@ -245,8 +228,8 @@ public class ObstacleTests extends ApplicationTest {
     }
 
     @Test
-    @Tag("Verification_test")
-    @DisplayName("Verification for placing an obstacle with incorrect input")
+    @Tag("Unit_test")
+    @DisplayName("Unit for placing an obstacle with incorrect input")
     public void testPlacingObstaclesWrongValues() {
         Model.currentAirport = Model.airports.get(0);
         Model.currentRunway = Model.currentAirport.getRunways().get(0);
@@ -259,6 +242,21 @@ public class ObstacleTests extends ApplicationTest {
         Button b = lookup("#calculateButton").query();
         assertThat(b).doesNotHaveText("Edit");
         verifyThat(lookup("#topTableView").queryAs(TableView.class), TableViewMatchers.hasNumRows(0));
+    }
+
+    @Tag("Unit_test")
+    @DisplayName("Unit testing for correct distances entered")
+    @ParameterizedTest (name = "test {index} => value {0} textField {1} ")
+    @MethodSource("correctValues")
+    public void testCorrectValuesEntered(String val, String query) {
+        clickOn("#obstacleConfig");
+        sleep(250);
+        clickOn("#obstacleChoiceBox");
+        press(KeyCode.ENTER);
+        clickOn("#editObstacleButton");
+        doubleClickOn(query).write(val);
+        String posVal = String.valueOf(Math.abs(Integer.parseInt(val)));
+        verifyThat(query, TextInputControlMatchers.hasText(posVal));
     }
 
 
