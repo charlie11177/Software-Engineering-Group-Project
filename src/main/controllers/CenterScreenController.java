@@ -41,7 +41,7 @@ public class CenterScreenController {
         Model.centerScreenController = this;
         Model.console.update();
         setupTopDownCanvas();
-        setupSideOnCanvas();
+        drawSideOn(sideOnCanvas);
         topDownViewMode = TopDownView.DEFAULT;
     }
 
@@ -76,6 +76,7 @@ public class CenterScreenController {
         topDownViewMode = mode;
         topDownPane.getChildren().remove(topDowncanvas);
         setupTopDownCanvas();
+        drawSideOn(sideOnCanvas);
         draw();
     }
 

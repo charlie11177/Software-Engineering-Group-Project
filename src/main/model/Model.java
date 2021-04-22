@@ -29,7 +29,7 @@ public class Model {
     public static Airport currentAirport;   // selected airport, can be null if none is chosen
     public static PhysicalRunWay currentRunway; // selected runway, can be null if none is chosen
     public static Obstacle currentObstacle; // selected obstacle, can be null if none is chosen
-    private static boolean obstaclePlaced = false;   // true, if user chose to place an obstacle on the selected runway
+    public static boolean obstaclePlaced = false;   // true, if user chose to place an obstacle on the selected runway
 
     public static String calculationsBreakdownLeft;
     public static String calculationsBreakDownRight;
