@@ -32,7 +32,13 @@ cache:
     - .m2/
 
 before_script:
-  - dpkg
+  - dpkg --add-architecture armhf
+  - apt update
+  - apt install libx11-6:armhf
+
+  - apt-get install libxft2:armhf
+  - apt-get install libasound2:armhf
+  
   - echo '<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                     xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
