@@ -64,25 +64,25 @@ deploy:jdk8:
 
 
 
-# stages:
-#   - build
-#   - deploy
+stages:
+   - build
+   - test
 
-# build:
-#   stage: build
-#   script:
-#     - mvn install -B
-#     - mvn build --tag my_local_maven:3.5.2-jdk-8
+build:
+  stage: build
+  script:
+    - mvn install -B
+    - mvn build --tag my_local_maven:3.5.2-jdk-8
 # image: maven:3.3.9-jdk-8
 
-# test:
-#   stage: deploy
-#   script:
-#     - mvn install -B
-#     - cat target/site/jacoco/index.html
-#     # - maven test (whatever)
-#     - gitlab-api-code-coverage-thing
-#   dependencies:
-#     - build
-#   image: "kaiwinter/docker-java8-maven"
+test:
+  stage: deploy
+  script:
+    - mvn install -B
+    - cat target/site/jacoco/index.html
+    # - maven test (whatever)
+    - gitlab-api-code-coverage-thing
+  dependencies:
+    - build
+  image: "kaiwinter/docker-java8-maven"
 
