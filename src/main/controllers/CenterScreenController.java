@@ -3,6 +3,7 @@ package main.controllers;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -24,6 +25,7 @@ public class CenterScreenController {
     public PhysicalRunWay runway;
     private final int ARR_SIZE = 5;
     private TopDownView viewMode;
+    public Slider zoomSlider;
 
     @FXML
     private void initialize(){

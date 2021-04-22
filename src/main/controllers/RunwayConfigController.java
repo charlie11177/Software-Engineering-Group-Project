@@ -43,6 +43,7 @@ public class RunwayConfigController {
     @FXML private TextField leftThresholdTF;
     @FXML private TextField rightThresholdTF;
     @FXML private Button removeRunway;
+    @FXML private Label thresholdLabel, asdaLabel, toraLabel, todaLabel, ldaLabel, runway1Label, runway2Label;
     public VBox runwayRoot;
 
     public RunwayConfigController(){
@@ -58,6 +59,13 @@ public class RunwayConfigController {
         runwayConfig.expandedProperty().addListener((observable, oldValue, newValue) -> update(newValue));
         choiceBoxListener = (observable, oldValue, newValue) -> choiceBoxUpdater(newValue);
         setChoiceBoxListenerEnabled(true);
+        thresholdLabel.setTooltip(new Tooltip("Value of the runway threshold in meters"));
+        asdaLabel.setTooltip(new Tooltip("Value of the Accelerate-Stop Distance Available in meters"));
+        toraLabel.setTooltip(new Tooltip("Value of the Take-Off Run Available in meters"));
+        todaLabel.setTooltip(new Tooltip("Value of the Take-Off Distance Available in meters"));
+        ldaLabel.setTooltip(new Tooltip("Value of the Landing Distance Available in meters"));
+        runway1Label.setTooltip(new Tooltip("Parameters for the runway with a lower degree (0-18)"));
+        runway2Label.setTooltip(new Tooltip("Parameters for the runway with a higher degree (18-36)"));
 //        runwayChoiceBox.valueProperty().addListener((observable, oldValue, newValue) -> choiceBoxUpdater(newValue));
     }
 
