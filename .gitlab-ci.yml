@@ -61,8 +61,6 @@ deploy:jdk8:
     variables:
       - $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
 
-job1:
-  script: "mvn package"
 # stages:
 #   - build
 #   - deploy
