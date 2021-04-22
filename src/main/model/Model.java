@@ -64,6 +64,8 @@ public class Model {
 
     public static void setCurrentRunway(PhysicalRunWay runway) {
         Model.currentRunway = runway;
+        Model.originalRunwayLeft = runway.getLeftRunway();
+        Model.originalRunwayRight = runway.getRightRunway();
         Model.obstaclePlaced = false;
         updateVisualisation();
     }
