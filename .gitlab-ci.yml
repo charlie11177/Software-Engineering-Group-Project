@@ -23,9 +23,24 @@ image: maven:3.8.1-openjdk-15
 
 # # Cache downloaded dependencies and plugins between builds.
 # # To keep cache across branches add 'key: "$CI_JOB_NAME"'
+# cache:
+#   paths:
+#     - .m2/repository
+
 cache:
   paths:
-    - .m2/repository
+    - .m2/
+
+before_script:
+  - echo '<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+                            https://maven.apache.org/xsd/settings-1.0.0.xsd">
+                <localRepository>'$PWD'.m2</localRepository>
+          </settings>' > $HOME/.m2/settings.xml
+
+
+
 
 # For merge requests do not `deploy` but only run `verify`.
 # See https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html
