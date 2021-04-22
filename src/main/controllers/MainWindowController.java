@@ -274,7 +274,7 @@ public class MainWindowController {
         Model.rightScreenController.recalculatedValuesLabel.setFont(Font.font(22.5));
         Model.rightScreenController.breakdownLabel.setFont(Font.font(22.5));
         if(App.stage.getHeight() < 882) App.stage.setHeight(882);
-        App.stage.setMinHeight(820);
+        App.stage.setMinHeight(882);
         Model.console.addLog("Fontsize set to: Large");
     }
 }

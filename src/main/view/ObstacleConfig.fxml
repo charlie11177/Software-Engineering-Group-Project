@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<TitledPane fx:id="obstacleConfig" accessibleText="obstacle configuration" prefHeight="552.0" prefWidth="241.0" text="Obstacle" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ObstacleConfigController">
+<TitledPane fx:id="obstacleConfig" accessibleText="obstacle configuration" prefHeight="552.0" prefWidth="241.0" text="Obstacle" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ObstacleConfigController">
    <content>
       <VBox fx:id="obstacleRoot" alignment="TOP_CENTER" prefHeight="570.0" prefWidth="337.0">
          <children>
@@ -79,33 +79,33 @@
             </VBox>
             <Separator fx:id="separator" prefWidth="178.0">
                <VBox.margin>
-                  <Insets bottom="37.0" top="5.0" />
+                  <Insets bottom="12.0" top="5.0" />
                </VBox.margin>
             </Separator>
             <VBox fx:id="distancesEditorVbox" spacing="7.0">
                <children>
-                  <HBox fx:id="hbox1" alignment="CENTER" prefHeight="25.0" prefWidth="178.0" spacing="4.0">
+                  <HBox fx:id="hbox1" alignment="CENTER" prefHeight="45.0" prefWidth="178.0" spacing="4.0">
                      <children>
-                        <Label fx:id="leftDistanceLabel" accessibleText="Distance from left line" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" prefWidth="130.0" text="Distance from L" />
-                        <TextField fx:id="distanceFromLTF" accessibleText="left distance field" prefHeight="25.0" prefWidth="67.0" promptText="meters" />
+                        <Label fx:id="leftDistanceLabel" accessibleText="Distance from left line" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="45.0" prefWidth="130.0" text="Distance from " />
+                        <TextField fx:id="distanceFromLTF" accessibleText="left distance field" prefHeight="25.0" prefWidth="75.0" promptText="meters" />
                      </children>
                   </HBox>
-                  <HBox fx:id="hbox2" alignment="CENTER" prefHeight="25.0" prefWidth="178.0" spacing="4.0">
+                  <HBox fx:id="hbox2" alignment="CENTER" prefHeight="45.0" prefWidth="178.0" spacing="4.0">
                      <children>
-                        <Label fx:id="rightDistanceLabel" accessibleText="distance from Right line" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" prefWidth="130.0" text="Distance from " />
-                        <TextField fx:id="distanceFromRTF" accessibleText="right distance field" prefHeight="25.0" prefWidth="67.0" promptText="meters" />
+                        <Label fx:id="rightDistanceLabel" accessibleText="distance from Right line" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="45.0" prefWidth="130.0" text="Distance from " />
+                        <TextField fx:id="distanceFromRTF" accessibleText="right distance field" prefHeight="25.0" prefWidth="75.0" promptText="meters" />
                      </children>
                   </HBox>
                   <HBox fx:id="hbox3" alignment="CENTER" prefHeight="45.0" prefWidth="319.0" spacing="4.0">
                      <children>
-                        <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="130.0" text="Distance from&#10;Central Line&#10;" wrapText="true" />
-                        <TextField fx:id="distanceFromCLTF" accessibleText="distance from central line" prefHeight="25.0" prefWidth="67.0" promptText="meters" />
+                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="45.0" prefWidth="130.0" text="Distance from&#10;Central Line&#10;" wrapText="true" />
+                        <TextField fx:id="distanceFromCLTF" accessibleText="distance from central line" prefHeight="25.0" prefWidth="75.0" promptText="meters" />
                      </children>
                   </HBox>
                   <HBox fx:id="hbox4" alignment="CENTER" prefHeight="45.0" prefWidth="319.0" spacing="4.0">
                      <children>
-                        <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="41.0" prefWidth="130.0" text="Direction from&#10;Central Line&#10;" wrapText="true" />
-                        <ChoiceBox fx:id="dirFromCLChoiceBox" accessibleText="choose directional orientation" prefHeight="25.0" prefWidth="60.0" />
+                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="45.0" prefWidth="130.0" text="Direction from&#10;Central Line&#10;" wrapText="true" />
+                        <ChoiceBox fx:id="dirFromCLChoiceBox" accessibleText="choose directional orientation" prefHeight="25.0" prefWidth="75.0" />
                      </children>
                   </HBox>
                </children>
