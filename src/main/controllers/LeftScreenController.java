@@ -12,7 +12,7 @@ public class LeftScreenController {
 
     public Button calculateButton;
     public Accordion accordion;
-    boolean calculateAllowed;
+    public boolean calculateAllowed;
 
     @FXML
     private void initialize() {
@@ -48,6 +48,7 @@ public class LeftScreenController {
         if (!calculateAllowed){
             calculateAllowedMode();
             Model.console.addLog("Editing: Calculated values removed!");
+            Model.updateVisualisation();
             return;
         }
         if(Model.currentAirport == null){
@@ -80,6 +81,7 @@ public class LeftScreenController {
             Model.rightScreenController.populateBreakDowns(calculatorOutput);
 
             calculateNotAllowedMode();
+            Model.updateVisualisation();
         }
     }
 

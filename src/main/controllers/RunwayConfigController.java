@@ -61,12 +61,6 @@ public class RunwayConfigController {
 //        runwayChoiceBox.valueProperty().addListener((observable, oldValue, newValue) -> choiceBoxUpdater(newValue));
     }
 
-    public void updateVisualisation() {
-        System.out.println("Visualisation for runway " + Model.currentRunway);
-        //TODO: calls for visualisation methods for displaying runways can be placed here
-        // something like this: Model.CenterScreenController.draw();
-    }
-
     private void setChoiceBoxListenerEnabled(Boolean enable) {
         if (enable)
             runwayChoiceBox.valueProperty().addListener(choiceBoxListener);
@@ -255,7 +249,7 @@ public class RunwayConfigController {
                 }
             }
         }
-        updateVisualisation();
+//        Model.updateVisualisation();
         Model.obstacleConfigController.windowCloseProcedure();
     }
 
@@ -309,13 +303,13 @@ public class RunwayConfigController {
         Model.console.addLog("Runway removed: " + Model.currentRunway.toString());
         runwayChoiceBox.getItems().remove(Model.currentRunway.toString());
         Model.currentRunway = null;
-        Model.obstaclePlaced = false;
+        Model.setObstaclePlaced(false);
         Model.obstacleConfigController.windowCloseProcedure();
         runwayChoiceBox.setValue(null);
         setChoiceBoxListenerEnabled(true);
         if(Model.currentAirport.getRunways().isEmpty()) noRunwaysView();
         else hasRunwaysView();
-        updateVisualisation();
+//        Model.updateVisualisation();
     }
 
     @FXML
@@ -361,7 +355,7 @@ public class RunwayConfigController {
 //            Model.console.addLog("Runway selected: " + Model.currentRunway.toString());
 
         }
-        updateVisualisation();
+//        Model.updateVisualisation();
         showOnlyMode();
         Model.leftScreenController.calculateButton.setDisable(false);
     }
@@ -412,6 +406,7 @@ public class RunwayConfigController {
             setChoiceBoxListenerEnabled(true);
         }
         else System.err.println("Error RunwayController:378");
+        Model.updateVisualisation();
     }
 
     private void saveNewRunway(LogicalRunWay left, LogicalRunWay right){

@@ -70,6 +70,10 @@ public class ObstacleConfigController {
     }
 
     private void setupTextFields(){
+        obstacleNameTF.setTextFormatter(new TextFormatter<>(change -> {
+            if (change.getText().equals(" ")) change.setText("_");
+            return change;
+        }));
         textFields.addAll(Arrays.asList(distanceFromLTF,distanceFromRTF,distanceFromCLTF));
         for(TextField t : textFields)
             t.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -109,7 +113,7 @@ public class ObstacleConfigController {
                 populateObstacleDetails(Model.currentObstacle);
                 populateObstacleDimensions(Model.currentObstacle.getPosition());
                 setChoiceBoxListenerEnabled(false);
-                if(Model.obstaclePlaced){
+                if(Model.getObstaclePlaced()){
                     obstacleChoiceBox.setValue(Model.currentObstacle.getName());
                     placeObstacleCB.setSelected(true);
                     placeObstacle();
@@ -270,17 +274,17 @@ public class ObstacleConfigController {
     }
 
     private void populateObstacleDimensions(Position position) {
-        if(position == null) {
-            distanceFromLTF.setText("");
-            distanceFromRTF.setText("");
-            distanceFromCLTF.setText("");
-            dirFromCLChoiceBox.setValue("L");
-        } else {
-            distanceFromLTF.setText(String.valueOf(position.getDistanceToLeft()));
-            distanceFromRTF.setText(String.valueOf(position.getDistanceToRight()));
-            distanceFromCLTF.setText(String.valueOf(position.getDistanceFromCL()));
-            dirFromCLChoiceBox.setValue(position.getDirectionFromCL());
-        }
+       if(position == null) {
+           distanceFromLTF.setText("");
+           distanceFromRTF.setText("");
+           distanceFromCLTF.setText("");
+           dirFromCLChoiceBox.setValue("L");
+       } else {
+           distanceFromLTF.setText(String.valueOf(position.getDistanceToLeft()));
+           distanceFromRTF.setText(String.valueOf(position.getDistanceToRight()));
+           distanceFromCLTF.setText(String.valueOf(position.getDistanceFromCL()));
+           dirFromCLChoiceBox.setValue(position.getDirectionFromCL());
+       }
     }
 
     public void saveObstacleDimensions(Obstacle obstacle)  {
@@ -353,17 +357,19 @@ public class ObstacleConfigController {
             placeObstacle();
             updateVisualisation();
         } else {
-            Model.obstaclePlaced = false;
+            Model.setObstaclePlaced(false);
             Model.console.addLog("Obstacle: " + Model.currentObstacle.getName() + " was removed from runway: " + Model.currentRunway.toString());
             selectedObstacleView();
             updateVisualisation();
         }
+//        Model.updateVisualisation();
     }
 
 
     private void placeObstacle(){
         Model.obstaclePlaced = true;
         saveObstacleDimensions(Model.currentObstacle);
+        Model.setObstaclePlaced(true);
         placedObstacleView();
     }
 
