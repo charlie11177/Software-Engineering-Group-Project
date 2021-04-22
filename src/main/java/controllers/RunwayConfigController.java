@@ -1,4 +1,4 @@
-package main.controllers;
+package controllers;
 
 import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
@@ -6,10 +6,10 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.Pair;
-import main.model.Direction;
-import main.model.LogicalRunWay;
-import main.model.Model;
-import main.model.PhysicalRunWay;
+import model.Direction;
+import model.LogicalRunWay;
+import model.Model;
+import model.PhysicalRunWay;
 
 import java.util.ArrayList;
 import java.util.Arrays;

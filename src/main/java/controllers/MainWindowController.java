@@ -1,4 +1,4 @@
-package main.controllers;
+package controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -6,11 +6,11 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.TitledPane;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
-import main.App;
-import main.model.Airport;
-import main.model.Model;
-import main.model.Obstacle;
-import main.model.XMLParser;
+import app.App;
+import model.Airport;
+import model.Model;
+import model.Obstacle;
+import model.XMLParser;
 
 import java.io.File;
 import java.util.ArrayList;

@@ -1,13 +1,13 @@
-package main.controllers;
+package controllers;
 
 import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import main.model.Model;
-import main.model.Obstacle;
-import main.model.Position;
+import model.Model;
+import model.Obstacle;
+import model.Position;
 
 import java.util.ArrayList;
 import java.util.Arrays;

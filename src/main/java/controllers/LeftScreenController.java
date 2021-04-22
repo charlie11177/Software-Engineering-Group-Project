@@ -1,12 +1,12 @@
-package main.controllers;
+package controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
-import main.model.Calculator;
-import main.model.CalculatorOutput;
-import main.model.Model;
-import main.model.PhysicalRunWay;
+import model.Calculator;
+import model.CalculatorOutput;
+import model.Model;
+import model.PhysicalRunWay;
 
 public class LeftScreenController {
 

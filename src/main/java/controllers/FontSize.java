@@ -1,4 +1,4 @@
-package main.controllers;
+package controllers;
 
 public enum FontSize {
     DEFAULT,

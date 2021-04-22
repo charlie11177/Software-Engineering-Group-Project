@@ -1,6 +1,6 @@
-package main.model;
+package model;
 
-import main.controllers.*;
+import controllers.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;

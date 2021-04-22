@@ -1,4 +1,4 @@
-package main.controllers;
+package controllers;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;

@@ -1,4 +1,4 @@
-package main.model;
+package model;
 
 public class LogicalRunWay {
     private int degree;

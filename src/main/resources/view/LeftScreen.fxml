@@ -5,7 +5,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="leftScreen" alignment="TOP_CENTER" minWidth="200.0" prefHeight="695.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.LeftScreenController">
+<VBox fx:id="leftScreen" alignment="TOP_CENTER" minWidth="200.0" prefHeight="695.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.LeftScreenController">
    <children>
       <Accordion fx:id="accordion" prefHeight="660.0" prefWidth="200.0" VBox.vgrow="SOMETIMES">
          <panes>

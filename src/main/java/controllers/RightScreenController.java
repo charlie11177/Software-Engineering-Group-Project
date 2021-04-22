@@ -1,4 +1,4 @@
-package main.controllers;
+package controllers;
 
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -6,9 +6,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import main.model.CalculatorOutput;
-import main.model.LogicalRunWay;
-import main.model.Model;
+import model.CalculatorOutput;
+import model.LogicalRunWay;
+import model.Model;
 
 import java.util.ArrayList;
 import java.util.Arrays;

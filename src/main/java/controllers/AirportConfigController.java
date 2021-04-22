@@ -1,11 +1,11 @@
-package main.controllers;
+package controllers;
 
 import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
-import main.model.Airport;
-import main.model.Model;
+import model.Airport;
+import model.Model;
 
 import java.util.ArrayList;
 
