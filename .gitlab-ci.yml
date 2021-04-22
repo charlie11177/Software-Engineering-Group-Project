@@ -32,7 +32,9 @@ cache:
     - .m2/
 
 before_script:
-  - apt-get install libX11
+  - sudo dpkg --add-architecture armhf
+  - sudo apt update
+  - sudo apt install libx11-6:armhf
   - echo '<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                     xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
