@@ -49,7 +49,8 @@ before_script:
   tags:
     - runner
   script:
-    - "mvn $MAVEN_CLI_OPTS -Dtest='!AirportTests,!ObstacleTests,!RunwayTests,!ScenarioTests' -DfailIfNoTests=false verify"
+    - 'sudo pacman -S libX11'
+    - "mvn $MAVEN_CLI_OPTS verify"
   except:
     variables:
       - $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
