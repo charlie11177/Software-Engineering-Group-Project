@@ -32,7 +32,7 @@ cache:
     - .m2/
 
 before_script:
-  - pacman -S libX11
+  - yum -y install libX11
   - echo '<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                     xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
@@ -50,7 +50,7 @@ before_script:
   tags:
     - runner
   script:
-    - "mvn $MAVEN_CLI_OPTS -Dtest='!AirportTests,!ObstacleTests,!RunwayTests,!ScenarioTests' -DfailIfNoTests=false verify"
+    - "mvn $MAVEN_CLI_OPTS verify"
   except:
     variables:
       - $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
