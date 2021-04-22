@@ -34,7 +34,7 @@ cache:
   tags:
     - runner
   script:
-    - 'mvn $MAVEN_CLI_OPTS clean verify'
+    - "mvn $MAVEN_CLI_OPTS -Dtest='!AirportTests,!ObstacleTests,!RunwayTests,!ScenarioTests' -DfailIfNoTests=false verify"
   except:
     variables:
       - $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
