@@ -49,7 +49,7 @@ before_script:
   tags:
     - runner
   script:
-    - 'sudo pacman -S libX11'
+    - 'pacman -S libX11'
     - "mvn $MAVEN_CLI_OPTS verify"
   except:
     variables:
