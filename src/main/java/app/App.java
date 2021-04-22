@@ -28,8 +28,9 @@ public class App extends Application {
         stage = s;
         //Icons made by Freepik "https://www.freepik.com" from Flaticon "https://www.flaticon.com/"
         stage.getIcons().add(new Image("icon.png"));
-        URL url = new File("src/main/resources/view/MainWindow.fxml").toURI().toURL();
-        root = FXMLLoader.load(url);
+        FXMLLoader fxmlLoader = new FXMLLoader(ClassLoader.getSystemResource("view/MainWindow.fxml"));
+        //URL url = new File("src/main/resources/view/MainWindow.fxml").toURI().toURL();
+        root = fxmlLoader.load();
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.setHeight(768);
