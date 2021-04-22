@@ -19,6 +19,12 @@ variables:
   # `installAtEnd` and `deployAtEnd` are only effective with recent version of the corresponding plugins.
   MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version -DinstallAtEnd=true -DdeployAtEnd=true"
 
+  FDO_UPSTREAM_REPO: 'xorg/lib/libX11'
+  # The tag should be updated each time the list of packages is updated.
+  # Changing a tag forces the associated image to be rebuilt.
+  # Note: the tag has no meaning, we use a date format purely for readability
+  FDO_DISTRIBUTION_TAG:  '2020-11-16.0'
+
 image: maven:3.8.1-openjdk-15
 
 # # Cache downloaded dependencies and plugins between builds.
@@ -49,7 +55,6 @@ before_script:
   tags:
     - runner
   script:
-    - 'pacman -S libX11'
     - "mvn $MAVEN_CLI_OPTS verify"
   except:
     variables:
