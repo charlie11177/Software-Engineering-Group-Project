@@ -1,6 +1,6 @@
 package test;
 
-import main.model.*;
+import model.*;
 import org.junit.*;
 
 import java.util.ArrayList;
