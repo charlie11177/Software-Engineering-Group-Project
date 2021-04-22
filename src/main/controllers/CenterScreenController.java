@@ -23,7 +23,7 @@ public class CenterScreenController {
     public Canvas sideOnCanvas;
     public PhysicalRunWay runway;
     private final int ARR_SIZE = 5;
-    private TopDownView topDownViewMode;
+    private TopDownView viewMode;
 
     @FXML
     private void initialize(){
@@ -31,7 +31,7 @@ public class CenterScreenController {
         Model.console.update();
         setupTopDownCanvas();
         setupSideOnCanvas();
-        topDownViewMode = TopDownView.DEFAULT;
+        viewMode = TopDownView.DEFAULT;
     }
 
     private void setupTopDownCanvas(){
@@ -61,7 +61,7 @@ public class CenterScreenController {
     }
 
     public void updateVisualisation(TopDownView mode) {
-        topDownViewMode = mode;
+        viewMode = mode;
         topDownPane.getChildren().remove(topDowncanvas);
         setupTopDownCanvas();
         draw();
@@ -69,7 +69,7 @@ public class CenterScreenController {
     }
 
     private void draw() {
-        switch (topDownViewMode) {
+        switch (viewMode) {
             case DEFAULT -> drawTopDown(topDowncanvas);
             case RUNWAY -> drawRunway(topDowncanvas);
             //TODO: when an obstacle is placed, the calculations are not shown, only the placed obstacle in the correct position

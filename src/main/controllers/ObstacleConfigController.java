@@ -198,8 +198,8 @@ public class ObstacleConfigController {
         }
         else {
             showPlacementMenu = true;
-            leftDistanceLabel.setText("Distance from " + Model.currentRunway.getLeftRunway().toString());
-            rightDistanceLabel.setText("Distance from " + Model.currentRunway.getRightRunway().toString());
+            leftDistanceLabel.setText("Distance from\n" + Model.currentRunway.getLeftRunway().toString() + " threshold");
+            rightDistanceLabel.setText("Distance from\n" + Model.currentRunway.getRightRunway().toString() + " threshold");
             placeObstacleCB.setDisable(false);
 //            checkBoxVisible = true;
         }

@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<TitledPane fx:id="runwayConfig" accessibleText="runway configuration" prefHeight="617.0" prefWidth="220.0" text="Runway" wrapText="true" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.RunwayConfigController">
+<TitledPane fx:id="runwayConfig" accessibleText="runway configuration" prefHeight="617.0" prefWidth="220.0" text="Runway" wrapText="true" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.RunwayConfigController">
    <content>
       <VBox fx:id="runwayRoot" alignment="TOP_CENTER" prefHeight="567.0" prefWidth="119.0">
          <children>
@@ -103,7 +103,7 @@
                   <HBox alignment="CENTER" prefHeight="25.0" prefWidth="178.0" spacing="5.0">
                      <children>
                         <TextField fx:id="leftThresholdTF" accessibleText="left Threshold field" prefHeight="25.0" prefWidth="70.0" promptText="meters" />
-                        <Label alignment="CENTER" prefHeight="17.0" prefWidth="60.0" text="THR" />
+                        <Label alignment="CENTER" prefHeight="17.0" prefWidth="64.0" text="THR" />
                         <TextField fx:id="rightThresholdTF" accessibleText="right Threshold field" prefHeight="25.0" prefWidth="70.0" promptText="meters" />
                      </children>
                   </HBox>

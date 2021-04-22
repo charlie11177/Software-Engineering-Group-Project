@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="768.0" minWidth="800.0" prefHeight="768.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.MainWindowController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="768.0" minWidth="800.0" prefHeight="768.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.MainWindowController">
     <children>
         <MenuBar fx:id="menuBar" prefHeight="0.0" prefWidth="676.0">
             <menus>
@@ -51,7 +51,7 @@
         </MenuBar>
         <HBox prefHeight="700.0" prefWidth="1080.0" VBox.vgrow="ALWAYS">
          <children>
-            <fx:include fx:id="leftScreen" prefHeight="695.0" prefWidth="202.0" source="LeftScreen.fxml" HBox.hgrow="NEVER" />
+            <fx:include fx:id="leftScreen" minWidth="180.0" prefHeight="695.0" prefWidth="220.0" source="LeftScreen.fxml" HBox.hgrow="NEVER" />
             <fx:include fx:id="centerScreen" maxHeight="1000.0" maxWidth="1500.0" prefHeight="695.0" prefWidth="590.0" source="CenterScreen.fxml" HBox.hgrow="SOMETIMES" />
             <fx:include fx:id="rightScreen" maxWidth="315.0" minWidth="220.0" prefHeight="1055.0" prefWidth="315.0" source="RightScreen.fxml" HBox.hgrow="ALWAYS" />
          </children>
