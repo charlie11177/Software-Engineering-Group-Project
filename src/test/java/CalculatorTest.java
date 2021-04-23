@@ -1,5 +1,3 @@
-package test;
-
 import model.*;
 import org.junit.*;
 
