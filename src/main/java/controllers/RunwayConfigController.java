@@ -20,7 +20,6 @@ public class RunwayConfigController {
     private final ArrayList<TextField> textFields;
     private ChangeListener<String> choiceBoxListener;
 
-//    @FXML private VBox runwayMainMenu;
     @FXML private TitledPane runwayConfig;
     @FXML private ChoiceBox<String> runwayChoiceBox;
     @FXML private HBox editButtons;
