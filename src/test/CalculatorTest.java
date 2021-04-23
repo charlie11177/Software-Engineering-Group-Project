@@ -35,11 +35,11 @@ public class CalculatorTest {
     // assigning the values
     @BeforeClass
     public static void initialSetUp(){
-//        left1 = new LogicalRunWay(9, Direction.L,3902,3902,3202,3595, 0);
-//        right1 = new LogicalRunWay(27, Direction.R,3884,3962,3884,0, 0);
-//
-//        left2 = new LogicalRunWay(10, Direction.L,3802,3802,3102,3495, 0);
-//        right2 = new LogicalRunWay(28, Direction.R,1,1,1,0, 0);
+       left1 = new LogicalRunWay(9, Direction.L,3902,3902,3202,3595, 0);
+       right1 = new LogicalRunWay(27, Direction.R,3884,3962,3884,0, 0);
+
+       left2 = new LogicalRunWay(10, Direction.L,3802,3802,3102,3495, 0);
+       right2 = new LogicalRunWay(28, Direction.R,1,1,1,0, 0);
 
         left3 = new LogicalRunWay(9, Direction.R,3660,3660,3660,3353, 307);
         right3 = new LogicalRunWay(27, Direction.L,3660,3660,3660,3660, 0);
@@ -47,14 +47,14 @@ public class CalculatorTest {
         left4 = new LogicalRunWay(9, Direction.L, 3902, 3902, 3902, 3595, 306);
         right4 = new LogicalRunWay(27, Direction.R, 3884, 3962, 3884, 3884, 0);
 
-//        r1 = null;
-//        r2 = null;
+       r1 = null;
+       r2 = null;
         r3 = null;
         r4 = null;
 
         try {
-//            r1 = new PhysicalRunWay(1,left1, right1, null);
-//            r2 = new PhysicalRunWay(2,left2, right2, null);
+           r1 = new PhysicalRunWay(1,left1, right1, null);
+           r2 = new PhysicalRunWay(2,left2, right2, null);
             r3 = new PhysicalRunWay(3,left3, right3, null);
             r4 = new PhysicalRunWay(4, right4,left4, null);
         } catch (Exception e) {
