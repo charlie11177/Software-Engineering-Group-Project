@@ -93,4 +93,3 @@ public class Calculator {
         return towards;
     }
 }
-
