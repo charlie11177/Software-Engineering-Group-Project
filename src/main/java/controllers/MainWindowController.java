@@ -1,23 +1,38 @@
 package controllers;
 
+import app.App;
+import com.itextpdf.kernel.colors.Color;
+import com.itextpdf.kernel.colors.ColorConstants;
+import com.itextpdf.kernel.colors.DeviceRgb;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Cell;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.element.Table;
+import com.itextpdf.layout.property.HorizontalAlignment;
+import com.itextpdf.layout.property.TextAlignment;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.CustomMenuItem;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.TitledPane;
+import javafx.scene.control.Tooltip;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
-import app.App;
-import model.Airport;
-import model.Model;
-import model.Obstacle;
-import model.XMLParser;
+import model.*;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 
 public class MainWindowController {
 
+    public CustomMenuItem savePDF;
+    public CustomMenuItem savePNG;
     @FXML private MenuBar menuBar;
 
     private XMLParser xmlParser;
@@ -28,12 +43,14 @@ public class MainWindowController {
 
     @FXML private void initialize() {
         Model.mainWindowController = this;
+        Tooltip.install(savePDF.getContent(), new Tooltip("Calculations have to be performed before saving them as a PDF"));
+        Tooltip.install(savePNG.getContent(), new Tooltip("Calculations have to be performed before saving the Recalculated views"));
     }
 
     @FXML private void importXML (ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Import XML");
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("xml files" , "*.xml"));
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML files" , "*.xml"));
         File xmlFile = fileChooser.showOpenDialog(menuBar.getScene().getWindow());
         if(xmlFile == null) return;
         Model.console.addLog("--- Importing Configuration from: " + xmlFile.getName() + " ---" );
@@ -84,7 +101,7 @@ public class MainWindowController {
     public void importAirports(ActionEvent actionEvent) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Import XML");
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("xml files" , "*.xml"));
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML files" , "*.xml"));
         File xmlFile = fileChooser.showOpenDialog(menuBar.getScene().getWindow());
         if(xmlFile == null) return;
         Model.console.addLog("--- Importing Airports from: " + xmlFile.getName() + " ---" );
@@ -119,7 +136,7 @@ public class MainWindowController {
     public void importObstacles(ActionEvent actionEvent) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Import XML");
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("xml files" , "*.xml"));
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML files" , "*.xml"));
         File xmlFile = fileChooser.showOpenDialog(menuBar.getScene().getWindow());
         if(xmlFile == null) return;
         Model.console.addLog("--- Importing Obstacles from: " + xmlFile.getName() + " ---" );
@@ -178,7 +195,7 @@ public class MainWindowController {
     public void exportConfig() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Export XML");
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("xml files" , "*.xml"));
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML files" , "*.xml"));
         File xmlFile = fileChooser.showSaveDialog(menuBar.getScene().getWindow());
         if(xmlFile == null) return;
 
@@ -196,7 +213,7 @@ public class MainWindowController {
     public void exportAirports() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Export XML");
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("xml files" , "*.xml"));
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML files" , "*.xml"));
         File xmlFile = fileChooser.showSaveDialog(menuBar.getScene().getWindow());
         if(xmlFile == null) return;
 
@@ -214,7 +231,7 @@ public class MainWindowController {
     public void exportObstacles(ActionEvent actionEvent) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Export XML");
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("xml files" , "*.xml"));
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML files" , "*.xml"));
         File xmlFile = fileChooser.showSaveDialog(menuBar.getScene().getWindow());
         if(xmlFile == null) return;
 
@@ -277,4 +294,91 @@ public class MainWindowController {
         App.stage.setMinHeight(882);
         Model.console.addLog("Fontsize set to: Large");
     }
+
+    public void savePDFClick() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save as PDF");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF files" , "*.pdf"));
+        File dest = fileChooser.showSaveDialog(menuBar.getScene().getWindow());
+
+        if (dest != null) {
+            try{savePDF(dest.getPath());}
+            catch (FileNotFoundException e){
+                AlertController.showErrorAlert("Could not save file","Please make sure that you have specified a unique name");
+            }
+        }
+    }
+
+    public void savePNGClick() {
+        //TODO: add handling for saving images
+    }
+
+    private void savePDF(String path) throws FileNotFoundException {
+        PdfDocument pdf = new PdfDocument(new PdfWriter(path));
+        Document doc = new Document(pdf).setHorizontalAlignment(HorizontalAlignment.CENTER);
+
+        Color blue = new DeviceRgb(0, 124, 173 );
+        Color blueText = new DeviceRgb(0, 0, 153);
+        Color lightBlue = new DeviceRgb(205, 240, 254);
+
+        String date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yy HH:mm:ss"));
+
+        doc.add(new Paragraph()
+                .add("Runway redeclaration report")
+                .setTextAlignment(TextAlignment.CENTER)
+                .setBold()
+                .setFontSize(18).setMarginBottom(1f));
+        doc.add(new Paragraph(date).setTextAlignment(TextAlignment.CENTER).setMarginBottom(10f));
+
+        doc.add(new Paragraph().add("Airport").setBold().setUnderline().setFontColor(blueText).setTextAlignment(TextAlignment.CENTER));
+        doc.add(new Paragraph().add(Model.currentAirport.toString()).setMarginBottom(15f).setTextAlignment(TextAlignment.CENTER));
+
+        doc.add(new Paragraph().add("Runway " + Model.currentRunway.getLeftRunway().toString()).setBold().setFontColor(blueText).setUnderline().setTextAlignment(TextAlignment.CENTER));
+        doc.add(new Paragraph().add(Model.currentRunway.getLeftRunway().getData()).setMarginBottom(15f).setTextAlignment(TextAlignment.CENTER));
+
+        doc.add(new Paragraph().add("Runway " + Model.currentRunway.getRightRunway().toString()).setBold().setUnderline().setFontColor(blueText).setTextAlignment(TextAlignment.CENTER));
+        doc.add(new Paragraph().add(Model.currentRunway.getRightRunway().getData()).setMarginBottom(15f).setTextAlignment(TextAlignment.CENTER));
+
+        doc.add(new Paragraph().add("Obstacle").setBold().setUnderline().setFontColor(blueText).setTextAlignment(TextAlignment.CENTER));
+        doc.add(new Paragraph(Model.currentObstacle.toString()).setMarginBottom(15f).setTextAlignment(TextAlignment.CENTER));
+
+        doc.add(new Paragraph().add("Calculation breakdowns").setBold().setUnderline().setFontColor(blueText).setTextAlignment(TextAlignment.CENTER));
+        doc.add(new Paragraph().add(new Paragraph(Model.rightScreenController.allCalculationsLeftTA.getText())).setTextAlignment(TextAlignment.CENTER).setMarginBottom(5f));
+        doc.add(new Paragraph().add(new Paragraph(Model.rightScreenController.allCalculationsRightTA.getText())).setTextAlignment(TextAlignment.CENTER).setMarginBottom(15f));
+
+        doc.add(new Paragraph().add("Original values").setBold().setTextAlignment(TextAlignment.CENTER)).setBottomMargin(1f);
+        doc.add(createTable(blue,lightBlue,Model.originalRunwayLeft, Model.originalRunwayRight)).setBottomMargin(10f);
+
+        doc.add(new Paragraph().add("Recalculated values").setBold().setTextAlignment(TextAlignment.CENTER)).setBottomMargin(1f);
+        doc.add(createTable(blue,lightBlue,Model.recalculatedRunwayLeft, Model.recalculatedRunwayRight));
+
+        doc.close();
+    }
+
+    private Table createTable(Color dark, Color light, LogicalRunWay l, LogicalRunWay r){
+        Table table = new Table(6);
+        table.addCell(new Cell().setBackgroundColor(dark).add(new Paragraph("Runway").setBold().setFontColor(ColorConstants.WHITE)));
+        table.addCell(new Cell().setBackgroundColor(dark).add(new Paragraph("TORA").setBold().setFontColor(ColorConstants.WHITE)));
+        table.addCell(new Cell().setBackgroundColor(dark).add(new Paragraph("TODA").setBold().setFontColor(ColorConstants.WHITE)));
+        table.addCell(new Cell().setBackgroundColor(dark).add(new Paragraph("LDA").setBold().setFontColor(ColorConstants.WHITE)));
+        table.addCell(new Cell().setBackgroundColor(dark).add(new Paragraph("ASDA").setBold().setFontColor(ColorConstants.WHITE)));
+        table.addCell(new Cell().setBackgroundColor(dark).add(new Paragraph("Threshold").setBold().setFontColor(ColorConstants.WHITE)));
+
+        table.addCell(new Cell().setBackgroundColor(ColorConstants.WHITE).add(new Paragraph(l.getName())));
+        table.addCell(new Cell().setBackgroundColor(ColorConstants.WHITE).add(new Paragraph(String.valueOf(l.getTORA()))));
+        table.addCell(new Cell().setBackgroundColor(ColorConstants.WHITE).add(new Paragraph(String.valueOf(l.getTODA()))));
+        table.addCell(new Cell().setBackgroundColor(ColorConstants.WHITE).add(new Paragraph(String.valueOf(l.getLDA()))));
+        table.addCell(new Cell().setBackgroundColor(ColorConstants.WHITE).add(new Paragraph(String.valueOf(l.getASDA()))));
+        table.addCell(new Cell().setBackgroundColor(ColorConstants.WHITE).add(new Paragraph(String.valueOf(l.getThreshold()))));
+
+        table.addCell(new Cell().setBackgroundColor(light).add(new Paragraph(r.getName())));
+        table.addCell(new Cell().setBackgroundColor(light).add(new Paragraph(String.valueOf(r.getTORA()))));
+        table.addCell(new Cell().setBackgroundColor(light).add(new Paragraph(String.valueOf(r.getTODA()))));
+        table.addCell(new Cell().setBackgroundColor(light).add(new Paragraph(String.valueOf(r.getLDA()))));
+        table.addCell(new Cell().setBackgroundColor(light).add(new Paragraph(String.valueOf(r.getASDA()))));
+        table.addCell(new Cell().setBackgroundColor(light).add(new Paragraph(String.valueOf(r.getThreshold()))));
+        table.setHorizontalAlignment(HorizontalAlignment.CENTER);
+        return table;
+    }
+
 }

@@ -3,6 +3,7 @@ package controllers;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -23,7 +24,8 @@ public class CenterScreenController {
     public Canvas sideOnCanvas;
     public PhysicalRunWay runway;
     private final int ARR_SIZE = 5;
-    private TopDownView viewMode;
+    private ViewMode viewMode;
+    @FXML private Slider sizeSlider;
 
     @FXML
     private void initialize(){
@@ -31,7 +33,10 @@ public class CenterScreenController {
         Model.console.update();
         setupTopDownCanvas();
         setupSideOnCanvas();
-        viewMode = TopDownView.DEFAULT;
+        viewMode = ViewMode.DEFAULT;
+        sizeSlider.valueProperty().addListener((ob, oldValue, newValue) -> {
+            System.out.println(newValue.intValue());    //TODO: add resizing here
+        });
     }
 
     private void setupTopDownCanvas(){
@@ -39,8 +44,8 @@ public class CenterScreenController {
         topDownPane.getChildren().add(topDowncanvas);
         topDowncanvas.widthProperty().bind(topDownPane.widthProperty());
         topDowncanvas.heightProperty().bind(topDownPane.heightProperty());
-        topDowncanvas.widthProperty().addListener(event -> draw());
-        topDowncanvas.heightProperty().addListener(event -> draw());
+        topDowncanvas.widthProperty().addListener(event -> drawTopDown());
+        topDowncanvas.heightProperty().addListener(event -> drawTopDown());
     }
 
     private void setupSideOnCanvas(){
@@ -60,15 +65,22 @@ public class CenterScreenController {
         console.appendText(text + "\n");
     }
 
-    public void updateVisualisation(TopDownView mode) {
+    public void updateVisualisation(ViewMode mode) {
         viewMode = mode;
+        if (mode == ViewMode.CALCULATIONS_RUNWAY) {
+            Model.mainWindowController.savePDF.setDisable(false);
+            Model.mainWindowController.savePNG.setDisable(false);
+        } else {
+            Model.mainWindowController.savePDF.setDisable(true);
+            Model.mainWindowController.savePNG.setDisable(true);
+        }
         topDownPane.getChildren().remove(topDowncanvas);
         setupTopDownCanvas();
-        draw();
+        drawTopDown();
         drawSideOn(sideOnCanvas);
     }
 
-    private void draw() {
+    private void drawTopDown() {
         switch (viewMode) {
             case DEFAULT:
                 drawTopDown(topDowncanvas);
@@ -76,11 +88,9 @@ public class CenterScreenController {
             case RUNWAY:
                 drawRunway(topDowncanvas);
                 break;
-            //TODO: when an obstacle is placed, the calculations are not shown, only the placed obstacle in the correct position
-            case REDECLAREDRUNWAY:
+            case OBSTACLE_PLACED_RUNWAY:
                 drawRunwayWithObstacle(topDowncanvas);
                 break;
-            //TODO: there should be a mode when a calculate button is clicked, showing the arrows and the calculated values
             case CALCULATIONS_RUNWAY:
                 drawRedeclaredRunway(topDowncanvas);
                 break;

@@ -98,10 +98,10 @@ public class Model {
     }
 
     public static void updateVisualisation(){
-        if (!leftScreenController.calculateAllowed) centerScreenController.updateVisualisation(TopDownView.CALCULATIONS_RUNWAY);
-        else if (obstaclePlaced) centerScreenController.updateVisualisation(TopDownView.REDECLAREDRUNWAY);
-        else if (currentRunway != null) centerScreenController.updateVisualisation(TopDownView.RUNWAY);
-        else centerScreenController.updateVisualisation(TopDownView.DEFAULT);
+        if (!leftScreenController.calculateAllowed) centerScreenController.updateVisualisation(ViewMode.CALCULATIONS_RUNWAY);
+        else if (obstaclePlaced) centerScreenController.updateVisualisation(ViewMode.OBSTACLE_PLACED_RUNWAY);
+        else if (currentRunway != null) centerScreenController.updateVisualisation(ViewMode.RUNWAY);
+        else centerScreenController.updateVisualisation(ViewMode.DEFAULT);
     }
 
     public static FontSize getCurrentFontSize() {

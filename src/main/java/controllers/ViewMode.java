@@ -1,8 +1,8 @@
 package controllers;
 
-public enum TopDownView {
+public enum ViewMode {
     DEFAULT,
     RUNWAY,
-    REDECLAREDRUNWAY,
+    OBSTACLE_PLACED_RUNWAY,
     CALCULATIONS_RUNWAY
 }
