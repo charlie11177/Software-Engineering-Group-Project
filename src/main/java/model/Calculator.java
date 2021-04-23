@@ -32,6 +32,8 @@ public class Calculator {
         int tora, toda, lda, asda;
         String toraBD, todaBD, ldaBD, asdaBD, allBD;
         int blastAllowance = 300; //Blast protection is between 300-500 not sure whether this is defined by the user
+        //--
+
 
         tora = runway.getTORA() - blastAllowance - distanceFromThreshold - runway.getThreshold();// TORA = Original TORA - Blast Protection - Distance from Threshold - Displaced Threshold
         toda = tora + runway.getClearway();//(R) TORA + CLEARWAY
