@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<TitledPane fx:id="runwayConfig" accessibleText="runway configuration" prefHeight="617.0" prefWidth="220.0" text="Runway" wrapText="true" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.RunwayConfigController">
+<TitledPane fx:id="runwayConfig" accessibleText="runway configuration" prefHeight="617.0" prefWidth="220.0" text="Runway" wrapText="true" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.RunwayConfigController">
    <content>
       <VBox fx:id="runwayRoot" alignment="TOP_CENTER" prefHeight="567.0" prefWidth="119.0">
          <children>
