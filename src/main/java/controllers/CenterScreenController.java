@@ -28,6 +28,16 @@ public class CenterScreenController {
     public CheckBox matchCompasCB;
     private ViewMode viewMode;
     @FXML private Slider sizeSlider;
+    private final Color GRASS_COLOR = Color.rgb(71, 209, 71);
+    private final Color DARKBLUE = Color.rgb(0, 122, 238);
+    private final Color RUNWAY_COLOR = Color.rgb(77, 77, 77);
+
+    //TODO: What colors to use: (non colourblind mode)
+    // Runway -> DARKGREY
+    // Stopway -> Color.BLACK
+    // Displaced Threshold -> Color.YELLOW
+    // Clear Way -> Color.ORANGE
+    // Obstacle -> Color.RED
 
     @FXML
     private void initialize(){
@@ -72,7 +82,6 @@ public class CenterScreenController {
         sideOnCanvas.widthProperty().addListener(event -> drawSideOn(sideOnCanvas));
         sideOnCanvas.heightProperty().addListener(event -> drawSideOn(sideOnCanvas));
         drawSideOn(sideOnCanvas);
-
     }
 
     public void updateConsole(String text){
@@ -130,8 +139,8 @@ public class CenterScreenController {
 
         //Colour Background
         gc.setFill(Color.LIGHTSKYBLUE);
-        gc.fillRect(0, 0, width, height * 0.5);
-        gc.setFill(Color.FORESTGREEN);
+        gc.fillRect(0, 0, width, height);
+        gc.setFill(GRASS_COLOR);
         gc.fillRect(0, height * 0.5, width, height * 0.5);
 
         if (Model.currentRunway != null)
@@ -157,23 +166,23 @@ public class CenterScreenController {
         double runway = Model.originalRunwayLeft.getTORA();
 
         //Draw main runway
-        gc.setFill(Color.LIGHTGREY);
+        gc.setFill(RUNWAY_COLOR);
         gc.fillRect(width * 0.125, height * 0.5, width * 0.75, height * 0.05);
 
         //Draw Stopways and Clearways if there are any
-        gc.setFill(Color.GREY);
+        gc.setFill(Color.BLACK);
         if (leftClearway != 0 && leftClearway != leftStopway)
             gc.fillRect(width * 0.045, height * 0.5, width * 0.08, height * 0.05);
         if (rightClearway != 0 && rightClearway != rightStopway)
             gc.fillRect(width * 0.875, height * 0.5, width * 0.08, height * 0.05);
-        gc.setFill(Color.DARKGREY);
+        gc.setFill(Color.ORANGE);
         if (leftStopway != 0)
             gc.fillRect(width * 0.085, height * 0.5, width * 0.04, height * 0.05);
         if (rightStopway != 0)
             gc.fillRect(width * 0.875, height * 0.5, width * 0.04, height * 0.05);
 
         //Draw Displaced Threshold
-        gc.setFill(Color.BLUE);
+        gc.setFill(Color.YELLOW);
         if (leftThreshold != 0)
         {
             gc.fillRect(((width * 0.125) + ((leftThreshold / runway) * width * 0.75)) - (width * 0.01), height * 0.5, width * 0.01, height * 0.05);
@@ -448,16 +457,17 @@ public class CenterScreenController {
 
         //safe height & clear graded area
         gc.setStroke(Color.BLACK);
-        gc.strokeRect(scale*3, hscale, canvas.getWidth() - (scale*6), canvas.getHeight() -(hscale*2));
-        gc.setFill(Color.LIGHTSKYBLUE);
-        gc.fillRect(scale*3, hscale, canvas.getWidth() - (scale*6), canvas.getHeight() -(hscale*2));
-        gc.setFill(Color.TAN);
+        gc.strokeRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        gc.setFill(GRASS_COLOR);
+        gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        gc.setFill(Color.rgb(0, 122, 238));
         double[] pointX = {scale*3,scale*9, scale*10, scale*22, scale*23, scale*27.6, scale*27.6, scale*23, scale*22, scale*10, scale*9, scale*3};
         double[] pointY = {hscale*5,hscale*5, hscale*4, hscale*4, hscale*5, hscale*5, hscale*11, hscale*11, hscale*12, hscale*12, hscale*11, hscale*11};
         gc.fillPolygon(pointX, pointY,12);
 
+
         //BASIC RUNWAY
-        gc.setFill(Color.GRAY);
+        gc.setFill(RUNWAY_COLOR);
         gc.fillRect(scale*6, hscale*7, scale*19, hscale*2);
         Double d = 0.0;
         for(int i = 0;i <10;i ++){
@@ -468,7 +478,7 @@ public class CenterScreenController {
         }
         gc.setFill(Color.BLACK);
         gc.setFont(new Font("Arial", scale-10));
-        gc.fillText("Clear Graded Area", scale*12 , hscale * 5, 200);
+        gc.fillText("Clear Graded Area", scale*13.6 , hscale * 5, 200);
         gc.setStroke(Color.WHITE);
         gc.setLineWidth(scale*(25/100));
         gc.setLineDashes(3);
@@ -504,7 +514,7 @@ public class CenterScreenController {
         Integer Lclearway = leftRunway.getClearway();
 
         drawSafeHeight(canvas,gc,scale,hscale);
-        drawClearway(gc,scale,hscale,Color.YELLOWGREEN);
+        drawClearway(gc,scale,hscale,Color.ORANGE);
         drawRunwayRoad(gc,scale,hscale,lDegree,rDegree);
         drawStopway(gc,scale,hscale,Color.BLACK);
         drawDistances(gc,scale,hscale,leftRunway, RightRunway);
@@ -542,7 +552,7 @@ public class CenterScreenController {
         gc.fillText("LANDING - TAKEOFF DIRECTION", scale*3, hscale*3);
         gc.fillText("LANDING - TAKEOFF DIRECTION", scale*19.8 , hscale*14);
         if (leftRunway.getThreshold() != 0){
-            gc.setFill(Color.LIGHTGREY);
+            gc.setFill(Color.YELLOW);
             gc.fillRect(scale*6, hscale*7, scale*1, hscale*2);
         }
 
@@ -571,7 +581,7 @@ public class CenterScreenController {
         Double scale = (width *3.26/100 );
         Double hscale = (height *6.55/100);
         drawSafeHeight(canvas,gc,scale,hscale);
-        drawClearway(gc,scale,hscale,Color.YELLOWGREEN);
+        drawClearway(gc,scale,hscale,Color.ORANGE);
         drawRunwayRoad(gc,scale,hscale,lDegree,rDegree);
         drawStopway(gc,scale,hscale,Color.BLACK);
         drawDistances(gc,scale,hscale,leftRunway, RightRunway);
@@ -604,7 +614,7 @@ public class CenterScreenController {
         Double scale = (width *3.26/100 );
         Double hscale = (height *6.55/100);
         drawSafeHeight(canvas,gc,scale,hscale);
-        drawClearway(gc,scale,hscale,Color.YELLOWGREEN);
+        drawClearway(gc,scale,hscale,Color.ORANGE);
         drawRunwayRoad(gc,scale,hscale,lDegree,rDegree);
         drawStopway(gc,scale,hscale,Color.BLACK);
         drawDistances(gc,scale,hscale,leftRunway, RightRunway);
@@ -791,8 +801,8 @@ public class CenterScreenController {
         drawBArrow(gc,scale*3, hscale*2, scale*5, hscale*2, Color.BLACK);
         drawBArrow(gc,scale*27.7, hscale*13, scale*25.7, hscale*13, Color.BLACK);
         //threshold indicator
-        drawArrow(gc,scale*6.5, hscale*10 ,scale*6.5,hscale*9,Color.RED);
-        gc.fillText("Displaced Threshold", scale*6.5 , hscale*10.5, 70 );
+        drawArrow(gc,scale*6.5, hscale*10 ,scale*6.5,hscale*9,Color.YELLOW);
+        gc.fillText("Displaced Threshold", scale*6.5 , hscale*10.5, 500);
     }
 
     private void drawArrow(GraphicsContext gc, double x1, double y1, double x2, double y2, Color c){
@@ -858,9 +868,9 @@ public class CenterScreenController {
     private void drawSafeHeight(Canvas canvas,GraphicsContext gc, double scale, double hscale){
         gc.setStroke(Color.BLACK);
         gc.strokeRect(scale*3, hscale, canvas.getWidth() - (scale*6), canvas.getHeight() -(hscale*2));
-        gc.setFill(Color.LIGHTSKYBLUE);
-        gc.fillRect(scale*3, hscale, canvas.getWidth() - (scale*6), canvas.getHeight() -(hscale*2));
-        gc.setFill(Color.TAN);
+        gc.setFill(GRASS_COLOR);
+        gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        gc.setFill(DARKBLUE);
         double[] pointX = {scale*3,scale*9, scale*10, scale*22, scale*23, scale*27.6, scale*27.6, scale*23, scale*22, scale*10, scale*9, scale*3};
         double[] pointY = {hscale*5,hscale*5, hscale*4, hscale*4, hscale*5, hscale*5, hscale*11, hscale*11, hscale*12, hscale*12, hscale*11, hscale*11};
         gc.fillPolygon(pointX, pointY,12);
@@ -870,7 +880,7 @@ public class CenterScreenController {
     }
 
     private void drawRunwayRoad(GraphicsContext gc, double scale, double hscale, Integer lDegree, Integer rDegree){
-        gc.setFill(Color.GRAY);
+        gc.setFill(RUNWAY_COLOR);
         gc.fillRect(scale*6, hscale*7, scale*19, hscale*2);
         Double d = 0.0;
         for(int i = 0;i <10;i ++){
@@ -899,7 +909,7 @@ public class CenterScreenController {
         double y = p.getDistanceFromCL();
         double width = Model.currentObstacle.getWidth();
         double height = Model.currentObstacle.getHeight();
-        gc.setFill(Color.DARKRED);
+        gc.setFill(Color.RED);
         //centre lines
         //gc.strokeLine(scale*9.2 ,hscale*8.1, scale*21.7, hscale*8.1 );
         gc.fillRect((scale*9.2)+ x,(hscale*8.1)- y, width*5,height*5);

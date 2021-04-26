@@ -25,7 +25,7 @@
                             <content>
                         <StackPane>
                            <children>
-                                      <Pane fx:id="topDownPane" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" />
+                                      <Pane fx:id="topDownPane" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: lightskyblue;" />
                               <BorderPane>
                                  <top>
                                     <ImageView fitHeight="171.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER_RIGHT">
@@ -33,7 +33,7 @@
                                           <Image url="@../compass.png" />
                                        </image>
                                        <BorderPane.margin>
-                                          <Insets right="5.0" top="5.0" />
+                                          <Insets />
                                        </BorderPane.margin>
                                     </ImageView>
                                  </top>

@@ -79,7 +79,6 @@ public class App extends Application {
          currentrunway:
          currentobstacle:
          obstacle placed: true/false
-         showCalculations: true/false
          */
         super.init();
         Scanner in;
@@ -130,7 +129,6 @@ public class App extends Application {
          currentrunway:
          currentobstacle:
          obstacle placed: true/false
-         showCalculations: true/false
          */
         System.out.println("Saving progress...");
     }
