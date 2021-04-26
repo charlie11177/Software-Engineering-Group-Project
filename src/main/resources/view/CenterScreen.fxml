@@ -57,7 +57,7 @@
                         <CheckBox fx:id="matchCompasCB" disable="true" mnemonicParsing="false" prefHeight="17.0" prefWidth="170.0" text="Match compass heading" />
                      </children>
                   </HBox>
-                        <TextArea fx:id="console" editable="false" maxHeight="500.0" minHeight="0.0" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                        <TextArea fx:id="console" editable="false" minHeight="0.0" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                             <padding>
                                 <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                             </padding>
