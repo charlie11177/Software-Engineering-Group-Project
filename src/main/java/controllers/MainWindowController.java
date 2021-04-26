@@ -7,6 +7,7 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.TitledPane;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
+import javafx.util.Pair;
 import model.Airport;
 import model.Model;
 import model.Obstacle;
@@ -38,8 +39,10 @@ public class MainWindowController {
         if(xmlFile == null) return;
         Model.console.addLog("--- Importing Configuration from: " + xmlFile.getName() + " ---" );
         try {
-            ArrayList<Airport> importedAirports = xmlParser.importAirports(xmlFile);
-            ArrayList<Obstacle> importedObstacles = xmlParser.importObstacle(xmlFile);
+            Pair<ArrayList<Airport>, ArrayList<Obstacle>> pair = xmlParser.importConfiguration(xmlFile);
+
+            ArrayList<Airport> importedAirports = pair.getKey();
+            ArrayList<Obstacle> importedObstacles = pair.getValue();
 
             if (!importedAirports.isEmpty())
             {
@@ -69,6 +72,7 @@ public class MainWindowController {
             if(importedObstacles.isEmpty() && importedAirports.isEmpty()) {
                 throw (new Exception("Failed import"));
             }
+
             Model.console.addLogWithoutTime("--- Finished Importing Obstacles ---");
 //            Model.console.addLogWithoutTime("Imported " + importedAirports.size() + " Airports");
 //            Model.console.addLogWithoutTime("Imported " + importedObstacles.size() + " Obstacles");
@@ -184,7 +188,7 @@ public class MainWindowController {
 
         try {
             Model.console.addLog("--- Exporting Configuration ---");
-            xmlParser.exportAll(xmlFile);
+            xmlParser.exportConfiguration(xmlFile);
             Model.console.addLog("--- Finished exporting to: " + xmlFile.getName() + " ---" );
         }
         catch (Exception e) {
