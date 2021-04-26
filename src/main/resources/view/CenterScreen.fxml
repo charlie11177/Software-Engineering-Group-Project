@@ -19,36 +19,36 @@
     <children>
         <SplitPane dividerPositions="0.7920656634746922" orientation="VERTICAL" prefHeight="695.0" prefWidth="687.0" VBox.vgrow="ALWAYS">
             <items>
-            <StackPane minHeight="300.0" minWidth="400.0" prefHeight="587.0" prefWidth="611.0">
-               <children>
-                      <TabPane minHeight="300.0" minWidth="400.0" prefHeight="587.0" prefWidth="611.0" tabClosingPolicy="UNAVAILABLE">
-                          <tabs>
-                              <Tab text="Top-Down View">
-                                  <content>
+                <TabPane minHeight="300.0" minWidth="400.0" prefHeight="587.0" prefWidth="611.0" tabClosingPolicy="UNAVAILABLE">
+                    <tabs>
+                        <Tab text="Top-Down View">
+                            <content>
+                        <StackPane>
+                           <children>
                                       <Pane fx:id="topDownPane" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" />
-                                  </content>
-                              </Tab>
-                              <Tab text="Side-On View">
-                                  <content>
-                                      <Pane fx:id="sideOnPane" prefHeight="200.0" prefWidth="200.0" />
-                                  </content>
-                              </Tab>
-                          </tabs>
-                      </TabPane>
-                  <BorderPane mouseTransparent="true">
-                     <top>
-                        <ImageView fitHeight="171.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER_RIGHT">
-                           <image>
-                              <Image url="@../compass.png" />
-                           </image>
-                           <BorderPane.margin>
-                              <Insets right="5.0" top="27.0" />
-                           </BorderPane.margin>
-                        </ImageView>
-                     </top>
-                  </BorderPane>
-               </children>
-            </StackPane>
+                              <BorderPane>
+                                 <top>
+                                    <ImageView fitHeight="171.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER_RIGHT">
+                                       <image>
+                                          <Image url="@../compass.png" />
+                                       </image>
+                                       <BorderPane.margin>
+                                          <Insets right="5.0" top="5.0" />
+                                       </BorderPane.margin>
+                                    </ImageView>
+                                 </top>
+                              </BorderPane>
+                           </children>
+                        </StackPane>
+                            </content>
+                        </Tab>
+                        <Tab text="Side-On View">
+                            <content>
+                                <Pane fx:id="sideOnPane" prefHeight="200.0" prefWidth="200.0" />
+                            </content>
+                        </Tab>
+                    </tabs>
+                </TabPane>
                 <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                     <children>
                   <HBox alignment="CENTER" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" prefWidth="200.0" spacing="50.0">
