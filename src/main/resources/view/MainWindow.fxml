@@ -14,14 +14,19 @@
             <menus>
                 <Menu mnemonicParsing="false" text="File">
                     <items>
+                  <CustomMenuItem fx:id="savePNGTopDown" disable="true" mnemonicParsing="false" onAction="#savePNGTopDownClick">
+                     <content>
+                        <Label text="Save Top-Down View as PNG" />
+                     </content>
+                  </CustomMenuItem>
+                  <CustomMenuItem fx:id="savePNGSideOn" disable="true" mnemonicParsing="false" onAction="#savePNGSideOnClick">
+                     <content>
+                        <Label text="Save Side-On-View as PNG" />
+                     </content>
+                  </CustomMenuItem>
                   <CustomMenuItem fx:id="savePDF" disable="true" mnemonicParsing="false" onAction="#savePDFClick">
                      <content>
                         <Label text="Save calculations as PDF" />
-                     </content>
-                  </CustomMenuItem>
-                  <CustomMenuItem fx:id="savePNG" disable="true" mnemonicParsing="false" onAction="#savePNGClick">
-                     <content>
-                        <Label text="Save views as PNG" />
                      </content>
                   </CustomMenuItem>
                   <Menu mnemonicParsing="false" text="Import from XML file...">

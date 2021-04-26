@@ -12,18 +12,21 @@ import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.property.HorizontalAlignment;
 import com.itextpdf.layout.property.TextAlignment;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.CustomMenuItem;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.TitledPane;
-import javafx.scene.control.Tooltip;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.control.*;
+import javafx.scene.image.WritableImage;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import model.*;
 
+import javax.imageio.ImageIO;
+import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -32,7 +35,8 @@ import java.util.ArrayList;
 public class MainWindowController {
 
     public CustomMenuItem savePDF;
-    public CustomMenuItem savePNG;
+    public CustomMenuItem savePNGSideOn;
+    public CustomMenuItem savePNGTopDown;
     @FXML private MenuBar menuBar;
 
     private XMLParser xmlParser;
@@ -42,9 +46,15 @@ public class MainWindowController {
     }
 
     @FXML private void initialize() {
+        Label lb= new Label("Menu Text");
+        MenuItem myMenuItem = new MenuItem(null, lb);
+        Tooltip tips = new Tooltip("Your tip text here");
+        Tooltip.install(myMenuItem.getGraphic(), tips);
         Model.mainWindowController = this;
         Tooltip.install(savePDF.getContent(), new Tooltip("Calculations have to be performed before saving them as a PDF"));
-        Tooltip.install(savePNG.getContent(), new Tooltip("Calculations have to be performed before saving the Recalculated views"));
+        Tooltip.install(savePNGSideOn.getContent(), new Tooltip("Calculations have to be performed before saving the Recalculated views"));
+        Tooltip.install(savePNGTopDown.getContent(), new Tooltip("Calculations have to be performed before saving the Recalculated views"));
+//        Tooltip.install(savePNGSideOn.getGraphic(), new Tooltip("Calculations have to be performed before saving the Recalculated views"));
     }
 
     @FXML private void importXML (ActionEvent event) {
@@ -309,8 +319,41 @@ public class MainWindowController {
         }
     }
 
-    public void savePNGClick() {
-        //TODO: add handling for saving images
+    public void savePNGSideOnClick() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save as PNG");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PNG files" , "*.png"));
+        File dest = fileChooser.showSaveDialog(menuBar.getScene().getWindow());
+        if (dest != null) {
+            try{
+                savePNG(dest.getPath(),Model.centerScreenController.sideOnCanvas);
+            } catch (IOException e){
+                AlertController.showErrorAlert("Could not save file","An unexpected error occurred while creating the file, try again");
+            }
+        }
+    }
+
+    public void savePNGTopDownClick() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save as PNG");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PNG files", "*.png"));
+        File dest = fileChooser.showSaveDialog(menuBar.getScene().getWindow());
+        if (dest != null) {
+            try {
+                savePNG(dest.getPath(), Model.centerScreenController.topDowncanvas);
+            } catch(IOException e){
+                    AlertController.showErrorAlert("Could not save file", "An unexpected error occurred while creating the file, try again");
+                }
+            }
+    }
+
+    private void savePNG(String path, Canvas canvas) throws IOException {
+        WritableImage writableImage = new WritableImage((int)canvas.getWidth(), (int)canvas.getHeight());
+        canvas.snapshot(null, writableImage);
+        RenderedImage renderedImage = SwingFXUtils.fromFXImage(writableImage, null);
+        File file = new File(path);
+        ImageIO.write(renderedImage,"png",file);
+
     }
 
     private void savePDF(String path) throws FileNotFoundException {

@@ -28,6 +28,7 @@ public class App extends Application {
         stage = s;
         //Icons made by Freepik "https://www.freepik.com" from Flaticon "https://www.flaticon.com/"
         stage.getIcons().add(new Image("icon.png"));
+        //Compass edited from : "https://pngtree.com/so/compass" , pngtree.com
         FXMLLoader fxmlLoader = new FXMLLoader(ClassLoader.getSystemResource("view/MainWindow.fxml"));
         //URL url = new File("src/main/resources/view/MainWindow.fxml").toURI().toURL();
         root = fxmlLoader.load();

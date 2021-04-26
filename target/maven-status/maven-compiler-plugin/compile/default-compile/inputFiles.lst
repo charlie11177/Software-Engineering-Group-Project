@@ -12,7 +12,6 @@ C:\Users\22mto\IdeaProjects\comp2211-airport\src\main\java\model\Console.java
 C:\Users\22mto\IdeaProjects\comp2211-airport\src\main\java\model\Direction.java
 C:\Users\22mto\IdeaProjects\comp2211-airport\src\main\java\controllers\RightScreenController.java
 C:\Users\22mto\IdeaProjects\comp2211-airport\src\main\java\controllers\LeftScreenController.java
-C:\Users\22mto\IdeaProjects\comp2211-airport\src\main\java\controllers\TopDownView.java
 C:\Users\22mto\IdeaProjects\comp2211-airport\src\main\java\model\CalculatorOutput.java
 C:\Users\22mto\IdeaProjects\comp2211-airport\src\main\java\model\PhysicalRunWay.java
 C:\Users\22mto\IdeaProjects\comp2211-airport\src\main\java\controllers\CenterScreenController.java
@@ -20,4 +19,5 @@ C:\Users\22mto\IdeaProjects\comp2211-airport\src\main\java\model\XMLParser.java
 C:\Users\22mto\IdeaProjects\comp2211-airport\src\main\java\controllers\AirportConfigController.java
 C:\Users\22mto\IdeaProjects\comp2211-airport\src\main\java\model\Model.java
 C:\Users\22mto\IdeaProjects\comp2211-airport\src\main\java\model\LogicalRunWay.java
+C:\Users\22mto\IdeaProjects\comp2211-airport\src\main\java\controllers\ViewMode.java
 C:\Users\22mto\IdeaProjects\comp2211-airport\src\main\java\Main.java

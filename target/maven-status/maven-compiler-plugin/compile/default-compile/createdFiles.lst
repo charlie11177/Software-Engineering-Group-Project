@@ -4,7 +4,6 @@ controllers\CenterScreenController.class
 model\PhysicalRunWay.class
 model\LogicalRunWay.class
 controllers\RunwayConfigController.class
-controllers\TopDownView.class
 model\PhysicalRunWay$1.class
 model\CalculatorOutput.class
 controllers\AlertController.class
@@ -17,6 +16,7 @@ model\Calculator.class
 controllers\AirportConfigController.class
 model\XMLParser$XMLTypes.class
 model\Direction.class
+controllers\ViewMode.class
 model\XMLParser.class
 controllers\LeftScreenController.class
 controllers\FontSize.class

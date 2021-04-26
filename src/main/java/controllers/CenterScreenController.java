@@ -3,12 +3,14 @@ package controllers;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.transform.Affine;
+import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Transform;
 import model.LogicalRunWay;
 import model.Model;
@@ -24,6 +26,7 @@ public class CenterScreenController {
     public Canvas sideOnCanvas;
     public PhysicalRunWay runway;
     private final int ARR_SIZE = 5;
+    public CheckBox matchCompasCB;
     private ViewMode viewMode;
     @FXML private Slider sizeSlider;
 
@@ -37,6 +40,20 @@ public class CenterScreenController {
         sizeSlider.valueProperty().addListener((ob, oldValue, newValue) -> {
             System.out.println(newValue.intValue());    //TODO: add resizing here
         });
+        matchCompasCB.selectedProperty().addListener((ob, oldValue, newValue) -> {
+            matchCompasClick(newValue);
+        });
+    }
+
+    public void matchCompasClick(boolean isSelected) {
+        if(Model.currentRunway == null)
+            return;
+        if(isSelected){
+            int degree = Model.currentRunway.getLeftRunway().getDegree();
+            topDowncanvas.setRotate(degree*10-90);
+        } else {
+            topDowncanvas.setRotate(0);
+        }
     }
 
     private void setupTopDownCanvas(){
@@ -69,15 +86,25 @@ public class CenterScreenController {
         viewMode = mode;
         if (mode == ViewMode.CALCULATIONS_RUNWAY) {
             Model.mainWindowController.savePDF.setDisable(false);
-            Model.mainWindowController.savePNG.setDisable(false);
+            Model.mainWindowController.savePNGSideOn.setDisable(false);
+            Model.mainWindowController.savePNGTopDown.setDisable(false);
         } else {
             Model.mainWindowController.savePDF.setDisable(true);
-            Model.mainWindowController.savePNG.setDisable(true);
+            Model.mainWindowController.savePNGSideOn.setDisable(true);
+            Model.mainWindowController.savePNGTopDown.setDisable(true);
+
         }
         topDownPane.getChildren().remove(topDowncanvas);
         setupTopDownCanvas();
         drawTopDown();
         drawSideOn(sideOnCanvas);
+        if (Model.currentRunway == null){
+            matchCompasCB.setDisable(true);
+//            matchCompasCB.setSelected(false);
+        } else {
+            matchCompasCB.setDisable(false);
+            matchCompasClick(matchCompasCB.isSelected());
+        }
     }
 
     private void drawTopDown() {
@@ -413,7 +440,7 @@ public class CenterScreenController {
         int width = (int) canvas.getWidth();
         int height = (int) canvas.getHeight();
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        gc.setFill(Color.WHITE);
+        gc.setFill(Color.WHITESMOKE);
         gc.fillRect(0,0,width,height);
 
         //scaling the figures out
@@ -448,7 +475,7 @@ public class CenterScreenController {
         gc.setLineDashes(3);
         gc.strokeLine(scale*9.2 ,hscale*8.1, scale*21.7, hscale*8.1 );
         gc.setLineDashes(0);
-
+//        canvas.setRotate(-90);
     }
 
     public void drawRunway(Canvas canvas){
@@ -483,8 +510,6 @@ public class CenterScreenController {
         drawStopway(gc,scale,hscale,Color.BLACK);
         drawDistances(gc,scale,hscale,leftRunway, RightRunway);
         drawDistancesIndicator(gc,scale,hscale);
-
-
     }
 
     private void drawDistances(GraphicsContext gc, Double scale, Double hscale, LogicalRunWay leftRunway, LogicalRunWay RightRunway) {
@@ -881,6 +906,4 @@ public class CenterScreenController {
         gc.fillRect((scale*9.2)+ x,(hscale*8.1)- y, width*5,height*5);
 
     }
-
-
 }
