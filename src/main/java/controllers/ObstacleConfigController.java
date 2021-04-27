@@ -70,7 +70,7 @@ public class ObstacleConfigController {
     }
 
     private void setupTextFields(){
-        textFields.addAll(Arrays.asList(distanceFromLTF,distanceFromRTF,distanceFromCLTF));
+        textFields.addAll(Arrays.asList(distanceFromLTF,distanceFromRTF));
         for(TextField t : textFields)
             t.textProperty().addListener((observable, oldValue, newValue) -> {
                 // "|[-\\+]?|[-\\+]?\\d+\\.?|[-\\+]?\\d+\\.?\\d+"
@@ -78,7 +78,7 @@ public class ObstacleConfigController {
                     t.setText(oldValue);
                 }
             });
-        List<TextField> temp = Arrays.asList(obstacleHeightTF,obstacleWidthTF);
+        List<TextField> temp = Arrays.asList(obstacleHeightTF,obstacleWidthTF,distanceFromCLTF);
         for(TextField t : temp) {
             t.setTextFormatter(new TextFormatter<>(change -> {
                 if (!change.getText().matches("(([0-9])*)")) change.setText("");
@@ -345,7 +345,11 @@ public class ObstacleConfigController {
                 return;
             }
             else if (!isObstaclePlacementCorrectlyPlaced())  {
-                AlertController.showWarningAlert("Obstacle length too big !","Make sure that the length of the obstacle does not exceed TORA.");
+                AlertController.showWarningAlert("Obstacle length too small !","Make sure that the length of the obstacle is not negative.");
+                placeObstacleCB.setSelected(false);
+                return;
+            } else if(!needsToBeRedeclared()){
+                AlertController.showWarningAlert("Runway does not need to be redeclared !","");
                 placeObstacleCB.setSelected(false);
                 return;
             }
@@ -359,6 +363,25 @@ public class ObstacleConfigController {
             updateVisualisation();
         }
 //        Model.updateVisualisation();
+    }
+
+    private boolean needsToBeRedeclared() {
+        if (Math.abs(Integer.parseInt(distanceFromCLTF.getText())) > 75)
+            return false;
+
+        if (Integer.parseInt(distanceFromLTF.getText()) < -60 &&
+                Integer.parseInt(distanceFromRTF.getText()) < -60)
+            return false;
+
+        int leftToda = Model.currentRunway.getLeftRunway().getTODA();
+        int leftThr = Model.currentRunway.getLeftRunway().getThreshold();
+        int rightToda = Model.currentRunway.getRightRunway().getTODA();
+        int rightThr = Model.currentRunway.getRightRunway().getThreshold();
+        if (Integer.parseInt(distanceFromLTF.getText()) > leftToda - leftThr + 60 &&
+                Integer.parseInt(distanceFromRTF.getText()) > rightToda - rightThr + 60)
+            return false;
+
+        return true;
     }
 
 

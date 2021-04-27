@@ -35,7 +35,7 @@ public class CenterScreenController {
     private final Color RUNWAY_COLOR = Color.rgb(77, 77, 77);
 
     //TODO: What colors to use: (non colourblind mode)
-    // Runway -> DARKGREY
+    // Runway -> RUNWAY_COLOR
     // Stopway -> Color.BLACK
     // Displaced Threshold -> Color.YELLOW
     // Clear Way -> Color.ORANGE
@@ -563,8 +563,8 @@ public class CenterScreenController {
         //LDA DOWN
         gc.fillText("LDA: " + RLDA + "m", scale*7, hscale*11.9);
         //draw landing directions
-        gc.fillText("LANDING - TAKEOFF DIRECTION", scale*3, hscale*3);
-        gc.fillText("LANDING - TAKEOFF DIRECTION", scale*19.8 , hscale*14);
+        gc.fillText("LANDING - TAKEOFF DIRECTION", scale*4.1, hscale*3);
+        gc.fillText("LANDING - TAKEOFF DIRECTION", scale*17 , hscale*14);
         if (leftRunway.getThreshold() != 0){
             gc.setFill(Color.YELLOW);
             gc.fillRect(scale*6, hscale*7, scale*1, hscale*2);
@@ -776,7 +776,7 @@ public class CenterScreenController {
         double LDA = scale*18;
         gc.setLineWidth(1);
         gc.setStroke(Color.BLACK);
-        drawArrow(gc,(scale*6), hscale*7-(3*hscale), (scale*6)+TODA, hscale*7-(3*hscale), Color.YELLOW); // CYAN
+        drawArrow(gc,(scale*6), hscale*7-(3*hscale), (scale*6)+TODA, hscale*7-(3*hscale), Color.ORANGE); // CYAN
         drawArrow(gc,(scale*6), hscale*7-(2.5*hscale), (scale*6)+ASDA, hscale*7-(2.5*hscale), Color.BLUE);// BLUE
         drawArrow(gc,(scale*6), hscale*7-(2*hscale), (scale*6)+TORA, hscale*7-(2*hscale), Color.RED); // RED LDA
         drawArrow(gc,(scale*7), hscale*7-(1.5*hscale), (scale*7)+LDA, hscale*7-(1.5*hscale), Color.PURPLE); //
@@ -845,7 +845,7 @@ public class CenterScreenController {
         gc.fillRect(scale*25, hscale*7, scale, hscale*2);
         gc.setFill(Color.WHITE);
         gc.fillText("Stop Way", scale*24.6 , hscale *8, 80);
-        gc.fillText("Stop Way", scale*3.8 , hscale *8, 80);
+        gc.fillText("Stop Way", scale*3.3 , hscale *8, 80);
 
     }
 

@@ -52,7 +52,7 @@
                 </TabPane>
                 <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                     <children>
-                  <HBox alignment="CENTER" maxHeight="33.0" minHeight="25.0" prefHeight="29.0" prefWidth="583.0" spacing="100.0">
+                  <HBox alignment="CENTER" maxHeight="33.0" minHeight="25.0" prefHeight="29.0" prefWidth="583.0" spacing="60.0">
                      <children>
                         <HBox alignment="CENTER" prefHeight="21.0" prefWidth="240.0">
                            <children>
