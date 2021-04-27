@@ -42,10 +42,10 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="View">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Default" />
+                        <MenuItem mnemonicParsing="false" onAction="#noBlindness" text="Default" />
                         <Menu mnemonicParsing="false" text="Colourblind theme">
                             <items>
-                                <MenuItem mnemonicParsing="false" onAction="#redColorblindness" text="Protanope" /> //fx:id="redless"
+                                <MenuItem mnemonicParsing="false" onAction="#redColorblindness" text="Protanope" />
                                 <MenuItem mnemonicParsing="false" onAction="#greenColorblindness" text="Deuteranope" />
                                 <MenuItem mnemonicParsing="false" onAction="#blueColorblindness" text="Tritanope" />
                             </items>

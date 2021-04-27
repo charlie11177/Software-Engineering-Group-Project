@@ -27,16 +27,14 @@ public class CenterScreenController {
     private ViewMode viewMode;
     @FXML private Slider sizeSlider;
 
-    @FXML private MenuBar menuBar;
-
     private Color skyC = Color.LIGHTSKYBLUE;
     private Color grassC = Color.FORESTGREEN;
     private Color gradedC = Color.TAN;
     private Color runwayC = Color.GREY;
     private Color thresholdC = Color.DARKBLUE;
     private Color stopwayC = Color.BLACK;
-    private Color clearwayC = Color.YELLOWGREEN;
-    private Color obstacleC = Color.DARKRED;
+    private Color clearwayC = Color.DARKMAGENTA;
+    private Color obstacleC = Color.RED;
 
 
 
@@ -895,42 +893,43 @@ public class CenterScreenController {
 
     }
 
-
-//    private Color skyC = Color.LIGHTSKYBLUE;
-//    private Color grassC = Color.FORESTGREEN;
-//    private Color gradedC = Color.TAN;
-//    private Color runwayC = Color.GREY;
-//    private Color thresholdC = Color.DARKBLUE;
-//    private Color stopwayC = Color.BLACK;
-//    private Color clearwayC = Color.YELLOWGREEN;
-//    private Color obstacleC = Color.DARKRED;
-
-
-    @FXML protected void redBlindness(){
-        redless();
-        updateVisualisation(viewMode);
-    }
-    @FXML protected void greenBlindness(){
-        redless();
-        updateVisualisation(viewMode);
-    }
-    @FXML protected void blueBlindness(){
-        blueless();
-        updateVisualisation(viewMode);
-    }
-
-    private void redless() {
-        clearwayC = Color.LIME;
-        skyC = Color.DODGERBLUE;
-        gradedC = Color.ROYALBLUE;
+    protected void redBlindness(){
+        defaultColors();
+        clearwayC = Color.BROWN;
+        skyC = gradedC = Color.ROYALBLUE;
         grassC = Color.LIMEGREEN;
-    }
 
-     private void blueless() {
+        updateVisualisation(viewMode);
+    }
+    protected void greenBlindness(){
+        defaultColors();
+        clearwayC = Color.CRIMSON;
+        gradedC = Color.MEDIUMBLUE;
+        grassC = Color.LIMEGREEN;
+
+        updateVisualisation(viewMode);
+    }
+    protected void blueBlindness(){
+        defaultColors();
         clearwayC = Color.PURPLE;
         skyC = Color.DODGERBLUE;
         grassC = Color.SPRINGGREEN;
         obstacleC = Color.ORANGERED;
+        obstacleC = Color.SADDLEBROWN;
+
+        updateVisualisation(viewMode);
+    }
+    protected void noBlindness(){
+        defaultColors();
+        updateVisualisation(viewMode);
+    }
+
+    private void defaultColors(){
+        skyC = Color.LIGHTSKYBLUE;
+        grassC = Color.FORESTGREEN;
+        gradedC = Color.TAN;
+        clearwayC = Color.DARKMAGENTA;
+        obstacleC = Color.RED;
     }
 
 }

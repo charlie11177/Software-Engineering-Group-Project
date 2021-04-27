@@ -390,4 +390,9 @@ public class MainWindowController {
     public void blueColorblindness(ActionEvent actionEvent) {
         Model.centerScreenController.blueBlindness();
     }
+    public void noBlindness(ActionEvent actionEvent) {
+        Model.centerScreenController.noBlindness();
+        defaultFontClick();
+    }
+
 }
