@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="centerScreen" maxHeight="5000.0" maxWidth="1500.0" prefHeight="695.0" prefWidth="580.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CenterScreenController">
+<VBox fx:id="centerScreen" maxHeight="5000.0" maxWidth="1500.0" prefHeight="695.0" prefWidth="580.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CenterScreenController">
     <children>
         <SplitPane dividerPositions="0.7920656634746922" orientation="VERTICAL" prefHeight="695.0" prefWidth="687.0" VBox.vgrow="ALWAYS">
             <items>
