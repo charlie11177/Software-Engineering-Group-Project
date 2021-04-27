@@ -56,55 +56,55 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="25.0" prefWidth="178.0" spacing="5.0">
                      <children>
-                        <ChoiceBox fx:id="leftPosition" prefHeight="25.0" prefWidth="70.0" />
-                        <Label alignment="CENTER" prefHeight="17.0" prefWidth="70.0" text="Position" />
-                        <Label fx:id="rightPositionLabel" accessibleText="calculated right position" alignment="CENTER" prefWidth="70.0" />
+                        <ChoiceBox fx:id="leftPosition" maxWidth="120.0" prefHeight="25.0" prefWidth="70.0" HBox.hgrow="SOMETIMES" />
+                        <Label alignment="CENTER" prefHeight="17.0" prefWidth="64.0" text="Position" />
+                        <Label fx:id="rightPositionLabel" accessibleText="calculated right position" alignment="CENTER" maxWidth="120.0" prefWidth="70.0" HBox.hgrow="SOMETIMES" />
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER" prefHeight="25.0" prefWidth="178.0" spacing="5.0">
+                  <HBox alignment="CENTER" prefHeight="25.0" prefWidth="178.0" spacing="5.0" VBox.vgrow="SOMETIMES">
                      <children>
-                        <TextField fx:id="leftDegreeTF" accessibleText="left degree field" prefHeight="25.0" prefWidth="70.0" promptText="01 to 18" />
+                        <TextField fx:id="leftDegreeTF" accessibleText="left degree field" maxWidth="120.0" prefHeight="25.0" prefWidth="70.0" promptText="01 to 18" HBox.hgrow="SOMETIMES" />
                         <Label alignment="CENTER" prefHeight="17.0" prefWidth="64.0" text="Degree" />
-                        <Label fx:id="rightDegreeLabel" accessibleText="calculated right degree" alignment="CENTER" prefWidth="70.0" />
+                        <Label fx:id="rightDegreeLabel" accessibleText="calculated right degree" alignment="CENTER" maxWidth="120.0" prefWidth="70.0" HBox.hgrow="SOMETIMES" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="25.0" prefWidth="178.0" spacing="5.0">
                      <children>
-                        <TextField fx:id="leftToraTF" accessibleText="left TORA field" prefHeight="25.0" prefWidth="70.0" promptText="meters" />
+                        <TextField fx:id="leftToraTF" accessibleText="left TORA field" maxWidth="120.0" prefHeight="25.0" prefWidth="70.0" promptText="meters" HBox.hgrow="SOMETIMES" />
                         <Label fx:id="toraLabel" alignment="CENTER" prefHeight="17.0" prefWidth="64.0" text="TORA" />
-                        <TextField fx:id="rightToraTF" accessibleText="right TORA field" prefHeight="25.0" prefWidth="70.0" promptText="meters" />
+                        <TextField fx:id="rightToraTF" accessibleText="right TORA field" maxWidth="120.0" prefHeight="25.0" prefWidth="70.0" promptText="meters" HBox.hgrow="SOMETIMES" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="25.0" prefWidth="178.0" spacing="5.0">
                      <children>
-                        <TextField fx:id="leftTodaTF" accessibleText="left TODA field" prefHeight="25.0" prefWidth="70.0" promptText="meters" />
+                        <TextField fx:id="leftTodaTF" accessibleText="left TODA field" maxWidth="120.0" prefHeight="25.0" prefWidth="70.0" promptText="meters" HBox.hgrow="SOMETIMES" />
                         <Label fx:id="todaLabel" alignment="CENTER" prefHeight="17.0" prefWidth="64.0" text="TODA" />
-                        <TextField fx:id="rightTodaTF" accessibleText="right TODA field" prefHeight="25.0" prefWidth="70.0" promptText="meters" />
+                        <TextField fx:id="rightTodaTF" accessibleText="right TODA field" maxWidth="120.0" prefHeight="25.0" prefWidth="70.0" promptText="meters" HBox.hgrow="SOMETIMES" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="25.0" prefWidth="178.0" spacing="5.0">
                      <children>
-                        <TextField fx:id="leftAsdaTF" accessibleText="left ASDA field" prefHeight="25.0" prefWidth="70.0" promptText="meters" />
+                        <TextField fx:id="leftAsdaTF" accessibleText="left ASDA field" maxWidth="120.0" prefHeight="25.0" prefWidth="70.0" promptText="meters" HBox.hgrow="SOMETIMES" />
                         <Label fx:id="asdaLabel" alignment="CENTER" prefHeight="17.0" prefWidth="64.0" text="ASDA">
                            <HBox.margin>
                               <Insets />
                            </HBox.margin>
                         </Label>
-                        <TextField fx:id="rightAsdaTF" accessibleText="right ASDA field" prefHeight="25.0" prefWidth="70.0" promptText="meters" />
+                        <TextField fx:id="rightAsdaTF" accessibleText="right ASDA field" maxWidth="120.0" prefHeight="25.0" prefWidth="70.0" promptText="meters" HBox.hgrow="SOMETIMES" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="25.0" prefWidth="178.0" spacing="5.0">
                      <children>
-                        <TextField fx:id="leftLdaTF" accessibleText="left DA field" prefHeight="25.0" prefWidth="70.0" promptText="meters" />
+                        <TextField fx:id="leftLdaTF" accessibleText="left DA field" maxWidth="120.0" prefHeight="25.0" prefWidth="70.0" promptText="meters" HBox.hgrow="SOMETIMES" />
                         <Label fx:id="ldaLabel" alignment="CENTER" prefHeight="17.0" prefWidth="64.0" text="LDA" />
-                        <TextField fx:id="rightLdaTF" accessibleText="right DA field" prefHeight="25.0" prefWidth="70.0" promptText="meters" />
+                        <TextField fx:id="rightLdaTF" accessibleText="right DA field" maxWidth="120.0" prefHeight="25.0" prefWidth="70.0" promptText="meters" HBox.hgrow="SOMETIMES" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="25.0" prefWidth="178.0" spacing="5.0">
                      <children>
-                        <TextField fx:id="leftThresholdTF" accessibleText="left Threshold field" prefHeight="25.0" prefWidth="70.0" promptText="meters" />
+                        <TextField fx:id="leftThresholdTF" accessibleText="left Threshold field" maxWidth="120.0" prefHeight="25.0" prefWidth="70.0" promptText="meters" HBox.hgrow="SOMETIMES" />
                         <Label fx:id="thresholdLabel" alignment="CENTER" prefHeight="17.0" prefWidth="64.0" text="THR" />
-                        <TextField fx:id="rightThresholdTF" accessibleText="right Threshold field" prefHeight="25.0" prefWidth="70.0" promptText="meters" />
+                        <TextField fx:id="rightThresholdTF" accessibleText="right Threshold field" maxWidth="120.0" prefHeight="25.0" prefWidth="70.0" promptText="meters" HBox.hgrow="SOMETIMES" />
                      </children>
                   </HBox>
                   <HBox fx:id="editButtons" alignment="CENTER" prefHeight="30.0" prefWidth="178.0" spacing="30.0">

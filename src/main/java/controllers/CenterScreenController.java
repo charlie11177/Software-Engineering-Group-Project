@@ -6,6 +6,8 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -42,16 +44,22 @@ public class CenterScreenController {
     @FXML
     private void initialize(){
         Model.centerScreenController = this;
+        console.setWrapText(true);
         Model.console.update();
         setupTopDownCanvas();
         setupSideOnCanvas();
         viewMode = ViewMode.DEFAULT;
         sizeSlider.valueProperty().addListener((ob, oldValue, newValue) -> {
-            System.out.println(newValue.intValue());    //TODO: add resizing here
+            sideOnCanvas.setScaleX((newValue.doubleValue()/100));
+            sideOnCanvas.setScaleY((newValue.doubleValue()/100));
+            topDowncanvas.setScaleX((newValue.doubleValue()/100));
+            topDowncanvas.setScaleY((newValue.doubleValue()/100));
         });
         matchCompasCB.selectedProperty().addListener((ob, oldValue, newValue) -> {
             matchCompasClick(newValue);
         });
+        topDownPane.setBackground(new Background(new BackgroundFill(GRASS_COLOR, null, null)));
+        sideOnPane.setBackground(new Background(new BackgroundFill(Color.LIGHTSKYBLUE, null, null)));
     }
 
     public void matchCompasClick(boolean isSelected) {
@@ -113,6 +121,10 @@ public class CenterScreenController {
             matchCompasCB.setDisable(false);
             matchCompasClick(matchCompasCB.isSelected());
         }
+        sideOnCanvas.setScaleX((sizeSlider.getValue()/100));
+        sideOnCanvas.setScaleY((sizeSlider.getValue()/100));
+        topDowncanvas.setScaleX((sizeSlider.getValue()/100));
+        topDowncanvas.setScaleY((sizeSlider.getValue()/100));
     }
 
     private void drawTopDown() {
@@ -142,6 +154,8 @@ public class CenterScreenController {
         gc.fillRect(0, 0, width, height);
         gc.setFill(GRASS_COLOR);
         gc.fillRect(0, height * 0.5, width, height * 0.5);
+        gc.setFill(RUNWAY_COLOR);
+        gc.fillRect(width * 0.125, height * 0.5, width * 0.75, height * 0.05);
 
         if (Model.currentRunway != null)
             drawRunwaySideOn(gc, width, height);
@@ -448,16 +462,16 @@ public class CenterScreenController {
         int width = (int) canvas.getWidth();
         int height = (int) canvas.getHeight();
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        gc.setFill(Color.WHITESMOKE);
-        gc.fillRect(0,0,width,height);
+//        gc.setFill(Color.WHITESMOKE);
+//        gc.fillRect(0,0,width,height);
 
         //scaling the figures out
         Double scale = (width *3.26/100 ); //around 30*30 cm by default
         Double hscale = (height *6.55/100);
 
         //safe height & clear graded area
-        gc.setStroke(Color.BLACK);
-        gc.strokeRect(0, 0, canvas.getWidth(), canvas.getHeight());
+//        gc.setStroke(Color.BLACK);
+//        gc.strokeRect(0, 0, canvas.getWidth(), canvas.getHeight());
         gc.setFill(GRASS_COLOR);
         gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
         gc.setFill(Color.rgb(0, 122, 238));
@@ -478,7 +492,7 @@ public class CenterScreenController {
         }
         gc.setFill(Color.BLACK);
         gc.setFont(new Font("Arial", scale-10));
-        gc.fillText("Clear Graded Area", scale*13.6 , hscale * 5, 200);
+        gc.fillText("Clear Graded Area", scale*13.5 , hscale * 5, 200);
         gc.setStroke(Color.WHITE);
         gc.setLineWidth(scale*(25/100));
         gc.setLineDashes(3);
@@ -491,8 +505,8 @@ public class CenterScreenController {
         int width = (int) canvas.getWidth();
         int height = (int) canvas.getHeight();
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        gc.setFill(Color.WHITE);
-        gc.fillRect(0,0,width,height);
+//        gc.setFill(Color.WHITE);
+//        gc.fillRect(0,0,width,height);
         Double scale = (width *3.26/100 );
         Double hscale = (height *6.55/100);
 
@@ -563,8 +577,8 @@ public class CenterScreenController {
         int width = (int) canvas.getWidth();
         int height = (int) canvas.getHeight();
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        gc.setFill(Color.WHITE);
-        gc.fillRect(0,0,width,height);
+//        gc.setFill(Color.WHITE);
+//        gc.fillRect(0,0,width,height);
         LogicalRunWay leftRunway = runway.getLeftRunway();
         LogicalRunWay RightRunway = runway.getRightRunway();
         if( RightRunway.getThreshold() != 0){
@@ -595,8 +609,8 @@ public class CenterScreenController {
         int width = (int) canvas.getWidth();
         int height = (int) canvas.getHeight();
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        gc.setFill(Color.WHITE);
-        gc.fillRect(0,0,width,height);
+//        gc.setFill(Color.WHITE);
+//        gc.fillRect(0,0,width,height);
         LogicalRunWay leftRunway = Model.recalculatedRunwayLeft;
         LogicalRunWay RightRunway = Model.recalculatedRunwayRight;
 
@@ -890,9 +904,9 @@ public class CenterScreenController {
             d = (d + 0.15);
         }
 
-        gc.fillText(String.valueOf(lDegree) +"L",scale*8.5, hscale* 8.2);
+        gc.fillText(Model.currentRunway.getLeftRunway().toString(),scale*8.5, hscale* 8.2);
         gc.setFill(Color.WHITE);
-        gc.fillText(String.valueOf(rDegree) + "R",scale*22, hscale* 8.2);
+        gc.fillText(Model.currentRunway.getRightRunway().toString(),scale*22, hscale* 8.2);
         gc.setFill(Color.BLACK);
         //gc.setFont(new Font("Arial", scale-10));
         gc.setLineWidth(scale*(25/100));
