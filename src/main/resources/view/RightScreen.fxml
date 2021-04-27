@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="rightScreen" alignment="CENTER" minWidth="200.0" prefHeight="1055.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.RightScreenController">
+<VBox fx:id="rightScreen" alignment="CENTER" minWidth="200.0" prefHeight="1055.0" prefWidth="335.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.RightScreenController">
    <children>
       <Label fx:id="originalValuesLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" text="Original values">
          <font>
@@ -23,7 +23,7 @@
             <Insets bottom="3.0" />
          </VBox.margin>
       </Label>
-      <TableView fx:id="topTableView" fixedCellSize="0.0" prefHeight="78.0" prefWidth="286.0" stylesheets="@tableStyle.css" VBox.vgrow="NEVER" >
+      <TableView fx:id="topTableView" fixedCellSize="0.0" prefHeight="78.0" prefWidth="286.0" stylesheets="@tableStyle.css" VBox.vgrow="NEVER">
          <columns>
             <TableColumn fx:id="topNameColumn" editable="false" prefWidth="53.0" sortable="false">
                 <cellValueFactory>
@@ -59,12 +59,12 @@
           <items>
               <FXCollections fx:factory="observableArrayList" />
           </items>
-         <columnResizePolicy>
-            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-         </columnResizePolicy>
          <VBox.margin>
             <Insets />
          </VBox.margin>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
       </TableView>
       <Label fx:id="recalculatedValuesLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="21.0" prefWidth="139.0" text="Recalculated values">
          <VBox.margin>

@@ -4,7 +4,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.*;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Slider;
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -24,8 +28,19 @@ public class CenterScreenController {
     public Canvas sideOnCanvas;
     public PhysicalRunWay runway;
     private final int ARR_SIZE = 5;
+    public CheckBox matchCompasCB;
     private ViewMode viewMode;
     @FXML private Slider sizeSlider;
+    private final Color GRASS_COLOR = Color.rgb(71, 209, 71);
+    private final Color DARKBLUE = Color.rgb(0, 122, 238);
+    private final Color RUNWAY_COLOR = Color.rgb(77, 77, 77);
+
+    //TODO: What colors to use: (non colourblind mode)
+    // Runway -> RUNWAY_COLOR
+    // Stopway -> Color.BLACK
+    // Displaced Threshold -> Color.YELLOW
+    // Clear Way -> Color.ORANGE
+    // Obstacle -> Color.RED
 
     private Color skyC = Color.LIGHTSKYBLUE;
     private Color grassC = Color.FORESTGREEN;
@@ -41,13 +56,33 @@ public class CenterScreenController {
     @FXML
     private void initialize(){
         Model.centerScreenController = this;
+        console.setWrapText(true);
         Model.console.update();
         setupTopDownCanvas();
         setupSideOnCanvas();
         viewMode = ViewMode.DEFAULT;
         sizeSlider.valueProperty().addListener((ob, oldValue, newValue) -> {
-            System.out.println(newValue.intValue());    //TODO: add resizing here
+            sideOnCanvas.setScaleX((newValue.doubleValue()/100));
+            sideOnCanvas.setScaleY((newValue.doubleValue()/100));
+            topDowncanvas.setScaleX((newValue.doubleValue()/100));
+            topDowncanvas.setScaleY((newValue.doubleValue()/100));
         });
+        matchCompasCB.selectedProperty().addListener((ob, oldValue, newValue) -> {
+            matchCompasClick(newValue);
+        });
+        topDownPane.setBackground(new Background(new BackgroundFill(GRASS_COLOR, null, null)));
+        sideOnPane.setBackground(new Background(new BackgroundFill(Color.LIGHTSKYBLUE, null, null)));
+    }
+
+    public void matchCompasClick(boolean isSelected) {
+        if(Model.currentRunway == null)
+            return;
+        if(isSelected){
+            int degree = Model.currentRunway.getLeftRunway().getDegree();
+            topDowncanvas.setRotate(degree*10-90);
+        } else {
+            topDowncanvas.setRotate(0);
+        }
     }
 
     private void setupTopDownCanvas(){
@@ -67,7 +102,6 @@ public class CenterScreenController {
         sideOnCanvas.widthProperty().addListener(event -> drawSideOn(sideOnCanvas));
         sideOnCanvas.heightProperty().addListener(event -> drawSideOn(sideOnCanvas));
         drawSideOn(sideOnCanvas);
-
     }
 
     public void updateConsole(String text){
@@ -80,15 +114,29 @@ public class CenterScreenController {
         viewMode = mode;
         if (mode == ViewMode.CALCULATIONS_RUNWAY) {
             Model.mainWindowController.savePDF.setDisable(false);
-            Model.mainWindowController.savePNG.setDisable(false);
+            Model.mainWindowController.savePNGSideOn.setDisable(false);
+            Model.mainWindowController.savePNGTopDown.setDisable(false);
         } else {
             Model.mainWindowController.savePDF.setDisable(true);
-            Model.mainWindowController.savePNG.setDisable(true);
+            Model.mainWindowController.savePNGSideOn.setDisable(true);
+            Model.mainWindowController.savePNGTopDown.setDisable(true);
+
         }
         topDownPane.getChildren().remove(topDowncanvas);
         setupTopDownCanvas();
         drawTopDown();
         drawSideOn(sideOnCanvas);
+        if (Model.currentRunway == null){
+            matchCompasCB.setDisable(true);
+//            matchCompasCB.setSelected(false);
+        } else {
+            matchCompasCB.setDisable(false);
+            matchCompasClick(matchCompasCB.isSelected());
+        }
+        sideOnCanvas.setScaleX((sizeSlider.getValue()/100));
+        sideOnCanvas.setScaleY((sizeSlider.getValue()/100));
+        topDowncanvas.setScaleX((sizeSlider.getValue()/100));
+        topDowncanvas.setScaleY((sizeSlider.getValue()/100));
     }
 
     private void drawTopDown() {
@@ -118,6 +166,8 @@ public class CenterScreenController {
         gc.fillRect(0, 0, width, height * 0.5);
         gc.setFill(grassC);
         gc.fillRect(0, height * 0.5, width, height * 0.5);
+        gc.setFill(RUNWAY_COLOR);
+        gc.fillRect(width * 0.125, height * 0.5, width * 0.75, height * 0.05);
 
         if (Model.currentRunway != null)
             drawRunwaySideOn(gc, width, height);
@@ -424,22 +474,23 @@ public class CenterScreenController {
         int width = (int) canvas.getWidth();
         int height = (int) canvas.getHeight();
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        gc.setFill(Color.WHITE);
-        gc.fillRect(0,0,width,height);
+//        gc.setFill(Color.WHITESMOKE);
+//        gc.fillRect(0,0,width,height);
 
         //scaling the figures out
         Double scale = (width *3.26/100 ); //around 30*30 cm by default
         Double hscale = (height *6.55/100);
 
         //safe height & clear graded area
-        gc.setStroke(Color.BLACK);
-        gc.strokeRect(scale*3, hscale, canvas.getWidth() - (scale*6), canvas.getHeight() -(hscale*2));
-        gc.setFill(grassC);
-        gc.fillRect(scale*3, hscale, canvas.getWidth() - (scale*6), canvas.getHeight() -(hscale*2));
-        gc.setFill(gradedC);
+//        gc.setStroke(Color.BLACK);
+//        gc.strokeRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        gc.setFill(GRASS_COLOR);
+        gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        gc.setFill(Color.rgb(0, 122, 238));
         double[] pointX = {scale*3,scale*9, scale*10, scale*22, scale*23, scale*27.6, scale*27.6, scale*23, scale*22, scale*10, scale*9, scale*3};
         double[] pointY = {hscale*5,hscale*5, hscale*4, hscale*4, hscale*5, hscale*5, hscale*11, hscale*11, hscale*12, hscale*12, hscale*11, hscale*11};
         gc.fillPolygon(pointX, pointY,12);
+
 
         //BASIC RUNWAY
         gc.setFill(runwayC);
@@ -453,21 +504,21 @@ public class CenterScreenController {
         }
         gc.setFill(Color.BLACK);
         gc.setFont(new Font("Arial", scale-10));
-        gc.fillText("Clear Graded Area", scale*12 , hscale * 5, 200);
+        gc.fillText("Clear Graded Area", scale*13.5 , hscale * 5, 200);
         gc.setStroke(Color.WHITE);
         gc.setLineWidth(scale*(25/100));
         gc.setLineDashes(3);
         gc.strokeLine(scale*9.2 ,hscale*8.1, scale*21.7, hscale*8.1 );
         gc.setLineDashes(0);
-
+//        canvas.setRotate(-90);
     }
 
     public void drawRunway(Canvas canvas){
         int width = (int) canvas.getWidth();
         int height = (int) canvas.getHeight();
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        gc.setFill(Color.WHITE);
-        gc.fillRect(0,0,width,height);
+//        gc.setFill(Color.WHITE);
+//        gc.fillRect(0,0,width,height);
         Double scale = (width *3.26/100 );
         Double hscale = (height *6.55/100);
 
@@ -494,8 +545,6 @@ public class CenterScreenController {
         drawStopway(gc,scale,hscale,stopwayC);
         drawDistances(gc,scale,hscale,leftRunway, RightRunway);
         drawDistancesIndicator(gc,scale,hscale);
-
-
     }
 
     private void drawDistances(GraphicsContext gc, Double scale, Double hscale, LogicalRunWay leftRunway, LogicalRunWay RightRunway) {
@@ -526,8 +575,8 @@ public class CenterScreenController {
         //LDA DOWN
         gc.fillText("LDA: " + RLDA + "m", scale*7, hscale*11.9);
         //draw landing directions
-        gc.fillText("LANDING - TAKEOFF DIRECTION", scale*3, hscale*3);
-        gc.fillText("LANDING - TAKEOFF DIRECTION", scale*19.8 , hscale*14);
+        gc.fillText("LANDING - TAKEOFF DIRECTION", scale*4.1, hscale*3);
+        gc.fillText("LANDING - TAKEOFF DIRECTION", scale*17 , hscale*14);
         if (leftRunway.getThreshold() != 0){
             gc.setFill(thresholdC);
             gc.fillRect(scale*6, hscale*7, scale*1, hscale*2);
@@ -540,8 +589,8 @@ public class CenterScreenController {
         int width = (int) canvas.getWidth();
         int height = (int) canvas.getHeight();
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        gc.setFill(Color.WHITE);
-        gc.fillRect(0,0,width,height);
+//        gc.setFill(Color.WHITE);
+//        gc.fillRect(0,0,width,height);
         LogicalRunWay leftRunway = runway.getLeftRunway();
         LogicalRunWay RightRunway = runway.getRightRunway();
         if( RightRunway.getThreshold() != 0){
@@ -572,8 +621,8 @@ public class CenterScreenController {
         int width = (int) canvas.getWidth();
         int height = (int) canvas.getHeight();
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        gc.setFill(Color.WHITE);
-        gc.fillRect(0,0,width,height);
+//        gc.setFill(Color.WHITE);
+//        gc.fillRect(0,0,width,height);
         LogicalRunWay leftRunway = Model.recalculatedRunwayLeft;
         LogicalRunWay RightRunway = Model.recalculatedRunwayRight;
 
@@ -739,7 +788,7 @@ public class CenterScreenController {
         double LDA = scale*18;
         gc.setLineWidth(1);
         gc.setStroke(Color.BLACK);
-        drawArrow(gc,(scale*6), hscale*7-(3*hscale), (scale*6)+TODA, hscale*7-(3*hscale), Color.GREEN); // GREEN
+        drawArrow(gc,(scale*6), hscale*7-(3*hscale), (scale*6)+TODA, hscale*7-(3*hscale), Color.ORANGE); // CYAN
         drawArrow(gc,(scale*6), hscale*7-(2.5*hscale), (scale*6)+ASDA, hscale*7-(2.5*hscale), Color.BLUE);// BLUE
         drawArrow(gc,(scale*6), hscale*7-(2*hscale), (scale*6)+TORA, hscale*7-(2*hscale), Color.RED); // RED LDA
         drawArrow(gc,(scale*7), hscale*7-(1.5*hscale), (scale*7)+LDA, hscale*7-(1.5*hscale), Color.PURPLE); //
@@ -773,13 +822,13 @@ public class CenterScreenController {
         drawArrow(gc,(scale*25), hscale*10.5+(1.5*hscale), (scale*25)-TORA, hscale*10.5+(1.5*hscale),Color.PURPLE );
         drawArrow(gc,(scale*25), hscale*10.5+(2*hscale), (scale*25)-TORA, hscale*10.5+(2*hscale),Color.RED );
         drawArrow(gc,(scale*25), hscale*10.5+(2.5*hscale), (scale*25)-TORA, hscale*10.5+(2.5*hscale),Color.BLUE);
-        drawArrow(gc,(scale*25), hscale*10.5+(3*hscale), (scale*25)-ASDA, hscale*10.5+(3*hscale),Color.GREEN );
+        drawArrow(gc,(scale*25), hscale*10.5+(3*hscale), (scale*25)-ASDA, hscale*10.5+(3*hscale),Color.YELLOW );
 
         drawBArrow(gc,scale*3, hscale*2, scale*5, hscale*2, Color.BLACK);
         drawBArrow(gc,scale*27.7, hscale*13, scale*25.7, hscale*13, Color.BLACK);
         //threshold indicator
-        drawArrow(gc,scale*6.5, hscale*10 ,scale*6.5,hscale*9,Color.RED);
-        gc.fillText("Displaced Threshold", scale*6.5 , hscale*10.5, 70 );
+        drawArrow(gc,scale*6.5, hscale*10 ,scale*6.5,hscale*9,Color.YELLOW);
+        gc.fillText("Displaced Threshold", scale*6.5 , hscale*10.5, 500);
     }
 
     private void drawArrow(GraphicsContext gc, double x1, double y1, double x2, double y2, Color c){
@@ -808,7 +857,7 @@ public class CenterScreenController {
         gc.fillRect(scale*25, hscale*7, scale, hscale*2);
         gc.setFill(Color.WHITE);
         gc.fillText("Stop Way", scale*24.6 , hscale *8, 80);
-        gc.fillText("Stop Way", scale*3.8 , hscale *8, 80);
+        gc.fillText("Stop Way", scale*3.3 , hscale *8, 80);
 
     }
 
@@ -852,8 +901,8 @@ public class CenterScreenController {
         double[] pointY = {hscale*5,hscale*5, hscale*4, hscale*4, hscale*5, hscale*5, hscale*11, hscale*11, hscale*12, hscale*12, hscale*11, hscale*11};
         gc.fillPolygon(pointX, pointY,12);
         gc.setFill(Color.BLACK);
-        gc.setFont(new Font("Arial", 0.5*scale));
-        gc.fillText("Clear Graded Area", scale*12 , hscale * 5, 200);
+        gc.setFont(new Font("Arial", scale-10));
+        gc.fillText("Clear Graded Area", scale*13.5 , hscale * 5, 200);
     }
 
     private void drawRunwayRoad(GraphicsContext gc, double scale, double hscale, Integer lDegree, Integer rDegree){
@@ -867,9 +916,9 @@ public class CenterScreenController {
             d = (d + 0.15);
         }
 
-        gc.fillText(String.valueOf(lDegree) +"L",scale*8.5, hscale* 8.2);
+        gc.fillText(Model.currentRunway.getLeftRunway().toString(),scale*8.2, hscale* 8.2);
         gc.setFill(Color.WHITE);
-        gc.fillText(String.valueOf(rDegree) + "R",scale*22, hscale* 8.2);
+        gc.fillText(Model.currentRunway.getRightRunway().toString(),scale*21.5, hscale* 8.2);
         gc.setFill(Color.BLACK);
         //gc.setFont(new Font("Arial", scale-10));
         gc.setLineWidth(scale*(25/100));

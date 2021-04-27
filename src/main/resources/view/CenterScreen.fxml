@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
 <VBox fx:id="centerScreen" maxHeight="5000.0" maxWidth="1500.0" prefHeight="695.0" prefWidth="580.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CenterScreenController">
@@ -17,23 +24,47 @@
                     <tabs>
                         <Tab text="Top-Down View">
                             <content>
-                                <Pane fx:id="topDownPane" prefHeight="200.0" prefWidth="200.0" />
+                        <StackPane>
+                           <children>
+                                      <Pane fx:id="topDownPane" prefHeight="200.0" prefWidth="200.0" />
+                              <BorderPane>
+                                 <top>
+                                    <ImageView fitHeight="171.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER_RIGHT">
+                                       <image>
+                                          <Image url="@../compass.png" />
+                                       </image>
+                                       <BorderPane.margin>
+                                          <Insets />
+                                       </BorderPane.margin>
+                                    </ImageView>
+                                 </top>
+                              </BorderPane>
+                           </children>
+                        </StackPane>
                             </content>
                         </Tab>
                         <Tab text="Side-On View">
                             <content>
-                                <Pane fx:id="sideOnPane" prefHeight="200.0" prefWidth="200.0" />
+                                <Pane fx:id="sideOnPane" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: linear-gradient(#87CEFA 0%, #87CEFA 50%, rgb(71,209,71) 50%, rgb(71,209,71) 100%);;" />
                             </content>
                         </Tab>
                     </tabs>
                 </TabPane>
                 <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                     <children>
-                        <Slider fx:id="sizeSlider" blockIncrement="1.0" majorTickUnit="1.0" maxWidth="170.0" minWidth="50.0" minorTickCount="0" snapToTicks="true" value="50.0" VBox.vgrow="NEVER">
-                            <VBox.margin>
-                                <Insets bottom="2.0" top="2.0" />
-                            </VBox.margin></Slider>
-                        <TextArea fx:id="console" editable="false" maxHeight="500.0" minHeight="0.0" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                  <HBox alignment="CENTER" maxHeight="33.0" minHeight="25.0" prefHeight="29.0" prefWidth="583.0" spacing="60.0">
+                     <children>
+                        <HBox alignment="CENTER" prefHeight="21.0" prefWidth="240.0">
+                           <children>
+                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="29.0" prefWidth="30.0" text="🔍-" />
+                                    <Slider fx:id="sizeSlider" blockIncrement="1.0" majorTickUnit="1.0" max="150.0" maxWidth="284.0" min="50.0" minWidth="50.0" minorTickCount="0" prefHeight="14.0" prefWidth="190.0" snapToTicks="true" value="100.0" />
+                              <Label alignment="CENTER" layoutX="10.0" layoutY="14.0" prefHeight="32.0" prefWidth="30.0" text="🔍+" />
+                           </children>
+                        </HBox>
+                        <CheckBox fx:id="matchCompasCB" disable="true" mnemonicParsing="false" prefHeight="17.0" prefWidth="200.0" text="Match compass heading" />
+                     </children>
+                  </HBox>
+                        <TextArea fx:id="console" editable="false" minHeight="0.0" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                             <padding>
                                 <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                             </padding>
