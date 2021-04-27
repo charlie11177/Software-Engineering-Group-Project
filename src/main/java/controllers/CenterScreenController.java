@@ -776,7 +776,7 @@ public class CenterScreenController {
         double LDA = scale*18;
         gc.setLineWidth(1);
         gc.setStroke(Color.BLACK);
-        drawArrow(gc,(scale*6), hscale*7-(3*hscale), (scale*6)+TODA, hscale*7-(3*hscale), Color.GREEN); // GREEN
+        drawArrow(gc,(scale*6), hscale*7-(3*hscale), (scale*6)+TODA, hscale*7-(3*hscale), Color.YELLOW); // CYAN
         drawArrow(gc,(scale*6), hscale*7-(2.5*hscale), (scale*6)+ASDA, hscale*7-(2.5*hscale), Color.BLUE);// BLUE
         drawArrow(gc,(scale*6), hscale*7-(2*hscale), (scale*6)+TORA, hscale*7-(2*hscale), Color.RED); // RED LDA
         drawArrow(gc,(scale*7), hscale*7-(1.5*hscale), (scale*7)+LDA, hscale*7-(1.5*hscale), Color.PURPLE); //
@@ -810,7 +810,7 @@ public class CenterScreenController {
         drawArrow(gc,(scale*25), hscale*10.5+(1.5*hscale), (scale*25)-TORA, hscale*10.5+(1.5*hscale),Color.PURPLE );
         drawArrow(gc,(scale*25), hscale*10.5+(2*hscale), (scale*25)-TORA, hscale*10.5+(2*hscale),Color.RED );
         drawArrow(gc,(scale*25), hscale*10.5+(2.5*hscale), (scale*25)-TORA, hscale*10.5+(2.5*hscale),Color.BLUE);
-        drawArrow(gc,(scale*25), hscale*10.5+(3*hscale), (scale*25)-ASDA, hscale*10.5+(3*hscale),Color.GREEN );
+        drawArrow(gc,(scale*25), hscale*10.5+(3*hscale), (scale*25)-ASDA, hscale*10.5+(3*hscale),Color.YELLOW );
 
         drawBArrow(gc,scale*3, hscale*2, scale*5, hscale*2, Color.BLACK);
         drawBArrow(gc,scale*27.7, hscale*13, scale*25.7, hscale*13, Color.BLACK);
@@ -889,8 +889,8 @@ public class CenterScreenController {
         double[] pointY = {hscale*5,hscale*5, hscale*4, hscale*4, hscale*5, hscale*5, hscale*11, hscale*11, hscale*12, hscale*12, hscale*11, hscale*11};
         gc.fillPolygon(pointX, pointY,12);
         gc.setFill(Color.BLACK);
-        gc.setFont(new Font("Arial", 0.5*scale));
-        gc.fillText("Clear Graded Area", scale*12 , hscale * 5, 200);
+        gc.setFont(new Font("Arial", scale-10));
+        gc.fillText("Clear Graded Area", scale*13.5 , hscale * 5, 200);
     }
 
     private void drawRunwayRoad(GraphicsContext gc, double scale, double hscale, Integer lDegree, Integer rDegree){
@@ -904,9 +904,9 @@ public class CenterScreenController {
             d = (d + 0.15);
         }
 
-        gc.fillText(Model.currentRunway.getLeftRunway().toString(),scale*8.5, hscale* 8.2);
+        gc.fillText(Model.currentRunway.getLeftRunway().toString(),scale*8.2, hscale* 8.2);
         gc.setFill(Color.WHITE);
-        gc.fillText(Model.currentRunway.getRightRunway().toString(),scale*22, hscale* 8.2);
+        gc.fillText(Model.currentRunway.getRightRunway().toString(),scale*21.5, hscale* 8.2);
         gc.setFill(Color.BLACK);
         //gc.setFont(new Font("Arial", scale-10));
         gc.setLineWidth(scale*(25/100));

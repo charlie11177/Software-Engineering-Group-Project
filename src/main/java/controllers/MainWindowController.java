@@ -312,7 +312,10 @@ public class MainWindowController {
         File dest = fileChooser.showSaveDialog(menuBar.getScene().getWindow());
 
         if (dest != null) {
-            try{savePDF(dest.getPath());}
+            try{
+                savePDF(dest.getPath());
+                Model.console.addLog("Saved calculations as a PDF to: " + dest.getPath());
+            }
             catch (FileNotFoundException e){
                 AlertController.showErrorAlert("Could not save file","Please make sure that you have specified a unique name");
             }
@@ -327,6 +330,7 @@ public class MainWindowController {
         if (dest != null) {
             try{
                 savePNG(dest.getPath(),Model.centerScreenController.sideOnCanvas);
+                Model.console.addLog("Saved Side-On View as a PNG to: " + dest.getPath());
             } catch (IOException e){
                 AlertController.showErrorAlert("Could not save file","An unexpected error occurred while creating the file, try again");
             }
@@ -341,6 +345,7 @@ public class MainWindowController {
         if (dest != null) {
             try {
                 savePNG(dest.getPath(), Model.centerScreenController.topDowncanvas);
+                Model.console.addLog("Saved Top-On View as a PNG to: " + dest.getPath());
             } catch(IOException e){
                     AlertController.showErrorAlert("Could not save file", "An unexpected error occurred while creating the file, try again");
                 }
@@ -353,7 +358,6 @@ public class MainWindowController {
         RenderedImage renderedImage = SwingFXUtils.fromFXImage(writableImage, null);
         File file = new File(path);
         ImageIO.write(renderedImage,"png",file);
-
     }
 
     private void savePDF(String path) throws FileNotFoundException {
