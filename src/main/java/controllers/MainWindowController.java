@@ -381,4 +381,13 @@ public class MainWindowController {
         return table;
     }
 
+    public void redColorblindness(ActionEvent actionEvent) {
+        Model.centerScreenController.redBlindness();
+    }
+    public void greenColorblindness(ActionEvent actionEvent) {
+        Model.centerScreenController.greenBlindness();
+    }
+    public void blueColorblindness(ActionEvent actionEvent) {
+        Model.centerScreenController.blueBlindness();
+    }
 }

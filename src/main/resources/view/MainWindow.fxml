@@ -43,14 +43,20 @@
                 <Menu mnemonicParsing="false" text="View">
                     <items>
                         <MenuItem mnemonicParsing="false" text="Default" />
-                  <MenuItem mnemonicParsing="false" text="Colorblind" />
-                  <Menu mnemonicParsing="false" text="Font size">
-                    <items>
-                      <MenuItem mnemonicParsing="false" onAction="#defaultFontClick" text="Default" />
-                        <MenuItem mnemonicParsing="false" onAction="#mediumFontClick" text="Medium" />
-                        <MenuItem mnemonicParsing="false" onAction="#largeFontClick" text="Large" />
-                    </items>
-                  </Menu>
+                        <Menu mnemonicParsing="false" text="Colourblind theme">
+                            <items>
+                                <MenuItem mnemonicParsing="false" onAction="#redColorblindness" text="Protanope" /> //fx:id="redless"
+                                <MenuItem mnemonicParsing="false" onAction="#greenColorblindness" text="Deuteranope" />
+                                <MenuItem mnemonicParsing="false" onAction="#blueColorblindness" text="Tritanope" />
+                            </items>
+                        </Menu>
+                        <Menu mnemonicParsing="false" text="Font size">
+                            <items>
+                                <MenuItem mnemonicParsing="false" onAction="#defaultFontClick" text="Default" />
+                                <MenuItem mnemonicParsing="false" onAction="#mediumFontClick" text="Medium" />
+                                <MenuItem mnemonicParsing="false" onAction="#largeFontClick" text="Large" />
+                            </items>
+                        </Menu>
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Help">
