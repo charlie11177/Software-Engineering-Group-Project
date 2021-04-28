@@ -8,7 +8,7 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="768.0" minWidth="800.0" prefHeight="768.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MainWindowController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="768.0" minWidth="800.0" prefHeight="768.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MainWindowController">
     <children>
         <MenuBar fx:id="menuBar" prefHeight="0.0" prefWidth="676.0">
             <menus>
@@ -47,9 +47,9 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="View">
                     <items>
-                        <MenuItem mnemonicParsing="false" onAction="#noBlindness" text="Default" />
                         <Menu mnemonicParsing="false" text="Colourblind theme">
                             <items>
+                              <MenuItem mnemonicParsing="false" onAction="#noBlindness" text="Default" />
                                 <MenuItem mnemonicParsing="false" onAction="#redColorblindness" text="Protanope" />
                                 <MenuItem mnemonicParsing="false" onAction="#greenColorblindness" text="Deuteranope" />
                                 <MenuItem mnemonicParsing="false" onAction="#blueColorblindness" text="Tritanope" />

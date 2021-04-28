@@ -436,16 +436,19 @@ public class MainWindowController {
 
     public void redColorblindness(ActionEvent actionEvent) {
         Model.centerScreenController.redBlindness();
+        Model.console.addLog("Color Blind mode changed to: Protanope");
     }
     public void greenColorblindness(ActionEvent actionEvent) {
         Model.centerScreenController.greenBlindness();
+        Model.console.addLog("Color Blind mode changed to: Deuteranope");
     }
     public void blueColorblindness(ActionEvent actionEvent) {
         Model.centerScreenController.blueBlindness();
+        Model.console.addLog("Color Blind mode changed to: Tritanope");
     }
     public void noBlindness(ActionEvent actionEvent) {
         Model.centerScreenController.noBlindness();
-        defaultFontClick();
+        Model.console.addLog("Color Blind mode changed to: Default");
     }
 
 }

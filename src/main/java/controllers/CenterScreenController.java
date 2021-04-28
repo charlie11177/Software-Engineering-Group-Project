@@ -1,6 +1,5 @@
 package controllers;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -31,9 +30,17 @@ public class CenterScreenController {
     public CheckBox matchCompasCB;
     private ViewMode viewMode;
     @FXML private Slider sizeSlider;
-    private final Color GRASS_COLOR = Color.rgb(71, 209, 71);
-    private final Color DARKBLUE = Color.rgb(0, 122, 238);
-    private final Color RUNWAY_COLOR = Color.rgb(77, 77, 77);
+
+
+    private Color GRASS_COLOR; //= Color.rgb(71, 209, 71);
+    private Color DARKBLUE_COLOR; //= Color.rgb(0, 122, 238);
+    private Color RUNWAY_COLOR; //= Color.rgb(77, 77, 77);
+    private Color SKY_COLOR; //= Color.LIGHTSKYBLUE;
+    private Color RED_COLOR; //= Color.RED;
+    private Color ORANGE_COLOR; //= Color.ORANGE;
+    private Color YELLOW_COLOR; //= Color.YELLOW;
+    private Color BLUE_COLOR; //= Color.BLUE;
+    private Color PURPLE_COLOR; //= Color.PURPLE;
 
     //TODO: What colors to use: (non colourblind mode)
     // Runway -> RUNWAY_COLOR
@@ -42,22 +49,12 @@ public class CenterScreenController {
     // Clear Way -> Color.ORANGE
     // Obstacle -> Color.RED
 
-    private Color skyC = Color.LIGHTSKYBLUE;
-    private Color grassC = Color.FORESTGREEN;
-    private Color gradedC = Color.TAN;
-    private Color runwayC = Color.GREY;
-    private Color thresholdC = Color.DARKBLUE;
-    private Color stopwayC = Color.BLACK;
-    private Color clearwayC = Color.DARKMAGENTA;
-    private Color obstacleC = Color.RED;
-
-
-
     @FXML
     private void initialize(){
         Model.centerScreenController = this;
         console.setWrapText(true);
         Model.console.update();
+        defaultColors();
         setupTopDownCanvas();
         setupSideOnCanvas();
         viewMode = ViewMode.DEFAULT;
@@ -71,8 +68,9 @@ public class CenterScreenController {
             matchCompasClick(newValue);
         });
         topDownPane.setBackground(new Background(new BackgroundFill(GRASS_COLOR, null, null)));
-        sideOnPane.setBackground(new Background(new BackgroundFill(Color.LIGHTSKYBLUE, null, null)));
+        sideOnPane.setBackground(new Background(new BackgroundFill(SKY_COLOR, null, null)));
     }
+
 
     public void matchCompasClick(boolean isSelected) {
         if(Model.currentRunway == null)
@@ -80,8 +78,10 @@ public class CenterScreenController {
         if(isSelected){
             int degree = Model.currentRunway.getLeftRunway().getDegree();
             topDowncanvas.setRotate(degree*10-90);
+            Model.console.addLog("Top Down visualisation orientation is set to match with compass heading");
         } else {
             topDowncanvas.setRotate(0);
+            Model.console.addLog("Top Down visualisation orientation is set to default");
         }
     }
 
@@ -162,9 +162,9 @@ public class CenterScreenController {
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
         //Colour Background
-        gc.setFill(skyC);
-        gc.fillRect(0, 0, width, height * 0.5);
-        gc.setFill(grassC);
+        gc.setFill(Color.LIGHTSKYBLUE);
+        gc.fillRect(0, 0, width, height);
+        gc.setFill(GRASS_COLOR);
         gc.fillRect(0, height * 0.5, width, height * 0.5);
         gc.setFill(RUNWAY_COLOR);
         gc.fillRect(width * 0.125, height * 0.5, width * 0.75, height * 0.05);
@@ -192,23 +192,23 @@ public class CenterScreenController {
         double runway = Model.originalRunwayLeft.getTORA();
 
         //Draw main runway
-        gc.setFill(runwayC);
+        gc.setFill(RUNWAY_COLOR);
         gc.fillRect(width * 0.125, height * 0.5, width * 0.75, height * 0.05);
 
-        //Draw Clearways and Stopways if there are any
-        gc.setFill(clearwayC);
+        //Draw Stopways and Clearways if there are any
+        gc.setFill(Color.BLACK);
         if (leftClearway != 0 && leftClearway != leftStopway)
             gc.fillRect(width * 0.045, height * 0.5, width * 0.08, height * 0.05);
         if (rightClearway != 0 && rightClearway != rightStopway)
             gc.fillRect(width * 0.875, height * 0.5, width * 0.08, height * 0.05);
-        gc.setFill(stopwayC);
+        gc.setFill(ORANGE_COLOR);
         if (leftStopway != 0)
             gc.fillRect(width * 0.085, height * 0.5, width * 0.04, height * 0.05);
         if (rightStopway != 0)
             gc.fillRect(width * 0.875, height * 0.5, width * 0.04, height * 0.05);
 
         //Draw Displaced Threshold
-        gc.setFill(thresholdC);
+        gc.setFill(YELLOW_COLOR);
         if (leftThreshold != 0)
         {
             gc.fillRect(((width * 0.125) + ((leftThreshold / runway) * width * 0.75)) - (width * 0.01), height * 0.5, width * 0.01, height * 0.05);
@@ -227,7 +227,7 @@ public class CenterScreenController {
         double rightThreshold = Model.originalRunwayRight.getTORA() - Model.originalRunwayRight.getLDA();
         double obstacleWidth = (runway - (leftThreshold + rightThreshold)) - (obstacleFromLeft + obstacleFromRight);
 
-        gc.setFill(obstacleC);
+        gc.setFill(RED_COLOR);
         gc.fillRect(width * (0.125 + (((obstacleFromLeft + leftThreshold) * 0.75) / runway)), height * 0.42, Math.max((obstacleWidth / runway) * width * 0.75, width * 0.005), height * 0.21);
     }
 
@@ -493,7 +493,7 @@ public class CenterScreenController {
 
 
         //BASIC RUNWAY
-        gc.setFill(runwayC);
+        gc.setFill(RUNWAY_COLOR);
         gc.fillRect(scale*6, hscale*7, scale*19, hscale*2);
         Double d = 0.0;
         for(int i = 0;i <10;i ++){
@@ -540,9 +540,9 @@ public class CenterScreenController {
         Integer Lclearway = leftRunway.getClearway();
 
         drawSafeHeight(canvas,gc,scale,hscale);
-        drawClearway(gc,scale,hscale,clearwayC);
+        drawClearway(gc,scale,hscale,ORANGE_COLOR);
         drawRunwayRoad(gc,scale,hscale,lDegree,rDegree);
-        drawStopway(gc,scale,hscale,stopwayC);
+        drawStopway(gc,scale,hscale,Color.BLACK);
         drawDistances(gc,scale,hscale,leftRunway, RightRunway);
         drawDistancesIndicator(gc,scale,hscale);
     }
@@ -578,7 +578,7 @@ public class CenterScreenController {
         gc.fillText("LANDING - TAKEOFF DIRECTION", scale*4.1, hscale*3);
         gc.fillText("LANDING - TAKEOFF DIRECTION", scale*17 , hscale*14);
         if (leftRunway.getThreshold() != 0){
-            gc.setFill(thresholdC);
+            gc.setFill(YELLOW_COLOR);
             gc.fillRect(scale*6, hscale*7, scale*1, hscale*2);
         }
 
@@ -607,9 +607,9 @@ public class CenterScreenController {
         Double scale = (width *3.26/100 );
         Double hscale = (height *6.55/100);
         drawSafeHeight(canvas,gc,scale,hscale);
-        drawClearway(gc,scale,hscale,clearwayC);
+        drawClearway(gc,scale,hscale,ORANGE_COLOR);
         drawRunwayRoad(gc,scale,hscale,lDegree,rDegree);
-        drawStopway(gc,scale,hscale,stopwayC);
+        drawStopway(gc,scale,hscale,Color.BLACK);
         drawDistances(gc,scale,hscale,leftRunway, RightRunway);
         drawDistancesIndicator(gc,scale,hscale);
         drawObstacle(gc, scale, hscale, runway);
@@ -640,9 +640,9 @@ public class CenterScreenController {
         Double scale = (width *3.26/100 );
         Double hscale = (height *6.55/100);
         drawSafeHeight(canvas,gc,scale,hscale);
-        drawClearway(gc,scale,hscale,clearwayC);
+        drawClearway(gc,scale,hscale,ORANGE_COLOR);
         drawRunwayRoad(gc,scale,hscale,lDegree,rDegree);
-        drawStopway(gc,scale,hscale,stopwayC);
+        drawStopway(gc,scale,hscale,Color.BLACK);
         drawDistances(gc,scale,hscale,leftRunway, RightRunway);
         drawDistancesIndicator(gc,scale,hscale);
         drawObstacle(gc, scale, hscale, runway);
@@ -788,10 +788,10 @@ public class CenterScreenController {
         double LDA = scale*18;
         gc.setLineWidth(1);
         gc.setStroke(Color.BLACK);
-        drawArrow(gc,(scale*6), hscale*7-(3*hscale), (scale*6)+TODA, hscale*7-(3*hscale), Color.ORANGE); // CYAN
-        drawArrow(gc,(scale*6), hscale*7-(2.5*hscale), (scale*6)+ASDA, hscale*7-(2.5*hscale), Color.BLUE);// BLUE
-        drawArrow(gc,(scale*6), hscale*7-(2*hscale), (scale*6)+TORA, hscale*7-(2*hscale), Color.RED); // RED LDA
-        drawArrow(gc,(scale*7), hscale*7-(1.5*hscale), (scale*7)+LDA, hscale*7-(1.5*hscale), Color.PURPLE); //
+        drawArrow(gc,(scale*6), hscale*7-(3*hscale), (scale*6)+TODA, hscale*7-(3*hscale), ORANGE_COLOR); // CYAN
+        drawArrow(gc,(scale*6), hscale*7-(2.5*hscale), (scale*6)+ASDA, hscale*7-(2.5*hscale), BLUE_COLOR);// BLUE
+        drawArrow(gc,(scale*6), hscale*7-(2*hscale), (scale*6)+TORA, hscale*7-(2*hscale), RED_COLOR); // RED LDA
+        drawArrow(gc,(scale*7), hscale*7-(1.5*hscale), (scale*7)+LDA, hscale*7-(1.5*hscale), PURPLE_COLOR); //
         //indicators
         //downLeft
         gc.strokeLine(scale*6, hscale*9, scale*6, hscale*13);
@@ -819,15 +819,15 @@ public class CenterScreenController {
         double LDAT = scale;
         gc.setLineWidth(1);
         gc.setStroke(Color.BLACK);
-        drawArrow(gc,(scale*25), hscale*10.5+(1.5*hscale), (scale*25)-TORA, hscale*10.5+(1.5*hscale),Color.PURPLE );
-        drawArrow(gc,(scale*25), hscale*10.5+(2*hscale), (scale*25)-TORA, hscale*10.5+(2*hscale),Color.RED );
-        drawArrow(gc,(scale*25), hscale*10.5+(2.5*hscale), (scale*25)-TORA, hscale*10.5+(2.5*hscale),Color.BLUE);
-        drawArrow(gc,(scale*25), hscale*10.5+(3*hscale), (scale*25)-ASDA, hscale*10.5+(3*hscale),Color.YELLOW );
+        drawArrow(gc,(scale*25), hscale*10.5+(1.5*hscale), (scale*25)-TORA, hscale*10.5+(1.5*hscale),PURPLE_COLOR );
+        drawArrow(gc,(scale*25), hscale*10.5+(2*hscale), (scale*25)-TORA, hscale*10.5+(2*hscale),RED_COLOR );
+        drawArrow(gc,(scale*25), hscale*10.5+(2.5*hscale), (scale*25)-TORA, hscale*10.5+(2.5*hscale),BLUE_COLOR);
+        drawArrow(gc,(scale*25), hscale*10.5+(3*hscale), (scale*25)-ASDA, hscale*10.5+(3*hscale),YELLOW_COLOR );
 
         drawBArrow(gc,scale*3, hscale*2, scale*5, hscale*2, Color.BLACK);
         drawBArrow(gc,scale*27.7, hscale*13, scale*25.7, hscale*13, Color.BLACK);
         //threshold indicator
-        drawArrow(gc,scale*6.5, hscale*10 ,scale*6.5,hscale*9,Color.YELLOW);
+        drawArrow(gc,scale*6.5, hscale*10 ,scale*6.5,hscale*9,YELLOW_COLOR);
         gc.fillText("Displaced Threshold", scale*6.5 , hscale*10.5, 500);
     }
 
@@ -894,9 +894,9 @@ public class CenterScreenController {
     private void drawSafeHeight(Canvas canvas,GraphicsContext gc, double scale, double hscale){
         gc.setStroke(Color.BLACK);
         gc.strokeRect(scale*3, hscale, canvas.getWidth() - (scale*6), canvas.getHeight() -(hscale*2));
-        gc.setFill(grassC);
-        gc.fillRect(scale*3, hscale, canvas.getWidth() - (scale*6), canvas.getHeight() -(hscale*2));
-        gc.setFill(gradedC);
+        gc.setFill(GRASS_COLOR);
+        gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        gc.setFill(DARKBLUE_COLOR);
         double[] pointX = {scale*3,scale*9, scale*10, scale*22, scale*23, scale*27.6, scale*27.6, scale*23, scale*22, scale*10, scale*9, scale*3};
         double[] pointY = {hscale*5,hscale*5, hscale*4, hscale*4, hscale*5, hscale*5, hscale*11, hscale*11, hscale*12, hscale*12, hscale*11, hscale*11};
         gc.fillPolygon(pointX, pointY,12);
@@ -906,7 +906,7 @@ public class CenterScreenController {
     }
 
     private void drawRunwayRoad(GraphicsContext gc, double scale, double hscale, Integer lDegree, Integer rDegree){
-        gc.setFill(runwayC);
+        gc.setFill(RUNWAY_COLOR);
         gc.fillRect(scale*6, hscale*7, scale*19, hscale*2);
         Double d = 0.0;
         for(int i = 0;i <10;i ++){
@@ -935,36 +935,39 @@ public class CenterScreenController {
         double y = p.getDistanceFromCL();
         double width = Model.currentObstacle.getWidth();
         double height = Model.currentObstacle.getHeight();
-        gc.setFill(obstacleC);
+        gc.setFill(RED_COLOR);
         //centre lines
         //gc.strokeLine(scale*9.2 ,hscale*8.1, scale*21.7, hscale*8.1 );
         gc.fillRect((scale*9.2)+ x,(hscale*8.1)- y, width*5,height*5);
 
     }
 
+    // Please set the colors for the updated color scheme, used in defaultColors(), sorry about this
     protected void redBlindness(){
         defaultColors();
-        clearwayC = Color.BROWN;
-        skyC = gradedC = Color.ROYALBLUE;
-        grassC = Color.LIMEGREEN;
-
+        // example: GRASS_COLOR = Color.PINK;
+//        clearwayC = Color.BROWN;
+//        skyC = gradedC = Color.ROYALBLUE;
+//        grassC = Color.LIMEGREEN;
+//
         updateVisualisation(viewMode);
     }
     protected void greenBlindness(){
         defaultColors();
-        clearwayC = Color.CRIMSON;
-        gradedC = Color.MEDIUMBLUE;
-        grassC = Color.LIMEGREEN;
-
+//        clearwayC = Color.CRIMSON;
+//        gradedC = Color.MEDIUMBLUE;
+//        grassC = Color.LIMEGREEN;
+//
         updateVisualisation(viewMode);
     }
+
     protected void blueBlindness(){
         defaultColors();
-        clearwayC = Color.PURPLE;
-        skyC = Color.DODGERBLUE;
-        grassC = Color.SPRINGGREEN;
-        obstacleC = Color.ORANGERED;
-        obstacleC = Color.SADDLEBROWN;
+//        clearwayC = Color.PURPLE;
+//        skyC = Color.DODGERBLUE;
+//        grassC = Color.GRASS_COLOR;
+//        obstacleC = Color.ORANGERED;
+//        obstacleC = Color.SADDLEBROWN;
 
         updateVisualisation(viewMode);
     }
@@ -974,11 +977,15 @@ public class CenterScreenController {
     }
 
     private void defaultColors(){
-        skyC = Color.LIGHTSKYBLUE;
-        grassC = Color.FORESTGREEN;
-        gradedC = Color.TAN;
-        clearwayC = Color.DARKMAGENTA;
-        obstacleC = Color.RED;
+        GRASS_COLOR = Color.rgb(71, 209, 71);   //LIGHT GREEN
+        DARKBLUE_COLOR = Color.rgb(0, 122, 238);   //MEDIUM BLUE
+        RUNWAY_COLOR = Color.rgb(77, 77, 77);   //DARK GREY, probably doesn't need to be changed
+        SKY_COLOR = Color.LIGHTSKYBLUE;
+        RED_COLOR = Color.RED;
+        ORANGE_COLOR = Color.ORANGE;
+        YELLOW_COLOR = Color.YELLOW;
+        BLUE_COLOR = Color.BLUE;
+        PURPLE_COLOR = Color.PURPLE;
     }
 
 }
