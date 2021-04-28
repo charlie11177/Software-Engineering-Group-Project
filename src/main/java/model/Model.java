@@ -62,6 +62,7 @@ public class Model {
         airports.addAll(Arrays.asList(as));
     }
 
+
     public static void setCurrentRunway(PhysicalRunWay runway) {
         Model.currentRunway = runway;
         Model.originalRunwayLeft = runway.getLeftRunway();

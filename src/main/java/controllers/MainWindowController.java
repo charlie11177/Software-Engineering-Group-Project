@@ -18,6 +18,7 @@ import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
 import javafx.scene.image.WritableImage;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import model.*;
@@ -37,6 +38,9 @@ public class MainWindowController {
     public CustomMenuItem savePDF;
     public CustomMenuItem savePNGSideOn;
     public CustomMenuItem savePNGTopDown;
+    public VBox leftScreen;
+    public VBox centerScreen;
+    public VBox rightScreen;
     @FXML private MenuBar menuBar;
 
     private XMLParser xmlParser;
@@ -54,6 +58,8 @@ public class MainWindowController {
         Tooltip.install(savePDF.getContent(), new Tooltip("Calculations have to be performed before saving them as a PDF"));
         Tooltip.install(savePNGSideOn.getContent(), new Tooltip("Calculations have to be performed before saving the Recalculated views"));
         Tooltip.install(savePNGTopDown.getContent(), new Tooltip("Calculations have to be performed before saving the Recalculated views"));
+        SplitPane.setResizableWithParent(leftScreen, Boolean.FALSE);
+        SplitPane.setResizableWithParent(rightScreen, Boolean.FALSE);
 //        Tooltip.install(savePNGSideOn.getGraphic(), new Tooltip("Calculations have to be performed before saving the Recalculated views"));
     }
 
@@ -375,26 +381,26 @@ public class MainWindowController {
                 .setTextAlignment(TextAlignment.CENTER)
                 .setBold()
                 .setFontSize(18).setMarginBottom(1f));
-        doc.add(new Paragraph(date).setTextAlignment(TextAlignment.CENTER).setMarginBottom(10f));
+        doc.add(new Paragraph(date).setTextAlignment(TextAlignment.CENTER).setMarginBottom(5f));
 
         doc.add(new Paragraph().add("Airport").setBold().setUnderline().setFontColor(blueText).setTextAlignment(TextAlignment.CENTER));
-        doc.add(new Paragraph().add(Model.currentAirport.toString()).setMarginBottom(15f).setTextAlignment(TextAlignment.CENTER));
+        doc.add(new Paragraph().add(Model.currentAirport.toString()).setMarginBottom(10f).setTextAlignment(TextAlignment.CENTER));
 
         doc.add(new Paragraph().add("Runway " + Model.currentRunway.getLeftRunway().toString()).setBold().setFontColor(blueText).setUnderline().setTextAlignment(TextAlignment.CENTER));
-        doc.add(new Paragraph().add(Model.currentRunway.getLeftRunway().getData()).setMarginBottom(15f).setTextAlignment(TextAlignment.CENTER));
+        doc.add(new Paragraph().add(Model.currentRunway.getLeftRunway().getData()).setMarginBottom(10f).setTextAlignment(TextAlignment.CENTER));
 
         doc.add(new Paragraph().add("Runway " + Model.currentRunway.getRightRunway().toString()).setBold().setUnderline().setFontColor(blueText).setTextAlignment(TextAlignment.CENTER));
-        doc.add(new Paragraph().add(Model.currentRunway.getRightRunway().getData()).setMarginBottom(15f).setTextAlignment(TextAlignment.CENTER));
+        doc.add(new Paragraph().add(Model.currentRunway.getRightRunway().getData()).setMarginBottom(10f).setTextAlignment(TextAlignment.CENTER));
 
         doc.add(new Paragraph().add("Obstacle").setBold().setUnderline().setFontColor(blueText).setTextAlignment(TextAlignment.CENTER));
-        doc.add(new Paragraph(Model.currentObstacle.toString()).setMarginBottom(15f).setTextAlignment(TextAlignment.CENTER));
+        doc.add(new Paragraph(Model.currentObstacle.toString()).setMarginBottom(10f).setTextAlignment(TextAlignment.CENTER));
 
         doc.add(new Paragraph().add("Calculation breakdowns").setBold().setUnderline().setFontColor(blueText).setTextAlignment(TextAlignment.CENTER));
-        doc.add(new Paragraph().add(new Paragraph(Model.rightScreenController.allCalculationsLeftTA.getText())).setTextAlignment(TextAlignment.CENTER).setMarginBottom(5f));
-        doc.add(new Paragraph().add(new Paragraph(Model.rightScreenController.allCalculationsRightTA.getText())).setTextAlignment(TextAlignment.CENTER).setMarginBottom(15f));
+        doc.add(new Paragraph().add(new Paragraph(Model.rightScreenController.allCalculationsLeftTA.getText())).setTextAlignment(TextAlignment.CENTER).setMarginBottom(3f));
+        doc.add(new Paragraph().add(new Paragraph(Model.rightScreenController.allCalculationsRightTA.getText())).setTextAlignment(TextAlignment.CENTER).setMarginBottom(10f));
 
         doc.add(new Paragraph().add("Original values").setBold().setTextAlignment(TextAlignment.CENTER)).setBottomMargin(1f);
-        doc.add(createTable(blue,lightBlue,Model.originalRunwayLeft, Model.originalRunwayRight)).setBottomMargin(10f);
+        doc.add(createTable(blue,lightBlue,Model.originalRunwayLeft, Model.originalRunwayRight)).setBottomMargin(5f);
 
         doc.add(new Paragraph().add("Recalculated values").setBold().setTextAlignment(TextAlignment.CENTER)).setBottomMargin(1f);
         doc.add(createTable(blue,lightBlue,Model.recalculatedRunwayLeft, Model.recalculatedRunwayRight));

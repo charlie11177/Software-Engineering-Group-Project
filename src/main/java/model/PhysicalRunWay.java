@@ -36,7 +36,7 @@ public class PhysicalRunWay {
 
     @Override
     public String toString(){
-        return leftRunway.toString() + "/" + rightRunway.toString();
+        return "ID:" + runwayID + "  " + leftRunway.toString() + "/" + rightRunway.toString();
     }
 
     public LogicalRunWay getLeftRunway() {
@@ -49,6 +49,10 @@ public class PhysicalRunWay {
 
     public int getRunwayID() {
         return runwayID;
+    }
+
+    public void setRunwayID(int id) {
+        runwayID = id;
     }
 
     public Obstacle getObstacle() {

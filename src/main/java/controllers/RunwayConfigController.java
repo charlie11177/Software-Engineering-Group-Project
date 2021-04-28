@@ -253,6 +253,7 @@ public class RunwayConfigController {
                 if (p.toString().equals(newValue)) {
                     Model.setCurrentRunway(p);
                     runwaySettingsGrayedOut();
+                    System.out.println(newValue);
                     Model.console.addLog("Runway selected: " + Model.currentRunway.toString());
                 }
             }
@@ -310,11 +311,14 @@ public class RunwayConfigController {
         Model.currentAirport.getRunways().remove(Model.currentRunway);
         Model.console.addLog("Runway removed: " + Model.currentRunway.toString());
         runwayChoiceBox.getItems().remove(Model.currentRunway.toString());
+        for (int i = 0; i < Model.currentAirport.getRunways().size(); i++)
+            Model.currentAirport.getRunways().get(i).setRunwayID(i+1);
         Model.currentRunway = null;
         Model.setObstaclePlaced(false);
         Model.obstacleConfigController.windowCloseProcedure();
         runwayChoiceBox.setValue(null);
-        setChoiceBoxListenerEnabled(true);
+        populateRunwayNames();
+//        setChoiceBoxListenerEnabled(true);
         if(Model.currentAirport.getRunways().isEmpty()) noRunwaysView();
         else hasRunwaysView();
 //        Model.updateVisualisation();
@@ -424,7 +428,7 @@ public class RunwayConfigController {
                 if(r.getRunwayID() > id) id = r.getRunwayID();
 
         PhysicalRunWay runWay = null;
-        try { runWay = new PhysicalRunWay(id,left,right,null); }
+        try { runWay = new PhysicalRunWay(id+1,left,right,null); }
         catch (Exception e) { e.printStackTrace(); }
         Model.currentAirport.addNewRunway(runWay);
         Model.setCurrentRunway(runWay);

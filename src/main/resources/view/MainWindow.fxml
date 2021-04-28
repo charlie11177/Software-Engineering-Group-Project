@@ -71,7 +71,7 @@
                 </Menu>
             </menus>
         </MenuBar>
-      <SplitPane dividerPositions="0.13416422287390029, 0.7412023460410557" prefHeight="746.0" prefWidth="1340.0" VBox.vgrow="ALWAYS">
+      <SplitPane dividerPositions="0.1415, 0.75" prefHeight="746.0" prefWidth="1340.0" VBox.vgrow="ALWAYS">
          <items>
             <fx:include fx:id="leftScreen" maxWidth="350.0" minWidth="190.0" prefHeight="695.0" prefWidth="250.0" source="LeftScreen.fxml" />
             <fx:include fx:id="centerScreen" maxHeight="1000.0" maxWidth="1500.0" prefHeight="695.0" prefWidth="590.0" source="CenterScreen.fxml" />

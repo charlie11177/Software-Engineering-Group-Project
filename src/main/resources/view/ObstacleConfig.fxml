@@ -30,7 +30,7 @@
                   <ChoiceBox fx:id="obstacleChoiceBox" accessibleText="list of obstacles" prefHeight="25.0" prefWidth="400.0" />
                   <HBox fx:id="editButtonsTop" alignment="CENTER" prefHeight="30.0" prefWidth="178.0" spacing="5.0">
                      <children>
-                        <Button fx:id="newObstacleButton" accessibleText="add new obstacle" mnemonicParsing="false" onAction="#newObstacleClick" prefHeight="25.0" prefWidth="40.0" text="➕" HBox.hgrow="SOMETIMES" />
+                        <Button fx:id="newObstacleButton" accessibleText="add new obstacle" cancelButton="true" mnemonicParsing="false" onAction="#newObstacleClick" prefHeight="25.0" prefWidth="40.0" text="➕" HBox.hgrow="SOMETIMES" />
                         <Button fx:id="deleteObstacleButton" accessibleText="delete current obstacle" layoutX="105.0" layoutY="11.0" mnemonicParsing="false" onAction="#deleteObstacleClick" prefHeight="25.0" prefWidth="40.0" text="➖" />
                         <Button fx:id="editObstacleButton" accessibleText="edit obstacle" mnemonicParsing="false" onAction="#editObstacleClick" prefHeight="25.0" prefWidth="45.0" text="Edit" HBox.hgrow="SOMETIMES">
                            <HBox.margin>

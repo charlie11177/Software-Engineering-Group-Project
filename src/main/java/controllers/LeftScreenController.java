@@ -65,7 +65,7 @@ public class LeftScreenController {
             Model.console.addLogWithoutTime("-------------------------- Selected config --------------------------");
             Model.console.addLogWithoutTime("Airport: " + Model.currentAirport.toString());
             PhysicalRunWay temp = Model.currentRunway;
-            Model.console.addLogWithoutTime("Physical Runway: " + temp.toString() + "  ID: " + temp.getRunwayID() + "  Placed Obstacle: " + temp.getObstacle().getName());
+            Model.console.addLogWithoutTime("Physical Runway: " + temp.toString() + "  Placed Obstacle: " + temp.getObstacle().getName());
             Model.console.addLogWithoutTime("Left Runway: " +  temp.getLeftRunway().getData());
             Model.console.addLogWithoutTime("Right Runway: " + temp.getRightRunway().getData());
             Model.console.addLogWithoutTime("Obstacle " + Model.currentObstacle.toString());
