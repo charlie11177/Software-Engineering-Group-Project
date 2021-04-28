@@ -437,6 +437,7 @@ public class CenterScreenController {
                 fillArrow(gc, obstacleRight, height  * 0.525, width * (0.875 - (0.75 * leftLDA / runway)), height * 0.525, "");
                 gc.strokeText("(Height * 50) + Runway end : " + (thresholdDisplacement - 60) + " + 60", obstacleRight - 220, height * 0.531);
                 gc.strokeLine(obstacleRight + (((thresholdDisplacement - 60)/thresholdDisplacement) * ((width * (0.875 - (0.75 * leftLDA / runway))) - obstacleRight)), (height *0.525) + 10, obstacleRight + (((thresholdDisplacement - 60)/thresholdDisplacement) * ((width * (0.875 - (0.75 * leftLDA / runway))) - obstacleRight)), (height * 0.525) - 10);
+
             }
         }
     }
