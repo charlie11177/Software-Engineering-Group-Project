@@ -434,21 +434,25 @@ public class MainWindowController {
         return table;
     }
 
-    public void redColorblindness(ActionEvent actionEvent) {
+    public void redColorblindness() {
         Model.centerScreenController.redBlindness();
         Model.console.addLog("Color Blind mode changed to: Protanope");
+        Model.colorBlindMode = ColorBlindMode.PROTANOPE;
     }
-    public void greenColorblindness(ActionEvent actionEvent) {
+    public void greenColorblindness() {
         Model.centerScreenController.greenBlindness();
         Model.console.addLog("Color Blind mode changed to: Deuteranope");
+        Model.colorBlindMode = ColorBlindMode.DEUTERANOPE;
     }
-    public void blueColorblindness(ActionEvent actionEvent) {
+    public void blueColorblindness() {
         Model.centerScreenController.blueBlindness();
         Model.console.addLog("Color Blind mode changed to: Tritanope");
+        Model.colorBlindMode = ColorBlindMode.TRITANOPE;
     }
-    public void noBlindness(ActionEvent actionEvent) {
+    public void noBlindness() {
         Model.centerScreenController.noBlindness();
         Model.console.addLog("Color Blind mode changed to: Default");
+        Model.colorBlindMode = ColorBlindMode.DEFAULT;
     }
 
 }

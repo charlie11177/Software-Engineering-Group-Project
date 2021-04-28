@@ -31,16 +31,15 @@ public class CenterScreenController {
     private ViewMode viewMode;
     @FXML private Slider sizeSlider;
 
-
-    private Color GRASS_COLOR; //= Color.rgb(71, 209, 71);
-    private Color DARKBLUE_COLOR; //= Color.rgb(0, 122, 238);
-    private Color RUNWAY_COLOR; //= Color.rgb(77, 77, 77);
-    private Color SKY_COLOR; //= Color.LIGHTSKYBLUE;
-    private Color RED_COLOR; //= Color.RED;
-    private Color ORANGE_COLOR; //= Color.ORANGE;
-    private Color YELLOW_COLOR; //= Color.YELLOW;
-    private Color BLUE_COLOR; //= Color.BLUE;
-    private Color PURPLE_COLOR; //= Color.PURPLE;
+    private Color GRASS_COLOR;
+    private Color DARKBLUE_COLOR;
+    private Color RUNWAY_COLOR;
+    private Color SKY_COLOR;
+    private Color RED_COLOR;
+    private Color ORANGE_COLOR;
+    private Color YELLOW_COLOR;
+    private Color BLUE_COLOR;
+    private Color PURPLE_COLOR;
 
     //TODO: What colors to use: (non colourblind mode)
     // Runway -> RUNWAY_COLOR
@@ -67,8 +66,7 @@ public class CenterScreenController {
         matchCompasCB.selectedProperty().addListener((ob, oldValue, newValue) -> {
             matchCompasClick(newValue);
         });
-        topDownPane.setBackground(new Background(new BackgroundFill(GRASS_COLOR, null, null)));
-        sideOnPane.setBackground(new Background(new BackgroundFill(SKY_COLOR, null, null)));
+        setBackground();
     }
 
 
@@ -122,6 +120,12 @@ public class CenterScreenController {
             Model.mainWindowController.savePNGTopDown.setDisable(true);
 
         }
+//        switch (Model.colorBlindMode){
+//            case DEFAULT -> defaultColors();
+//            case PROTANOPE -> redBlindness();
+//            case DEUTERANOPE -> greenBlindness();
+//            case TRITANOPE -> blueBlindness();
+//        }
         topDownPane.getChildren().remove(topDowncanvas);
         setupTopDownCanvas();
         drawTopDown();
@@ -162,7 +166,7 @@ public class CenterScreenController {
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
         //Colour Background
-        gc.setFill(Color.LIGHTSKYBLUE);
+        gc.setFill(SKY_COLOR);
         gc.fillRect(0, 0, width, height);
         gc.setFill(GRASS_COLOR);
         gc.fillRect(0, height * 0.5, width, height * 0.5);
@@ -486,7 +490,7 @@ public class CenterScreenController {
 //        gc.strokeRect(0, 0, canvas.getWidth(), canvas.getHeight());
         gc.setFill(GRASS_COLOR);
         gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        gc.setFill(Color.rgb(0, 122, 238));
+        gc.setFill(DARKBLUE_COLOR);
         double[] pointX = {scale*3,scale*9, scale*10, scale*22, scale*23, scale*27.6, scale*27.6, scale*23, scale*22, scale*10, scale*9, scale*3};
         double[] pointY = {hscale*5,hscale*5, hscale*4, hscale*4, hscale*5, hscale*5, hscale*11, hscale*11, hscale*12, hscale*12, hscale*11, hscale*11};
         gc.fillPolygon(pointX, pointY,12);
@@ -827,7 +831,7 @@ public class CenterScreenController {
         drawBArrow(gc,scale*3, hscale*2, scale*5, hscale*2, Color.BLACK);
         drawBArrow(gc,scale*27.7, hscale*13, scale*25.7, hscale*13, Color.BLACK);
         //threshold indicator
-        drawArrow(gc,scale*6.5, hscale*10 ,scale*6.5,hscale*9,YELLOW_COLOR);
+        drawArrow(gc,scale*6.5, hscale*10 ,scale*6.5,hscale*9,Color.BLACK);
         gc.fillText("Displaced Threshold", scale*6.5 , hscale*10.5, 500);
     }
 
@@ -942,33 +946,39 @@ public class CenterScreenController {
 
     }
 
+    protected void blueBlindness(){
+        defaultColors();
+        DARKBLUE_COLOR =  Color.rgb(71, 209, 71);
+        ORANGE_COLOR = Color.PURPLE;
+        SKY_COLOR = Color.DODGERBLUE;
+        GRASS_COLOR = Color.CORNSILK;
+        RED_COLOR = Color.RED;
+        YELLOW_COLOR = Color.HOTPINK;
+        setBackground();
+        updateVisualisation(viewMode);
+    }
+
     // Please set the colors for the updated color scheme, used in defaultColors(), sorry about this
     protected void redBlindness(){
         defaultColors();
-        // example: GRASS_COLOR = Color.PINK;
-//        clearwayC = Color.BROWN;
-//        skyC = gradedC = Color.ROYALBLUE;
-//        grassC = Color.LIMEGREEN;
-//
+        RED_COLOR = Color.rgb(64, 138, 255);
+        ORANGE_COLOR = Color.DARKRED;
+        SKY_COLOR = Color.YELLOW;
+        YELLOW_COLOR = Color.rgb(59, 30, 176);
+        DARKBLUE_COLOR = Color.rgb(245, 71, 225);
+        GRASS_COLOR = Color.CORNSILK;
+        setBackground();
         updateVisualisation(viewMode);
     }
     protected void greenBlindness(){
         defaultColors();
-//        clearwayC = Color.CRIMSON;
-//        gradedC = Color.MEDIUMBLUE;
-//        grassC = Color.LIMEGREEN;
-//
-        updateVisualisation(viewMode);
-    }
-
-    protected void blueBlindness(){
-        defaultColors();
-//        clearwayC = Color.PURPLE;
-//        skyC = Color.DODGERBLUE;
-//        grassC = Color.GRASS_COLOR;
-//        obstacleC = Color.ORANGERED;
-//        obstacleC = Color.SADDLEBROWN;
-
+        SKY_COLOR = Color.YELLOW;
+        RED_COLOR = Color.ORANGE;
+        ORANGE_COLOR = Color.DEEPPINK;
+        YELLOW_COLOR = Color.rgb(23, 124, 212);
+        DARKBLUE_COLOR = Color.rgb(71, 209, 71);
+        GRASS_COLOR = Color.CORNSILK;
+        setBackground();
         updateVisualisation(viewMode);
     }
     protected void noBlindness(){
@@ -986,6 +996,18 @@ public class CenterScreenController {
         YELLOW_COLOR = Color.YELLOW;
         BLUE_COLOR = Color.BLUE;
         PURPLE_COLOR = Color.PURPLE;
+        setBackground();
     }
+
+
+    private void setBackground(){
+        String skyHex = "#" + SKY_COLOR.toString().substring(2,SKY_COLOR.toString().length()-2);
+        String grassHex = "#" + GRASS_COLOR.toString().substring(2,GRASS_COLOR.toString().length()-2);
+
+        sideOnPane.setStyle("-fx-background-color: linear-gradient(" + skyHex+ " 0%, " + skyHex + " 50%, " + grassHex + " 50%, " + grassHex + " 100%);");
+        topDownPane.setBackground(new Background(new BackgroundFill(GRASS_COLOR, null, null)));
+    }
+
+
 
 }

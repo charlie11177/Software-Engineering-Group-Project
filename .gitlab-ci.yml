@@ -35,7 +35,7 @@ cache:
   tags:
     - runner
   script:
-    - 'mvn $MAVEN_CLI_OPTS -Dtest=CalculatorTest verify'
+    - 'mvn $MAVEN_CLI_OPTS -Dtest=StandardTests verify'
   except:
     variables:
       - $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH

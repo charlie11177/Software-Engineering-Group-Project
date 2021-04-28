@@ -79,20 +79,36 @@ public class RunwayConfigController {
     private void setupTextFields(){
         textFields.addAll(Arrays.asList(leftTodaTF, leftToraTF, leftAsdaTF, leftLdaTF, leftThresholdTF,
                 rightTodaTF, rightToraTF, rightAsdaTF, rightLdaTF, rightThresholdTF));
-        for(TextField t : textFields)
+        for(TextField t : textFields) {
             t.setTextFormatter(new TextFormatter<>(change -> {
                 if (!change.getText().matches("[0-9]*")) change.setText("");
                 return change;
             }));
+            t.textProperty().addListener((observable, oldValue, newValue) -> {
+                if (t.getText().length() > 4) {
+                    String s = t.getText().substring(0, 4);
+                    t.setText(s);
+                }
+            });
+        }
         textFields.add(leftDegreeTF);
         leftDegreeTF.setTextFormatter(new TextFormatter<>(change -> {
             if (!change.getText().matches("[0-9]+")) change.setText("");
             return change;
         }));
         leftDegreeTF.textProperty().addListener((observable, oldValue, newValue) -> {
-            if(newValue.equals("")) rightDegreeLabel.setText("");
-            else if(Integer.parseInt(newValue) > 18) rightDegreeLabel.setText("");
-            else rightDegreeLabel.setText(String.valueOf(Integer.parseInt(newValue)+18));
+            if(newValue.equals("")){
+                rightDegreeLabel.setText("");
+            } else if (newValue.length() > 2) {
+                String s = newValue.substring(0, 2);
+                leftDegreeTF.setText(s);
+                if (Integer.parseInt(s) > 18) rightDegreeLabel.setText("");
+                else rightDegreeLabel.setText(String.valueOf(Integer.parseInt(s)+18));
+            } else {
+                if (Integer.parseInt(newValue) > 18) rightDegreeLabel.setText("");
+                else rightDegreeLabel.setText(String.valueOf(Integer.parseInt(newValue)+18));
+            }
+
         });
     }
 

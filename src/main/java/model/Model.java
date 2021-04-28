@@ -43,6 +43,8 @@ public class Model {
     // console that holds all the log texts to display
     public static Console console = new Console();
     private static FontSize currentFontSize;
+    public static ColorBlindMode colorBlindMode = ColorBlindMode.DEFAULT;
+
 
     public static void setCurrentFontSize(FontSize fontSize) {
         currentFontSize = fontSize;

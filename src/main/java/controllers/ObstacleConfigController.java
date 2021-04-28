@@ -70,6 +70,7 @@ public class ObstacleConfigController {
     }
 
     private void setupTextFields(){
+
         textFields.addAll(Arrays.asList(distanceFromLTF,distanceFromRTF));
         for(TextField t : textFields)
             t.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -77,17 +78,60 @@ public class ObstacleConfigController {
                 if (!newValue.matches("|[-]?|[-]?\\d+")){
                     t.setText(oldValue);
                 }
+                if(t.getText().contains("-")){
+                    if (t.getText().length() > 5) {
+                        String s = t.getText().substring(0, 5);
+                        t.setText(s);
+                    }
+                } else if (t.getText().length() > 4) {
+                    String s = t.getText().substring(0, 4);
+                    t.setText(s);
+                }
             });
-        List<TextField> temp = Arrays.asList(obstacleHeightTF,obstacleWidthTF,distanceFromCLTF);
+        List<TextField> temp = Arrays.asList(obstacleHeightTF,obstacleWidthTF);
         for(TextField t : temp) {
-            t.setTextFormatter(new TextFormatter<>(change -> {
-                if (!change.getText().matches("(([0-9])*)")) change.setText("");
-                return change;
-            }));
+            textFieldFormatter(t);
+            textFieldLimiter(3,t);
         }
+        textFieldLimiterMinus(2,distanceFromCLTF);
         textFields.addAll(temp);
-        textFields.add(obstacleNameTF);
+        textFields.addAll(Arrays.asList(obstacleNameTF,distanceFromCLTF));
     }
+
+    private void textFieldLimiter(int max, TextField t){
+        t.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (t.getText().length() > max) {
+                String s = t.getText().substring(0, max);
+                t.setText(s);
+            }
+        });
+    }
+
+    private void textFieldLimiterMinus(int max, TextField t) {
+        t.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("|[-]?|[-]?\\d+")){
+                t.setText(oldValue);
+            }
+            if(t.getText().contains("-")){
+                if (t.getText().length() > max+1) {
+                    String s = t.getText().substring(0, max+1);
+                    t.setText(s);
+                }
+            }
+            else if (t.getText().length() > max) {
+                String s = t.getText().substring(0, max);
+                t.setText(s);
+            }
+        });
+    }
+
+    private void textFieldFormatter(TextField t){
+        t.setTextFormatter(new TextFormatter<>(change -> {
+            if (!change.getText().matches("(([0-9])*)")) change.setText("");
+            return change;
+        }));
+    }
+
 
     private void setupDirBox(){
         dirFromCLChoiceBox.getItems().add("L");
