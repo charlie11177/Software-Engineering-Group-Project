@@ -12,6 +12,8 @@ import model.Airport;
 import model.Model;
 import model.Obstacle;
 import model.XMLParser;
+import org.javatuples.Quintet;
+import org.javatuples.Sextet;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -38,15 +40,68 @@ public class MainWindowController {
         File xmlFile = fileChooser.showOpenDialog(menuBar.getScene().getWindow());
         if(xmlFile == null) return;
         Model.console.addLog("--- Importing Configuration from: " + xmlFile.getName() + " ---" );
+        // Get the airports and obstacles
+        if(importXMLPair(xmlParser.importConfigurationDATA(xmlFile))) {
+            if(importXMLConfig(xmlParser.importConfigurationCONFIG(xmlFile))) {
+//            Model.console.addLogWithoutTime("Imported " + importedAirports.size() + " Airports");
+//            Model.console.addLogWithoutTime("Imported " + importedObstacles.size() + " Obstacles");
+                Model.console.addLog("--- Finished importing Configuration from: " + xmlFile.getName() + " ---");
+                resetMenus();   // whole UI has to be reset and user actions removed, since the data is rewritten
+            } else {
+                Model.console.addLog("Failed an import - Issue importing config data from file: " + xmlFile.getName());
+                controllers.AlertController.showErrorAlert("Import Failed");
+            }
+        } else {
+            Model.console.addLog("Failed an import - Issue importing Aiports and Obstacles from file: " + xmlFile.getName());
+            controllers.AlertController.showErrorAlert("Import Failed");
+        }
+    }
+
+    /**
+     * Imports the state of the model (currentairport, colourblind, fontsize, etc.) from the config xml<br>
+     * returns false if unsuccesful, true if successful
+     * @param options
+     * @return
+     */
+    private boolean importXMLConfig(Sextet<Integer, Integer, Integer, String, Boolean, Boolean> options) {
         try {
-            Pair<ArrayList<Airport>, ArrayList<Obstacle>> pair = xmlParser.importConfiguration(xmlFile);
+            // Extract data from tuple
+            int currentAiport = options.getValue0();
+            int currentRunway = options.getValue1();
+            int currentObstacle = options.getValue2();
+            String fontSize = options.getValue3();
+            boolean obstaclePlaced = options.getValue4();
+            boolean colourBlindEnabled = options.getValue5();
+            // Update the model
+            Model.currentAirport = Model.airports.get(currentAiport);
+            Model.currentRunway = Model.airports.get(currentAiport).getRunways().get(currentRunway);
+            Model.currentObstacle = Model.obstacles.get(currentObstacle);
+            Model.setCurrentFontSize(FontSize.valueOf(fontSize));
+            Model.obstaclePlaced = obstaclePlaced;
+            // TODO Colourblind update
+            //Model.colourBlind = colourBlindEnabled;
+            return true;
+        }
+        catch (Exception e) {
+            return false;
+        }
+    }
+
+    /**
+     * Imports the airports and obstacles from the config xml<br>
+     * returns false if unsuccesful, true if successful
+     * @param xmlpair
+     * @return
+     */
+    private boolean importXMLPair(Pair<ArrayList<Airport>, ArrayList<Obstacle>> xmlpair) {
+        try {
+            Pair<ArrayList<Airport>, ArrayList<Obstacle>> pair = xmlpair;
 
             ArrayList<Airport> importedAirports = pair.getKey();
             ArrayList<Obstacle> importedObstacles = pair.getValue();
 
             if (!importedAirports.isEmpty())
             {
-                Model.airports = importedAirports;
                 Model.console.addLogWithoutTime("--- Imported Airports and Runways ---");
                 for (Airport a : Model.airports) {
                     Model.console.addLogWithoutTime(a.toString());
@@ -61,7 +116,6 @@ public class MainWindowController {
             Model.console.addLogWithoutTime("--- Imported Obstacles ---");
             if (!importedObstacles.isEmpty())
             {
-                Model.obstacles = importedObstacles;
                 for (Obstacle o : Model.obstacles) {
                     Model.console.addLogWithoutTime(o.getName());
                 }
@@ -69,19 +123,16 @@ public class MainWindowController {
                 Model.console.addLogWithoutTime("--- No Obstacles were found to import ---");
                 Model.obstacles.clear();
             }
+            Model.console.addLogWithoutTime("--- Finished Importing Obstacles ---");
             if(importedObstacles.isEmpty() && importedAirports.isEmpty()) {
                 throw (new Exception("Failed import"));
             }
-
-            Model.console.addLogWithoutTime("--- Finished Importing Obstacles ---");
-//            Model.console.addLogWithoutTime("Imported " + importedAirports.size() + " Airports");
-//            Model.console.addLogWithoutTime("Imported " + importedObstacles.size() + " Obstacles");
-            Model.console.addLog("--- Finished importing Configuration from: " + xmlFile.getName() + " ---" );
-            resetMenus();   // whole UI has to be reset and user actions removed, since the data is rewritten
+            Model.airports = importedAirports;
+            Model.obstacles = importedObstacles;
+            return true;
         }
         catch (Exception e) {
-            Model.console.addLog("Failed an import - Invalid Configuration XML selected");
-            controllers.AlertController.showErrorAlert("Import Failed");
+            return false;
         }
     }
 

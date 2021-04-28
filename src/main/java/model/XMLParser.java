@@ -2,6 +2,8 @@ package model;
 
 import controllers.ObstacleConfigController;
 import javafx.util.Pair;
+import org.javatuples.Quintet;
+import org.javatuples.Sextet;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -407,7 +409,7 @@ public class XMLParser {
         }
     }
 
-    public Pair<ArrayList<Airport>, ArrayList<Obstacle>> importConfiguration(File file) {
+    public Pair<ArrayList<Airport>, ArrayList<Obstacle>> importConfigurationDATA(File file) {
         List<model.PhysicalRunWay> runways = new ArrayList<model.PhysicalRunWay>();
         ArrayList<model.Airport> airports = new ArrayList<model.Airport>();
         ArrayList<model.Obstacle> obstacles = new ArrayList<>();
@@ -426,8 +428,30 @@ public class XMLParser {
             return new Pair<ArrayList<Airport>, ArrayList<Obstacle>>(airports, obstacles);
         } catch(Exception e) {
             System.err.println(e.getMessage() + " " + e.getLocalizedMessage());
+            return null;
         }
-        return null;
+    }
+
+    // Split into two methods so it's easier to edit the config part, presuming the airports and obstacles xml wont change
+    public Sextet<Integer, Integer, Integer, String, Boolean, Boolean> importConfigurationCONFIG(File file) {
+        try {
+            if (!validateXML(XMLTypes.FullConfig, file)) throw new Exception("Invalid");
+            DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+            Document document = documentBuilder.parse(file);
+            document.getDocumentElement().normalize();
+
+            int currentAirport = Integer.parseInt(document.getElementsByTagName("currentAirport").item(0).getTextContent());
+            int currentRunway = Integer.parseInt(document.getElementsByTagName("currentRunway").item(0).getTextContent());
+            int currentObstacle = Integer.parseInt(document.getElementsByTagName("currentObstacle").item(0).getTextContent());
+            String fontSize = document.getElementsByTagName("fontSize").item(0).getTextContent();
+            boolean obstaclePlaced = Boolean.getBoolean(document.getElementsByTagName("obstaclePlaced").item(0).getTextContent());
+            boolean colourBlindEnabled = Boolean.getBoolean(document.getElementsByTagName("colourBlindEnabled").item(0).getTextContent());
+
+            return new Sextet<>(currentAirport, currentRunway, currentObstacle, fontSize, obstaclePlaced, colourBlindEnabled);
+        } catch(Exception e) {
+            System.err.println(e.getMessage() + " " + e.getLocalizedMessage());
+            return null;
+        }
     }
 
     public void exportConfiguration(File file) {
@@ -586,6 +610,46 @@ public class XMLParser {
                     rightRunwayElement.appendChild(Threshold_R);
                 }
             }
+            // Add config info
+                /*
+                <xs:element type="xs:int" name="currentAirport"/>
+                <xs:element type="xs:int" name="currentRunway"/>
+                <xs:element type="xs:int" name="currentObstacle"/>
+                <xs:element type="xs:string" name="fontSize"/>
+                <xs:element type="xs:boolean" name="obstacledPlaced"/>
+                <xs:element type="xs:boolean" name="colourBlindEnabled"/>
+                 */
+            int currentAiport = Model.airports.indexOf(Model.currentAirport);
+            int currentRunway = Model.currentAirport.getRunways().indexOf(Model.currentRunway);
+            int currentObstacle = Model.obstacles.indexOf(Model.currentObstacle);
+            String fontSize = Model.getCurrentFontSize().toString();
+            boolean obstaclePlaced = Model.obstaclePlaced;
+            boolean colourBlindEnabled = false;
+
+            Element currentAirportTag = document.createElement("currentAirport");
+            currentAirportTag.appendChild(document.createTextNode(String.valueOf(currentAiport)));
+            root.appendChild(currentAirportTag);
+
+            Element currentRunwayTag = document.createElement("currentRunway");
+            currentRunwayTag.appendChild(document.createTextNode(String.valueOf(currentRunway)));
+            root.appendChild(currentRunwayTag);
+
+            Element currentObstacleTag = document.createElement("currentObstacle");
+            currentObstacleTag.appendChild(document.createTextNode(String.valueOf(currentObstacle)));
+            root.appendChild(currentObstacleTag);
+
+            Element fontSizeTag = document.createElement("fontSize");
+            fontSizeTag.appendChild(document.createTextNode(fontSize));
+            root.appendChild(fontSizeTag);
+
+            Element obstaclePlacedTag = document.createElement("obstacledPlaced");
+            obstaclePlacedTag.appendChild(document.createTextNode(String.valueOf(obstaclePlaced)));
+            root.appendChild(obstaclePlacedTag);
+
+            Element colourBlindEnabledTag = document.createElement("colourBlindEnabled");
+            colourBlindEnabledTag.appendChild(document.createTextNode(String.valueOf(colourBlindEnabled)));
+            root.appendChild(colourBlindEnabledTag);
+
             /*
             Write XML file to disk
              */
