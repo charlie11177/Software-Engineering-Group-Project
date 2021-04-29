@@ -947,5 +947,8 @@ public class CenterScreenController {
         topDownPane.setBackground(new Background(new BackgroundFill(GRASS_COLOR, null, null)));
     }
 
+    public ViewMode getViewMode() {
+        return viewMode;
+    }
 
 }

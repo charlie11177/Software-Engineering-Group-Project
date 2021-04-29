@@ -1,5 +1,11 @@
 package model;
 
+import controllers.CenterScreenController;
+import controllers.ObstacleConfigController;
+import javafx.util.Pair;
+import org.javatuples.Quintet;
+import org.javatuples.Septet;
+import org.javatuples.Sextet;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -20,6 +26,8 @@ import javax.xml.validation.Validator;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -35,15 +43,99 @@ public class XMLParser {
 
     /*
      *  Overloaded method to allow either File or Filename arguments
-    */
-    public ArrayList<Airport> importAirports(String filename) {
+     */
+    public ArrayList<model.Airport> importAirports(String filename) {
         return importAirports(new File(filename));
     }
 
-    public ArrayList<Airport> importAirports(File file) {
-        Airport airport = null;
-        List<PhysicalRunWay> runways = new ArrayList<PhysicalRunWay>();
-        ArrayList<Airport> airports = new ArrayList<Airport>();
+    private ArrayList<model.Airport> getAirports(NodeList airportList) throws Exception {
+        List<model.PhysicalRunWay> runways = new ArrayList<model.PhysicalRunWay>();
+        ArrayList<model.Airport> airports = new ArrayList<model.Airport>();
+        for (int i = 0; i < airportList.getLength(); i++) {
+            runways = new ArrayList<model.PhysicalRunWay>();
+                /*
+                Get name of the airport
+                first check that there is only one airport tag (should be root element) then get child and contents
+                */
+            Element airportElement = (Element) airportList.item(i);
+            String name = airportElement.getChildNodes().item(1).getTextContent();
+            String code = airportElement.getChildNodes().item(3).getTextContent();
+            /*
+             *Get runway information
+             */
+            NodeList runwayNodes = airportElement.getElementsByTagName("runway");
+            // Iterate over runways
+            for (int j = 0; j < runwayNodes.getLength(); j++) {
+                // Gets current runway from list
+                Element runway = (Element) runwayNodes.item(j);
+
+                // Gets the runway ID
+                int ID = Integer.parseInt(runway.getElementsByTagName("ID").item(0).getTextContent());
+
+                    /*
+                     Gets the runway attributes for each logical runway
+                     Assumes left runway is always first child
+                     */
+
+                //Name of the runway was changed to a degree
+                int degree_L = Integer.parseInt(runway.getElementsByTagName("degree").item(0).getTextContent());
+                int degree_R = Integer.parseInt(runway.getElementsByTagName("degree").item(1).getTextContent());
+
+                int TORA_L = Integer.parseInt(runway.getElementsByTagName("TORA").item(0).getTextContent());
+                int TORA_R = Integer.parseInt(runway.getElementsByTagName("TORA").item(1).getTextContent());
+
+                int TODA_L = Integer.parseInt(runway.getElementsByTagName("TODA").item(0).getTextContent());
+                int TODA_R = Integer.parseInt(runway.getElementsByTagName("TODA").item(1).getTextContent());
+
+                int ASDA_L = Integer.parseInt(runway.getElementsByTagName("ASDA").item(0).getTextContent());
+                int ASDA_R = Integer.parseInt(runway.getElementsByTagName("ASDA").item(1).getTextContent());
+
+                int LDA_L = Integer.parseInt(runway.getElementsByTagName("LDA").item(0).getTextContent());
+                int LDA_R = Integer.parseInt(runway.getElementsByTagName("LDA").item(1).getTextContent());
+
+                int THRESHOLD_L = Integer.parseInt(runway.getElementsByTagName("threshold").item(0).getTextContent());
+                int THRESHOLD_R = Integer.parseInt(runway.getElementsByTagName("threshold").item(0).getTextContent());
+
+                //Direction has been changed here from LogicalRunway.Direction.Left to Direction.Left
+                model.LogicalRunWay leftRunway = new model.LogicalRunWay(degree_L, model.Direction.L, TORA_L, TODA_L, ASDA_L, LDA_L, THRESHOLD_L);
+                model.LogicalRunWay rightRunway = new model.LogicalRunWay(degree_R, model.Direction.R, TORA_R, TODA_R, ASDA_R, LDA_R, THRESHOLD_R);
+                runways.add(new model.PhysicalRunWay(ID, leftRunway, rightRunway, null));
+            }
+            //Airport has additional "code" value like LHR for London Heathrow
+            airports.add(new model.Airport(name, code ,runways));
+        }
+        return airports;
+    }
+
+    private ArrayList<model.Obstacle> getObstacles(NodeList obstacleList) {
+        ArrayList<model.Obstacle> obstacles = new ArrayList<>();
+        for (int i = 0; i < obstacleList.getLength(); i++) {
+            Element obstacleElement = (Element) obstacleList.item(i);
+
+            // Get the obstacle attributes from xml tags
+            String name = obstacleElement.getElementsByTagName("name").item(0).getTextContent();
+
+            int height = Integer.parseInt(obstacleElement.getElementsByTagName("height").item(0).getTextContent());
+            int width = Integer.parseInt(obstacleElement.getElementsByTagName("width").item(0).getTextContent());
+
+            Element positionNode = (Element) obstacleElement.getElementsByTagName("position").item(0);
+            int distanceToLeft = Integer.parseInt(positionNode.getElementsByTagName("distanceToLeft").item(0).getTextContent());
+            int distanceToRight = Integer.parseInt(positionNode.getElementsByTagName("distanceToRight").item(0).getTextContent());
+            int distanceToCL = Integer.parseInt(positionNode.getElementsByTagName("distanceFromCL").item(0).getTextContent());
+            String directionFromCL = positionNode.getElementsByTagName("directionFromCL").item(0).getTextContent();
+
+            model.Position position = new model.Position(distanceToLeft, distanceToRight, distanceToCL, directionFromCL);    //Position will probably need two more parameters
+
+            // Add obstacle to the list
+            obstacles.add(new model.Obstacle(name, height, width, position));
+        }
+        return obstacles;
+    }
+
+    public ArrayList<model.Airport> importAirports(File file) {
+        model.Airport airport = null;
+        List<model.PhysicalRunWay> runways = new ArrayList<model.PhysicalRunWay>();
+        ArrayList<model.Airport> airports = new ArrayList<model.Airport>();
         try {
             // Validate the XML file
             if (!validateXML(XMLTypes.Airport, file)) throw new Exception("Invalid");
@@ -57,59 +149,8 @@ public class XMLParser {
              * Get the list of airports
              */
             NodeList airportList = document.getElementsByTagName("airport");
-            for (int i = 0; i < airportList.getLength(); i++) {
-                runways = new ArrayList<PhysicalRunWay>();
-                /*
-                Get name of the airport
-                first check that there is only one airport tag (should be root element) then get child and contents
-                */
-                Element airportElement = (Element) airportList.item(i);
-                String name = airportElement.getChildNodes().item(1).getTextContent();
-                String code = airportElement.getChildNodes().item(3).getTextContent();
-                /*
-                *Get runway information
-                */
-                NodeList runwayNodes = airportElement.getElementsByTagName("runway");
-                // Iterate over runways
-                for (int j = 0; j < runwayNodes.getLength(); j++) {
-                    // Gets current runway from list
-                    Element runway = (Element) runwayNodes.item(j);
+            airports = getAirports(airportList);
 
-                    // Gets the runway ID
-                    int ID = Integer.parseInt(runway.getElementsByTagName("ID").item(0).getTextContent());
-
-                    /*
-                     Gets the runway attributes for each logical runway
-                     Assumes left runway is always first child
-                     */
-
-                    //Name of the runway was changed to a degree
-                    int degree_L = Integer.parseInt(runway.getElementsByTagName("degree").item(0).getTextContent());
-                    int degree_R = Integer.parseInt(runway.getElementsByTagName("degree").item(1).getTextContent());
-
-                    int TORA_L = Integer.parseInt(runway.getElementsByTagName("TORA").item(0).getTextContent());
-                    int TORA_R = Integer.parseInt(runway.getElementsByTagName("TORA").item(1).getTextContent());
-
-                    int TODA_L = Integer.parseInt(runway.getElementsByTagName("TODA").item(0).getTextContent());
-                    int TODA_R = Integer.parseInt(runway.getElementsByTagName("TODA").item(1).getTextContent());
-
-                    int ASDA_L = Integer.parseInt(runway.getElementsByTagName("ASDA").item(0).getTextContent());
-                    int ASDA_R = Integer.parseInt(runway.getElementsByTagName("ASDA").item(1).getTextContent());
-
-                    int LDA_L = Integer.parseInt(runway.getElementsByTagName("LDA").item(0).getTextContent());
-                    int LDA_R = Integer.parseInt(runway.getElementsByTagName("LDA").item(1).getTextContent());
-
-                    int THRESHOLD_L = Integer.parseInt(runway.getElementsByTagName("threshold").item(0).getTextContent());
-                    int THRESHOLD_R = Integer.parseInt(runway.getElementsByTagName("threshold").item(0).getTextContent());
-
-                    //Direction has been changed here from LogicalRunway.Direction.Left to Direction.Left
-                    LogicalRunWay leftRunway = new LogicalRunWay(degree_L, Direction.L, TORA_L, TODA_L, ASDA_L, LDA_L, THRESHOLD_L);
-                    LogicalRunWay rightRunway = new LogicalRunWay(degree_R, Direction.R, TORA_R, TODA_R, ASDA_R, LDA_R, THRESHOLD_R);
-                    runways.add(new PhysicalRunWay(ID, leftRunway, rightRunway, null));
-                }
-                //Airport has additional "code" value like LHR for London Heathrow
-                airports.add(new Airport(name, code ,runways));
-            }
         } catch(Exception e) {
 //            e.printStackTrace();
             System.err.println(e.getMessage() + " " + e.getLocalizedMessage());
@@ -120,12 +161,12 @@ public class XMLParser {
     /*
      *  Overloaded method to allow either File or Filename arguments
      */
-    public ArrayList<Obstacle> importObstacle(String filename) {
+    public ArrayList<model.Obstacle> importObstacle(String filename) {
         return importObstacle(new File(filename));
     }
 
-    public ArrayList<Obstacle> importObstacle(File file) {
-        ArrayList<Obstacle> obstacles = new ArrayList<>();
+    public ArrayList<model.Obstacle> importObstacle(File file) {
+        ArrayList<model.Obstacle> obstacles = new ArrayList<>();
         try {
             // Validate XML
             if (!validateXML(XMLTypes.Obstacle, file)) throw new Exception("Invalid");
@@ -136,30 +177,11 @@ public class XMLParser {
             document.getDocumentElement().normalize();
 
             /*
-            * Get list of obstacles from XML
-            */
+             * Get list of obstacles from XML
+             */
             NodeList obstacleList = document.getElementsByTagName("obstacle");
             // Iterate over obstacles
-            for (int i = 0; i < obstacleList.getLength(); i++) {
-                Element obstacleElement = (Element) obstacleList.item(i);
-
-                // Get the obstacle attributes from xml tags
-                String name = obstacleElement.getElementsByTagName("name").item(0).getTextContent();
-
-                int height = Integer.parseInt(obstacleElement.getElementsByTagName("height").item(0).getTextContent());
-                int width = Integer.parseInt(obstacleElement.getElementsByTagName("width").item(0).getTextContent());
-
-                Element positionNode = (Element) obstacleElement.getElementsByTagName("position").item(0);
-                int distanceToLeft = Integer.parseInt(positionNode.getElementsByTagName("distanceToLeft").item(0).getTextContent());
-                int distanceToRight = Integer.parseInt(positionNode.getElementsByTagName("distanceToRight").item(0).getTextContent());
-                int distanceToCL = Integer.parseInt(positionNode.getElementsByTagName("distanceFromCL").item(0).getTextContent());
-                String directionFromCL = positionNode.getElementsByTagName("directionFromCL").item(0).getTextContent();
-
-                Position position = new Position(distanceToLeft, distanceToRight, distanceToCL, directionFromCL);    //Position will probably need two more parameters
-
-                // Add obstacle to the list
-                obstacles.add(new Obstacle(name, height, width, position));
-            }
+            obstacles = getObstacles(obstacleList);
         } catch(Exception e) {
 //            e.printStackTrace();
             System.err.println(e.getMessage());
@@ -186,11 +208,11 @@ public class XMLParser {
                 Iterate over the airports and create the required XML tags/data
              */
             // Running demo to get airport data into the model
-            ArrayList<Airport> airportArrayList = Model.airports;
+            ArrayList<model.Airport> airportArrayList = model.Model.airports;
 
-            Iterator<Airport> airportIter = airportArrayList.iterator();
+            Iterator<model.Airport> airportIter = airportArrayList.iterator();
             while(airportIter.hasNext()) {
-                Airport airport = airportIter.next();
+                model.Airport airport = airportIter.next();
                 // Airport tags go (name, code, (runway: ID, (left: degree, TORA, ...), (right: ...))
                 Element airportElement = document.createElement("airport");
                 root.appendChild(airportElement);
@@ -206,12 +228,12 @@ public class XMLParser {
                 airportElement.appendChild(code);
 
                 // PhysicalRunway loop
-                List<PhysicalRunWay> runways = airport.getRunways();
-                Iterator<PhysicalRunWay> runwayIter = runways.iterator();
+                List<model.PhysicalRunWay> runways = airport.getRunways();
+                Iterator<model.PhysicalRunWay> runwayIter = runways.iterator();
                 while(runwayIter.hasNext()) {
-                    PhysicalRunWay physicalRunWay = runwayIter.next();
-                    LogicalRunWay leftRunway = physicalRunWay.getLeftRunway();
-                    LogicalRunWay rightRunway = physicalRunWay.getRightRunway();
+                    model.PhysicalRunWay physicalRunWay = runwayIter.next();
+                    model.LogicalRunWay leftRunway = physicalRunWay.getLeftRunway();
+                    model.LogicalRunWay rightRunway = physicalRunWay.getRightRunway();
 
                     // Runway element that holds left and right
                     Element runwayElement = document.createElement("runway");
@@ -228,27 +250,27 @@ public class XMLParser {
                     // Left
                     Element leftRunwayElement = document.createElement("left");
                     runwayElement.appendChild(leftRunwayElement);
-                        // degree
+                    // degree
                     Element degree_L = document.createElement("degree");
                     degree_L.appendChild(document.createTextNode(Integer.toString(leftRunway.getDegree())));
                     leftRunwayElement.appendChild(degree_L);
-                        // TORA
+                    // TORA
                     Element TORA_L = document.createElement("TORA");
                     TORA_L.appendChild(document.createTextNode(Integer.toString(leftRunway.getTORA())));
                     leftRunwayElement.appendChild(TORA_L);
-                        // TODA
+                    // TODA
                     Element TODA_L = document.createElement("TODA");
                     TODA_L.appendChild(document.createTextNode(Integer.toString(leftRunway.getTODA())));
                     leftRunwayElement.appendChild(TODA_L);
-                        // ASDA
+                    // ASDA
                     Element ASDA_L = document.createElement("ASDA");
                     ASDA_L.appendChild(document.createTextNode(Integer.toString(leftRunway.getASDA())));
                     leftRunwayElement.appendChild(ASDA_L);
-                        //LDA
+                    //LDA
                     Element LDA_L = document.createElement("LDA");
                     LDA_L.appendChild(document.createTextNode(Integer.toString(leftRunway.getLDA())));
                     leftRunwayElement.appendChild(LDA_L);
-                        //Threshold
+                    //Threshold
                     Element Threshold_L = document.createElement("threshold");
                     Threshold_L.appendChild(document.createTextNode(Integer.toString(leftRunway.getThreshold())));
                     leftRunwayElement.appendChild(Threshold_L);
@@ -257,27 +279,27 @@ public class XMLParser {
                     // Right
                     Element rightRunwayElement = document.createElement("right");
                     runwayElement.appendChild(rightRunwayElement);
-                        // degree
+                    // degree
                     Element degree_R = document.createElement("degree");
                     degree_R.appendChild(document.createTextNode(Integer.toString(rightRunway.getDegree())));
                     rightRunwayElement.appendChild(degree_R);
-                        // TORA
+                    // TORA
                     Element TORA_R = document.createElement("TORA");
                     TORA_R.appendChild(document.createTextNode(Integer.toString(rightRunway.getTORA())));
                     rightRunwayElement.appendChild(TORA_R);
-                        // TODA
+                    // TODA
                     Element TODA_R = document.createElement("TODA");
                     TODA_R.appendChild(document.createTextNode(Integer.toString(rightRunway.getTODA())));
                     rightRunwayElement.appendChild(TODA_R);
-                        // ASDA
+                    // ASDA
                     Element ASDA_R = document.createElement("ASDA");
                     ASDA_R.appendChild(document.createTextNode(Integer.toString(rightRunway.getASDA())));
                     rightRunwayElement.appendChild(ASDA_R);
-                        //LDA
+                    //LDA
                     Element LDA_R = document.createElement("LDA");
                     LDA_R.appendChild(document.createTextNode(Integer.toString(rightRunway.getLDA())));
                     rightRunwayElement.appendChild(LDA_R);
-                        //Threshold
+                    //Threshold
                     Element Threshold_R = document.createElement("threshold");
                     Threshold_R.appendChild(document.createTextNode(Integer.toString(rightRunway.getThreshold())));
                     rightRunwayElement.appendChild(Threshold_R);
@@ -323,11 +345,11 @@ public class XMLParser {
             document.appendChild(root);
 
             // Temporary model data
-            ArrayList<Obstacle> obstacleList = Model.obstacles;
-            Iterator<Obstacle> obstacleIter = obstacleList.iterator();
+            ArrayList<model.Obstacle> obstacleList = model.Model.obstacles;
+            Iterator<model.Obstacle> obstacleIter = obstacleList.iterator();
             while(obstacleIter.hasNext()) {
-                Obstacle obstacle = obstacleIter.next();
-                Position position = obstacle.getPosition();
+                model.Obstacle obstacle = obstacleIter.next();
+                model.Position position = obstacle.getPosition();
 
                 // Obstacle element attributes
                 Element obstacleElement = document.createElement("obstacle");
@@ -389,7 +411,54 @@ public class XMLParser {
         }
     }
 
-    public void exportAll(File file) {
+    public Pair<ArrayList<Airport>, ArrayList<Obstacle>> importConfigurationDATA(File file) {
+        List<model.PhysicalRunWay> runways = new ArrayList<model.PhysicalRunWay>();
+        ArrayList<model.Airport> airports = new ArrayList<model.Airport>();
+        ArrayList<model.Obstacle> obstacles = new ArrayList<>();
+        try {
+            if (!validateXML(XMLTypes.FullConfig, file)) throw new Exception("Invalid");
+            DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+            Document document = documentBuilder.parse(file);
+            document.getDocumentElement().normalize();
+
+            NodeList airportList = document.getElementsByTagName("airport");
+            NodeList obstacleList = document.getElementsByTagName("obstacle");
+
+            airports = getAirports(airportList);
+            obstacles = getObstacles(obstacleList);
+
+            return new Pair<ArrayList<Airport>, ArrayList<Obstacle>>(airports, obstacles);
+        } catch(Exception e) {
+            System.err.println(e.getMessage() + " " + e.getLocalizedMessage());
+            return null;
+        }
+    }
+
+    // Split into two methods so it's easier to edit the config part, presuming the airports and obstacles xml wont change
+    public Septet<Integer, Integer, Integer, String, Boolean, Boolean, String> importConfigurationCONFIG(File file) {
+        try {
+            if (!validateXML(XMLTypes.FullConfig, file)) throw new Exception("Invalid");
+            DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+            Document document = documentBuilder.parse(file);
+            document.getDocumentElement().normalize();
+
+            int currentAirport = Integer.parseInt(document.getElementsByTagName("currentAirport").item(0).getTextContent());
+            int currentRunway = Integer.parseInt(document.getElementsByTagName("currentRunway").item(0).getTextContent());
+            int currentObstacle = Integer.parseInt(document.getElementsByTagName("currentObstacle").item(0).getTextContent());
+            String fontSize = document.getElementsByTagName("fontSize").item(0).getTextContent();
+            boolean obstaclePlaced = Boolean.getBoolean(document.getElementsByTagName("obstaclePlaced").item(0).getTextContent());
+            boolean colourBlindEnabled = Boolean.getBoolean(document.getElementsByTagName("colourBlindEnabled").item(0).getTextContent());
+            String viewMode = document.getElementsByTagName("viewMode").item(0).getTextContent();
+
+            return new Septet<>(currentAirport, currentRunway, currentObstacle, fontSize, obstaclePlaced, colourBlindEnabled, viewMode);
+        } catch(Exception e) {
+            e.printStackTrace();
+            System.err.println(e.getMessage() + " " + e.getLocalizedMessage());
+            return null;
+        }
+    }
+
+    public void exportConfiguration(File file) {
         try {
             // Boiler plate code for creating an XML parser
             DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
@@ -405,11 +474,11 @@ public class XMLParser {
             root.appendChild(airports);
 
             // Adding Obstacles
-            ArrayList<Obstacle> obstacleList = Model.obstacles;
-            Iterator<Obstacle> obstacleIter = obstacleList.iterator();
+            ArrayList<model.Obstacle> obstacleList = model.Model.obstacles;
+            Iterator<model.Obstacle> obstacleIter = obstacleList.iterator();
             while(obstacleIter.hasNext()) {
-                Obstacle obstacle = obstacleIter.next();
-                Position position = obstacle.getPosition();
+                model.Obstacle obstacle = obstacleIter.next();
+                model.Position position = obstacle.getPosition();
 
                 // Obstacle element attributes
                 Element obstacleElement = document.createElement("obstacle");
@@ -449,10 +518,10 @@ public class XMLParser {
             }
 
             // Adding Airports
-            ArrayList<Airport> airportArrayList = Model.airports;
-            Iterator<Airport> airportIter = airportArrayList.iterator();
+            ArrayList<model.Airport> airportArrayList = model.Model.airports;
+            Iterator<model.Airport> airportIter = airportArrayList.iterator();
             while(airportIter.hasNext()) {
-                Airport airport = airportIter.next();
+                model.Airport airport = airportIter.next();
                 // Airport tags go (name, code, (runway: ID, (left: degree, TORA, ...), (right: ...))
                 Element airportElement = document.createElement("airport");
                 airports.appendChild(airportElement);
@@ -468,12 +537,12 @@ public class XMLParser {
                 airportElement.appendChild(code);
 
                 // PhysicalRunway loop
-                List<PhysicalRunWay> runways = airport.getRunways();
-                Iterator<PhysicalRunWay> runwayIter = runways.iterator();
+                List<model.PhysicalRunWay> runways = airport.getRunways();
+                Iterator<model.PhysicalRunWay> runwayIter = runways.iterator();
                 while(runwayIter.hasNext()) {
-                    PhysicalRunWay physicalRunWay = runwayIter.next();
-                    LogicalRunWay leftRunway = physicalRunWay.getLeftRunway();
-                    LogicalRunWay rightRunway = physicalRunWay.getRightRunway();
+                    model.PhysicalRunWay physicalRunWay = runwayIter.next();
+                    model.LogicalRunWay leftRunway = physicalRunWay.getLeftRunway();
+                    model.LogicalRunWay rightRunway = physicalRunWay.getRightRunway();
 
                     // Runway element that holds left and right
                     Element runwayElement = document.createElement("runway");
@@ -545,6 +614,53 @@ public class XMLParser {
                     rightRunwayElement.appendChild(Threshold_R);
                 }
             }
+            // Add config info
+                /*
+                <xs:element type="xs:int" name="currentAirport"/>
+                <xs:element type="xs:int" name="currentRunway"/>
+                <xs:element type="xs:int" name="currentObstacle"/>
+                <xs:element type="xs:string" name="fontSize"/>
+                <xs:element type="xs:boolean" name="obstacledPlaced"/>
+                <xs:element type="xs:boolean" name="colourBlindEnabled"/>
+                 */
+
+            // -1 represents null
+            int currentAirport = Model.currentAirport != null ? Model.airports.indexOf(Model.currentAirport) : -1;
+            int currentRunway = Model.currentRunway != null ? Model.currentAirport.getRunways().indexOf(Model.currentRunway) : -1;
+            int currentObstacle = Model.currentObstacle != null ? Model.obstacles.indexOf(Model.currentObstacle) : -1;
+            String fontSize = Model.getCurrentFontSize().toString();
+            boolean obstaclePlaced = Model.obstaclePlaced;
+            boolean colourBlindEnabled = false;
+            String viewMode = Model.centerScreenController.getViewMode().toString();
+
+            Element currentAirportTag = document.createElement("currentAirport");
+            currentAirportTag.appendChild(document.createTextNode(String.valueOf(currentAirport)));
+            root.appendChild(currentAirportTag);
+
+            Element currentRunwayTag = document.createElement("currentRunway");
+            currentRunwayTag.appendChild(document.createTextNode(String.valueOf(currentRunway)));
+            root.appendChild(currentRunwayTag);
+
+            Element currentObstacleTag = document.createElement("currentObstacle");
+            currentObstacleTag.appendChild(document.createTextNode(String.valueOf(currentObstacle)));
+            root.appendChild(currentObstacleTag);
+
+            Element fontSizeTag = document.createElement("fontSize");
+            fontSizeTag.appendChild(document.createTextNode(fontSize));
+            root.appendChild(fontSizeTag);
+
+            Element obstaclePlacedTag = document.createElement("obstaclePlaced");
+            obstaclePlacedTag.appendChild(document.createTextNode(String.valueOf(obstaclePlaced)));
+            root.appendChild(obstaclePlacedTag);
+
+            Element colourBlindEnabledTag = document.createElement("colourBlindEnabled");
+            colourBlindEnabledTag.appendChild(document.createTextNode(String.valueOf(colourBlindEnabled)));
+            root.appendChild(colourBlindEnabledTag);
+
+            Element viewModeTag = document.createElement("viewMode");
+            viewModeTag.appendChild(document.createTextNode(String.valueOf(viewMode)));
+            root.appendChild(viewModeTag);
+
             /*
             Write XML file to disk
              */
@@ -583,24 +699,31 @@ public class XMLParser {
         try {
             SchemaFactory schemafactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
             Schema schema;
+
+            // Code to access resource folder in maven
+            ClassLoader classLoader = getClass().getClassLoader();
+            URL resource;
             switch (XMLtype) {
                 case Airport:
-                    schema = schemafactory.newSchema(new File("src/main/xml/AirportSchema.xsd"));
+                    resource = classLoader.getResource("xml/AirportSchema.xsd");
+                    schema = schemafactory.newSchema(new File(resource.toURI()));
                     break;
                 case Obstacle:
-                    schema = schemafactory.newSchema(new File("src/main/xml/ObstacleSchema.xsd"));
+                    resource = classLoader.getResource("xml/ObstacleSchema.xsd");
+                    schema = schemafactory.newSchema(new File(resource.toURI()));
                     break;
                 case FullConfig:
-                    schema = schemafactory.newSchema(new File("src/main/xml/FullConfigSchema.xsd"));
+                    resource = classLoader.getResource("xml/FullConfigSchema.xsd");
+                    schema = schemafactory.newSchema(new File(resource.toURI()));
                     break;
                 default:
                     throw new IOException("Invalid XML type selected somehow");
             }
             Validator schemaValidator = schema.newValidator();
             schemaValidator.validate(new StreamSource(XMLFile));
-        } catch (IOException | SAXException e) {
-            Model.console.addLog("---- Error validating XML ---- ");
-            Model.console.addLogWithoutTime(e.getMessage());
+        } catch (IOException | SAXException | URISyntaxException e) {
+            model.Model.console.addLog("---- Error validating XML ---- ");
+            model.Model.console.addLogWithoutTime(e.getMessage());
             return false;
         }
         return true;

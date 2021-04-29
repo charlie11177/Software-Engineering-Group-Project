@@ -35,10 +35,13 @@ public class Calculator {
     }
 
     private static CalculatorOutput.RecalculatedRunwayOutput recalculateAWAY(LogicalRunWay runway, int distanceFromThreshold) {             //(Take off Away, Landing Over)
-        int blastAllowance = 300;                                                                                                           //Blast protection is between 300-500 not sure whether this is defined by the user
+        //int blastAllowance = 300;                                                                                                           //Blast protection is between 300-500 not sure whether this is defined by the user
         int tora, toda, lda, asda, tocs_als;
         String toraBD, todaBD, ldaBD, asdaBD, allBD;
         LogicalRunWay recalculatedRunway;
+        int blastAllowance = 300; //Blast protection is between 300-500 not sure whether this is defined by the user
+        //--
+
 
         tora = runway.getTORA() - blastAllowance - distanceFromThreshold - runway.getThreshold();                                           // TORA = Original TORA - Blast Protection - Distance from Threshold - Displaced Threshold
         toda = tora + runway.getClearway();                                                                                                 //(R) TORA + CLEARWAY

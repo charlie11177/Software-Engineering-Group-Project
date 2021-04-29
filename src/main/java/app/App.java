@@ -2,6 +2,7 @@ package app;
 
 import controllers.AlertController;
 import controllers.FontSize;
+import controllers.MainWindowController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -130,6 +131,7 @@ public class App extends Application {
          currentobstacle:
          obstacle placed: true/false
          */
+        Model.mainWindowController.exportConfig();
         System.out.println("Saving progress...");
     }
 
@@ -140,7 +142,6 @@ public class App extends Application {
          Save:
          fontsize : default, medium, large
          colorblind: true/false
-         */
         File file = new File("config.log");
         File consoleData = new File ("console.log");
         FileWriter writer = null; // true to append, false to overwrite.
@@ -159,5 +160,6 @@ public class App extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        */
     }
 }

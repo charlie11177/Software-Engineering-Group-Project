@@ -72,6 +72,13 @@
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>
+                <xs:element type="xs:int" name="currentAirport"/>
+                <xs:element type="xs:int" name="currentRunway"/>
+                <xs:element type="xs:int" name="currentObstacle"/>
+                <xs:element type="xs:string" name="fontSize"/>
+                <xs:element type="xs:boolean" name="obstaclePlaced"/>
+                <xs:element type="xs:boolean" name="colourBlindEnabled"/>
+                <xs:element type="xs:string" name="viewMode"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
