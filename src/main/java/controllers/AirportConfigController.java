@@ -95,7 +95,6 @@ public class AirportConfigController {
                 selectedAirportView();
             }
         }
-        String str = "Airport selected: " + Model.currentAirport.getName();
         Model.console.addLog("Airport selected: " + Model.currentAirport.getName());
         Model.runwayConfigController.windowCloseProcedure();
         Model.obstacleConfigController.windowCloseProcedure();

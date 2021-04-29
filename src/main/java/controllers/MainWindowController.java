@@ -12,11 +12,15 @@ import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.property.HorizontalAlignment;
 import com.itextpdf.layout.property.TextAlignment;
+import javafx.application.HostServices;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -26,6 +30,7 @@ import model.*;
 import org.javatuples.Septet;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -43,6 +48,7 @@ public class MainWindowController {
     public VBox leftScreen;
     public VBox centerScreen;
     public VBox rightScreen;
+    public static HostServices hs;
     @FXML private MenuBar menuBar;
 
     private XMLParser xmlParser;
@@ -212,6 +218,8 @@ public class MainWindowController {
         }
         catch (Exception e) {
             return false;
+//            resetMenus();
+//            Model.console.addLog("Failed an import - Invalid Configuration XML selected");
         }
     }
 
@@ -239,7 +247,7 @@ public class MainWindowController {
                     }
                 }
                 Model.console.addLogWithoutTime("--- Finished importing airports from: " + xmlFile.getName() + " ---" );
-//                resetMenus(); // doesnt need to call this since it only appends data
+                resetMenus();
                 updateUI();
             } else {
                 throw (new Exception("Failed import"));
@@ -274,7 +282,7 @@ public class MainWindowController {
                     }
                 }
                 Model.console.addLog("--- Finished importing Obstacles from: " + xmlFile.getName() + " ---" );
-//                resetMenus(); // doesnt need to call this since it only appends data
+                resetMenus();
                 updateUI();
             } else {
                 throw new Exception("Failed import");
@@ -290,6 +298,11 @@ public class MainWindowController {
      */
     private void resetMenus(){
         Model.resetConfig();
+        TitledPane p = Model.leftScreenController.accordion.getExpandedPane();
+        if(p != null) {
+            p.setExpanded(false);
+            p.setExpanded(true);
+        }
         Model.leftScreenController.calculateAllowedMode();
         updateUI();
     }
@@ -550,6 +563,21 @@ public class MainWindowController {
     public void noBlindness() {
         Model.centerScreenController.noBlindness();
         Model.console.addLog("Color Blind mode changed to: Default");
+    }
+
+    public void userGuide() {
+        File file = new File("src/main/resources/User_Guide.pdf");
+        if (Desktop.isDesktopSupported()) {
+            new Thread(() -> {
+                try {
+                    Desktop.getDesktop().open(file);
+                } catch (IOException e) {
+                    AlertController.showErrorAlert("No user guide pdf found.","");
+                }
+            }).start();
+        } else {
+            AlertController.showErrorAlert("No application for displaying pdf found.","");
+        }
     }
 
 }
