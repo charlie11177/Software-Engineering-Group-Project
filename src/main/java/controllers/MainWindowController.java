@@ -543,7 +543,7 @@ public class MainWindowController {
     }
 
     public void userGuide() {
-        File file = new File("src/main/resources/manual.pdf");
+        File file = new File("src/main/resources/User_Guide.pdf");
         if (Desktop.isDesktopSupported()) {
             new Thread(() -> {
                 try {
