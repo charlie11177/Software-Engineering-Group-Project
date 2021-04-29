@@ -71,6 +71,10 @@ public class CenterScreenController {
         setupSideOnCanvas();
         viewMode = ViewMode.DEFAULT;
         sizeSlider.valueProperty().addListener((ob, oldValue, newValue) -> {
+            if (newValue.doubleValue() <= 100) {
+                setupSideOnCanvas();
+                updateVisualisation(viewMode);
+            }
             sideOnCanvas.setScaleX((newValue.doubleValue()/100));
             sideOnCanvas.setScaleY((newValue.doubleValue()/100));
             topDowncanvas.setScaleX((newValue.doubleValue()/100));
@@ -80,23 +84,6 @@ public class CenterScreenController {
             matchCompass(newValue);
         });
         setBackground();
-
-        sideOnCanvas.setOnMousePressed(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                mouseDeltaX = mouseEvent.getX();
-                mouseDeltaY = mouseEvent.getY();
-            }
-        });
-        sideOnCanvas.setOnMouseDragged(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                sideOnCanvas.getGraphicsContext2D().translate(((mouseEvent.getX() - mouseDeltaX)), (mouseEvent.getY()) - mouseDeltaY);
-                drawSideOn(sideOnCanvas);
-                mouseDeltaX = mouseEvent.getX();
-                mouseDeltaY = mouseEvent.getY();
-            }
-        });
 
         topDownStackPane.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
@@ -108,7 +95,8 @@ public class CenterScreenController {
         topDownStackPane.setOnMouseDragged(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                topDowncanvas.getGraphicsContext2D().translate(((mouseEvent.getX() - mouseDeltaX)), (mouseEvent.getY()) - mouseDeltaY);
+                if (sizeSlider.getValue() >= 100)
+                    topDowncanvas.getGraphicsContext2D().translate(((mouseEvent.getX() - mouseDeltaX)), (mouseEvent.getY()) - mouseDeltaY);
                 drawTopDown();
                 mouseDeltaX = mouseEvent.getX();
                 mouseDeltaY = mouseEvent.getY();
@@ -151,11 +139,31 @@ public class CenterScreenController {
 
     private void setupSideOnCanvas(){
         sideOnCanvas = new Canvas();
+        sideOnPane.getChildren().clear();
         sideOnPane.getChildren().add(sideOnCanvas);
         sideOnCanvas.widthProperty().bind(sideOnPane.widthProperty());
         sideOnCanvas.heightProperty().bind(sideOnPane.heightProperty());
         sideOnCanvas.widthProperty().addListener(event -> drawSideOn(sideOnCanvas));
         sideOnCanvas.heightProperty().addListener(event -> drawSideOn(sideOnCanvas));
+
+        sideOnCanvas.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                mouseDeltaX = mouseEvent.getX();
+                mouseDeltaY = mouseEvent.getY();
+            }
+        });
+        sideOnCanvas.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if (sizeSlider.getValue() >= 100)
+                    sideOnCanvas.getGraphicsContext2D().translate(((mouseEvent.getX() - mouseDeltaX)), (mouseEvent.getY()) - mouseDeltaY);
+                drawSideOn(sideOnCanvas);
+                mouseDeltaX = mouseEvent.getX();
+                mouseDeltaY = mouseEvent.getY();
+            }
+        });
+
         drawSideOn(sideOnCanvas);
     }
 
@@ -192,7 +200,7 @@ public class CenterScreenController {
 //            matchCompasCB.setSelected(false);
         } else {
             matchCompasCB.setDisable(false);
-            matchCompasClick(matchCompasCB.isSelected());
+            //matchCompasClick(matchCompasCB.isSelected());
         }
         sideOnCanvas.setScaleX((sizeSlider.getValue()/100));
         sideOnCanvas.setScaleY((sizeSlider.getValue()/100));
@@ -218,6 +226,7 @@ public class CenterScreenController {
     }
 
     private void drawSideOn(Canvas canvas) {
+
         int width = (int) canvas.getWidth();
         int height = (int) canvas.getHeight();
         GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -459,7 +468,7 @@ public class CenterScreenController {
         if(obstacleFromLeft > obstacleFromRight)
         {
             gc.strokeLine(obstacleLeft, (height * 0.5) - obstacleHeight, (obstacleLeft - ((thresholdDisplacement/runway) * width * 0.75)), height * 0.5 );
-            gc.strokeText("TOCS/ALS : ", obstacleLeft + 15, height * 0.425);
+            gc.strokeText("TOCS/ALS : " + (Model.recalculatedRunwayLeft.getTOCS_ALS()), obstacleLeft + 15, height * 0.425);
             fillArrow(gc, obstacleLeft, height * 0.6, width * (0.125 + (0.75 * rightTORA / runway)), height * 0.6, "");
             gc.strokeText("Blast Protection : 300", obstacleLeft + 15, height * 0.61);
 
@@ -479,7 +488,7 @@ public class CenterScreenController {
         else
         {
             gc.strokeLine(obstacleRight, (height * 0.5) - obstacleHeight, (obstacleRight + ((thresholdDisplacement/runway) * width * 0.75)), height * 0.5 );
-            gc.strokeText("TOCS/ALS : ", obstacleRight - 85, height * 0.425);
+            gc.strokeText("TOCS/ALS : " + (Model.recalculatedRunwayRight.getTOCS_ALS()), obstacleRight - 85, height * 0.425);
             fillArrow(gc, obstacleRight, height * 0.6, width * (0.875 - (0.75 * leftTORA / runway)), height * 0.6, "");
             gc.strokeText("Blast Protection : 300", obstacleRight - 135, height * 0.61);
 

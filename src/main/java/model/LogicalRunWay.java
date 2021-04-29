@@ -95,6 +95,10 @@ public class LogicalRunWay {
         return TODA;
     }
 
+    public int getTOCS_ALS() {
+        return TOCS_ALS;
+    }
+
     public int getTORA() {
         return TORA;
     }
