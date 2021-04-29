@@ -393,7 +393,7 @@ public class ObstacleConfigController {
                 placeObstacleCB.setSelected(false);
                 return;
             } else if(!needsToBeRedeclared()){
-                AlertController.showWarningAlert("Runway does not need to be redeclared !","");
+                AlertController.showWarningAlert("Runway does not need to be redeclared !","Obstacle does not cause problems");
                 placeObstacleCB.setSelected(false);
                 return;
             }
@@ -501,6 +501,9 @@ public class ObstacleConfigController {
             return;
         } else if (nameInUse(name, edit)){
             AlertController.showWarningAlert("Obstacle name already used","Please select a different obstacle name");
+            return;
+        } else if (Integer.parseInt(obstacleHeightTF.getText()) == 0 || Integer.parseInt(obstacleWidthTF.getText()) == 0 ){
+            AlertController.showWarningAlert("Obstacle height and width cannot be 0","Please choose a different value");
             return;
         } else if (edit){
             saveEditedObstacle(name);

@@ -77,7 +77,7 @@ public class CenterScreenController {
             topDowncanvas.setScaleY((newValue.doubleValue()/100));
         });
         matchCompasCB.selectedProperty().addListener((ob, oldValue, newValue) -> {
-            matchCompasClick(newValue);
+            matchCompass(newValue);
         });
         setBackground();
 
@@ -116,6 +116,16 @@ public class CenterScreenController {
         });
     }
 
+    public void matchCompass(boolean isSelected){
+        if(Model.currentRunway == null)
+            return;
+        if(isSelected){
+            int degree = Model.currentRunway.getLeftRunway().getDegree();
+            topDowncanvas.setRotate(degree*10-90);
+        } else {
+            topDowncanvas.setRotate(0);
+        }
+    }
 
     public void matchCompasClick(boolean isSelected) {
         if(Model.currentRunway == null)
