@@ -142,9 +142,9 @@ public class MainWindowController {
             String colourBlindMode = options.getValue5();
             String viewMode = options.getValue6();
             // Update the model
-            Model.currentAirport = currentAirport != -1 ? Model.airports.get(currentAirport) : null;
-            Model.currentRunway = currentRunway != -1 ? Model.airports.get(currentAirport).getRunways().get(currentRunway) : null;
-            Model.currentObstacle = currentObstacle != -1 ? Model.obstacles.get(currentObstacle) : null;
+            Model.setCurrentAirport(currentAirport != -1 ? Model.airports.get(currentAirport) : null);
+            Model.setCurrentRunway(currentRunway != -1 ? Model.airports.get(currentAirport).getRunways().get(currentRunway) : null);
+            Model.setCurrentObstacle(currentObstacle != -1 ? Model.obstacles.get(currentObstacle) : null);
 
             switch (FontSize.valueOf(fontSize)) {
                 case DEFAULT: defaultFontClick(); break;
@@ -161,13 +161,16 @@ public class MainWindowController {
                 default: throw new Exception("ColourBlind error");
             }
 
-            Model.obstaclePlaced = obstaclePlaced;
+            Model.setObstaclePlaced(obstaclePlaced);
             // TODO Colourblind update
             //Model.colourBlind = colourBlindEnabled;
+            // Errors if tries to draw calculations view without calcs
+            if(viewMode.equals(ViewMode.CALCULATIONS_RUNWAY.toString())) viewMode = ViewMode.OBSTACLE_PLACED_RUNWAY.toString();
             Model.centerScreenController.updateVisualisation(ViewMode.valueOf(viewMode));
             return true;
         }
         catch (Exception e) {
+            e.printStackTrace();
             return false;
         }
     }

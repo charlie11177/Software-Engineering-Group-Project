@@ -633,7 +633,6 @@ public class XMLParser {
             boolean obstaclePlaced = Model.obstaclePlaced;
             String colourBlindEnabled = Model.centerScreenController.getColourBlindMode().toString();
             String viewMode = Model.centerScreenController.getViewMode().toString();
-            if (ViewMode.valueOf(viewMode) == ViewMode.CALCULATIONS_RUNWAY) viewMode = ViewMode.OBSTACLE_PLACED_RUNWAY.toString();
 
             Element currentAirportTag = document.createElement("currentAirport");
             currentAirportTag.appendChild(document.createTextNode(String.valueOf(currentAirport)));

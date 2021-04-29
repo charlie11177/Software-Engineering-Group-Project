@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <data>
-    <obstacles/>
+    <obstacles>
+        <obstacle>
+            <name>Engine</name>
+            <height>20</height>
+            <width>20</width>
+            <position>
+                <distanceToLeft>200</distanceToLeft>
+                <distanceToRight>20</distanceToRight>
+                <distanceFromCL>20</distanceFromCL>
+                <directionFromCL>L</directionFromCL>
+            </position>
+        </obstacle>
+    </obstacles>
     <airports>
         <airport>
             <name>London_Gatwick</name>
@@ -21,7 +33,7 @@
                     <TODA>3660</TODA>
                     <ASDA>3660</ASDA>
                     <LDA>3660</LDA>
-                    <threshold>0</threshold>
+                    <threshold>307</threshold>
                 </right>
             </runway>
             <runway>
@@ -40,7 +52,7 @@
                     <TODA>3962</TODA>
                     <ASDA>3884</ASDA>
                     <LDA>3884</LDA>
-                    <threshold>0</threshold>
+                    <threshold>306</threshold>
                 </right>
             </runway>
         </airport>
@@ -87,11 +99,11 @@
             </runway>
         </airport>
     </airports>
-    <currentAirport>-1</currentAirport>
-    <currentRunway>-1</currentRunway>
-    <currentObstacle>-1</currentObstacle>
+    <currentAirport>0</currentAirport>
+    <currentRunway>0</currentRunway>
+    <currentObstacle>0</currentObstacle>
     <fontSize>DEFAULT</fontSize>
     <obstaclePlaced>false</obstaclePlaced>
     <colourBlindMode>DEFAULT</colourBlindMode>
-    <viewMode>DEFAULT</viewMode>
+    <viewMode>RUNWAY</viewMode>
 </data>

@@ -71,6 +71,12 @@ public class Model {
         updateVisualisation();
     }
 
+    public static void setCurrentObstacle(Obstacle obstacle) {
+        Model.currentObstacle = obstacle;
+        updateVisualisation();
+    }
+
+
     public static void setObstaclePlaced(boolean value) {
         obstaclePlaced = value;
         updateVisualisation();
