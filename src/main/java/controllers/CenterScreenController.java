@@ -1,14 +1,20 @@
 package controllers;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
+import javafx.scene.input.MouseDragEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.transform.Affine;
@@ -30,6 +36,9 @@ public class CenterScreenController {
     public CheckBox matchCompasCB;
     private ViewMode viewMode;
     @FXML private Slider sizeSlider;
+    private double mouseDeltaX;
+    private double mouseDeltaY;
+    @FXML private StackPane topDownStackPane;
 
     private Color GRASS_COLOR;
     private Color DARKBLUE_COLOR;
@@ -67,6 +76,40 @@ public class CenterScreenController {
             matchCompasClick(newValue);
         });
         setBackground();
+
+        sideOnCanvas.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                mouseDeltaX = mouseEvent.getX();
+                mouseDeltaY = mouseEvent.getY();
+            }
+        });
+        sideOnCanvas.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                sideOnCanvas.getGraphicsContext2D().translate(((mouseEvent.getX() - mouseDeltaX)), (mouseEvent.getY()) - mouseDeltaY);
+                drawSideOn(sideOnCanvas);
+                mouseDeltaX = mouseEvent.getX();
+                mouseDeltaY = mouseEvent.getY();
+            }
+        });
+
+        topDownStackPane.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                mouseDeltaX = mouseEvent.getX();
+                mouseDeltaY = mouseEvent.getY();
+            }
+        });
+        topDownStackPane.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                topDowncanvas.getGraphicsContext2D().translate(((mouseEvent.getX() - mouseDeltaX)), (mouseEvent.getY()) - mouseDeltaY);
+                drawTopDown();
+                mouseDeltaX = mouseEvent.getX();
+                mouseDeltaY = mouseEvent.getY();
+            }
+        });
     }
 
 
@@ -90,6 +133,24 @@ public class CenterScreenController {
         topDowncanvas.heightProperty().bind(topDownPane.heightProperty());
         topDowncanvas.widthProperty().addListener(event -> drawTopDown());
         topDowncanvas.heightProperty().addListener(event -> drawTopDown());
+
+        topDowncanvas.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                mouseDeltaX = mouseEvent.getX();
+                mouseDeltaY = mouseEvent.getY();
+                System.out.println(mouseDeltaX);
+            }
+        });
+        topDowncanvas.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                topDowncanvas.getGraphicsContext2D().translate(((mouseEvent.getX() - mouseDeltaX)), (mouseEvent.getY()) - mouseDeltaY);
+                drawTopDown();
+                mouseDeltaX = mouseEvent.getX();
+                mouseDeltaY = mouseEvent.getY();
+            }
+        });
     }
 
     private void setupSideOnCanvas(){
@@ -167,9 +228,9 @@ public class CenterScreenController {
 
         //Colour Background
         gc.setFill(SKY_COLOR);
-        gc.fillRect(0, 0, width, height);
+        gc.fillRect(-width, -height, width*3, height*3);
         gc.setFill(GRASS_COLOR);
-        gc.fillRect(0, height * 0.5, width, height * 0.5);
+        gc.fillRect(-width, height * 0.5, width*3, height * 3);
         gc.setFill(RUNWAY_COLOR);
         gc.fillRect(width * 0.125, height * 0.5, width * 0.75, height * 0.05);
 
@@ -179,7 +240,7 @@ public class CenterScreenController {
         if (Model.obstaclePlaced)
             drawObstacleSideOn(gc, width, height);
 
-        if (Model.recalculatedRunwayLeft != null && Model.recalculatedRunwayRight != null) {
+        if (!Model.leftScreenController.calculateAllowed) {
             drawArrowsSideOn(gc, width, height);
             drawAnglesSideOn(gc, width, height);
         }
@@ -191,21 +252,21 @@ public class CenterScreenController {
         double rightStopway = Model.currentRunway.getRightRunway().getStopway();
         double rightClearway = Model.currentRunway.getRightRunway().getClearway();
 
-        double leftThreshold = Model.originalRunwayLeft.getTORA() - Model.originalRunwayLeft.getLDA();
-        double rightThreshold = Model.originalRunwayRight.getTORA() - Model.originalRunwayRight.getLDA();
-        double runway = Model.originalRunwayLeft.getTORA();
+        double leftThreshold = Model.currentRunway.getLeftRunway().getTORA() - Model.currentRunway.getLeftRunway().getLDA();
+        double rightThreshold = Model.currentRunway.getRightRunway().getTORA() - Model.currentRunway.getRightRunway().getLDA();
+        double runway = Model.currentRunway.getLeftRunway().getTORA();
 
         //Draw main runway
         gc.setFill(RUNWAY_COLOR);
         gc.fillRect(width * 0.125, height * 0.5, width * 0.75, height * 0.05);
 
         //Draw Stopways and Clearways if there are any
-        gc.setFill(Color.BLACK);
+        gc.setFill(ORANGE_COLOR);
         if (leftClearway != 0 && leftClearway != leftStopway)
             gc.fillRect(width * 0.045, height * 0.5, width * 0.08, height * 0.05);
         if (rightClearway != 0 && rightClearway != rightStopway)
             gc.fillRect(width * 0.875, height * 0.5, width * 0.08, height * 0.05);
-        gc.setFill(ORANGE_COLOR);
+        gc.setFill(Color.BLACK);
         if (leftStopway != 0)
             gc.fillRect(width * 0.085, height * 0.5, width * 0.04, height * 0.05);
         if (rightStopway != 0)
@@ -221,6 +282,11 @@ public class CenterScreenController {
         {
             gc.fillRect((width * 0.875) - ((rightThreshold / runway) * width * 0.75), height * 0.5, width * 0.01, height * 0.05);
         }
+
+        //Runway Name Placement
+        gc.setStroke(Color.WHITE);
+        gc.strokeText(Model.originalRunwayLeft.getName() + " -> ", width * 0.01, height * 0.535);
+        gc.strokeText(" <- " + Model.originalRunwayRight.getName(), width * 0.94, height * 0.535);
     }
 
     private void drawObstacleSideOn(GraphicsContext gc, int width, int height) {
@@ -257,11 +323,6 @@ public class CenterScreenController {
 
 
         double runway = Model.originalRunwayLeft.getTORA();
-
-        //Runway Name Placement
-        gc.setStroke(Color.WHITE);
-        gc.strokeText(Model.recalculatedRunwayLeft.getName() + " -> ", width * 0.01, height * 0.535);
-        gc.strokeText(" <- " + Model.recalculatedRunwayRight.getName(), width * 0.96, height * 0.535);
 
         gc.setStroke(Color.BLACK);
         if (obstacleFromLeft > obstacleFromRight) {
@@ -1008,7 +1069,4 @@ public class CenterScreenController {
         sideOnPane.setStyle("-fx-background-color: linear-gradient(" + skyHex+ " 0%, " + skyHex + " 50%, " + grassHex + " 50%, " + grassHex + " 100%);");
         topDownPane.setBackground(new Background(new BackgroundFill(GRASS_COLOR, null, null)));
     }
-
-
-
 }
