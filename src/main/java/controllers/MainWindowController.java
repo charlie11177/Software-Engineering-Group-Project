@@ -410,6 +410,21 @@ public class MainWindowController {
         Model.console.addLog("Fontsize set to: Default");
     }
 
+    public void defaultFontClickWithoutMessage() {
+        Model.setCurrentFontSize(FontSize.DEFAULT);
+        App.root.setStyle("-fx-font-size: 12 px");
+        Model.centerScreenController.console.setFont(Font.font("Courier New",12.5));
+        Model.rightScreenController.changeFontSize(12.5);
+        Model.rightScreenController.topTableView.setPrefHeight(78);
+        Model.rightScreenController.bottomTableView.setPrefHeight(78);
+        Model.rightScreenController.rightScreen.setPrefWidth(296);
+        Model.rightScreenController.originalValuesLabel.setFont(Font.font(20));
+        Model.rightScreenController.recalculatedValuesLabel.setFont(Font.font(20));
+        Model.rightScreenController.breakdownLabel.setFont(Font.font(20));
+        if(App.stage.getHeight() < 768) App.stage.setHeight(768);
+        App.stage.setMinHeight(768);
+    }
+
     public void mediumFontClick() {
         Model.setCurrentFontSize(FontSize.MEDIUM);
         App.root.setStyle("-fx-font-size: 13 px");

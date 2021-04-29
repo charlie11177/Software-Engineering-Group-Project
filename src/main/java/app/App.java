@@ -39,7 +39,7 @@ public class App extends Application {
         stage.setMinWidth(850);
         stage.setTitle("Runway Re-declaration Tool");
         stage.show();
-        Model.mainWindowController.defaultFontClick();
+        Model.mainWindowController.defaultFontClickWithoutMessage();
 
         try {
             Model.mainWindowController.importDefaultConfig(new File("defaultConfig.xml"));
@@ -59,33 +59,5 @@ public class App extends Application {
 
     public void save(){
         Model.mainWindowController.exportConfigOnExit();
-    }
-
-    @Override
-    public void stop() {
-        /*
-        TODO:
-         Save:
-         fontsize : default, medium, large
-         colorblind: true/false
-        File file = new File("config.log");
-        File consoleData = new File ("console.log");
-        FileWriter writer = null; // true to append, false to overwrite.
-        try {
-            writer = new FileWriter(file, false);
-            String saveData = "Fontsize:"+ Model.getCurrentFontSize()+";";
-            writer.write(saveData);
-            writer.close();
-            System.out.println("Saved config data: " + saveData);
-
-            writer = new FileWriter(consoleData, false);
-            String consoleContent = Model.centerScreenController.console.getText();
-            writer.write(consoleContent);
-            writer.close();
-//            System.out.println("Saved console data:  " + consoleContent);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        */
     }
 }

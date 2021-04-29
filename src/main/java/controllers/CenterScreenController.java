@@ -74,7 +74,6 @@ public class CenterScreenController {
         sizeSlider.valueProperty().addListener((ob, oldValue, newValue) -> {
             if (newValue.doubleValue() <= 100) {
                 setupSideOnCanvas();
-                updateVisualisation(viewMode);
             }
             sideOnCanvas.setScaleX((newValue.doubleValue()/100));
             sideOnCanvas.setScaleY((newValue.doubleValue()/100));
@@ -116,15 +115,12 @@ public class CenterScreenController {
         }
     }
 
-    public void matchCompasClick(boolean isSelected) {
+    public void matchCompasClick() {
         if(Model.currentRunway == null)
             return;
-        if(isSelected){
-            int degree = Model.currentRunway.getLeftRunway().getDegree();
-            topDowncanvas.setRotate(degree*10-90);
+        if(matchCompasCB.isSelected()){
             Model.console.addLog("Top Down visualisation orientation is set to match with compass heading");
         } else {
-            topDowncanvas.setRotate(0);
             Model.console.addLog("Top Down visualisation orientation is set to default");
         }
     }
@@ -201,7 +197,7 @@ public class CenterScreenController {
 //            matchCompasCB.setSelected(false);
         } else {
             matchCompasCB.setDisable(false);
-            //matchCompasClick(matchCompasCB.isSelected());
+            matchCompass(matchCompasCB.isSelected());
         }
         sideOnCanvas.setScaleX((sizeSlider.getValue()/100));
         sideOnCanvas.setScaleY((sizeSlider.getValue()/100));
@@ -290,17 +286,17 @@ public class CenterScreenController {
         }
 
         //Runway Name Placement
-        gc.setStroke(Color.WHITE);
-        gc.strokeText(Model.originalRunwayLeft.getName() + " -> ", width * 0.01, height * 0.535);
-        gc.strokeText(" <- " + Model.originalRunwayRight.getName(), width * 0.94, height * 0.535);
+        gc.setStroke(Color.BLACK);
+        gc.strokeText(Model.currentRunway.getLeftRunway().getName() + " -> ", width * 0.01, height * 0.1);
+        gc.strokeText(" <- " + Model.currentRunway.getRightRunway().getName(), width * 0.94, height * 0.1);
     }
 
     private void drawObstacleSideOn(GraphicsContext gc, int width, int height) {
-        double runway = Model.originalRunwayLeft.getTORA();
+        double runway = Model.currentRunway.getLeftRunway().getTORA();
         double obstacleFromLeft = Model.currentObstacle.getPosition().getDistanceToLeft();
         double obstacleFromRight = Model.currentObstacle.getPosition().getDistanceToRight();
-        double leftThreshold = Model.originalRunwayLeft.getTORA() - Model.originalRunwayLeft.getLDA();
-        double rightThreshold = Model.originalRunwayRight.getTORA() - Model.originalRunwayRight.getLDA();
+        double leftThreshold = Model.currentRunway.getLeftRunway().getTORA() - Model.currentRunway.getLeftRunway().getLDA();
+        double rightThreshold = Model.currentRunway.getRightRunway().getTORA() - Model.currentRunway.getRightRunway().getLDA();
         double obstacleWidth = (runway - (leftThreshold + rightThreshold)) - (obstacleFromLeft + obstacleFromRight);
 
         gc.setFill(RED_COLOR);
@@ -315,20 +311,20 @@ public class CenterScreenController {
         int rightTODA = Math.max(Model.recalculatedRunwayRight.getTODA(), 0);
         int rightLDA = Math.max(Model.recalculatedRunwayRight.getLDA(), 0);
         int rightASDA = Math.max(Model.recalculatedRunwayRight.getASDA(), 0);
-        int rightStopway = Math.max(Model.originalRunwayRight.getStopway(), 0);
-        int rightClearway = Math.max(Model.originalRunwayRight.getClearway(), 0);
-        int rightThreshold = Model.originalRunwayRight.getTORA() - Model.originalRunwayRight.getLDA();
+        int rightStopway = Math.max(Model.currentRunway.getRightRunway().getStopway(), 0);
+        int rightClearway = Math.max(Model.currentRunway.getRightRunway().getClearway(), 0);
+        int rightThreshold = Model.currentRunway.getRightRunway().getTORA() - Model.currentRunway.getRightRunway().getLDA();
 
         int leftTORA = Math.abs(Math.max(Model.recalculatedRunwayLeft.getTORA(), 0));
         int leftTODA = Math.max(Model.recalculatedRunwayLeft.getASDA(), 0);
         int leftLDA = Math.abs(Math.max(Model.recalculatedRunwayLeft.getLDA(), 0));
         int leftASDA = Math.max(Model.recalculatedRunwayLeft.getASDA(), 0);
-        int leftStopway = Math.max(Model.originalRunwayLeft.getStopway(), 0);
-        int leftClearway = Math.max(Model.originalRunwayLeft.getClearway(), 0);
-        int leftThreshold = Model.originalRunwayLeft.getTORA() - Model.originalRunwayLeft.getLDA();
+        int leftStopway = Math.max(Model.currentRunway.getLeftRunway().getStopway(), 0);
+        int leftClearway = Math.max(Model.currentRunway.getLeftRunway().getClearway(), 0);
+        int leftThreshold = Model.currentRunway.getLeftRunway().getTORA() - Model.currentRunway.getLeftRunway().getLDA();
 
 
-        double runway = Model.originalRunwayLeft.getTORA();
+        double runway = Model.currentRunway.getLeftRunway().getTORA();
 
         gc.setStroke(Color.BLACK);
         if (obstacleFromLeft > obstacleFromRight) {
@@ -450,9 +446,9 @@ public class CenterScreenController {
     private void drawAnglesSideOn(GraphicsContext gc, int width, int height) {
         double obstacleFromLeft = Model.currentObstacle.getPosition().getDistanceToLeft();
         double obstacleFromRight = Model.currentObstacle.getPosition().getDistanceToRight();
-        double runway = Model.originalRunwayLeft.getTORA();
-        double leftThreshold = Model.originalRunwayLeft.getTORA() - Model.originalRunwayLeft.getLDA();
-        double rightThreshold = Model.originalRunwayRight.getTORA() - Model.originalRunwayRight.getLDA();
+        double runway = Model.currentRunway.getLeftRunway().getTORA();
+        double leftThreshold = Model.currentRunway.getLeftRunway().getTORA() - Model.currentRunway.getLeftRunway().getLDA();
+        double rightThreshold = Model.currentRunway.getRightRunway().getTORA() - Model.currentRunway.getRightRunway().getLDA();
         double obstacleWidth = (runway - (leftThreshold + rightThreshold)) - (obstacleFromLeft + obstacleFromRight);
         double rightTORA = Math.max(Model.recalculatedRunwayRight.getTORA(), 0);
         double rightLDA = Math.max(Model.recalculatedRunwayRight.getLDA(), 0);
@@ -613,23 +609,23 @@ public class CenterScreenController {
         //Values indicators
         //TODA
         if(!Model.leftScreenController.calculateAllowed){
-        gc.setFill(Color.BLACK);
-        gc.fillText("TODA: " + LTODA + "m", scale*6, hscale*3.9); //left
-        gc.fillText("TODA: " + RTODA + "m", scale*6, hscale*13.4);//right
-        //ASDA UP
-        gc.fillText("ASDA: " + LASDA + "m", scale*6.1, hscale*4.4);
-        //ASDA DOWN
-        gc.fillText("ASDA: " + RASDA + "m", scale*7, hscale*12.9);
-        //TORA
-        gc.fillText("TORA: " + LTORA + "m", scale*6.1, hscale*4.9);
-        //TORA DOWN
-        gc.fillText("TORA: " + RTORA + "m", scale*7, hscale*12.4);
-        //LDA UP
-        gc.fillText("LDA: " + LLDA + "m", scale*7, hscale*5.4);
-        //LDA DOWN
-        gc.fillText("LDA: " + RLDA + "m", scale*7, hscale*11.9);
-        //draw landing directions
-       }
+            gc.setFill(Color.BLACK);
+            gc.fillText("TODA: " + LTODA + "m", scale*6, hscale*3.9); //left
+            gc.fillText("TODA: " + RTODA + "m", scale*6, hscale*13.4);//right
+            //ASDA UP
+            gc.fillText("ASDA: " + LASDA + "m", scale*6.1, hscale*4.4);
+            //ASDA DOWN
+            gc.fillText("ASDA: " + RASDA + "m", scale*7, hscale*12.9);
+            //TORA
+            gc.fillText("TORA: " + LTORA + "m", scale*6.1, hscale*4.9);
+            //TORA DOWN
+            gc.fillText("TORA: " + RTORA + "m", scale*7, hscale*12.4);
+            //LDA UP
+            gc.fillText("LDA: " + LLDA + "m", scale*7, hscale*5.4);
+            //LDA DOWN
+            gc.fillText("LDA: " + RLDA + "m", scale*7, hscale*11.9);
+            //draw landing directions
+        }
         gc.fillText("LANDING - TAKEOFF DIRECTION", scale*3, hscale*3);
         gc.fillText("LANDING - TAKEOFF DIRECTION", scale*17.8 , hscale*14);
     }
@@ -935,7 +931,7 @@ public class CenterScreenController {
             gc.setFill(Color.BLACK);
             gc.fillRect(scale * 5, hscale * 7, scale, hscale * 2);
             gc.setFill(Color.WHITE);
-            gc.fillText("Stop Way", scale * 3.8, hscale * 8, 80);
+            gc.fillText("Stop Way", scale * 2, hscale * 8, 80);
             gc.setFill(Color.BLACK);
             if (!Model.leftScreenController.calculateAllowed){
 

@@ -61,7 +61,7 @@
                               <Label alignment="CENTER" layoutX="10.0" layoutY="14.0" prefHeight="32.0" prefWidth="30.0" text="🔍+" />
                            </children>
                         </HBox>
-                        <CheckBox fx:id="matchCompasCB" disable="true" mnemonicParsing="false" prefHeight="17.0" prefWidth="200.0" text="Match compass heading" />
+                        <CheckBox fx:id="matchCompasCB" disable="true" mnemonicParsing="false" onAction="#matchCompasClick" prefHeight="17.0" prefWidth="200.0" text="Match compass heading" />
                      </children>
                   </HBox>
                         <TextArea fx:id="console" editable="false" minHeight="0.0" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
