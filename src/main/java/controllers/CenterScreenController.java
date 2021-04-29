@@ -24,6 +24,8 @@ import model.Model;
 import model.PhysicalRunWay;
 import model.Position;
 
+import javax.swing.plaf.ColorUIResource;
+
 public class CenterScreenController {
 
     public TextArea console;
@@ -35,6 +37,7 @@ public class CenterScreenController {
     private final int ARR_SIZE = 5;
     public CheckBox matchCompasCB;
     private ViewMode viewMode;
+    private ColourBlindMode colourBlindMode;
     @FXML private Slider sizeSlider;
     private double mouseDeltaX;
     private double mouseDeltaY;
@@ -738,6 +741,7 @@ public class CenterScreenController {
         RED_COLOR = Color.RED;
         YELLOW_COLOR = Color.HOTPINK;
         setBackground();
+        setColourBlindMode(ColourBlindMode.TRITANOPE);
         updateVisualisation(viewMode);
     }
 
@@ -751,6 +755,7 @@ public class CenterScreenController {
         DARKBLUE_COLOR = Color.rgb(245, 71, 225);
         GRASS_COLOR = Color.CORNSILK;
         setBackground();
+        setColourBlindMode(ColourBlindMode.PROTONOPE);
         updateVisualisation(viewMode);
     }
     protected void greenBlindness(){
@@ -762,10 +767,12 @@ public class CenterScreenController {
         DARKBLUE_COLOR = Color.rgb(71, 209, 71);
         GRASS_COLOR = Color.CORNSILK;
         setBackground();
+        setColourBlindMode(ColourBlindMode.DEUTERANOPE);
         updateVisualisation(viewMode);
     }
     protected void noBlindness(){
         defaultColors();
+        setColourBlindMode(ColourBlindMode.DEFAULT);
         updateVisualisation(viewMode);
     }
 
@@ -949,6 +956,14 @@ public class CenterScreenController {
 
     public ViewMode getViewMode() {
         return viewMode;
+    }
+
+    public ColourBlindMode getColourBlindMode() {
+        return colourBlindMode;
+    }
+
+    public void setColourBlindMode(ColourBlindMode colourBlindMode) {
+        this.colourBlindMode = colourBlindMode;
     }
 
 }

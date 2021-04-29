@@ -435,7 +435,7 @@ public class XMLParser {
     }
 
     // Split into two methods so it's easier to edit the config part, presuming the airports and obstacles xml wont change
-    public Septet<Integer, Integer, Integer, String, Boolean, Boolean, String> importConfigurationCONFIG(File file) {
+    public Septet<Integer, Integer, Integer, String, Boolean, String, String> importConfigurationCONFIG(File file) {
         try {
             if (!validateXML(XMLTypes.FullConfig, file)) throw new Exception("Invalid");
             DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
@@ -447,7 +447,7 @@ public class XMLParser {
             int currentObstacle = Integer.parseInt(document.getElementsByTagName("currentObstacle").item(0).getTextContent());
             String fontSize = document.getElementsByTagName("fontSize").item(0).getTextContent();
             boolean obstaclePlaced = Boolean.getBoolean(document.getElementsByTagName("obstaclePlaced").item(0).getTextContent());
-            boolean colourBlindEnabled = Boolean.getBoolean(document.getElementsByTagName("colourBlindEnabled").item(0).getTextContent());
+            String colourBlindEnabled = document.getElementsByTagName("colourBlindMode").item(0).getTextContent();
             String viewMode = document.getElementsByTagName("viewMode").item(0).getTextContent();
 
             return new Septet<>(currentAirport, currentRunway, currentObstacle, fontSize, obstaclePlaced, colourBlindEnabled, viewMode);
@@ -630,7 +630,7 @@ public class XMLParser {
             int currentObstacle = Model.currentObstacle != null ? Model.obstacles.indexOf(Model.currentObstacle) : -1;
             String fontSize = Model.getCurrentFontSize().toString();
             boolean obstaclePlaced = Model.obstaclePlaced;
-            boolean colourBlindEnabled = false;
+            String colourBlindEnabled = Model.centerScreenController.getColourBlindMode().toString();
             String viewMode = Model.centerScreenController.getViewMode().toString();
 
             Element currentAirportTag = document.createElement("currentAirport");
@@ -653,8 +653,8 @@ public class XMLParser {
             obstaclePlacedTag.appendChild(document.createTextNode(String.valueOf(obstaclePlaced)));
             root.appendChild(obstaclePlacedTag);
 
-            Element colourBlindEnabledTag = document.createElement("colourBlindEnabled");
-            colourBlindEnabledTag.appendChild(document.createTextNode(String.valueOf(colourBlindEnabled)));
+            Element colourBlindEnabledTag = document.createElement("colourBlindMode");
+            colourBlindEnabledTag.appendChild(document.createTextNode(colourBlindEnabled));
             root.appendChild(colourBlindEnabledTag);
 
             Element viewModeTag = document.createElement("viewMode");

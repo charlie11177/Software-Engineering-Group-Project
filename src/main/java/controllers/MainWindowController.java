@@ -102,7 +102,7 @@ public class MainWindowController {
      * @param options
      * @return
      */
-    private boolean importXMLConfig(Septet<Integer, Integer, Integer, String, Boolean, Boolean, String> options) {
+    private boolean importXMLConfig(Septet<Integer, Integer, Integer, String, Boolean, String, String> options) {
         try {
             // Extract data from tuple
             int currentAirport = options.getValue0();
@@ -110,7 +110,7 @@ public class MainWindowController {
             int currentObstacle = options.getValue2();
             String fontSize = options.getValue3();
             boolean obstaclePlaced = options.getValue4();
-            boolean colourBlindEnabled = options.getValue5();
+            String colourBlindMode = options.getValue5();
             String viewMode = options.getValue6();
             // Update the model
             Model.currentAirport = currentAirport != -1 ? Model.airports.get(currentAirport) : null;
@@ -122,6 +122,14 @@ public class MainWindowController {
                 case MEDIUM: mediumFontClick(); break;
                 case LARGE: largeFontClick(); break;
                 default: throw new Exception("Font error");
+            }
+
+            switch (ColourBlindMode.valueOf(colourBlindMode)) {
+                case DEFAULT: noBlindness(); break;
+                case PROTONOPE: redColorblindness(); break;
+                case DEUTERANOPE: greenColorblindness(); break;
+                case TRITANOPE: blueColorblindness(); break;
+                default: throw new Exception("ColourBlind error");
             }
 
             Model.obstaclePlaced = obstaclePlaced;
