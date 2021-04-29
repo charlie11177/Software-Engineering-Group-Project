@@ -449,6 +449,7 @@ public class XMLParser {
 
             return new Sextet<>(currentAirport, currentRunway, currentObstacle, fontSize, obstaclePlaced, colourBlindEnabled);
         } catch(Exception e) {
+            e.printStackTrace();
             System.err.println(e.getMessage() + " " + e.getLocalizedMessage());
             return null;
         }
@@ -642,7 +643,7 @@ public class XMLParser {
             fontSizeTag.appendChild(document.createTextNode(fontSize));
             root.appendChild(fontSizeTag);
 
-            Element obstaclePlacedTag = document.createElement("obstacledPlaced");
+            Element obstaclePlacedTag = document.createElement("obstaclePlaced");
             obstaclePlacedTag.appendChild(document.createTextNode(String.valueOf(obstaclePlaced)));
             root.appendChild(obstaclePlacedTag);
 

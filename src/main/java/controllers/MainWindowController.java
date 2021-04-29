@@ -40,13 +40,17 @@ public class MainWindowController {
         File xmlFile = fileChooser.showOpenDialog(menuBar.getScene().getWindow());
         if(xmlFile == null) return;
         Model.console.addLog("--- Importing Configuration from: " + xmlFile.getName() + " ---" );
+        Model.resetConfig(); // resets the UI completely
         // Get the airports and obstacles
         if(importXMLPair(xmlParser.importConfigurationDATA(xmlFile))) {
             if(importXMLConfig(xmlParser.importConfigurationCONFIG(xmlFile))) {
 //            Model.console.addLogWithoutTime("Imported " + importedAirports.size() + " Airports");
 //            Model.console.addLogWithoutTime("Imported " + importedObstacles.size() + " Obstacles");
                 Model.console.addLog("--- Finished importing Configuration from: " + xmlFile.getName() + " ---");
-                resetMenus();   // whole UI has to be reset and user actions removed, since the data is rewritten
+
+                //Update the UI
+                Model.leftScreenController.calculateAllowedMode();
+                updateUI();
             } else {
                 Model.console.addLog("Failed an import - Issue importing config data from file: " + xmlFile.getName());
                 controllers.AlertController.showErrorAlert("Import Failed");
@@ -76,7 +80,14 @@ public class MainWindowController {
             Model.currentAirport = Model.airports.get(currentAiport);
             Model.currentRunway = Model.airports.get(currentAiport).getRunways().get(currentRunway);
             Model.currentObstacle = Model.obstacles.get(currentObstacle);
-            Model.setCurrentFontSize(FontSize.valueOf(fontSize));
+
+            switch (FontSize.valueOf(fontSize)) {
+                case DEFAULT: defaultFontClick(); break;
+                case MEDIUM: mediumFontClick(); break;
+                case LARGE: largeFontClick(); break;
+                default: throw new Exception("Font error");
+            }
+
             Model.obstaclePlaced = obstaclePlaced;
             // TODO Colourblind update
             //Model.colourBlind = colourBlindEnabled;

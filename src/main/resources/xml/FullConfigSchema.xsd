@@ -76,7 +76,7 @@
                 <xs:element type="xs:int" name="currentRunway"/>
                 <xs:element type="xs:int" name="currentObstacle"/>
                 <xs:element type="xs:string" name="fontSize"/>
-                <xs:element type="xs:boolean" name="obstacledPlaced"/>
+                <xs:element type="xs:boolean" name="obstaclePlaced"/>
                 <xs:element type="xs:boolean" name="colourBlindEnabled"/>
             </xs:sequence>
         </xs:complexType>
