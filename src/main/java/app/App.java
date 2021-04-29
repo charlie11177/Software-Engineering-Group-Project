@@ -2,6 +2,7 @@ package app;
 
 import controllers.AlertController;
 import controllers.FontSize;
+import controllers.MainWindowController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -131,6 +132,7 @@ public class App extends Application {
          obstacle placed: true/false
          showCalculations: true/false
          */
+        Model.mainWindowController.exportConfig();
         System.out.println("Saving progress...");
     }
 
