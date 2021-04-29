@@ -70,6 +70,7 @@ public class CenterScreenController {
         setupTopDownCanvas();
         setupSideOnCanvas();
         viewMode = ViewMode.DEFAULT;
+        colourBlindMode = ColourBlindMode.DEFAULT;
         sizeSlider.valueProperty().addListener((ob, oldValue, newValue) -> {
             if (newValue.doubleValue() <= 100) {
                 setupSideOnCanvas();
