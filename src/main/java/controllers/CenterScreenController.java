@@ -49,6 +49,7 @@ public class CenterScreenController {
     private Color YELLOW_COLOR;
     private Color BLUE_COLOR;
     private Color PURPLE_COLOR;
+    private final int ARR_SIZE2 = 20;
 
     //TODO: What colors to use: (non colourblind mode)
     // Runway -> RUNWAY_COLOR
@@ -133,24 +134,6 @@ public class CenterScreenController {
         topDowncanvas.heightProperty().bind(topDownPane.heightProperty());
         topDowncanvas.widthProperty().addListener(event -> drawTopDown());
         topDowncanvas.heightProperty().addListener(event -> drawTopDown());
-
-        topDowncanvas.setOnMousePressed(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                mouseDeltaX = mouseEvent.getX();
-                mouseDeltaY = mouseEvent.getY();
-                System.out.println(mouseDeltaX);
-            }
-        });
-        topDowncanvas.setOnMouseDragged(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                topDowncanvas.getGraphicsContext2D().translate(((mouseEvent.getX() - mouseDeltaX)), (mouseEvent.getY()) - mouseDeltaY);
-                drawTopDown();
-                mouseDeltaX = mouseEvent.getX();
-                mouseDeltaY = mouseEvent.getY();
-            }
-        });
     }
 
     private void setupSideOnCanvas(){
@@ -540,23 +523,16 @@ public class CenterScreenController {
         int width = (int) canvas.getWidth();
         int height = (int) canvas.getHeight();
         GraphicsContext gc = canvas.getGraphicsContext2D();
-//        gc.setFill(Color.WHITESMOKE);
-//        gc.fillRect(0,0,width,height);
 
-        //scaling the figures out
         Double scale = (width *3.26/100 ); //around 30*30 cm by default
         Double hscale = (height *6.55/100);
 
-        //safe height & clear graded area
-//        gc.setStroke(Color.BLACK);
-//        gc.strokeRect(0, 0, canvas.getWidth(), canvas.getHeight());
         gc.setFill(GRASS_COLOR);
         gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
         gc.setFill(DARKBLUE_COLOR);
         double[] pointX = {scale*3,scale*9, scale*10, scale*22, scale*23, scale*27.6, scale*27.6, scale*23, scale*22, scale*10, scale*9, scale*3};
         double[] pointY = {hscale*5,hscale*5, hscale*4, hscale*4, hscale*5, hscale*5, hscale*11, hscale*11, hscale*12, hscale*12, hscale*11, hscale*11};
         gc.fillPolygon(pointX, pointY,12);
-
 
         //BASIC RUNWAY
         gc.setFill(RUNWAY_COLOR);
@@ -576,15 +552,12 @@ public class CenterScreenController {
         gc.setLineDashes(3);
         gc.strokeLine(scale*9.2 ,hscale*8.1, scale*21.7, hscale*8.1 );
         gc.setLineDashes(0);
-//        canvas.setRotate(-90);
     }
 
     public void drawRunway(Canvas canvas){
         int width = (int) canvas.getWidth();
         int height = (int) canvas.getHeight();
         GraphicsContext gc = canvas.getGraphicsContext2D();
-//        gc.setFill(Color.WHITE);
-//        gc.fillRect(0,0,width,height);
         Double scale = (width *3.26/100 );
         Double hscale = (height *6.55/100);
 
@@ -592,25 +565,16 @@ public class CenterScreenController {
         this.runway= Model.currentRunway;
         LogicalRunWay leftRunway = runway.getLeftRunway();
         LogicalRunWay RightRunway = runway.getRightRunway();
-
-        int lDegree = leftRunway .getDegree();
-        int rDegree = RightRunway.getDegree();
-
-        Integer theH = leftRunway.getThreshold();
-        Integer RThershold = RightRunway.getThreshold();
-
-        Integer Lstopway = leftRunway.getStopway();
-        Integer Rstopway = RightRunway.getStopway();
-
-        Integer Rclearway = RightRunway.getClearway();
-        Integer Lclearway = leftRunway.getClearway();
+        if( RightRunway.getThreshold() != 0){
+            if(RightRunway.getThreshold() < leftRunway.getThreshold()){
+                leftRunway = runway.getRightRunway();
+                RightRunway = runway.getLeftRunway();
+            }
+        }
 
         drawSafeHeight(canvas,gc,scale,hscale);
-        drawClearway(gc,scale,hscale,ORANGE_COLOR);
-        drawRunwayRoad(gc,scale,hscale,lDegree,rDegree);
-        drawStopway(gc,scale,hscale,Color.BLACK);
+        drawDistancesIndicator2(gc, scale,hscale, leftRunway,RightRunway);
         drawDistances(gc,scale,hscale,leftRunway, RightRunway);
-        drawDistancesIndicator(gc,scale,hscale);
     }
 
     private void drawDistances(GraphicsContext gc, Double scale, Double hscale, LogicalRunWay leftRunway, LogicalRunWay RightRunway) {
@@ -641,13 +605,8 @@ public class CenterScreenController {
         //LDA DOWN
         gc.fillText("LDA: " + RLDA + "m", scale*7, hscale*11.9);
         //draw landing directions
-        gc.fillText("LANDING - TAKEOFF DIRECTION", scale*4.1, hscale*3);
-        gc.fillText("LANDING - TAKEOFF DIRECTION", scale*17 , hscale*14);
-        if (leftRunway.getThreshold() != 0){
-            gc.setFill(YELLOW_COLOR);
-            gc.fillRect(scale*6, hscale*7, scale*1, hscale*2);
-        }
-
+        gc.fillText("LANDING - TAKEOFF DIRECTION", scale*3, hscale*3);
+        gc.fillText("LANDING - TAKEOFF DIRECTION", scale*17.8 , hscale*14);
     }
 
     public void drawRunwayWithObstacle(Canvas canvas){
@@ -655,8 +614,6 @@ public class CenterScreenController {
         int width = (int) canvas.getWidth();
         int height = (int) canvas.getHeight();
         GraphicsContext gc = canvas.getGraphicsContext2D();
-//        gc.setFill(Color.WHITE);
-//        gc.fillRect(0,0,width,height);
         LogicalRunWay leftRunway = runway.getLeftRunway();
         LogicalRunWay RightRunway = runway.getRightRunway();
         if( RightRunway.getThreshold() != 0){
@@ -666,18 +623,11 @@ public class CenterScreenController {
             }
         }
 
-        int lDegree = leftRunway .getDegree();
-        int rDegree = RightRunway.getDegree();
-
-
         Double scale = (width *3.26/100 );
         Double hscale = (height *6.55/100);
         drawSafeHeight(canvas,gc,scale,hscale);
-        drawClearway(gc,scale,hscale,ORANGE_COLOR);
-        drawRunwayRoad(gc,scale,hscale,lDegree,rDegree);
-        drawStopway(gc,scale,hscale,Color.BLACK);
+        drawDistancesIndicator2(gc, scale,hscale, leftRunway,RightRunway);
         drawDistances(gc,scale,hscale,leftRunway, RightRunway);
-        drawDistancesIndicator(gc,scale,hscale);
         drawObstacle(gc, scale, hscale, runway);
     }
 
@@ -687,215 +637,25 @@ public class CenterScreenController {
         int width = (int) canvas.getWidth();
         int height = (int) canvas.getHeight();
         GraphicsContext gc = canvas.getGraphicsContext2D();
-//        gc.setFill(Color.WHITE);
-//        gc.fillRect(0,0,width,height);
         LogicalRunWay leftRunway = Model.recalculatedRunwayLeft;
         LogicalRunWay RightRunway = Model.recalculatedRunwayRight;
 
         if( RightRunway.getThreshold() != 0){
             if(RightRunway.getThreshold() < leftRunway.getThreshold()){
-                leftRunway = Model.recalculatedRunwayLeft;
-                RightRunway = Model.recalculatedRunwayRight;
+                leftRunway = Model.recalculatedRunwayRight;
+                RightRunway = Model.recalculatedRunwayLeft;
             }
         }
-
-        int lDegree = leftRunway .getDegree();
-        int rDegree = RightRunway.getDegree();
-
 
         Double scale = (width *3.26/100 );
         Double hscale = (height *6.55/100);
         drawSafeHeight(canvas,gc,scale,hscale);
-        drawClearway(gc,scale,hscale,ORANGE_COLOR);
-        drawRunwayRoad(gc,scale,hscale,lDegree,rDegree);
-        drawStopway(gc,scale,hscale,Color.BLACK);
+        drawDistancesIndicator2(gc, scale,hscale, leftRunway,RightRunway);
         drawDistances(gc,scale,hscale,leftRunway, RightRunway);
-        drawDistancesIndicator(gc,scale,hscale);
         drawObstacle(gc, scale, hscale, runway);
 
-      /*
-        Integer LTODA = leftRunway.getTODA();
-        Integer LTORA = leftRunway.getTORA();
-        Integer LASDA = leftRunway.getASDA();
-        Integer LLDA = leftRunway.getLDA();
-
-        Integer RTODA = RightRunway.getTODA();
-        Integer RTORA = RightRunway.getTORA();
-        Integer RASDA = RightRunway.getASDA();
-        Integer RLDA = RightRunway.getLDA();
-
-
-        // background
-        gc.setFill(Color.LIGHTGREEN);
-        gc.fillRect(0,0,width,height);
-
-
-        Double scale = (width *3.26/100 );
-        Double hscale = (height *6.55/100);
-
-        //safe height & clear graded area
-        gc.setStroke(Color.BLACK);
-        gc.strokeRect(scale*3, hscale, canvas.getWidth() - (scale*6), canvas.getHeight() -(hscale*2));
-        gc.setFill(Color.WHEAT);
-        gc.fillRect(scale*3, hscale, canvas.getWidth() - (scale*6), canvas.getHeight() -(hscale*2));
-
-        gc.setFill(Color.TAN);
-        double[] pointX = {scale*3,scale*9, scale*10, scale*22, scale*23, scale*27.6, scale*27.6, scale*23, scale*22, scale*10, scale*9, scale*3};
-        double[] pointY = {hscale*5,hscale*5, hscale*4, hscale*4, hscale*5, hscale*5, hscale*11, hscale*11, hscale*12, hscale*12, hscale*11, hscale*11};
-        gc.fillPolygon(pointX, pointY,12);
-
-        //runway
-
-        int thershold;
-        if (lDegree <= rDegree) {
-            thershold = lDegree;
-        }else thershold = rDegree;
-
-        //road
-        gc.setFill(Color.GRAY);
-        gc.fillRect(scale*6, hscale*7, scale*19, hscale*2);
-
-        //thershold
-
-        if (theH != null){
-            theH = 70;
-            gc.setFill(Color.TEAL);
-            gc.fillRect((scale*6), hscale*7, scale*1, hscale*2);
-        }
-        //stopways
-        if(Lstopway != null || Rstopway != null){
-            drawStopway(gc, scale, hscale, Color.BLACK);
-        }
-
-        //clearways
-        if(Rclearway != null){
-            drawClearway(gc, scale ,hscale,Color.BLACK );
-        }
-
-
-        //Runway road strips
-        Double d = 0.0;
-        for(int i = 0;i <10;i ++){
-            gc.setFill(Color.WHITE);
-            gc.fillRect((scale)*(7),hscale*(7.3 + d), scale, hscale / 10);
-            gc.fillRect((scale)*(23),hscale*(7.3 + d), scale, hscale / 10);
-            d = (d + 0.15);
-        }
-
-        //Runways names
-        gc.fillText(String.valueOf(lDegree) + "L",scale*8.5, hscale* 8.2);
-        gc.setFill(Color.WHITE);
-        gc.fillText(String.valueOf(rDegree) + "R",scale*22, hscale* 8.2);
-        gc.setFill(Color.BLACK);
-        gc.fillText("Clear Graded Area", scale*12 , hscale * 5, 200);
-        gc.setStroke(Color.WHITE);
-        gc.setLineWidth(scale*(25/100));
-        gc.setLineDashes(3);
-        gc.strokeLine(scale*9.2 ,hscale*8.1, scale*21.7, hscale*8.1 );
-        gc.setLineDashes(0);
-
-        //drawing values
-        double TODA = scale*21.5;
-        double ASDA =scale*20.1;
-        double TORA = scale*19;
-        double LDA = scale+70;
-        gc.setLineWidth(1);
-        gc.setStroke(Color.BLACK);
-
-        drawArrow(gc,(scale*6), hscale*7-(1.5*hscale), (scale*6)+TODA, hscale*7-(1.5*hscale), Color.GREEN);
-        drawArrow(gc,(scale*6), hscale*7-(1.25*hscale), (scale*6)+ASDA, hscale*7-(1.25*hscale), Color.BLUE);
-        drawArrow(gc,(scale*6), hscale*7-(0.75*hscale), (scale*6)+TORA, hscale*7-(0.75*hscale), Color.RED);
-        drawArrow(gc,(scale*7), hscale*7-(0.25*hscale), (scale*6)+LDA, hscale*7-(0.25*hscale), Color.PURPLE);
-
-
-        gc.strokeLine(scale*-2, hscale*5.3, scale*-2, hscale*2.3);
-        //TODA imdecator
-        gc.strokeLine(scale*-1, hscale*5, scale*-1, hscale*2.3);
-        //UPLeft
-        //gc.setStroke(Color.RED);
-        gc.strokeLine(scale*0, hscale*0.5, scale*0, hscale*0);
-        //LDA indecator
-        gc.strokeLine(scale*-1, hscale*0.5, scale*-1, hscale*-1.3);
-        //downRight
-        gc.strokeLine(scale*18, hscale*5.3, scale*18, hscale*2.3);
-        //upRight
-        //red
-        gc.setStroke(Color.RED);
-        //red
-        gc.strokeLine(scale*18, hscale*0.2, scale*18, hscale*-0.5);
-        //blue
-        gc.strokeLine(scale*19, hscale*0.2, scale*19, hscale*-1);
-        //green
-        gc.strokeLine(scale*20.6, hscale*0.2, scale*20.6, hscale*-1.3);
-
-        //thersold inedcator
-        drawArrow(gc,scale*7, hscale*10 ,scale*7,hscale*9,Color.RED);
-        gc.fillText("Displaced Threshold", scale , hscale*-0.5 );
-
-
-        //take off direction values
-        //gc.fillRect(scale*6, scale*7, scale*19, scale*2);
-        double TODAT= scale*19;
-        double ASDAT =scale*20.1;
-        double TORAT = scale*19;
-        double LDAT = scale;
-        gc.setLineWidth(1);
-        gc.setStroke(Color.BLACK);
-        drawArrow(gc,(scale*25), hscale*10.5-(hscale), (scale*25)-LDA, hscale*10.5-(hscale));
-        drawArrow(gc,(scale*25), hscale*10.5-(0.75*hscale), (scale*25)-TORA, hscale*10.5-(0.75*hscale));
-        drawArrow(gc,(scale*25), hscale*10.5-(0.5*hscale), (scale*25)-ASDA, hscale*10.5-(0.5*hscale));
-        drawArrow(gc,(scale*25), hscale*10.5-(0.25*hscale), (scale*25)-TODA, hscale*10.5-(0.25*hscale)); */
     }
 
-    private void drawDistancesIndicator(GraphicsContext gc, Double scale, Double hscale){
-        double TODA = scale*21.5;
-        double ASDA =scale*20.1;
-        double TORA = scale*19;
-        double LDA = scale*18;
-        gc.setLineWidth(1);
-        gc.setStroke(Color.BLACK);
-        drawArrow(gc,(scale*6), hscale*7-(3*hscale), (scale*6)+TODA, hscale*7-(3*hscale), ORANGE_COLOR); // CYAN
-        drawArrow(gc,(scale*6), hscale*7-(2.5*hscale), (scale*6)+ASDA, hscale*7-(2.5*hscale), BLUE_COLOR);// BLUE
-        drawArrow(gc,(scale*6), hscale*7-(2*hscale), (scale*6)+TORA, hscale*7-(2*hscale), RED_COLOR); // RED LDA
-        drawArrow(gc,(scale*7), hscale*7-(1.5*hscale), (scale*7)+LDA, hscale*7-(1.5*hscale), PURPLE_COLOR); //
-        //indicators
-        //downLeft
-        gc.strokeLine(scale*6, hscale*9, scale*6, hscale*13);
-        //TODA
-        gc.strokeLine(scale*5, hscale*9, scale*5, hscale*13.5);
-        //UPLeft
-        gc.strokeLine(scale*6, hscale*7, scale*6, hscale*4);
-        //LDA
-        gc.strokeLine(scale*7, hscale*7, scale*7, hscale*5.5);
-        //downRight
-        gc.strokeLine(scale*25, hscale*9, scale*25, hscale*13.5);
-        //upRight
-        //red
-        //red
-        gc.strokeLine(scale*25, hscale*7, scale*25, hscale*5);
-        //blue
-        gc.strokeLine(scale*26, hscale*7, scale*26, hscale*4.5);
-        //green
-        gc.strokeLine(scale*27.5, hscale*7, scale*27.5, hscale*4);
-        //take off direction values
-        //gc.fillRect(scale*6, scale*7, scale*19, scale*2);
-        double TODAT= scale*19;
-        double ASDAT =scale*20.1;
-        double TORAT = scale*19;
-        double LDAT = scale;
-        gc.setLineWidth(1);
-        gc.setStroke(Color.BLACK);
-        drawArrow(gc,(scale*25), hscale*10.5+(1.5*hscale), (scale*25)-TORA, hscale*10.5+(1.5*hscale),PURPLE_COLOR );
-        drawArrow(gc,(scale*25), hscale*10.5+(2*hscale), (scale*25)-TORA, hscale*10.5+(2*hscale),RED_COLOR );
-        drawArrow(gc,(scale*25), hscale*10.5+(2.5*hscale), (scale*25)-TORA, hscale*10.5+(2.5*hscale),BLUE_COLOR);
-        drawArrow(gc,(scale*25), hscale*10.5+(3*hscale), (scale*25)-ASDA, hscale*10.5+(3*hscale),YELLOW_COLOR );
-
-        drawBArrow(gc,scale*3, hscale*2, scale*5, hscale*2, Color.BLACK);
-        drawBArrow(gc,scale*27.7, hscale*13, scale*25.7, hscale*13, Color.BLACK);
-        //threshold indicator
-        drawArrow(gc,scale*6.5, hscale*10 ,scale*6.5,hscale*9,Color.BLACK);
-        gc.fillText("Displaced Threshold", scale*6.5 , hscale*10.5, 500);
-    }
 
     private void drawArrow(GraphicsContext gc, double x1, double y1, double x2, double y2, Color c){
         gc.setFill(c);
@@ -917,25 +677,7 @@ public class CenterScreenController {
         gc.setTransform(new Affine(transform.createConcatenation(Transform.rotate(Math.toDegrees(0), 0, 0))));
     }
 
-    private void drawStopway(GraphicsContext gc, double scale, double hscale, Color c){
-        gc.setFill(c);
-        gc.fillRect(scale*5, hscale*7, scale, hscale*2);
-        gc.fillRect(scale*25, hscale*7, scale, hscale*2);
-        gc.setFill(Color.WHITE);
-        gc.fillText("Stop Way", scale*24.6 , hscale *8, 80);
-        gc.fillText("Stop Way", scale*3.3 , hscale *8, 80);
 
-    }
-
-    private void drawClearway(GraphicsContext gc, double scale, double hscale, Color c){
-        gc.setFill(c);
-        gc.fillRect(scale*25, hscale*6, scale*2.5, hscale*4);
-        gc.setStroke(Color.BLACK);
-        gc.setFill(Color.BLACK);
-        gc.fillText("Clear Way", scale*25.1 , hscale*9.6,80);
-    }
-
-    private final int ARR_SIZE2 = 20;
 
     private void drawBArrow(GraphicsContext gc, double x1, double y1, double x2, double y2, Color C) {
         gc.setFill(C);
@@ -971,40 +713,15 @@ public class CenterScreenController {
         gc.fillText("Clear Graded Area", scale*13.5 , hscale * 5, 200);
     }
 
-    private void drawRunwayRoad(GraphicsContext gc, double scale, double hscale, Integer lDegree, Integer rDegree){
-        gc.setFill(RUNWAY_COLOR);
-        gc.fillRect(scale*6, hscale*7, scale*19, hscale*2);
-        Double d = 0.0;
-        for(int i = 0;i <10;i ++){
-            gc.setFill(Color.WHITE);
-            gc.fillRect((scale)*(7),hscale*(7.3 + d), scale, hscale / 10);
-            gc.fillRect((scale)*(23),hscale*(7.3 + d), scale, hscale / 10);
-            d = (d + 0.15);
-        }
-
-        gc.fillText(Model.currentRunway.getLeftRunway().toString(),scale*8.2, hscale* 8.2);
-        gc.setFill(Color.WHITE);
-        gc.fillText(Model.currentRunway.getRightRunway().toString(),scale*21.5, hscale* 8.2);
-        gc.setFill(Color.BLACK);
-        //gc.setFont(new Font("Arial", scale-10));
-        gc.setLineWidth(scale*(25/100));
-        gc.setLineDashes(3);
-        gc.setStroke(Color.WHITE);
-        gc.strokeLine(scale*9.2 ,hscale*8.1, scale*21.7, hscale*8.1 );
-        gc.setLineDashes(0);
-
-    }
-
-    private void drawObstacle(GraphicsContext gc, double scale, double hscale, PhysicalRunWay runway){
+    private void drawObstacle(GraphicsContext gc, double scale, double hscale, PhysicalRunWay rw){
         Position p = Model.currentObstacle.getPosition();
         double x = p.getDistanceToLeft();
+        double z = p.getDistanceToRight();
         double y = p.getDistanceFromCL();
         double width = Model.currentObstacle.getWidth();
         double height = Model.currentObstacle.getHeight();
         gc.setFill(RED_COLOR);
-        //centre lines
-        //gc.strokeLine(scale*9.2 ,hscale*8.1, scale*21.7, hscale*8.1 );
-        gc.fillRect((scale*9.2)+ x,(hscale*8.1)- y, width*5,height*5);
+        gc.fillRect((scale*5)+ x,(hscale*8.1)+ y, width*5,height*5);
 
     }
 
@@ -1061,7 +778,161 @@ public class CenterScreenController {
         setBackground();
     }
 
+    private void drawRunwayRoad2(GraphicsContext gc, double scale, double hscale, LogicalRunWay left, LogicalRunWay right){
+        gc.setFill(RUNWAY_COLOR);
+        gc.fillRect(scale*6, hscale*7, scale*19, hscale*2);
+        Double d = 0.0;
+        for(int i = 0;i <10;i ++){
+            gc.setFill(Color.WHITE);
+            gc.fillRect((scale)*(7),hscale*(7.3 + d), scale, hscale / 10);
+            gc.fillRect((scale)*(23),hscale*(7.3 + d), scale, hscale / 10);
+            d = (d + 0.15);
+        }
 
+        gc.fillText(left.getName(),scale*8.5, hscale* 8.2);
+        gc.setFill(Color.WHITE);
+        gc.fillText(right.getName(),scale*22, hscale* 8.2);
+        gc.setFill(Color.BLACK);
+        gc.setLineWidth(scale*(25/100));
+        gc.setLineDashes(3);
+        gc.setStroke(Color.WHITE);
+        gc.strokeLine(scale*9.2 ,hscale*8.1, scale*21.7, hscale*8.1 );
+        gc.setLineDashes(0);
+
+    }
+    private void drawDistancesIndicator2(GraphicsContext gc, Double scale, Double hscale, LogicalRunWay left, LogicalRunWay right){
+
+        double lStopway = right.getStopway();
+        double lClearway = right.getClearway();
+        double lThreshold = left.getThreshold();
+
+        double rStopway = left.getStopway();
+        double rClearway = left.getClearway();
+        double rThreshold = right.getThreshold();
+
+        double TODA = scale*21.5;
+        double ASDA = scale*20.1;
+        double TORA = scale*19;
+        double LDA = scale*18;
+
+        if (rClearway != 0 ) {
+            gc.setFill(ORANGE_COLOR);
+            gc.fillRect(scale*25, hscale*6, scale*2.5, hscale*4);
+            gc.setStroke(Color.BLACK);
+            gc.setFill(Color.BLACK);
+            gc.fillText("Clear Way", scale*25.1 , hscale*9.6,80);
+            TODA = scale*21.5;
+            gc.setLineWidth(1);
+            gc.setStroke(Color.BLACK);
+            drawArrow(gc,(scale*6), hscale*7-(3*hscale), (scale*6)+TODA, hscale*7-(3*hscale), Color.GREEN); // GREEN
+            gc.strokeLine(scale*27.5, hscale*7, scale*27.5, hscale*4);
+        }
+        if (rClearway == 0){
+            gc.strokeLine(scale*25, hscale*7, scale*25, hscale*4);
+            drawArrow(gc,scale*6, hscale*4, (scale*6)+TORA, hscale*4, Color.GREEN);
+        }
+        if (rStopway !=0){
+            gc.setFill(Color.BLACK);
+            gc.fillRect(scale*25, hscale*7, scale, hscale*2);
+            gc.setFill(Color.BLACK);
+            gc.fillText("Stop Way", scale*25 , hscale *8, 80);
+            ASDA =scale*20.1;
+            gc.strokeLine(scale*26, hscale*7, scale*26, hscale*4.5);
+            drawArrow(gc,(scale*6), hscale*7-(2.5*hscale), (scale*6)+ASDA, hscale*7-(2.5*hscale), BLUE_COLOR);// BLUE
+        }
+        if (rStopway ==0){
+            gc.strokeLine(scale*25, hscale*7, scale*25, hscale*4.5);
+            drawArrow(gc,scale*6, hscale*4.5, (scale*6)+TORA, hscale*4.5, BLUE_COLOR);
+        }
+        if (lClearway != 0){
+            gc.setFill(ORANGE_COLOR);
+            gc.fillRect(scale*4, hscale*6, scale*2.5, hscale*4);
+            gc.setStroke(Color.BLACK);
+            gc.setFill(Color.BLACK);
+            gc.fillText("Clear Way", scale*3.1 , hscale*9.6,80);
+
+            gc.setLineWidth(1);
+            gc.setStroke(Color.BLACK);
+            TORA = scale*19;
+            drawArrow(gc,scale*25, hscale*13.5, scale*4, hscale*13.5,BLUE_COLOR);
+            gc.strokeLine(scale*4, hscale*10, scale*4, hscale*13.5);
+
+        }
+        if (lClearway == 0){
+            gc.setLineWidth(1);
+            gc.setStroke(Color.BLACK);
+            TORA = scale*19;
+            drawArrow(gc,(scale*25), hscale*13.5, (scale*25)-TORA, hscale*13.5,BLUE_COLOR);
+            gc.strokeLine(scale*6, hscale*9, scale*6, hscale*13.5);
+
+        }
+        if (lStopway != 0){
+            gc.setFill(Color.BLACK);
+            gc.fillRect(scale*5, hscale*7, scale, hscale*2);
+            gc.setFill(Color.BLACK);
+            gc.fillText("Stop Way", scale*3.8 , hscale *8, 80);
+            ASDA =scale*20.1;
+            gc.setLineWidth(1);
+            gc.setStroke(Color.BLACK);
+            gc.strokeLine(scale*5, hscale*9, scale*5, hscale*13);
+            drawArrow(gc,(scale*25), hscale*13, (scale*25)-ASDA, hscale*13,Color.GREEN);
+        }
+        if (lStopway ==0){
+            gc.setLineWidth(1);
+            gc.setStroke(Color.BLACK);
+            drawArrow(gc,scale*25, hscale*13, scale*6, hscale*13,Color.GREEN);
+            gc.strokeLine(scale*6, hscale*9, scale*6, hscale*13);
+        }
+        drawRunwayRoad2(gc,scale,hscale,left,right);
+        if (lThreshold !=0){
+            gc.setFill(YELLOW_COLOR);
+            gc.fillRect(scale*6, hscale*7, scale*1, hscale*2);
+            gc.setStroke(Color.BLACK);
+            drawArrow(gc,scale*6.5, hscale*10 ,scale*6.5,hscale*9,RED_COLOR);
+            gc.setFill(RED_COLOR);
+            gc.fillText("Displaced Threshold", scale*6.5 , hscale*10.5, 70 );
+            gc.setStroke(Color.BLACK);
+            drawArrow(gc,(scale*7), hscale*7-(1.5*hscale), (scale*7)+LDA, hscale*7-(1.5*hscale), PURPLE_COLOR); //
+            gc.strokeLine(scale*7, hscale*7, scale*7, hscale*5.5);
+
+        }
+        if(lThreshold ==0){
+            drawArrow(gc,(scale*6), hscale*7-(1.5*hscale), (scale*6)+LDA, hscale*7-(1.5*hscale), PURPLE_COLOR); //
+            gc.strokeLine(scale*6, hscale*7, scale*6, hscale*5.5);
+        }
+        if (rThreshold != 0 ){
+            gc.setFill(YELLOW_COLOR);
+            gc.fillRect(scale*24, hscale*7, scale*1, hscale*2);
+            gc.setFill(Color.BLACK);
+            drawArrow(gc,scale*24.5, hscale*10 ,scale*24.5,hscale*9,RED_COLOR);
+            gc.setFill(RED_COLOR);
+            gc.fillText("Displaced Threshold", scale*24.5 , hscale*10.5, 70 );
+            gc.setLineWidth(1);
+            gc.setStroke(Color.BLACK);
+            gc.strokeLine(scale*24, hscale*9, scale*24, hscale*12);
+            drawArrow(gc,(scale*24), hscale*10.5+(1.5*hscale), scale*6, hscale*10.5+(1.5*hscale),PURPLE_COLOR);
+
+        }
+        if (rThreshold ==0 ){
+            gc.setLineWidth(1);
+            gc.setStroke(Color.BLACK);
+            drawArrow(gc,(scale*25), hscale*10.5+(1.5*hscale), (scale*25)-TORA, hscale*10.5+(1.5*hscale),PURPLE_COLOR );
+        }
+
+
+        //drawing tora and other indicators
+        gc.setLineWidth(1);
+        gc.setStroke(Color.BLACK);
+        gc.strokeLine(scale*6, hscale*9, scale*6, hscale*12.5);
+        gc.strokeLine(scale*6, hscale*7, scale*6, hscale*4);
+        gc.strokeLine(scale*25, hscale*9, scale*25, hscale*13.5);
+        gc.strokeLine(scale*25, hscale*7, scale*25, hscale*5);
+        drawArrow(gc,(scale*6), hscale*7-(2*hscale), (scale*6)+TORA, hscale*7-(2*hscale), RED_COLOR);
+        drawArrow(gc,(scale*25), hscale*10.5+(2*hscale), (scale*25)-TORA, hscale*10.5+(2*hscale),RED_COLOR );
+        drawBArrow(gc,scale*3, hscale*2, scale*5, hscale*2, Color.BLACK);
+        drawBArrow(gc,scale*27.7, hscale*13, scale*25.7, hscale*13, Color.BLACK);
+
+    }
     private void setBackground(){
         String skyHex = "#" + SKY_COLOR.toString().substring(2,SKY_COLOR.toString().length()-2);
         String grassHex = "#" + GRASS_COLOR.toString().substring(2,GRASS_COLOR.toString().length()-2);
@@ -1069,4 +940,6 @@ public class CenterScreenController {
         sideOnPane.setStyle("-fx-background-color: linear-gradient(" + skyHex+ " 0%, " + skyHex + " 50%, " + grassHex + " 50%, " + grassHex + " 100%);");
         topDownPane.setBackground(new Background(new BackgroundFill(GRASS_COLOR, null, null)));
     }
+
+
 }
