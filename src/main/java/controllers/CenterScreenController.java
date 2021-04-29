@@ -85,23 +85,23 @@ public class CenterScreenController {
         });
         setBackground();
 
-        topDownStackPane.setOnMousePressed(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                mouseDeltaX = mouseEvent.getX();
-                mouseDeltaY = mouseEvent.getY();
-            }
-        });
-        topDownStackPane.setOnMouseDragged(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                if (sizeSlider.getValue() >= 100)
-                    topDowncanvas.getGraphicsContext2D().translate(((mouseEvent.getX() - mouseDeltaX)), (mouseEvent.getY()) - mouseDeltaY);
-                drawTopDown();
-                mouseDeltaX = mouseEvent.getX();
-                mouseDeltaY = mouseEvent.getY();
-            }
-        });
+//        topDownStackPane.setOnMousePressed(new EventHandler<MouseEvent>() {
+//            @Override
+//            public void handle(MouseEvent mouseEvent) {
+//                mouseDeltaX = mouseEvent.getX();
+//                mouseDeltaY = mouseEvent.getY();
+//            }
+//        });
+//        topDownStackPane.setOnMouseDragged(new EventHandler<MouseEvent>() {
+//            @Override
+//            public void handle(MouseEvent mouseEvent) {
+//                if (sizeSlider.getValue() >= 100)
+//                    topDowncanvas.getGraphicsContext2D().translate(((mouseEvent.getX() - mouseDeltaX)), (mouseEvent.getY()) - mouseDeltaY);
+//                drawTopDown();
+//                mouseDeltaX = mouseEvent.getX();
+//                mouseDeltaY = mouseEvent.getY();
+//            }
+//        });
     }
 
     public void matchCompass(boolean isSelected){
