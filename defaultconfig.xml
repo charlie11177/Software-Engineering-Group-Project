@@ -92,6 +92,6 @@
     <currentObstacle>-1</currentObstacle>
     <fontSize>DEFAULT</fontSize>
     <obstaclePlaced>false</obstaclePlaced>
-    <colourBlindMode>TRITANOPE</colourBlindMode>
+    <colourBlindMode>DEFAULT</colourBlindMode>
     <viewMode>DEFAULT</viewMode>
 </data>

@@ -35,6 +35,7 @@ public class AlertController {
         Window window = alert.getDialogPane().getScene().getWindow();
         window.setOnCloseRequest(e -> alert.hide());
         alert.setHeaderText("Do you want to save your progress?");
+        alert.setContentText("This will overwrite default config.\nPlease use export to save to another file.");
         ButtonType yesButton = new ButtonType("Yes");
         ButtonType noButton = new ButtonType("No");
         alert.getButtonTypes().setAll(yesButton, noButton);

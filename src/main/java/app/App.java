@@ -39,7 +39,7 @@ public class App extends Application {
         stage.setMinWidth(850);
         stage.setTitle("Runway Re-declaration Tool");
         stage.show();
-        setupFonts();
+        Model.mainWindowController.defaultFontClick();
 
         try {
             Model.mainWindowController.importDefaultConfig(new File("defaultConfig.xml"));
@@ -55,75 +55,6 @@ public class App extends Application {
                 save();
             }
         });
-    }
-
-    private void setupFonts() {
-        if (Model.getCurrentFontSize() == FontSize.DEFAULT){
-            Model.mainWindowController.defaultFontClick();
-            System.out.println("Font size restored: DEFAULT");
-        } else if (Model.getCurrentFontSize() == FontSize.MEDIUM) {
-            Model.mainWindowController.mediumFontClick();
-            System.out.println("Font size restored: MEDIUM");
-        } else if (Model.getCurrentFontSize() == FontSize.LARGE) {
-            Model.mainWindowController.largeFontClick();
-            System.out.println("Font size restored: LARGE");
-        } else {
-            System.err.println("No valid fontsize type: " + Model.getCurrentFontSize() + ", proceeding with default setup...");
-            Model.mainWindowController.defaultFontClick();
-        }
-    }
-
-    @Override
-    public void init() throws Exception {
-        /*
-        TODO:
-         Load:
-         airports/runways/obstacles +
-         fontsize : default, medium, large
-         colorblind: true/false
-         currentairport:
-         currentrunway:
-         currentobstacle:
-         obstacle placed: true/false
-         */
-        super.init();
-        Scanner in;
-        try {
-            in = new Scanner(new FileReader("config.log"));
-        } catch (FileNotFoundException e) {
-            System.out.println("No configuration file found, proceeding with default setup...");
-            Model.setCurrentFontSize(FontSize.DEFAULT);
-            return;
-        }
-        StringBuilder sb = new StringBuilder();
-        while(in.hasNext()) {
-            sb.append(in.next());
-        }
-        in.close();
-        String result = sb.toString();
-        String[] lines  = result.split(";");
-        for (String line : lines){
-            if(line.matches("Fontsize:.*")){
-                String size = line.split(":")[1];
-                switch (size){
-                    case "DEFAULT":
-                        Model.setCurrentFontSize(FontSize.DEFAULT);
-                        break;
-                    case "MEDIUM":
-                        Model.setCurrentFontSize(FontSize.MEDIUM);
-                        break;
-                    case "LARGE":
-                        Model.setCurrentFontSize(FontSize.LARGE);
-                        break;
-                    default:
-                        System.err.println("Error occurred when initializing: " + size + ", proceeding with default setup...");
-                        Model.setCurrentFontSize(FontSize.DEFAULT);
-                }
-            } else {
-                System.err.println("Error when reading configuration file: " + line + ", proceeding with default setup...");
-                Model.setCurrentFontSize(FontSize.DEFAULT);
-            }
-        }
     }
 
     public void save(){
