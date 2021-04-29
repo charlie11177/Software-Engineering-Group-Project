@@ -42,6 +42,13 @@ public class App extends Application {
         stage.setTitle("Runway Re-declaration Tool");
         stage.show();
         setupFonts();
+
+        try {
+            Model.mainWindowController.importDefaultConfig(new File("defaultConfig.xml"));
+        } catch (Exception e) {
+            System.out.println("Default config not found");
+        }
+
         stage.setOnCloseRequest(event -> {
             Boolean save = AlertController.saveProgressAlert();
             if(save == null) {

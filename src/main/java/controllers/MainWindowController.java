@@ -23,9 +23,7 @@ import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.util.Pair;
 import model.*;
-import org.javatuples.Quintet;
 import org.javatuples.Septet;
-import org.javatuples.Sextet;
 
 import javax.imageio.ImageIO;
 import java.awt.image.RenderedImage;
@@ -93,6 +91,31 @@ public class MainWindowController {
         } else {
             Model.console.addLog("Failed an import - Issue importing Aiports and Obstacles from file: " + xmlFile.getName());
             controllers.AlertController.showErrorAlert("Import Failed", "");
+        }
+    }
+
+    public void importDefaultConfig(File xmlFile) {
+        if(xmlFile == null) return;
+        Model.console.addLog("--- Importing Configuration from: " + xmlFile.getName() + " ---" );
+        Model.resetConfig(); // resets the UI completely
+        // Get the airports and obstacles
+        if(importXMLPair(xmlParser.importConfigurationDATA(xmlFile))) {
+            if(importXMLConfig(xmlParser.importConfigurationCONFIG(xmlFile))) {
+//            Model.console.addLogWithoutTime("Imported " + importedAirports.size() + " Airports");
+//            Model.console.addLogWithoutTime("Imported " + importedObstacles.size() + " Obstacles");
+                Model.console.addLog("--- Finished importing Configuration from: " + xmlFile.getName() + " ---");
+
+                //Update the UI
+                Model.leftScreenController.calculateAllowedMode();
+                updateUI();
+                //Model.centerScreenController.updateVisualisation();
+            } else {
+                Model.console.addLog("Failed importing default config");
+                //controllers.AlertController.showErrorAlert("Import Failed", "");
+            }
+        } else {
+            Model.console.addLog("Failed importing default config");
+            //controllers.AlertController.showErrorAlert("Import Failed", "");
         }
     }
 
