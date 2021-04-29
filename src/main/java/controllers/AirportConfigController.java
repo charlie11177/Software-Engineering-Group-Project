@@ -1,5 +1,6 @@
 package controllers;
 
+import app.App;
 import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -44,10 +45,22 @@ public class AirportConfigController {
 //        }));
         airportCodeTextField.setTextFormatter(new TextFormatter<>(change -> {
             if (change.getText().equals(" ")) change.setText("_");
-            else if(!change.getText().matches("[A-Za-z0-9]*")) change.setText("");
+            else if(!change.getText().matches("[A-Za-z]*")) change.setText("");
             change.setText(change.getText().toUpperCase());
             return change;
         }));
+        airportCodeTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (airportCodeTextField.getText().length() > 3) {
+                String s = airportCodeTextField.getText().substring(0, 3);
+                airportCodeTextField.setText(s);
+            }
+        });
+        airportNameTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (airportNameTextField.getText().length() > 60) {
+                String s = airportNameTextField.getText().substring(0, 60);
+                airportNameTextField.setText(s);
+            }
+        });
     }
 
     private void setChoiceBoxListenerEnabled(Boolean enable) {
@@ -82,6 +95,7 @@ public class AirportConfigController {
                 selectedAirportView();
             }
         }
+        String str = "Airport selected: " + Model.currentAirport.getName();
         Model.console.addLog("Airport selected: " + Model.currentAirport.getName());
         Model.runwayConfigController.windowCloseProcedure();
         Model.obstacleConfigController.windowCloseProcedure();

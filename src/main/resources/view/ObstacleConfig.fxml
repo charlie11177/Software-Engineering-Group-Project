@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<TitledPane fx:id="obstacleConfig" accessibleText="obstacle configuration" prefHeight="552.0" prefWidth="241.0" text="Obstacle" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ObstacleConfigController">
+<TitledPane fx:id="obstacleConfig" accessibleText="obstacle configuration" prefHeight="552.0" prefWidth="241.0" text="Obstacle" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ObstacleConfigController">
    <content>
       <VBox fx:id="obstacleRoot" alignment="TOP_CENTER" prefHeight="570.0" prefWidth="337.0">
          <children>

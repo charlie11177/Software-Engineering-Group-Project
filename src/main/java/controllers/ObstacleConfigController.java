@@ -52,14 +52,14 @@ public class ObstacleConfigController {
         setupDirBox();
         choiceBoxListener = (observable, oldValue, newValue) -> choiceBoxUpdater(newValue, oldValue);
         obstacleConfig.expandedProperty().addListener((observable, oldValue, newValue) -> update(newValue));
+        obstacleNameTF.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (obstacleNameTF.getText().length() > 60) {
+                String s = obstacleNameTF.getText().substring(0, 60);
+                obstacleNameTF.setText(s);
+            }
+        });
 //        obstacleChoiceBox.valueProperty().addListener((observable, oldValue, newValue) -> choiceBoxUpdater(newValue));
         setChoiceBoxListenerEnabled(true);
-    }
-
-    public void updateVisualisation() {
-        System.out.println("Visualisation for obstacle " + Model.currentObstacle + " that is placed " + Model.obstaclePlaced);
-        //TODO: calls for visualisation methods for displaying runways can be placed here
-        // something like this: Model.CenterScreenController.draw();
     }
 
     private void setChoiceBoxListenerEnabled(Boolean enable) {
@@ -399,12 +399,10 @@ public class ObstacleConfigController {
             }
             Model.console.addLog("Obstacle: " + Model.currentObstacle.getName() + " was placed on runway: " + Model.currentRunway.toString());
             placeObstacle();
-            updateVisualisation();
         } else {
             Model.setObstaclePlaced(false);
             Model.console.addLog("Obstacle: " + Model.currentObstacle.getName() + " was removed from runway: " + Model.currentRunway.toString());
             selectedObstacleView();
-            updateVisualisation();
         }
 //        Model.updateVisualisation();
     }

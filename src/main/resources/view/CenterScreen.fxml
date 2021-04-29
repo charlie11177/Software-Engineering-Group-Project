@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="centerScreen" maxHeight="5000.0" maxWidth="1500.0" prefHeight="695.0" prefWidth="580.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CenterScreenController">
+<VBox fx:id="centerScreen" maxHeight="5000.0" maxWidth="1500.0" prefHeight="695.0" prefWidth="580.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CenterScreenController">
     <children>
         <SplitPane dividerPositions="0.7920656634746922" orientation="VERTICAL" prefHeight="695.0" prefWidth="687.0" VBox.vgrow="ALWAYS">
             <items>
@@ -29,7 +29,7 @@
                                       <Pane fx:id="topDownPane" prefHeight="200.0" prefWidth="200.0" />
                               <BorderPane>
                                  <top>
-                                    <ImageView fitHeight="171.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER_RIGHT" >
+                                    <ImageView fitHeight="171.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER_RIGHT">
                                        <image>
                                           <Image url="@../compass.png" />
                                        </image>
@@ -57,7 +57,7 @@
                         <HBox alignment="CENTER" prefHeight="21.0" prefWidth="240.0">
                            <children>
                               <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="29.0" prefWidth="30.0" text="🔍-" />
-                                    <Slider fx:id="sizeSlider" blockIncrement="1.0" majorTickUnit="1.0" max="200.0" maxWidth="284.0" min="100.0" minWidth="50.0" minorTickCount="0" prefHeight="14.0" prefWidth="190.0" snapToTicks="true" value="100.0" />
+                                    <Slider fx:id="sizeSlider" blockIncrement="1.0" majorTickUnit="1.0" max="150.0" maxWidth="284.0" min="50.0" minWidth="50.0" minorTickCount="0" prefHeight="14.0" prefWidth="190.0" snapToTicks="true" value="100.0" />
                               <Label alignment="CENTER" layoutX="10.0" layoutY="14.0" prefHeight="32.0" prefWidth="30.0" text="🔍+" />
                            </children>
                         </HBox>

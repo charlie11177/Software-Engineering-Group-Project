@@ -288,21 +288,21 @@ public class CenterScreenController {
         double obstacleFromLeft = Model.currentObstacle.getPosition().getDistanceToLeft();
         double obstacleFromRight = Model.currentObstacle.getPosition().getDistanceToRight();
 
-        double rightTORA = Math.max(Model.recalculatedRunwayRight.getTORA(), 0);
-        double rightTODA = Math.max(Model.recalculatedRunwayRight.getTODA(), 0);
-        double rightLDA = Math.max(Model.recalculatedRunwayRight.getLDA(), 0);
-        double rightASDA = Math.max(Model.recalculatedRunwayRight.getASDA(), 0);
-        double rightStopway = Math.max(Model.originalRunwayRight.getStopway(), 0);
-        double rightClearway = Math.max(Model.originalRunwayRight.getClearway(), 0);
-        double rightThreshold = Model.originalRunwayRight.getTORA() - Model.originalRunwayRight.getLDA();
+        int rightTORA = Math.max(Model.recalculatedRunwayRight.getTORA(), 0);
+        int rightTODA = Math.max(Model.recalculatedRunwayRight.getTODA(), 0);
+        int rightLDA = Math.max(Model.recalculatedRunwayRight.getLDA(), 0);
+        int rightASDA = Math.max(Model.recalculatedRunwayRight.getASDA(), 0);
+        int rightStopway = Math.max(Model.originalRunwayRight.getStopway(), 0);
+        int rightClearway = Math.max(Model.originalRunwayRight.getClearway(), 0);
+        int rightThreshold = Model.originalRunwayRight.getTORA() - Model.originalRunwayRight.getLDA();
 
-        double leftTORA = Math.abs(Math.max(Model.recalculatedRunwayLeft.getTORA(), 0));
-        double leftTODA = Math.max(Model.recalculatedRunwayLeft.getASDA(), 0);
-        double leftLDA = Math.abs(Math.max(Model.recalculatedRunwayLeft.getLDA(), 0));
-        double leftASDA = Math.max(Model.recalculatedRunwayLeft.getASDA(), 0);
-        double leftStopway = Math.max(Model.originalRunwayLeft.getStopway(), 0);
-        double leftClearway = Math.max(Model.originalRunwayLeft.getClearway(), 0);
-        double leftThreshold = Model.originalRunwayLeft.getTORA() - Model.originalRunwayLeft.getLDA();
+        int leftTORA = Math.abs(Math.max(Model.recalculatedRunwayLeft.getTORA(), 0));
+        int leftTODA = Math.max(Model.recalculatedRunwayLeft.getASDA(), 0);
+        int leftLDA = Math.abs(Math.max(Model.recalculatedRunwayLeft.getLDA(), 0));
+        int leftASDA = Math.max(Model.recalculatedRunwayLeft.getASDA(), 0);
+        int leftStopway = Math.max(Model.originalRunwayLeft.getStopway(), 0);
+        int leftClearway = Math.max(Model.originalRunwayLeft.getClearway(), 0);
+        int leftThreshold = Model.originalRunwayLeft.getTORA() - Model.originalRunwayLeft.getLDA();
 
 
         double runway = Model.originalRunwayLeft.getTORA();
@@ -720,7 +720,11 @@ public class CenterScreenController {
         double y = p.getDistanceFromCL();
         double width = Model.currentObstacle.getWidth();
         double height = Model.currentObstacle.getHeight();
-        gc.setFill(RED_COLOR);
+        double r = RED_COLOR.getRed() *255;
+        double b = RED_COLOR.getBlue()*255;
+        double g = RED_COLOR.getGreen()*255;
+        gc.setFill(Color.rgb((int)r,(int)g,(int)b,0.85));
+//        gc.setFill(RED_COLOR);
         gc.fillRect((scale*5)+ x,(hscale*8.1)+ y, width*5,height*5);
 
     }
@@ -834,8 +838,9 @@ public class CenterScreenController {
         if (rStopway !=0){
             gc.setFill(Color.BLACK);
             gc.fillRect(scale*25, hscale*7, scale, hscale*2);
-            gc.setFill(Color.BLACK);
+            gc.setFill(Color.WHITE);
             gc.fillText("Stop Way", scale*25 , hscale *8, 80);
+            gc.setFill(Color.BLACK);
             ASDA =scale*20.1;
             gc.strokeLine(scale*26, hscale*7, scale*26, hscale*4.5);
             drawArrow(gc,(scale*6), hscale*7-(2.5*hscale), (scale*6)+ASDA, hscale*7-(2.5*hscale), BLUE_COLOR);// BLUE
@@ -869,8 +874,9 @@ public class CenterScreenController {
         if (lStopway != 0){
             gc.setFill(Color.BLACK);
             gc.fillRect(scale*5, hscale*7, scale, hscale*2);
-            gc.setFill(Color.BLACK);
+            gc.setFill(Color.WHITE);
             gc.fillText("Stop Way", scale*3.8 , hscale *8, 80);
+            gc.setFill(Color.BLACK);
             ASDA =scale*20.1;
             gc.setLineWidth(1);
             gc.setStroke(Color.BLACK);
@@ -888,9 +894,9 @@ public class CenterScreenController {
             gc.setFill(YELLOW_COLOR);
             gc.fillRect(scale*6, hscale*7, scale*1, hscale*2);
             gc.setStroke(Color.BLACK);
-            drawArrow(gc,scale*6.5, hscale*10 ,scale*6.5,hscale*9,RED_COLOR);
-            gc.setFill(RED_COLOR);
-            gc.fillText("Displaced Threshold", scale*6.5 , hscale*10.5, 70 );
+            drawArrow(gc,scale*6.5, hscale*10 ,scale*6.5,hscale*9,YELLOW_COLOR);
+            gc.setFill(Color.BLACK);
+            gc.fillText("Displaced Threshold", scale*6.5 , hscale*10.5, 200 );
             gc.setStroke(Color.BLACK);
             drawArrow(gc,(scale*7), hscale*7-(1.5*hscale), (scale*7)+LDA, hscale*7-(1.5*hscale), PURPLE_COLOR); //
             gc.strokeLine(scale*7, hscale*7, scale*7, hscale*5.5);
@@ -904,9 +910,9 @@ public class CenterScreenController {
             gc.setFill(YELLOW_COLOR);
             gc.fillRect(scale*24, hscale*7, scale*1, hscale*2);
             gc.setFill(Color.BLACK);
-            drawArrow(gc,scale*24.5, hscale*10 ,scale*24.5,hscale*9,RED_COLOR);
-            gc.setFill(RED_COLOR);
-            gc.fillText("Displaced Threshold", scale*24.5 , hscale*10.5, 70 );
+            drawArrow(gc,scale*24.5, hscale*10 ,scale*24.5,hscale*9,YELLOW_COLOR);
+            gc.setFill(Color.BLACK);
+            gc.fillText("Displaced Threshold", scale*24.5 , hscale*10.5, 200 );
             gc.setLineWidth(1);
             gc.setStroke(Color.BLACK);
             gc.strokeLine(scale*24, hscale*9, scale*24, hscale*12);

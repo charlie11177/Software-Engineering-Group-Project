@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<TitledPane fx:id="airportConfig" accessibleText="airport configuration" prefHeight="483.0" prefWidth="241.0" text="Airport" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AirportConfigController">
+<TitledPane fx:id="airportConfig" accessibleText="airport configuration" prefHeight="483.0" prefWidth="241.0" text="Airport" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AirportConfigController">
    <content>
       <VBox fx:id="airportRoot" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0">
          <children>
@@ -64,7 +64,7 @@
                         <Insets top="20.0" />
                      </VBox.margin>
                   </Label>
-                  <TextField fx:id="airportCodeTextField" accessibleText="code field" prefHeight="25.0" prefWidth="160.0" />
+                  <TextField fx:id="airportCodeTextField" accessibleText="code field" maxWidth="100.0" prefHeight="25.0" prefWidth="100.0" />
                   <HBox alignment="CENTER" prefHeight="30.0" prefWidth="178.0" spacing="30.0">
                      <children>
                         <Button fx:id="saveAirport" accessibleText="save airport" defaultButton="true" mnemonicParsing="false" onAction="#saveAirportClick" prefHeight="25.0" prefWidth="65.0" text="Save" HBox.hgrow="SOMETIMES" />
