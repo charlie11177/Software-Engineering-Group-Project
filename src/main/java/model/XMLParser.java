@@ -620,15 +620,17 @@ public class XMLParser {
                 <xs:element type="xs:boolean" name="obstacledPlaced"/>
                 <xs:element type="xs:boolean" name="colourBlindEnabled"/>
                  */
-            int currentAiport = Model.airports.indexOf(Model.currentAirport);
-            int currentRunway = Model.currentAirport.getRunways().indexOf(Model.currentRunway);
-            int currentObstacle = Model.obstacles.indexOf(Model.currentObstacle);
+
+            // -1 represents null
+            int currentAirport = Model.currentAirport != null ? Model.airports.indexOf(Model.currentAirport) : -1;
+            int currentRunway = Model.currentRunway != null ? Model.currentAirport.getRunways().indexOf(Model.currentRunway) : -1;
+            int currentObstacle = Model.currentObstacle != null ? Model.obstacles.indexOf(Model.currentObstacle) : -1;
             String fontSize = Model.getCurrentFontSize().toString();
             boolean obstaclePlaced = Model.obstaclePlaced;
             boolean colourBlindEnabled = false;
 
             Element currentAirportTag = document.createElement("currentAirport");
-            currentAirportTag.appendChild(document.createTextNode(String.valueOf(currentAiport)));
+            currentAirportTag.appendChild(document.createTextNode(String.valueOf(currentAirport)));
             root.appendChild(currentAirportTag);
 
             Element currentRunwayTag = document.createElement("currentRunway");

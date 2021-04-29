@@ -141,7 +141,6 @@ public class App extends Application {
          Save:
          fontsize : default, medium, large
          colorblind: true/false
-         */
         File file = new File("config.log");
         File consoleData = new File ("console.log");
         FileWriter writer = null; // true to append, false to overwrite.
@@ -160,5 +159,6 @@ public class App extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        */
     }
 }

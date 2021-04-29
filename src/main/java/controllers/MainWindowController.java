@@ -70,16 +70,16 @@ public class MainWindowController {
     private boolean importXMLConfig(Sextet<Integer, Integer, Integer, String, Boolean, Boolean> options) {
         try {
             // Extract data from tuple
-            int currentAiport = options.getValue0();
+            int currentAirport = options.getValue0();
             int currentRunway = options.getValue1();
             int currentObstacle = options.getValue2();
             String fontSize = options.getValue3();
             boolean obstaclePlaced = options.getValue4();
             boolean colourBlindEnabled = options.getValue5();
             // Update the model
-            Model.currentAirport = Model.airports.get(currentAiport);
-            Model.currentRunway = Model.airports.get(currentAiport).getRunways().get(currentRunway);
-            Model.currentObstacle = Model.obstacles.get(currentObstacle);
+            Model.currentAirport = currentAirport != -1 ? Model.airports.get(currentAirport) : null;
+            Model.currentRunway = currentRunway != -1 ? Model.airports.get(currentAirport).getRunways().get(currentRunway) : null;
+            Model.currentObstacle = currentObstacle != -1 ? Model.obstacles.get(currentObstacle) : null;
 
             switch (FontSize.valueOf(fontSize)) {
                 case DEFAULT: defaultFontClick(); break;
