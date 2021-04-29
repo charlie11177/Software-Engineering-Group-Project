@@ -340,6 +340,20 @@ public class MainWindowController {
         }
     }
 
+
+    public void exportConfigOnExit() {
+        File xmlFile = new File("defaultconfig.xml");
+        System.out.println(xmlFile.getPath());
+        try {
+            xmlParser.exportConfiguration(xmlFile);
+            Model.console.addLog("--- Finished saving ---" );
+        }
+        catch (Exception e) {
+            AlertController.showErrorAlert("Failed to export the current Configuration","");
+            Model.console.addLog("--- Failed to save ---");
+        }
+    }
+
     public void exportAirports() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Export XML");

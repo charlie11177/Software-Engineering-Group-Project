@@ -2,7 +2,6 @@ package app;
 
 import controllers.AlertController;
 import controllers.FontSize;
-import controllers.MainWindowController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -12,7 +11,6 @@ import javafx.stage.Stage;
 import model.Model;
 
 import java.io.*;
-import java.net.URL;
 import java.util.Scanner;
 
 public class App extends Application {
@@ -129,17 +127,7 @@ public class App extends Application {
     }
 
     public void save(){
-        /*
-        TODO:
-         Save:
-         airports/runways/obstacles +
-         currentairport:
-         currentrunway:
-         currentobstacle:
-         obstacle placed: true/false
-         */
-        Model.mainWindowController.exportConfig();
-        System.out.println("Saving progress...");
+        Model.mainWindowController.exportConfigOnExit();
     }
 
     @Override

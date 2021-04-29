@@ -101,8 +101,7 @@
             <artifactId>javafx-swing</artifactId>
             <version>17-ea+7</version>
         </dependency>
-        <dependency>
-            <groupId>org.javatuples</groupId>
+        <dependency>            <groupId>org.javatuples</groupId>
             <artifactId>javatuples</artifactId>
             <version>1.2</version>
         </dependency>
