@@ -252,10 +252,10 @@ public class CenterScreenController {
     }
 
     private void drawRunwaySideOn(GraphicsContext gc, int width, int height) {
-        double leftStopway = Model.currentRunway.getLeftRunway().getStopway();
-        double leftClearway = Model.currentRunway.getLeftRunway().getClearway();
-        double rightStopway = Model.currentRunway.getRightRunway().getStopway();
-        double rightClearway = Model.currentRunway.getRightRunway().getClearway();
+        double rightStopway = Model.currentRunway.getLeftRunway().getStopway();
+        double rightClearway = Model.currentRunway.getLeftRunway().getClearway();
+        double leftStopway = Model.currentRunway.getRightRunway().getStopway();
+        double leftClearway = Model.currentRunway.getRightRunway().getClearway();
 
         double leftThreshold = Model.currentRunway.getLeftRunway().getTORA() - Model.currentRunway.getLeftRunway().getLDA();
         double rightThreshold = Model.currentRunway.getRightRunway().getTORA() - Model.currentRunway.getRightRunway().getLDA();
@@ -338,8 +338,8 @@ public class CenterScreenController {
                 gc.strokeLine(((width * 0.125) + ((leftThreshold / runway) * width * 0.75)) + ((leftLDA / runway) * width * 0.75), height * 0.5, ((width * 0.125) + ((leftThreshold / runway) * width * 0.75)) + ((leftLDA / runway) * width * 0.75), height * 0.375);
                 gc.strokeLine(width * (0.125 + (0.75 * leftTORA / runway)), height * 0.5, width * (0.125 + (0.75 * leftTORA / runway)), height * 0.075);
                 fillArrow(gc, (width * 0.125) + ((leftThreshold / runway) * width * 0.75), height * 0.375, ((width * 0.125) + ((leftThreshold / runway) * width * 0.75)) + ((leftLDA / runway) * width * 0.75), height * 0.375, "LDA : " + leftLDA);
-                fillArrow(gc, width * 0.125, height * 0.075, width * (0.125 + (0.75 * leftASDA / runway)), height * 0.075, "ASDA : " + leftASDA);
-                fillArrow(gc, width * 0.125, height * 0.175, width * (0.125 + (0.75 * leftTODA / runway)), height * 0.175, "TODA : " + leftTODA);
+                fillArrow(gc, width * 0.125, height * 0.075, width * (0.125 + (0.75 * leftTODA / runway)), height * 0.075, "TODA : " + leftTODA);
+                fillArrow(gc, width * 0.125, height * 0.175, width * (0.125 + (0.75 * leftASDA / runway)), height * 0.175, "ASDA : " + leftASDA);
                 fillArrow(gc, width * 0.125, height * 0.275, width * (0.125 + (0.75 * leftTORA / runway)), height * 0.275, "TORA : " + leftTORA);
             }
             else {
@@ -348,8 +348,8 @@ public class CenterScreenController {
                 gc.strokeLine(((width * 0.125) + ((leftThreshold / runway) * width * 0.75)) + ((leftLDA / runway) * width * 0.75), height * 0.5, ((width * 0.125) + ((leftThreshold / runway) * width * 0.75)) + ((leftLDA / runway) * width * 0.75), height * 0.075);
                 gc.strokeLine(width * (0.125 + (0.75 * leftTORA / runway)), height * 0.5, width * (0.125 + (0.75 * leftTORA / runway)), height * 0.175);
                 fillArrow(gc, (width * 0.125) + ((leftThreshold / runway) * width * 0.75), height * 0.075, (width * 0.125) + ((leftThreshold / runway) * width * 0.75) + ((leftLDA / runway) * width * 0.75), height * 0.075, "LDA : " + leftLDA);
-                fillArrow(gc, width * 0.125, height * 0.175, width * (0.125 + (0.75 * leftASDA / runway)), height * 0.175, "ASDA : " + leftASDA);
-                fillArrow(gc, width * 0.125, height * 0.275, width * (0.125 + (0.75 * leftTODA / runway)), height * 0.275, "TODA : " + leftTODA);
+                fillArrow(gc, width * 0.125, height * 0.175, width * (0.125 + (0.75 * leftASDA / runway)), height * 0.175, "TODA : " + leftTODA);
+                fillArrow(gc, width * 0.125, height * 0.275, width * (0.125 + (0.75 * leftTODA / runway)), height * 0.275, "ASDA : " + leftASDA);
                 fillArrow(gc, width * 0.125, height * 0.375, width * (0.125 + (0.75 * leftTORA / runway)), height * 0.375, "TORA : " + leftTORA);
             }
 
@@ -361,29 +361,29 @@ public class CenterScreenController {
                 gc.strokeLine(width * 0.045, height * 0.55, width * 0.045, height * 0.925);
                 gc.strokeLine(width * 0.125, height * 0.55, width * 0.125, height * 0.725);
                 fillArrow(gc, width * (0.125 + (0.75 * rightTORA / runway)), height * 0.725, width * 0.125, height * 0.725, "TORA : " + rightTORA);
-                fillArrow(gc, width * (0.125 + (0.75 * rightTORA / runway)), height * 0.825, width * 0.085, height * 0.825, "TODA : " + rightTODA);
-                fillArrow(gc, width * (0.125 + (0.75 * rightTORA / runway)), height * 0.925, width * 0.045, height * 0.925, "ASDA : " + rightASDA);
+                fillArrow(gc, width * (0.125 + (0.75 * rightTORA / runway)), height * 0.825, width * 0.085, height * 0.825, "ASDA : " + rightASDA);
+                fillArrow(gc, width * (0.125 + (0.75 * rightTORA / runway)), height * 0.925, width * 0.045, height * 0.925, "TODA : " + rightTODA);
                 fillArrow(gc, width * (0.125 + (0.75 * rightLDA / runway)), height * 0.625, width * 0.125, height * 0.625, "LDA : " + rightLDA);
             } else if (rightStopway != 0) {
                 gc.strokeLine(width * 0.085, height * 0.55, width * 0.085, height * 0.925);
                 gc.strokeLine(width * 0.125, height * 0.55, width * 0.125, height * 0.725);
                 fillArrow(gc, width * (0.125 + (0.75 * rightTORA / runway)), height * 0.725, width * 0.125, height * 0.725, "TORA : " + rightTORA);
-                fillArrow(gc, width * (0.125 + (0.75 * rightTORA / runway)), height * 0.825, width * 0.085, height * 0.825, "TODA : " + rightTODA);
-                fillArrow(gc, width * (0.125 + (0.75 * rightTORA / runway)), height * 0.925, width * 0.085, height * 0.925, "ASDA : " + rightASDA);
+                fillArrow(gc, width * (0.125 + (0.75 * rightTORA / runway)), height * 0.825, width * 0.085, height * 0.825, "ASDA : " + rightASDA);
+                fillArrow(gc, width * (0.125 + (0.75 * rightTORA / runway)), height * 0.925, width * 0.085, height * 0.925, "TODA : " + rightTODA);
                 fillArrow(gc, width * (0.125 + (0.75 * rightLDA / runway)), height * 0.625, width * 0.125, height * 0.625, "LDA : " + rightLDA);
             } else if (rightClearway != 0) {
                 gc.strokeLine(width * 0.045, height * 0.55, width * 0.045, height * 0.925);
                 gc.strokeLine(width * 0.125, height * 0.55, width * 0.125, height * 0.825);
                 gc.strokeLine(width * 0.125, height * 0.55, width * 0.125, height * 0.825);
                 fillArrow(gc, width * (0.125 + (0.75 * rightTORA / runway)), height * 0.725, width * 0.125, height * 0.725, "TORA : " + rightTORA);
-                fillArrow(gc, width * (0.125 + (0.75 * rightTORA / runway)), height * 0.825, width * 0.125, height * 0.825, "TODA : " + rightTODA);
-                fillArrow(gc, width * (0.125 + (0.75 * rightTORA / runway)), height * 0.925, width * 0.045, height * 0.925, "ASDA : " + rightASDA);
+                fillArrow(gc, width * (0.125 + (0.75 * rightTORA / runway)), height * 0.825, width * 0.125, height * 0.825, "ASDA : " + rightASDA);
+                fillArrow(gc, width * (0.125 + (0.75 * rightTORA / runway)), height * 0.925, width * 0.045, height * 0.925, "TODA : " + rightTODA);
                 fillArrow(gc, width * (0.125 + (0.75 * rightLDA / runway)), height * 0.625, width * 0.125, height * 0.625, "LDA : " + rightLDA);
             } else {
                 gc.strokeLine(width * 0.125, height * 0.55, width * 0.125, height * 0.925);
                 fillArrow(gc, width * (0.125 + (0.75 * rightTORA / runway)), height * 0.725, width * 0.125, height * 0.725, "TORA : " + rightTORA);
-                fillArrow(gc, width * (0.125 + (0.75 * rightTORA / runway)), height * 0.825, width * 0.125, height * 0.825, "TODA : " + rightTODA);
-                fillArrow(gc, width * (0.125 + (0.75 * rightTORA / runway)), height * 0.925, width * 0.125, height * 0.925, "ASDA : " + rightASDA);
+                fillArrow(gc, width * (0.125 + (0.75 * rightTORA / runway)), height * 0.825, width * 0.125, height * 0.825, "ASDA : " + rightASDA);
+                fillArrow(gc, width * (0.125 + (0.75 * rightTORA / runway)), height * 0.925, width * 0.125, height * 0.925, "TODA : " + rightTODA);
                 fillArrow(gc, width * (0.125 + (0.75 * rightLDA / runway)), height * 0.625, width * 0.125, height * 0.625, "LDA : " + rightLDA);
             }
         }
@@ -395,8 +395,8 @@ public class CenterScreenController {
                 gc.strokeLine((width * 0.875) - ((width * 0.75 * (rightLDA / runway)) + ((rightThreshold / runway) * width * 0.75)), height * 0.55, (width * 0.875) - ((width * 0.75 * (rightLDA / runway)) + ((rightThreshold / runway) * width * 0.75)), height * 0.625);
                 gc.strokeLine(width * (0.875 - (0.75 * rightTORA / runway)), height * 0.55, width * (0.875 - (0.75 * rightTORA / runway)), height * 0.925);
                 fillArrow(gc, (width * 0.875) - ((rightThreshold / runway) * width * 0.75) , height * 0.625, (width * 0.875) - ((((rightThreshold / runway) * width * 0.75) + ((rightLDA / runway) * width * 0.75))), height * 0.625, "LDA : " + rightLDA);
-                fillArrow(gc, width * 0.875, height * 0.925, width * (0.875 - (0.75 * rightASDA / runway)), height * 0.925, "ASDA : " + rightASDA);
-                fillArrow(gc, width * 0.875, height * 0.825, width * (0.875 - (0.75 * rightTODA / runway)), height * 0.825, "TODA : " + rightTODA);
+                fillArrow(gc, width * 0.875, height * 0.925, width * (0.875 - (0.75 * rightASDA / runway)), height * 0.925, "TODA : " + rightTODA);
+                fillArrow(gc, width * 0.875, height * 0.825, width * (0.875 - (0.75 * rightTODA / runway)), height * 0.825, "ASDA : " + rightASDA);
                 fillArrow(gc, width * 0.875, height * 0.725, width * (0.875 - (0.75 * rightTORA / runway)), height * 0.725, "TORA : " + rightTORA);
             }
             else {
@@ -405,8 +405,8 @@ public class CenterScreenController {
                 gc.strokeLine((width * 0.875) - ((width * 0.75 * (rightLDA / runway)) + ((rightThreshold / runway) * width * 0.75)), height * 0.55, (width * 0.875) - ((width * 0.75 * (rightLDA / runway)) + ((rightThreshold / runway) * width * 0.75)), height * 0.925);
                 gc.strokeLine(width * (0.875 - (0.75 * rightTORA / runway)), height * 0.55, width * (0.875 - (0.75 * rightTORA / runway)), height * 0.825);
                 fillArrow(gc, (width * 0.875) - ((rightThreshold / runway) * width * 0.75) , height * 0.925, (width * 0.875) - ((width * 0.75 * (rightLDA / runway)) + ((rightThreshold / runway) * width * 0.75)), height * 0.925, "LDA : " + rightLDA);
-                fillArrow(gc, width * 0.875, height * 0.825, width * (0.875 - (0.75 * rightASDA / runway)), height * 0.825, "ASDA : " + rightASDA);
-                fillArrow(gc, width * 0.875, height * 0.725, width * (0.875 - (0.75 * rightTODA / runway)), height * 0.725, "TODA : " + rightTODA);
+                fillArrow(gc, width * 0.875, height * 0.825, width * (0.875 - (0.75 * rightASDA / runway)), height * 0.825, "TODA : " + rightTODA);
+                fillArrow(gc, width * 0.875, height * 0.725, width * (0.875 - (0.75 * rightTODA / runway)), height * 0.725, "ASDA : " + rightASDA);
                 fillArrow(gc, width * 0.875, height * 0.625, width * (0.875 - (0.75 * rightTORA / runway)), height * 0.625, "TORA : " + rightTORA);
             }
 
@@ -418,29 +418,29 @@ public class CenterScreenController {
                 gc.strokeLine(width * 0.045, height * 0.55, width * 0.045, height * 0.075);
                 gc.strokeLine(width * 0.875, height * 0.55, width * 0.875, height * 0.275);
                 fillArrow(gc, width * (0.875 - (0.75 * leftTORA / runway)), height * 0.275, width * 0.875, height * 0.275, "TORA : " + leftTORA);
-                fillArrow(gc, width * (0.875 - (0.75 * leftTORA / runway)), height * 0.175, width * 0.085, height * 0.175, "TODA : " + leftTODA);
-                fillArrow(gc, width * (0.875 - (0.75 * leftTORA / runway)), height * 0.075, width * 0.045, height * 0.075, "ASDA : " + leftASDA);
+                fillArrow(gc, width * (0.875 - (0.75 * leftTORA / runway)), height * 0.175, width * 0.085, height * 0.175, "ASDA : " + leftASDA);
+                fillArrow(gc, width * (0.875 - (0.75 * leftTORA / runway)), height * 0.075, width * 0.045, height * 0.075, "TODA : " + leftTODA);
                 fillArrow(gc, width * (0.875 - (0.75 * leftLDA / runway)), height * 0.375, width * 0.875, height * 0.375, "LDA : " + leftLDA);
             } else if (leftStopway != 0) {
                 gc.strokeLine(width * 0.085, height * 0.55, width * 0.085, height * 0.075);
                 gc.strokeLine(width * 0.875, height * 0.55, width * 0.875, height * 0.275);
                 fillArrow(gc, width * (0.875 - (0.75 * leftTORA / runway)), height * 0.275, width * 0.875, height * 0.275, "TORA : " + leftTORA);
-                fillArrow(gc, width * (0.875 - (0.75 * leftTORA / runway)), height * 0.175, width * 0.085, height * 0.175, "TODA : " + leftTODA);
-                fillArrow(gc, width * (0.875 - (0.75 * leftTORA / runway)), height * 0.075, width * 0.085, height * 0.075, "ASDA : " + leftASDA);
+                fillArrow(gc, width * (0.875 - (0.75 * leftTORA / runway)), height * 0.175, width * 0.085, height * 0.175, "ASDA : " + leftASDA);
+                fillArrow(gc, width * (0.875 - (0.75 * leftTORA / runway)), height * 0.075, width * 0.085, height * 0.075, "TODA : " + leftTODA);
                 fillArrow(gc, width * (0.875 - (0.75 * leftLDA / runway)), height * 0.375, width * 0.875, height * 0.375, "LDA : " + leftLDA);
             } else if (leftClearway != 0) {
                 gc.strokeLine(width * 0.045, height * 0.55, width * 0.045, height * 0.075);
                 gc.strokeLine(width * 0.875, height * 0.55, width * 0.875, height * 0.175);
                 gc.strokeLine(width * 0.875, height * 0.55, width * 0.875, height * 0.175);
                 fillArrow(gc, width * (0.875 - (0.75 * leftTORA / runway)), height * 0.275, width * 0.875, height * 0.275, "TORA : " + leftTORA);
-                fillArrow(gc, width * (0.875 - (0.75 * leftTORA / runway)), height * 0.175, width * 0.875, height * 0.175, "TODA : " + leftTODA);
-                fillArrow(gc, width * (0.875 - (0.75 * leftTORA / runway)), height * 0.075, width * 0.045, height * 0.075, "ASDA : " + leftASDA);
+                fillArrow(gc, width * (0.875 - (0.75 * leftTORA / runway)), height * 0.175, width * 0.875, height * 0.175, "ASDA : " + leftASDA);
+                fillArrow(gc, width * (0.875 - (0.75 * leftTORA / runway)), height * 0.075, width * 0.045, height * 0.075, "TODA : " + leftTODA);
                 fillArrow(gc, width * (0.875 - (0.75 * leftLDA / runway)), height * 0.375, width * 0.875, height * 0.375, "LDA : " + leftLDA);
             } else {
                 gc.strokeLine(width * 0.875, height * 0.55, width * 0.875, height * 0.075);
                 fillArrow(gc, width * (0.875 - (0.75 * leftTORA / runway)), height * 0.275, width * 0.875, height * 0.275, "TORA : " + leftTORA);
-                fillArrow(gc, width * (0.875 - (0.75 * leftTORA / runway)), height * 0.175, width * 0.875, height * 0.175, "TODA : " + leftTODA);
-                fillArrow(gc, width * (0.875 - (0.75 * leftTORA / runway)), height * 0.075, width * 0.875, height * 0.075, "ASDA : " + leftASDA);
+                fillArrow(gc, width * (0.875 - (0.75 * leftTORA / runway)), height * 0.175, width * 0.875, height * 0.175, "ASDA : " + leftASDA);
+                fillArrow(gc, width * (0.875 - (0.75 * leftTORA / runway)), height * 0.075, width * 0.875, height * 0.075, "TODA : " + leftTODA);
                 fillArrow(gc, width * (0.875 - (0.75 * leftLDA / runway)), height * 0.375, width * 0.875, height * 0.375, "LDA : " + leftLDA);
             }
         }
