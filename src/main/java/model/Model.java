@@ -151,8 +151,11 @@ public class Model {
         runWays2.add(r3);
         runWays2.add(r4);
 
-        Obstacle airplane = new Obstacle("airplane1", 25 , 25*50, new Position(3655,0, 10, "L"));
-        //obstacles.add(airplane);
+        Obstacle plane1 = new Obstacle("747-8 Intercontinental", 20 , 69, new Position(3655,0, 10, "L"));
+        obstacles.add(plane1);
+
+        Obstacle tyre = new Obstacle("Loose Tyre", 2,2, new Position(3200,400, 30, "R"));
+        obstacles.add(tyre);
 
         Airport airport = new Airport("London_Gatwick", "LGW",runWays2);
         Airport airport2 = new Airport("London_Heathrow", "LHR",runWays);
