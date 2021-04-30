@@ -447,7 +447,7 @@ public class XMLParser {
             int currentRunway = Integer.parseInt(document.getElementsByTagName("currentRunway").item(0).getTextContent());
             int currentObstacle = Integer.parseInt(document.getElementsByTagName("currentObstacle").item(0).getTextContent());
             String fontSize = document.getElementsByTagName("fontSize").item(0).getTextContent();
-            boolean obstaclePlaced = Boolean.getBoolean(document.getElementsByTagName("obstaclePlaced").item(0).getTextContent());
+            boolean obstaclePlaced = document.getElementsByTagName("obstaclePlaced").item(0).getTextContent().equals("true");
             String colourBlindEnabled = document.getElementsByTagName("colourBlindMode").item(0).getTextContent();
             String viewMode = document.getElementsByTagName("viewMode").item(0).getTextContent();
 

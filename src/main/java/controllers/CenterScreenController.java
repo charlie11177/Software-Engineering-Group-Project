@@ -288,7 +288,7 @@ public class CenterScreenController {
         //Runway Name Placement
         gc.setStroke(Color.BLACK);
         gc.strokeText(Model.currentRunway.getLeftRunway().getName() + " -> ", width * 0.01, height * 0.1);
-        gc.strokeText(" <- " + Model.currentRunway.getRightRunway().getName(), width * 0.94, height * 0.1);
+        gc.strokeText(" <- " + Model.currentRunway.getRightRunway().getName(), width * 0.94, height * 0.9);
     }
 
     private void drawObstacleSideOn(GraphicsContext gc, int width, int height) {
@@ -311,16 +311,16 @@ public class CenterScreenController {
         int rightTODA = Math.max(Model.recalculatedRunwayRight.getTODA(), 0);
         int rightLDA = Math.max(Model.recalculatedRunwayRight.getLDA(), 0);
         int rightASDA = Math.max(Model.recalculatedRunwayRight.getASDA(), 0);
-        int rightStopway = Math.max(Model.currentRunway.getRightRunway().getStopway(), 0);
-        int rightClearway = Math.max(Model.currentRunway.getRightRunway().getClearway(), 0);
+        int rightStopway = Model.currentRunway.getRightRunway().getStopway();
+        int rightClearway = Model.currentRunway.getRightRunway().getClearway();
         int rightThreshold = Model.currentRunway.getRightRunway().getTORA() - Model.currentRunway.getRightRunway().getLDA();
 
         int leftTORA = Math.abs(Math.max(Model.recalculatedRunwayLeft.getTORA(), 0));
         int leftTODA = Math.max(Model.recalculatedRunwayLeft.getASDA(), 0);
         int leftLDA = Math.abs(Math.max(Model.recalculatedRunwayLeft.getLDA(), 0));
         int leftASDA = Math.max(Model.recalculatedRunwayLeft.getASDA(), 0);
-        int leftStopway = Math.max(Model.currentRunway.getLeftRunway().getStopway(), 0);
-        int leftClearway = Math.max(Model.currentRunway.getLeftRunway().getClearway(), 0);
+        int leftStopway = Model.currentRunway.getLeftRunway().getStopway();
+        int leftClearway = Model.currentRunway.getLeftRunway().getClearway();
         int leftThreshold = Model.currentRunway.getLeftRunway().getTORA() - Model.currentRunway.getLeftRunway().getLDA();
 
 
@@ -411,22 +411,22 @@ public class CenterScreenController {
             gc.strokeLine(width * (0.875 - (0.75 * leftTORA / runway)), height * 0.55, width * (0.875 - (0.75 * leftTORA / runway)), height * 0.075);
             gc.strokeLine(width * (0.875 - (0.75 * leftLDA / runway)), height * 0.55, width * (0.875 - (0.75 * leftLDA / runway)), height * 0.375);
             if (leftStopway != 0 && leftClearway != 0 && leftStopway != leftClearway) {
-                gc.strokeLine(width * 0.085, height * 0.55, width * 0.085, height * 0.175);
-                gc.strokeLine(width * 0.045, height * 0.55, width * 0.045, height * 0.075);
+                gc.strokeLine(width * 0.915, height * 0.55, width * 0.915, height * 0.175);
+                gc.strokeLine(width * 0.955, height * 0.55, width * 0.955, height * 0.075);
                 gc.strokeLine(width * 0.875, height * 0.55, width * 0.875, height * 0.275);
                 fillArrow(gc, width * (0.875 - (0.75 * leftTORA / runway)), height * 0.275, width * 0.875, height * 0.275, "TORA : " + leftTORA);
-                fillArrow(gc, width * (0.875 - (0.75 * leftTORA / runway)), height * 0.175, width * 0.085, height * 0.175, "ASDA : " + leftASDA);
-                fillArrow(gc, width * (0.875 - (0.75 * leftTORA / runway)), height * 0.075, width * 0.045, height * 0.075, "TODA : " + leftTODA);
+                fillArrow(gc, width * (0.875 - (0.75 * leftTORA / runway)), height * 0.175, width * 0.915, height * 0.175, "ASDA : " + leftASDA);
+                fillArrow(gc, width * (0.875 - (0.75 * leftTORA / runway)), height * 0.075, width * 0.955, height * 0.075, "TODA : " + leftTODA);
                 fillArrow(gc, width * (0.875 - (0.75 * leftLDA / runway)), height * 0.375, width * 0.875, height * 0.375, "LDA : " + leftLDA);
             } else if (leftStopway != 0) {
-                gc.strokeLine(width * 0.085, height * 0.55, width * 0.085, height * 0.075);
+                gc.strokeLine(width * 0.915, height * 0.55, width * 0.915, height * 0.075);
                 gc.strokeLine(width * 0.875, height * 0.55, width * 0.875, height * 0.275);
                 fillArrow(gc, width * (0.875 - (0.75 * leftTORA / runway)), height * 0.275, width * 0.875, height * 0.275, "TORA : " + leftTORA);
-                fillArrow(gc, width * (0.875 - (0.75 * leftTORA / runway)), height * 0.175, width * 0.085, height * 0.175, "ASDA : " + leftASDA);
-                fillArrow(gc, width * (0.875 - (0.75 * leftTORA / runway)), height * 0.075, width * 0.085, height * 0.075, "TODA : " + leftTODA);
+                fillArrow(gc, width * (0.875 - (0.75 * leftTORA / runway)), height * 0.175, width * 0.915, height * 0.175, "ASDA : " + leftASDA);
+                fillArrow(gc, width * (0.875 - (0.75 * leftTORA / runway)), height * 0.075, width * 0.915, height * 0.075, "TODA : " + leftTODA);
                 fillArrow(gc, width * (0.875 - (0.75 * leftLDA / runway)), height * 0.375, width * 0.875, height * 0.375, "LDA : " + leftLDA);
             } else if (leftClearway != 0) {
-                gc.strokeLine(width * 0.045, height * 0.55, width * 0.045, height * 0.075);
+                gc.strokeLine(width * 0.955, height * 0.55, width * 0.955, height * 0.075);
                 gc.strokeLine(width * 0.875, height * 0.55, width * 0.875, height * 0.175);
                 gc.strokeLine(width * 0.875, height * 0.55, width * 0.875, height * 0.175);
                 fillArrow(gc, width * (0.875 - (0.75 * leftTORA / runway)), height * 0.275, width * 0.875, height * 0.275, "TORA : " + leftTORA);
