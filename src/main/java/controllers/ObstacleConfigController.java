@@ -411,8 +411,7 @@ public class ObstacleConfigController {
         if (Math.abs(Integer.parseInt(distanceFromCLTF.getText())) > 75)
             return false;
 
-        if (Integer.parseInt(distanceFromLTF.getText()) < -60 &&
-                Integer.parseInt(distanceFromRTF.getText()) < -60)
+        if (Integer.parseInt(distanceFromLTF.getText()) < -60 && Integer.parseInt(distanceFromRTF.getText()) < -60)
             return false;
 
         int leftToda = Model.currentRunway.getLeftRunway().getTODA();

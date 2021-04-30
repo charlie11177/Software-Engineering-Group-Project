@@ -58,6 +58,6 @@ public class App extends Application {
     }
 
     public void save(){
-        Model.mainWindowController.exportConfigOnExit();
+        Model.mainWindowController.exportConfigOnExit(new File("defaultConfig.xml"));
     }
 }

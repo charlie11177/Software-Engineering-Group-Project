@@ -350,8 +350,7 @@ public class MainWindowController {
     }
 
 
-    public void exportConfigOnExit() {
-        File xmlFile = new File("defaultConfig.xml");
+    public void exportConfigOnExit(File xmlFile) {
         System.out.println(xmlFile.getPath());
         try {
             xmlParser.exportConfiguration(xmlFile);
