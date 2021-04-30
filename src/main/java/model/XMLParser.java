@@ -368,25 +368,43 @@ public class XMLParser {
                 width.appendChild(document.createTextNode(Integer.toString(obstacle.getWidth())));
                 obstacleElement.appendChild(width);
 
+
                 // Position element attributes
                 Element positionElement = document.createElement("position");
                 obstacleElement.appendChild(positionElement);
+                if (position != null) {
+                    Element distToLeft = document.createElement("distanceToLeft");
+                    distToLeft.appendChild(document.createTextNode(Integer.toString(position.getDistanceToLeft())));
+                    positionElement.appendChild(distToLeft);
 
-                Element distToLeft = document.createElement("distanceToLeft");
-                distToLeft.appendChild(document.createTextNode(Integer.toString(position.getDistanceToLeft())));
-                positionElement.appendChild(distToLeft);
+                    Element distToRight = document.createElement("distanceToRight");
+                    distToRight.appendChild(document.createTextNode(Integer.toString(position.getDistanceToRight())));
+                    positionElement.appendChild(distToRight);
 
-                Element distToRight = document.createElement("distanceToRight");
-                distToRight.appendChild(document.createTextNode(Integer.toString(position.getDistanceToRight())));
-                positionElement.appendChild(distToRight);
+                    Element distanceFromCL = document.createElement("distanceFromCL");
+                    distanceFromCL.appendChild(document.createTextNode(Integer.toString(position.getDistanceFromCL())));
+                    positionElement.appendChild(distanceFromCL);
 
-                Element distanceFromCL = document.createElement("distanceFromCL");
-                distanceFromCL.appendChild(document.createTextNode(Integer.toString(position.getDistanceFromCL())));
-                positionElement.appendChild(distanceFromCL);
+                    Element directionFromCL = document.createElement("directionFromCL");
+                    directionFromCL.appendChild(document.createTextNode(position.getDirectionFromCL()));
+                    positionElement.appendChild(directionFromCL);
+                } else {
+                    Element distToLeft = document.createElement("distanceToLeft");
+                    distToLeft.appendChild(document.createTextNode(""));
+                    positionElement.appendChild(distToLeft);
 
-                Element directionFromCL = document.createElement("directionFromCL");
-                directionFromCL.appendChild(document.createTextNode(position.getDirectionFromCL()));
-                positionElement.appendChild(directionFromCL);
+                    Element distToRight = document.createElement("distanceToRight");
+                    distToRight.appendChild(document.createTextNode(""));
+                    positionElement.appendChild(distToRight);
+
+                    Element distanceFromCL = document.createElement("distanceFromCL");
+                    distanceFromCL.appendChild(document.createTextNode(""));
+                    positionElement.appendChild(distanceFromCL);
+
+                    Element directionFromCL = document.createElement("directionFromCL");
+                    directionFromCL.appendChild(document.createTextNode(""));
+                    positionElement.appendChild(directionFromCL);
+                }
             }
 
             /*
@@ -500,22 +518,39 @@ public class XMLParser {
                 // Position element attributes
                 Element positionElement = document.createElement("position");
                 obstacleElement.appendChild(positionElement);
+                if (position != null) {
+                    Element distToLeft = document.createElement("distanceToLeft");
+                    distToLeft.appendChild(document.createTextNode(Integer.toString(position.getDistanceToLeft())));
+                    positionElement.appendChild(distToLeft);
 
-                Element distToLeft = document.createElement("distanceToLeft");
-                distToLeft.appendChild(document.createTextNode(Integer.toString(position.getDistanceToLeft())));
-                positionElement.appendChild(distToLeft);
+                    Element distToRight = document.createElement("distanceToRight");
+                    distToRight.appendChild(document.createTextNode(Integer.toString(position.getDistanceToRight())));
+                    positionElement.appendChild(distToRight);
 
-                Element distToRight = document.createElement("distanceToRight");
-                distToRight.appendChild(document.createTextNode(Integer.toString(position.getDistanceToRight())));
-                positionElement.appendChild(distToRight);
+                    Element distanceFromCL = document.createElement("distanceFromCL");
+                    distanceFromCL.appendChild(document.createTextNode(Integer.toString(position.getDistanceFromCL())));
+                    positionElement.appendChild(distanceFromCL);
 
-                Element distanceFromCL = document.createElement("distanceFromCL");
-                distanceFromCL.appendChild(document.createTextNode(Integer.toString(position.getDistanceFromCL())));
-                positionElement.appendChild(distanceFromCL);
+                    Element directionFromCL = document.createElement("directionFromCL");
+                    directionFromCL.appendChild(document.createTextNode(position.getDirectionFromCL()));
+                    positionElement.appendChild(directionFromCL);
+                } else {
+                    Element distToLeft = document.createElement("distanceToLeft");
+                    distToLeft.appendChild(document.createTextNode(""));
+                    positionElement.appendChild(distToLeft);
 
-                Element directionFromCL = document.createElement("directionFromCL");
-                directionFromCL.appendChild(document.createTextNode(position.getDirectionFromCL()));
-                positionElement.appendChild(directionFromCL);
+                    Element distToRight = document.createElement("distanceToRight");
+                    distToRight.appendChild(document.createTextNode(""));
+                    positionElement.appendChild(distToRight);
+
+                    Element distanceFromCL = document.createElement("distanceFromCL");
+                    distanceFromCL.appendChild(document.createTextNode(""));
+                    positionElement.appendChild(distanceFromCL);
+
+                    Element directionFromCL = document.createElement("directionFromCL");
+                    directionFromCL.appendChild(document.createTextNode(""));
+                    positionElement.appendChild(directionFromCL);
+                }
             }
 
             // Adding Airports
