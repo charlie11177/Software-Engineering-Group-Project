@@ -307,21 +307,21 @@ public class CenterScreenController {
         double obstacleFromLeft = Model.currentObstacle.getPosition().getDistanceToLeft();
         double obstacleFromRight = Model.currentObstacle.getPosition().getDistanceToRight();
 
-        int rightTORA = Math.max(Model.recalculatedRunwayRight.getTORA(), 0);
-        int rightTODA = Math.max(Model.recalculatedRunwayRight.getTODA(), 0);
-        int rightLDA = Math.max(Model.recalculatedRunwayRight.getLDA(), 0);
-        int rightASDA = Math.max(Model.recalculatedRunwayRight.getASDA(), 0);
-        int rightStopway = Model.currentRunway.getRightRunway().getStopway();
-        int rightClearway = Model.currentRunway.getRightRunway().getClearway();
-        int rightThreshold = Model.currentRunway.getRightRunway().getTORA() - Model.currentRunway.getRightRunway().getLDA();
+        double rightTORA = Math.max(Model.recalculatedRunwayRight.getTORA(), 0);
+        double rightTODA = Math.max(Model.recalculatedRunwayRight.getTODA(), 0);
+        double rightLDA = Math.max(Model.recalculatedRunwayRight.getLDA(), 0);
+        double rightASDA = Math.max(Model.recalculatedRunwayRight.getASDA(), 0);
+        double rightStopway = Model.currentRunway.getRightRunway().getStopway();
+        double rightClearway = Model.currentRunway.getRightRunway().getClearway();
+        double rightThreshold = Model.currentRunway.getRightRunway().getTORA() - Model.currentRunway.getRightRunway().getLDA();
 
-        int leftTORA = Math.abs(Math.max(Model.recalculatedRunwayLeft.getTORA(), 0));
-        int leftTODA = Math.max(Model.recalculatedRunwayLeft.getASDA(), 0);
-        int leftLDA = Math.abs(Math.max(Model.recalculatedRunwayLeft.getLDA(), 0));
-        int leftASDA = Math.max(Model.recalculatedRunwayLeft.getASDA(), 0);
-        int leftStopway = Model.currentRunway.getLeftRunway().getStopway();
-        int leftClearway = Model.currentRunway.getLeftRunway().getClearway();
-        int leftThreshold = Model.currentRunway.getLeftRunway().getTORA() - Model.currentRunway.getLeftRunway().getLDA();
+        double leftTORA = Math.abs(Math.max(Model.recalculatedRunwayLeft.getTORA(), 0));
+        double leftTODA = Math.max(Model.recalculatedRunwayLeft.getASDA(), 0);
+        double leftLDA = Math.abs(Math.max(Model.recalculatedRunwayLeft.getLDA(), 0));
+        double leftASDA = Math.max(Model.recalculatedRunwayLeft.getASDA(), 0);
+        double leftStopway = Model.currentRunway.getLeftRunway().getStopway();
+        double leftClearway = Model.currentRunway.getLeftRunway().getClearway();
+        double leftThreshold = Model.currentRunway.getLeftRunway().getTORA() - Model.currentRunway.getLeftRunway().getLDA();
 
 
         double runway = Model.currentRunway.getLeftRunway().getTORA();
