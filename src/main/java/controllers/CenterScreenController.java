@@ -254,8 +254,13 @@ public class CenterScreenController {
         double leftStopway = Model.currentRunway.getRightRunway().getStopway();
         double leftClearway = Model.currentRunway.getRightRunway().getClearway();
 
-        double leftThreshold = Model.currentRunway.getLeftRunway().getTORA() - Model.currentRunway.getLeftRunway().getLDA();
-        double rightThreshold = Model.currentRunway.getRightRunway().getTORA() - Model.currentRunway.getRightRunway().getLDA();
+        double leftThreshold = Model.currentRunway.getLeftRunway().getThreshold();
+        double rightThreshold = Model.currentRunway.getRightRunway().getThreshold();
+        if (leftThreshold == 0)
+            leftThreshold = Model.currentRunway.getLeftRunway().getTORA() - Model.currentRunway.getLeftRunway().getLDA();
+        if (rightThreshold == 0)
+            rightThreshold = Model.currentRunway.getRightRunway().getTORA() - Model.currentRunway.getRightRunway().getLDA();
+
         double runway = Model.currentRunway.getLeftRunway().getTORA();
 
         //Draw main runway
