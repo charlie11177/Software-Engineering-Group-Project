@@ -942,7 +942,7 @@ public class CenterScreenController {
             gc.fillText("Displaced Threshold", scale*6.5 , hscale*10.5, 200 );
             if ((!Model.leftScreenController.calculateAllowed) && left.getLDA() >0 ){
                 gc.setStroke(Color.BLACK);
-                fillArrow2(gc, (scale * 7), hscale * 7 - (1.5 * hscale), (scale * 10) + lLDA, hscale * 7 - (1.5 * hscale), "LDA:"+Double.toString(left.getLDA()) + "m"); //
+                fillArrow2(gc, (scale * 7), hscale * 7 - (1.5 * hscale), (scale * 8.3) + lLDA, hscale * 7 - (1.5 * hscale), "LDA:"+Double.toString(left.getLDA()) + "m"); //
                 gc.strokeLine(scale * 7, hscale * 7, scale * 7, hscale * 5.5);
 
             }
@@ -950,7 +950,7 @@ public class CenterScreenController {
         }
         if(lThreshold ==0 && (!Model.leftScreenController.calculateAllowed) && left.getLDA() >0){
             gc.setStroke(Color.BLACK);
-            fillArrow2(gc,(scale*6), hscale*7-(1.5*hscale), (scale*8)+lLDA, hscale*7-(1.5*hscale), "LDA:"+Double.toString(left.getLDA()) + "m"); //
+            fillArrow2(gc,(scale*6), hscale*7-(1.5*hscale), (scale*8.3)+lLDA, hscale*7-(1.5*hscale), "LDA:"+Double.toString(left.getLDA()) + "m"); //
             gc.strokeLine(scale*6, hscale*7, scale*6, hscale*5.5);
         }
 
