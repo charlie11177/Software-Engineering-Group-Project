@@ -427,7 +427,7 @@ public class ObstacleConfigController {
     }
 
 
-    private void placeObstacle(){
+    public void placeObstacle(){
         Model.obstaclePlaced = true;
         saveObstacleDimensions(Model.currentObstacle);
         Model.setObstaclePlaced(true);
