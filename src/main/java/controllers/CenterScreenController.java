@@ -836,16 +836,17 @@ public class CenterScreenController {
 
 
 
-        double scale0 = scale*19 /left.getTORA();
+        double scale0 = scale*19 /right.getTORA();
         double rTODA = right.getTODA()*scale0;
         double rASDA = right.getASDA()*scale0;
         double rTORA = right.getTORA()*scale0;
         double rLDA = right.getLDA()*scale0;
 
-        double lTODA = left.getTODA()*scale0;
-        double lASDA = left.getASDA()*scale0;
-        double lTORA = left.getTORA()*scale0;
-        double lLDA = left.getLDA()*scale0 ;
+        double scale1 = scale*19 /left.getTORA();
+        double lTODA = left.getTODA()*scale1;
+        double lASDA = left.getASDA()*scale1;
+        double lTORA = left.getTORA()*scale1;
+        double lLDA = left.getLDA()*scale1 ;
 
 
 
@@ -865,8 +866,8 @@ public class CenterScreenController {
             }
         }
         if (rClearway == 0 && ((!Model.leftScreenController.calculateAllowed)) && left.getTODA() > 0){
-            gc.strokeLine((scale*8)+rTODA, hscale*7, (scale*8)+rTODA, hscale*4);
-            fillArrow2(gc,scale*6, hscale*4, (scale*8)+rTODA, hscale*4,"TODA:"+Double.toString(left.getTODA()) + "m");
+            gc.strokeLine((scale*6)+rTODA, hscale*7, (scale*6)+rTODA, hscale*4);
+            fillArrow2(gc,scale*6, hscale*4, (scale*6)+rTODA, hscale*4,"TODA:"+Double.toString(left.getTODA()) + "m");
         }
         if (rStopway !=0){
             rASDA = rASDA -(rStopway*scale0) + scale;
@@ -878,13 +879,13 @@ public class CenterScreenController {
             if ((!Model.leftScreenController.calculateAllowed) && left.getASDA()> 0){
                 System.out.println((scale*8)+rASDA);
                 System.out.println(scale*26);
-                gc.strokeLine((scale*8)+rASDA, hscale*7, (scale*8)+rASDA, hscale*4.5);
-                fillArrow2(gc,(scale*6), hscale*7-(2.5*hscale), (scale*8)+rASDA, hscale*7-(2.5*hscale), "ASDA:"+Double.toString(left.getASDA()) + "m");// BLUE
+                gc.strokeLine((scale*6)+rASDA, hscale*7, (scale*6)+rASDA, hscale*4.5);
+                fillArrow2(gc,(scale*6), hscale*7-(2.5*hscale), (scale*6)+rASDA, hscale*7-(2.5*hscale), "ASDA:"+Double.toString(left.getASDA()) + "m");// BLUE
             }
         }
         if (rStopway ==0 && ((!Model.leftScreenController.calculateAllowed)) && left.getASDA() > 0){
-            gc.strokeLine((scale*8)+rASDA, hscale*7, (scale*8)+rASDA, hscale*4.5);
-            fillArrow2(gc,scale*6, hscale*4.5, (scale*8)+rASDA, hscale*4.5, "ASDA:"+Double.toString(left.getASDA()) + "m");
+            gc.strokeLine((scale*6)+rASDA, hscale*7, (scale*6)+rASDA, hscale*4.5);
+            fillArrow2(gc,scale*6, hscale*4.5, (scale*6)+rASDA, hscale*4.5, "ASDA:"+Double.toString(left.getASDA()) + "m");
         }
 
         if (lClearway != 0 ){
@@ -965,7 +966,10 @@ public class CenterScreenController {
                 gc.setLineWidth(1);
                 gc.setStroke(Color.BLACK);
                 gc.strokeLine(scale*24, hscale*9, scale*24, hscale*12);
-                if (scale*24 > rLDA ) {
+                if (scale*24 -rLDA >= 0 ) {
+                    System.out.println(right.getLDA());
+                    System.out.println(rLDA);
+                    System.out.println(scale*24 -rLDA);
                     fillArrow2(gc, (scale * 24), hscale * 10.5 + (1.5 * hscale), scale * 24 - rLDA, hscale * 10.5 + (1.5 * hscale), "LDA:" + Double.toString(right.getLDA()) + "m");
                     gc.strokeLine(scale*24 - rLDA, hscale*9, scale*24 - rLDA, hscale*12);
                 }

@@ -3,12 +3,12 @@
     <obstacles>
         <obstacle>
             <name>Engine</name>
-            <height>12</height>
-            <width>12</width>
+            <height>20</height>
+            <width>20</width>
             <position>
                 <distanceToLeft>-50</distanceToLeft>
                 <distanceToRight>3436</distanceToRight>
-                <distanceFromCL>20</distanceFromCL>
+                <distanceFromCL>0</distanceFromCL>
                 <directionFromCL>L</directionFromCL>
             </position>
         </obstacle>
@@ -22,8 +22,8 @@
                 <left>
                     <degree>9</degree>
                     <TORA>3660</TORA>
-                    <TODA>3661</TODA>
-                    <ASDA>3661</ASDA>
+                    <TODA>3660</TODA>
+                    <ASDA>3660</ASDA>
                     <LDA>3353</LDA>
                     <threshold>307</threshold>
                 </left>
@@ -99,11 +99,11 @@
             </runway>
         </airport>
     </airports>
-    <currentAirport>1</currentAirport>
+    <currentAirport>0</currentAirport>
     <currentRunway>0</currentRunway>
     <currentObstacle>0</currentObstacle>
     <fontSize>DEFAULT</fontSize>
     <obstaclePlaced>true</obstaclePlaced>
     <colourBlindMode>DEFAULT</colourBlindMode>
-    <viewMode>OBSTACLE_PLACED_RUNWAY</viewMode>
+    <viewMode>CALCULATIONS_RUNWAY</viewMode>
 </data>
