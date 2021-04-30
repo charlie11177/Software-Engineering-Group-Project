@@ -152,7 +152,7 @@
                     <TODA>3962</TODA>
                     <ASDA>3884</ASDA>
                     <LDA>3884</LDA>
-                    <threshold>0</threshold>
+                    <threshold>306</threshold>
                 </right>
             </runway>
             <runway>
@@ -171,14 +171,14 @@
                     <TODA>3660</TODA>
                     <ASDA>3660</ASDA>
                     <LDA>3660</LDA>
-                    <threshold>0</threshold>
+                    <threshold>307</threshold>
                 </right>
             </runway>
         </airport>
     </airports>
-    <currentAirport>1</currentAirport>
+    <currentAirport>0</currentAirport>
     <currentRunway>0</currentRunway>
-    <currentObstacle>0</currentObstacle>
+    <currentObstacle>1</currentObstacle>
     <fontSize>DEFAULT</fontSize>
     <obstaclePlaced>false</obstaclePlaced>
     <colourBlindMode>DEFAULT</colourBlindMode>

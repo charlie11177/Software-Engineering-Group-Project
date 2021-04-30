@@ -112,7 +112,7 @@ public class XMLParser {
         ArrayList<model.Obstacle> obstacles = new ArrayList<>();
         for (int i = 0; i < obstacleList.getLength(); i++) {
             Element obstacleElement = (Element) obstacleList.item(i);
-
+            Position position;
             // Get the obstacle attributes from xml tags
             String name = obstacleElement.getElementsByTagName("name").item(0).getTextContent();
 
@@ -120,13 +120,16 @@ public class XMLParser {
             int width = Integer.parseInt(obstacleElement.getElementsByTagName("width").item(0).getTextContent());
 
             Element positionNode = (Element) obstacleElement.getElementsByTagName("position").item(0);
-            int distanceToLeft = Integer.parseInt(positionNode.getElementsByTagName("distanceToLeft").item(0).getTextContent());
-            int distanceToRight = Integer.parseInt(positionNode.getElementsByTagName("distanceToRight").item(0).getTextContent());
-            int distanceToCL = Integer.parseInt(positionNode.getElementsByTagName("distanceFromCL").item(0).getTextContent());
-            String directionFromCL = positionNode.getElementsByTagName("directionFromCL").item(0).getTextContent();
+            try {
+                int distanceToLeft = Integer.parseInt(positionNode.getElementsByTagName("distanceToLeft").item(0).getTextContent());
+                int distanceToRight = Integer.parseInt(positionNode.getElementsByTagName("distanceToRight").item(0).getTextContent());
+                int distanceToCL = Integer.parseInt(positionNode.getElementsByTagName("distanceFromCL").item(0).getTextContent());
+                String directionFromCL = positionNode.getElementsByTagName("directionFromCL").item(0).getTextContent();
 
-            model.Position position = new model.Position(distanceToLeft, distanceToRight, distanceToCL, directionFromCL);    //Position will probably need two more parameters
-
+                position = new model.Position(distanceToLeft, distanceToRight, distanceToCL, directionFromCL);    //Position will probably need two more parameters
+            } catch (Exception e) {
+                position = null;
+            }
             // Add obstacle to the list
             obstacles.add(new model.Obstacle(name, height, width, position));
         }
