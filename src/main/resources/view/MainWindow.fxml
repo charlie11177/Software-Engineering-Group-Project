@@ -47,7 +47,7 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="View">
                     <items>
-                        <Menu mnemonicParsing="false" text="Colourblind theme">
+                        <Menu mnemonicParsing="false" text="Colour blind theme">
                             <items>
                               <MenuItem mnemonicParsing="false" onAction="#noBlindness" text="Default" />
                                 <MenuItem mnemonicParsing="false" onAction="#redColorblindness" text="Protanope" />
