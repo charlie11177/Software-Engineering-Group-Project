@@ -162,6 +162,12 @@ public class MainWindowController {
             }
 
             Model.setObstaclePlaced(obstaclePlaced);
+            System.out.println(obstaclePlaced);
+            if(obstaclePlaced) {
+                Model.obstacleConfigController.saveObstacleDimensions(Model.currentObstacle);
+                Model.console.addLog("Obstacle: " + Model.currentObstacle.getName() + " was placed on runway: " + Model.currentRunway.toString());
+                Model.obstacleConfigController.placeObstacle();
+            }
             // TODO Colourblind update
             //Model.colourBlind = colourBlindEnabled;
             // Errors if tries to draw calculations view without calcs

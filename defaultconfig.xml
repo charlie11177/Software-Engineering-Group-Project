@@ -99,11 +99,11 @@
             </runway>
         </airport>
     </airports>
-    <currentAirport>0</currentAirport>
+    <currentAirport>1</currentAirport>
     <currentRunway>0</currentRunway>
     <currentObstacle>0</currentObstacle>
     <fontSize>DEFAULT</fontSize>
     <obstaclePlaced>true</obstaclePlaced>
     <colourBlindMode>DEFAULT</colourBlindMode>
-    <viewMode>CALCULATIONS_RUNWAY</viewMode>
+    <viewMode>OBSTACLE_PLACED_RUNWAY</viewMode>
 </data>
