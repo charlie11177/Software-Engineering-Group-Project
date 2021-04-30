@@ -60,7 +60,8 @@ public class Calculator {
     }
 
     private static CalculatorOutput.RecalculatedRunwayOutput recalculateTOWARDS(LogicalRunWay runway, int distanceFromThreshold) {          //(Take off Towards, Landing Towards)
-        int tora, toda, asda, lda, tocs_als;
+        int tora, toda, asda, lda;
+        double tocs_als;
         String toraBD, todaBD, ldaBD, asdaBD, allBD;
         LogicalRunWay recalculatedRunway;
 
@@ -68,7 +69,7 @@ public class Calculator {
         toda = tora;                                                                                                                        //TODA = (R) TORA
         lda = distanceFromThreshold - 240 - 60;                                                                                             //LDA = Distance from Threshold - RESA - Strip End
         asda = tora;                                                                                                                        //ASDA = (R) TORA
-        tocs_als = (int) (Math.sqrt(2501) * obstacle.getHeight());
+        tocs_als = (double) (Math.sqrt(2501) * obstacle.getHeight());
         recalculatedRunway = new LogicalRunWay(runway.getDegree(), runway.getDirection(), tora, toda, asda, lda, runway.getThreshold(), tocs_als);
 
         if(runway.getThreshold() == 0) toraBD = distanceFromThreshold + " - (" + obstacle.getHeight() + " * 50) - 60 = " + tora;

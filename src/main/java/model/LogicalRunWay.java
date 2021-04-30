@@ -12,7 +12,7 @@ public class LogicalRunWay {
     private int clearway;
     private int stopway;
     private String name;
-    private int TOCS_ALS;
+    private double TOCS_ALS;
 
     public LogicalRunWay(int degree, Direction direction, int TORA, int TODA, int ASDA, int LDA, int threshold){
         this.degree = degree;
@@ -27,7 +27,7 @@ public class LogicalRunWay {
         this.name = degree + direction.toString();
     }
 
-    public LogicalRunWay(int degree, Direction direction, int TORA, int TODA, int ASDA, int LDA, int threshold, int TOCS_ALS) {
+    public LogicalRunWay(int degree, Direction direction, int TORA, int TODA, int ASDA, int LDA, int threshold, double TOCS_ALS) {
         this(degree, direction, TORA, TODA, ASDA, LDA, threshold);
         this.TOCS_ALS = TOCS_ALS;
     }
@@ -95,7 +95,7 @@ public class LogicalRunWay {
         return TODA;
     }
 
-    public int getTOCS_ALS() {
+    public double getTOCS_ALS() {
         return TOCS_ALS;
     }
 
