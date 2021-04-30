@@ -117,17 +117,17 @@ public class Model {
 
 
     public static void demo(){
-        LogicalRunWay left1 = new LogicalRunWay(9, Direction.L,3902,3902,3202,3595, 0);
-        LogicalRunWay right1 = new LogicalRunWay(27, Direction.R,3884,3962,3884,0, 0);
+        LogicalRunWay left1 = new LogicalRunWay(9, Direction.L,3902,3902,3902,3595, 306);
+        LogicalRunWay right1 = new LogicalRunWay(27, Direction.R,3884,3962,3884,3884, 0);
 
-        LogicalRunWay left2 = new LogicalRunWay(10, Direction.L,3802,3802,3102,3495, 0);
-        LogicalRunWay right2 = new LogicalRunWay(28, Direction.R,1,1,1,0, 0);
+        LogicalRunWay left2 = new LogicalRunWay(9, Direction.R,3660,3660,3660,3353, 307);
+        LogicalRunWay right2 = new LogicalRunWay(27, Direction.L,3660,3660,3660,3660, 0);
 
-        LogicalRunWay left3 = new LogicalRunWay(9, Direction.R,3660,3660,3660,3353, 307);
-        LogicalRunWay right3 = new LogicalRunWay(27, Direction.L,3660,3660,3660,3660, 0);
+        LogicalRunWay left3 = new LogicalRunWay(26, Direction.R,2565,2565,2565,2565, 0);
+        LogicalRunWay right3 = new LogicalRunWay(8, Direction.L,2565,2565,2565,2565, 0);
 
-        LogicalRunWay left4 = new LogicalRunWay(9, Direction.L, 3902, 3902, 3902, 3595, 306);
-        LogicalRunWay right4 = new LogicalRunWay(27, Direction.R, 3884, 3962, 3884, 3884, 0);
+        LogicalRunWay left4 = new LogicalRunWay(8, Direction.R, 3159, 3159, 3159, 3159, 0);
+        LogicalRunWay right4 = new LogicalRunWay(26, Direction.L, 3255, 3255, 3255, 3255, 0);
 
         PhysicalRunWay r1 = null;
         PhysicalRunWay r2 = null;
@@ -137,7 +137,7 @@ public class Model {
         try {
             r1 = new PhysicalRunWay(1,left1, right1, null);
             r2 = new PhysicalRunWay(2,left2, right2, null);
-            r3 = new PhysicalRunWay(1,left3, right3, null);
+            r3 = new PhysicalRunWay(1,right3, left3, null);
             r4 = new PhysicalRunWay(3,left4, right4, null);
         } catch (Exception e) {
             e.printStackTrace();
