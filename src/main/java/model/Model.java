@@ -151,14 +151,22 @@ public class Model {
         runWays2.add(r3);
         runWays2.add(r4);
 
-        Obstacle plane1 = new Obstacle("747-8 Intercontinental", 20 , 69, new Position(3655,0, 10, "L"));
-        obstacles.add(plane1);
+        Obstacle plane1 = new Obstacle("747-8 Intercontinental", 20 , 69, null);
+        Obstacle plane2 = new Obstacle("Boeing 737", 13 , 36, null);
+        Obstacle plane3 = new Obstacle("Boeing 737 MAX", 12 , 36, null);
+        Obstacle plane4 = new Obstacle("Airbus A350", 17 , 65, null);
+        Obstacle plane5 = new Obstacle("Airbus A380", 24 , 80, null);
+        Obstacle plane6 = new Obstacle("Boeing 737 MAX", 12 , 36, null);
 
-        Obstacle tyre = new Obstacle("Loose Tyre", 2,2, new Position(3200,400, 30, "R"));
-        obstacles.add(tyre);
+        Obstacle car = new Obstacle("Staff car", 2 , 2, null);
+        Obstacle bus = new Obstacle("Bus", 4 , 10, null);
 
-        Airport airport = new Airport("London_Gatwick", "LGW",runWays2);
-        Airport airport2 = new Airport("London_Heathrow", "LHR",runWays);
+
+        obstacles.addAll(Arrays.asList(plane1,plane2, plane3,plane4,plane5,plane6,car,bus));
+
+
+        Airport airport = new Airport("London Gatwick", "LGW",runWays2);
+        Airport airport2 = new Airport("London Heathrow", "LHR",runWays);
         airports.add(airport);
         airports.add(airport2);
     }
