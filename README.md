@@ -18,3 +18,24 @@ by the pilot as to whether they feel safe landing/taking off.
 - Velina Valcheva
 - Isaac Whale
 
+### Setup
+1. Clone the project onto your machine using
+```
+git clone https://github.com/charlie11177/Software-Engineering-Group-Project.git
+```
+2. Ensure you have the right version of Java
+```
+~$ java --version
+java 15.0.2 2021-01-19
+```
+3. Ensure you have the right version of Maven
+```
+~$ mvn -v
+Apache Maven 3.8.3 (ff8e977a158738155dc465c6a97ffaf31982d739)
+```
+4. Perform a clean install whilst skipping tests (Certain UI tests are outdated and take a while)
+```
+~$ mvn clean install -DskipTests
+```
+5. Finally run the jar with dependencies within the target folder
+
