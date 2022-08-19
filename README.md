@@ -39,3 +39,5 @@ Apache Maven 3.8.3 (ff8e977a158738155dc465c6a97ffaf31982d739)
 ```
 5. Finally run the jar with dependencies within the target folder
 
+### Scrum
+This group project was carried out using the Scrum framework and consisted of three increments
